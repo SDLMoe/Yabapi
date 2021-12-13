@@ -30,6 +30,14 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.16")
     implementation("org.slf4j:slf4j-api:1.7.32")
     implementation("ch.qos.logback:logback-classic:1.2.7")
+    // Ktor
+    val ktorVersion = "1.6.7"
+    // implementation("io.ktor:ktor-server-core:$ktorVersion")
+    // implementation("io.ktor:ktor-server-netty:$ktorVersion")
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+    implementation("io.ktor:ktor-client-websockets:$ktorVersion")
 
 }
 
@@ -67,7 +75,8 @@ val ktlintFormat by tasks.creating(JavaExec::class) {
 detekt {
     buildUponDefaultConfig = true // preconfigure defaults
     allRules = false // activate all available (even unstable) rules.
-    config = files("$projectDir/config/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+    config =
+        files("$projectDir/config/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
     baseline = file("$projectDir/config/baseline.xml") // a way of suppressing issues before introducing detekt
 }
 
