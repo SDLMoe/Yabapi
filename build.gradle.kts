@@ -1,3 +1,4 @@
+@file:Suppress("MaxLineLength")
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val ktlint: Configuration by configurations.creating
@@ -38,7 +39,6 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
     implementation("io.ktor:ktor-client-websockets:$ktorVersion")
-
 }
 
 tasks.test {
@@ -58,7 +58,6 @@ val ktlintCheck by tasks.creating(JavaExec::class) {
 
     description = "Check Kotlin code style."
     classpath = ktlint
-    main = "com.pinterest.ktlint.Main"
     args = listOf("src/**/*.kt")
 }
 
@@ -68,7 +67,6 @@ val ktlintFormat by tasks.creating(JavaExec::class) {
 
     description = "Fix Kotlin code style deviations."
     classpath = ktlint
-    main = "com.pinterest.ktlint.Main"
     args = listOf("-F", "src/**/*.kt")
 }
 
