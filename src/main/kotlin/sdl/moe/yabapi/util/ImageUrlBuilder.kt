@@ -16,8 +16,8 @@ private const val MAX_QUALITY = 100
  * @param url 输入 *.hdslb.com/bfs 下的图片地址
  * @param format 图片格式
  * @param quality 图片质量, 仅适用于 Webp 格式, 否则会被忽略
- * @param weight 宽度, 返回时不一定一致, 根据 Fit 方式得出
- * @param height 高度, 返回时不一定一致, 根据 Fit 方式得出
+ * @param weight 宽度, 图片实际大小不一定一致, 根据 Fit 方式得出
+ * @param height 高度, 图片实际大小不一定一致, 根据 Fit 方式得出
  * @return String 构建后的图片地址
  */
 @Suppress("ComplexMethod")
