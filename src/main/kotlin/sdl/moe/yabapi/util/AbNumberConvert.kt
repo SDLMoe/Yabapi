@@ -6,7 +6,7 @@ private const val TABLE = "fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKN
 private const val XOR_VALUE: Long = 177451812
 private const val ADD_VALUE = 8728348608L
 
-val ss = intArrayOf(11, 10, 3, 8, 4, 6, 2, 9, 5, 7)
+private val ss = intArrayOf(11, 10, 3, 8, 4, 6, 2, 9, 5, 7)
 
 private val mp: HashMap<String, Int> by lazy {
     val map = HashMap<String, Int>()
