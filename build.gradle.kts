@@ -34,7 +34,7 @@ dependencies {
     // Logger
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.16")
     implementation("org.slf4j:slf4j-api:1.7.32")
-    implementation("ch.qos.logback:logback-classic:1.2.7")
+    implementation("ch.qos.logback:logback-classic:1.2.8")
     // Ktor
     val ktorVersion = "1.6.7"
     // implementation("io.ktor:ktor-server-core:$ktorVersion")
