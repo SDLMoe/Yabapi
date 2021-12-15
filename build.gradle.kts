@@ -24,7 +24,10 @@ dependencies {
         }
     }
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.6.0")
+    // Reflect
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.0")
     // Kotlinx Libraries
+    implementation("org.jetbrains.kotlinx:kotlinx.serialization-core:1.3.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     // Logger
