@@ -18,7 +18,7 @@ private const val MAX_QUALITY = 100
  * @param quality 图片质量, 仅适用于 Webp 格式, 否则会被忽略
  * @param weight 宽度, 图片实际大小不一定一致, 根据 Fit 方式得出
  * @param height 高度, 图片实际大小不一定一致, 根据 Fit 方式得出
- * @return String 构建后的图片地址
+ * @return [String] 构建后的图片地址
  */
 @Suppress("ComplexMethod")
 fun buildImageUrl(
