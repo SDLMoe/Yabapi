@@ -2,7 +2,7 @@
 
 package sdl.moe.yabapi.enums
 
-enum class ImageFormat {
+public enum class ImageFormat {
     UNKNOWN,
     PNG,
     JPEG,

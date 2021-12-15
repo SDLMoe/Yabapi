@@ -12,7 +12,7 @@ import sdl.moe.yabapi.util.getEnumFieldAnnotation
 
 private typealias T = QueryCaptchaResponseCode
 
-object QueryCaptchaResponseCodeSerializer : KSerializer<T> {
+internal object QueryCaptchaResponseCodeSerializer : KSerializer<T> {
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor(this.javaClass.simpleName, PrimitiveKind.STRING)
 

@@ -34,7 +34,7 @@ private fun power(a: Int, b: Int): Long {
  * BV 转 AV 号，转换结果为字符串，形如：av1234567
  * @receiver String 输入形如 BVra123abc 的 String, 大小写敏感
  */
-val String.av: String
+public val String.av: String
     get() {
         var r: Long = 0
         for (i in 0..57) {
@@ -51,7 +51,7 @@ val String.av: String
  * AV 转 BV 号，转换结果为字符串，形如：BVra123abc
  * @receiver String 输入形如 av1234567 的 String, 大小写不敏感
  */
-val String.bv: String
+public val String.bv: String
     get() {
         var s = this.lowercase().split("av")[1].toLong()
 

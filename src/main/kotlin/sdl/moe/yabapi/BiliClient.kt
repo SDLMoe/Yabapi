@@ -1,19 +1,28 @@
 package sdl.moe.yabapi
 
 import io.ktor.client.HttpClient
-import io.ktor.client.features.UserAgent
-import io.ktor.client.features.websocket.WebSockets
-import sdl.moe.yabapi.consts.WEB_USER_AGENT
+import mu.KotlinLogging
+import sdl.moe.yabapi.api.BiliApi
+import sdl.moe.yabapi.consts.DefaultHttpClient
+import kotlin.collections.set
 
-class BiliClient(
-    val client: HttpClient,
+private val logger = KotlinLogging.logger {}
+
+public class BiliClient(
+    public val client: HttpClient = DefaultHttpClient,
 ) {
-    init {
-        client.config {
-            install(WebSockets)
-            install(UserAgent) {
-                agent = WEB_USER_AGENT
-            }
+    public companion object {
+        private val api: HashMap<String, BiliApi> = hashMapOf()
+
+        internal fun registerApi(name: String, api: BiliApi) {
+            logger.debug { "Registering api $name.." }
+            this.api[name] = api
         }
     }
+
+    public var isLogin: Boolean = false
+        private set(value) {
+            field = value
+            logger.debug { "Login status changed to $value" }
+        }
 }

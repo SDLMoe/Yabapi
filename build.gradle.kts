@@ -1,4 +1,5 @@
 @file:Suppress("MaxLineLength")
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val ktlint: Configuration by configurations.creating
@@ -90,6 +91,11 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
         txt.required.set(true) // similar to the console output, contains issue signature to manually edit baseline files
         sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with GitHub Code Scanning
     }
+}
+
+kotlin {
+    explicitApi()
+    explicitApiWarning()
 }
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {

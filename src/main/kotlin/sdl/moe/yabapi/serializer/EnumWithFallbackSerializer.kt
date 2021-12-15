@@ -1,8 +1,7 @@
-@file:Suppress("ImportOrdering", "UNUSED")
+@file:Suppress("UNUSED")
 
 package sdl.moe.yabapi.serializer
 
-import kotlin.reflect.KClass
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -11,6 +10,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import sdl.moe.yabapi.util.getEnumFieldAnnotation
+import kotlin.reflect.KClass
 
 /**
  * Unused, due to JVM limitations.
@@ -18,7 +18,10 @@ import sdl.moe.yabapi.util.getEnumFieldAnnotation
  * @param E the enum class
  * @param fallback the fallback value
  */
-inline fun <reified E : Enum<E>> createEnumWithFallbackSerializer(type: KClass<E>, fallback: E): KSerializer<*> =
+internal inline fun <reified E : Enum<E>> createEnumWithFallbackSerializer(
+    type: KClass<E>,
+    fallback: E,
+): KSerializer<*> =
     object : KSerializer<E> {
         override val descriptor: SerialDescriptor =
             PrimitiveSerialDescriptor(type.simpleName ?: "EnumWithFallbackSerializer", PrimitiveKind.STRING)

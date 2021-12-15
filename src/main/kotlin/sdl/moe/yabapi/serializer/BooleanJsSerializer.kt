@@ -29,7 +29,7 @@ private val logger = KotlinLogging.logger {}
  * @file:UseSerializers(BooleanJstSerializer::class)
  * ```
  */
-object BooleanJsSerializer : KSerializer<Boolean> {
+internal object BooleanJsSerializer : KSerializer<Boolean> {
 
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor("BooleanIntSerializer", PrimitiveKind.BOOLEAN)

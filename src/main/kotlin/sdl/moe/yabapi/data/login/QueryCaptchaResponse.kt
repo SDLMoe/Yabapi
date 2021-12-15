@@ -8,21 +8,22 @@ import sdl.moe.yabapi.serializer.data.login.QueryCaptchaResponseCodeSerializer
 
 /**
  * Json Response
- * @param code [QueryCaptchaResponseCode]
- * @param data [QueryCaptchaResponseData]
+ * @param code 返回状态码 [QueryCaptchaResponseCode]
+ * @param data 数据 [QueryCaptchaResponseData]
  */
 @Serializable
-data class QueryCaptchaResponse(
+public data class QueryCaptchaResponse(
     val code: QueryCaptchaResponseCode,
     val data: QueryCaptchaResponseData,
 )
 
 /**
  * [QueryCaptchaResponseCode.UNKNOWN] 未知返回值
- * [QueryCaptchaResponseCode.SUCCESS] 成功
+ *
+ * [QueryCaptchaResponseCode.SUCCESS] 成功 - 0
  */
 @Serializable(with = QueryCaptchaResponseCodeSerializer::class)
-enum class QueryCaptchaResponseCode {
+public enum class QueryCaptchaResponseCode {
     UNKNOWN,
 
     @SerialName("0")
@@ -34,7 +35,7 @@ enum class QueryCaptchaResponseCode {
  * @param type 未知值, 常见值为1
  */
 @Serializable
-data class QueryCaptchaResponseData(
+public data class QueryCaptchaResponseData(
     val result: QueryCaptchaResponseResult,
     val type: Int,
 )
@@ -46,7 +47,7 @@ data class QueryCaptchaResponseData(
  * @param loginKey 登录密钥, 登录接口相关, 和 [captchaKey] 对应
  */
 @Serializable
-data class QueryCaptchaResponseResult(
+public data class QueryCaptchaResponseResult(
     @SerialName("success")
     val success: Int,
     @SerialName("gt")

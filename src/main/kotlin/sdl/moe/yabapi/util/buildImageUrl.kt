@@ -21,7 +21,7 @@ private const val MAX_QUALITY = 100
  * @return [String] 构建后的图片地址
  */
 @Suppress("ComplexMethod")
-fun buildImageUrl(
+public fun buildImageUrl(
     url: String,
     format: ImageFormat = ImageFormat.WEBP,
     quality: Int? = null,
