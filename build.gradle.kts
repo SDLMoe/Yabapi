@@ -45,7 +45,7 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
     implementation("io.ktor:ktor-client-websockets:$ktorVersion")
     // Encryption
-    implementation("org.bouncycastle:bcprov-jdk15on:1.70")
+    // implementation("org.bouncycastle:bcprov-jdk15on:1.70")
 }
 
 tasks.withType<Test> {
