@@ -262,6 +262,7 @@ public object PassportApi : BiliApi {
     /**
      * 阻塞方法, 交互式扫码登录封装
      */
+    @JvmName("loginWebQRCodeInteractiveExt")
     public fun BiliClient.loginWebQRCodeInteractive(): Unit = runBlocking {
         val bclient = this@loginWebQRCodeInteractive
         val data = bclient.getWebQRCode()
@@ -271,4 +272,7 @@ public object PassportApi : BiliApi {
             logger.debug { "Cookies: $it" }
         }
     }
+
+    @JvmName("loginWebQRCodeInteractive")
+    public fun loginWebQRCodeInteractive(client: BiliClient): Unit = client.loginWebQRCodeInteractive()
 }
