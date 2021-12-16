@@ -17,6 +17,7 @@ private val logger = KotlinLogging.logger {}
 
 public class BiliClient(
     public val client: HttpClient = DefaultHttpClient,
+    private val cookieStorage: AcceptAllCookiesStorage = AcceptAllCookiesStorage()
 ) {
     init {
         client.config {
@@ -34,8 +35,6 @@ public class BiliClient(
             this.api[name] = api
         }
     }
-
-    private val cookieStorage = AcceptAllCookiesStorage()
 
     public var isLogin: Boolean = false
         private set(value) {

@@ -15,6 +15,7 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
@@ -44,6 +45,8 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
     implementation("io.ktor:ktor-client-websockets:$ktorVersion")
+    // QR Code
+    implementation("com.github.kenglxn.QRGen:javase:2.6.0")
     // Encryption
     // implementation("org.bouncycastle:bcprov-jdk15on:1.70")
 }

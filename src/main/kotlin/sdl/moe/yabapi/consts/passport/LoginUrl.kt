@@ -10,3 +10,7 @@ internal const val RSA_GET_WEB_URL: String = "$PASSPORT/login"
 internal const val RSA_GET_APP_URL: String = "$PASSPORT/api/oauth2/getKey"
 
 internal const val LOGIN_WEB_URL: String = "$PASSPORT/web/login/v2"
+
+internal const val LOGIN_QRCODE_GET_WEB_URL: String = "$PASSPORT/qrcode/getLoginUrl"
+
+internal const val LOGIN_WEB_QRCODE_URL = "$PASSPORT/qrcode/getLoginInfo"

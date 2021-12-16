@@ -1,5 +1,6 @@
 package sdl.moe.yabapi.api
 
+import io.ktor.client.features.cookies.cookies
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
@@ -7,8 +8,11 @@ import io.ktor.client.request.post
 import io.ktor.http.Parameters
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
+import net.glxn.qrgen.core.image.ImageType
+import net.glxn.qrgen.javase.QRCode
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.api.PassportApi.getRsaKeyWeb
 import sdl.moe.yabapi.api.PassportApi.loginWeb
@@ -16,20 +20,31 @@ import sdl.moe.yabapi.api.PassportApi.loginWebConsole
 import sdl.moe.yabapi.api.PassportApi.queryLoginCaptcha
 import sdl.moe.yabapi.consts.APP_KEY
 import sdl.moe.yabapi.consts.APP_SIGN
+import sdl.moe.yabapi.consts.passport.LOGIN_QRCODE_GET_WEB_URL
+import sdl.moe.yabapi.consts.passport.LOGIN_WEB_QRCODE_URL
 import sdl.moe.yabapi.consts.passport.LOGIN_WEB_URL
 import sdl.moe.yabapi.consts.passport.QUERY_CAPTCHA_URL
 import sdl.moe.yabapi.consts.passport.RSA_GET_APP_URL
 import sdl.moe.yabapi.consts.passport.RSA_GET_WEB_URL
+import sdl.moe.yabapi.data.GeneralCode
+import sdl.moe.yabapi.data.login.LoginWebQRCodeResponse
 import sdl.moe.yabapi.data.login.LoginWebResponse
 import sdl.moe.yabapi.data.login.LoginWebResponseCode.SUCCESS
+import sdl.moe.yabapi.data.login.QRCodeWebGetResponse
 import sdl.moe.yabapi.data.login.QueryCaptchaResponse
 import sdl.moe.yabapi.data.login.RsaGetResponse
 import sdl.moe.yabapi.data.login.RsaGetResponseCode.SIGN_INVALID
 import sdl.moe.yabapi.data.login.RsaGetResponseCode.UNKNOWN
 import sdl.moe.yabapi.util.rsaEncryptWithSalt
+import java.awt.Dimension
+import javax.swing.ImageIcon
+import javax.swing.JDialog
+import javax.swing.JLabel
+import javax.swing.JPanel
 
 private val logger = KotlinLogging.logger {}
 
+@Suppress("TooManyFunctions")
 public object PassportApi : BiliApi {
     init {
         BiliClient.registerApi(apiName, this)
@@ -131,8 +146,7 @@ public object PassportApi : BiliApi {
         val actualRsaData = rsaGetResponse ?: getRsaKeyWeb()
         require(actualRsaData.rsa != null) { "RSA Key is null, check response data: $rsaGetResponse" }
         require(actualRsaData.salt != null) { "Salt is null, check response data: $rsaGetResponse" }
-        val pwdEncrypted =
-            rsaEncryptWithSalt(data = password, salt = actualRsaData.salt, publicKey = actualRsaData.rsa)
+        val pwdEncrypted = rsaEncryptWithSalt(data = password, salt = actualRsaData.salt, publicKey = actualRsaData.rsa)
         client.post<LoginWebResponse>(LOGIN_WEB_URL) {
             val params = Parameters.build {
                 append("captchaType", "6")
@@ -190,4 +204,71 @@ public object PassportApi : BiliApi {
 
     @JvmName("loginWebConsole")
     public suspend fun loginWebConsole(client: BiliClient): Unit = client.loginWebConsole()
+
+    @JvmName("getWebQRCodeExt")
+    public suspend fun BiliClient.getWebQRCode(): QRCodeWebGetResponse = withContext(Dispatchers.IO) {
+        logger.info { "Getting Web QRCode" }
+        client.get<QRCodeWebGetResponse>(LOGIN_QRCODE_GET_WEB_URL).also {
+            logger.debug { "QRCode Web Get Response: $it" }
+            if (it.code != GeneralCode.SUCCESS) logger.warn { "QRCode Web Get failed, error code: ${it.code}" }
+        }
+    }
+
+    @JvmName("getWebQRCode")
+    public suspend fun getWebQRCode(client: BiliClient): QRCodeWebGetResponse = client.getWebQRCode()
+
+    @JvmName("loginWebQRCodeExt")
+    public suspend fun BiliClient.loginWebQRCode(
+        qrResponse: QRCodeWebGetResponse
+    ): LoginWebQRCodeResponse = withContext(Dispatchers.IO) {
+        logger.info { "Starting Logging in via Web QR Code" }
+        client.post<LoginWebQRCodeResponse>(LOGIN_WEB_QRCODE_URL) {
+            val params = Parameters.build {
+                append("oauthKey", qrResponse.data.oauthKey)
+            }
+            body = FormDataContent(params)
+        }.also {
+            logger.debug { "Login Web QR Code Response: $it" }
+            if (it.code != GeneralCode.SUCCESS) logger.warn { "Login Web QR Code failed, error code: ${it.code}" }
+        }
+    }
+
+    @JvmName("loginWebQRCode")
+    public suspend fun loginWebQRCode(client: BiliClient): LoginWebQRCodeResponse =
+        client.loginWebQRCode(getWebQRCode(client))
+
+    private suspend fun showQRCode(string: String) = withContext(Dispatchers.Default) {
+        @Suppress("MagicNumber") val qrcodeSize = 500
+        val img =
+            async { QRCode.from(string).to(ImageType.PNG).withSize(qrcodeSize, qrcodeSize).stream().toByteArray() }
+        val dialog = object : JDialog() {
+            private val contentPane: JPanel = JPanel()
+
+            init {
+                this.title = "使用 APP 扫码, 同意后关闭此窗口"
+                size = Dimension(qrcodeSize, qrcodeSize)
+                setContentPane(contentPane)
+                val imgGet = runBlocking { img.await() }
+                contentPane.add(JLabel(ImageIcon(imgGet)))
+                setLocationRelativeTo(null)
+                isModal = true
+                this.defaultCloseOperation = DISPOSE_ON_CLOSE
+            }
+        }
+        dialog.pack()
+        dialog.isVisible = true
+    }
+
+    /**
+     * 阻塞方法, 交互式扫码登录封装
+     */
+    public fun BiliClient.loginWebQRCodeInteractive(): Unit = runBlocking {
+        val bclient = this@loginWebQRCodeInteractive
+        val data = bclient.getWebQRCode()
+        showQRCode(data.data.url)
+        bclient.loginWebQRCode(data)
+        bclient.client.cookies("https://bilibili.com").also {
+            logger.debug { "Cookies: $it" }
+        }
+    }
 }
