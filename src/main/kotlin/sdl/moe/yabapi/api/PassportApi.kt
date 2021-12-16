@@ -187,4 +187,7 @@ public object PassportApi : BiliApi {
         val seccode = readlnOrNull().toString()
         bclient.loginWeb(userName, pwd, validate, seccode, captchaResponse)
     }
+
+    @JvmName("loginWebConsole")
+    public suspend fun loginWebConsole(client: BiliClient): Unit = client.loginWebConsole()
 }

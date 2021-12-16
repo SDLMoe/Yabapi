@@ -16,6 +16,7 @@ import sdl.moe.yabapi.data.login.LoginWebResponseCode.SUCCESS
 import sdl.moe.yabapi.data.login.LoginWebResponseCode.TIMEOUT
 import sdl.moe.yabapi.data.login.LoginWebResponseCode.UNKNOWN
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
+import sdl.moe.yabapi.serializer.data.login.LoginWebResponseCodeSerializer
 
 /**
  * @param code 返回值 [LoginWebResponseCode]
@@ -48,7 +49,7 @@ public data class LoginWebResponse(
  * @property INVALID_LOGIN_KEY 登录密钥错误 @see [QueryCaptchaResponse]
  * @property CAPTCHA_SERVICE_ERROR 验证码服务错误
  */
-@Serializable
+@Serializable(with = LoginWebResponseCodeSerializer::class)
 public enum class LoginWebResponseCode {
     UNKNOWN,
 
