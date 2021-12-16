@@ -6,6 +6,8 @@ import sdl.moe.yabapi.serializer.data.GeneralCodeSerializer
 
 /**
  * 通用的状态码枚举类
+ * @property UNKNOWN 未知状态码
+ * @property SUCCESS 成功
  */
 @Serializable(with = GeneralCodeSerializer::class)
 public enum class GeneralCode {
