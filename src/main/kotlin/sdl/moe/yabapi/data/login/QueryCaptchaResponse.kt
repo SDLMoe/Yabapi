@@ -18,9 +18,8 @@ public data class QueryCaptchaResponse(
 )
 
 /**
- * [QueryCaptchaResponseCode.UNKNOWN] 未知返回值
- *
- * [QueryCaptchaResponseCode.SUCCESS] 成功 - 0
+ * @property [UNKNOWN] 未知返回值
+ * @property [SUCCESS] 成功 - 0
  */
 @Serializable(with = QueryCaptchaResponseCodeSerializer::class)
 public enum class QueryCaptchaResponseCode {
@@ -31,7 +30,7 @@ public enum class QueryCaptchaResponseCode {
 }
 
 /**
- * @param result 结果
+ * @param result 结果 [QueryCaptchaResponseResult]
  * @param type 未知值, 常见值为1
  */
 @Serializable

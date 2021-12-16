@@ -6,18 +6,27 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.http.Parameters
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 import sdl.moe.yabapi.BiliClient
+import sdl.moe.yabapi.api.PassportApi.getRsaKeyWeb
+import sdl.moe.yabapi.api.PassportApi.loginWeb
+import sdl.moe.yabapi.api.PassportApi.loginWebConsole
+import sdl.moe.yabapi.api.PassportApi.queryLoginCaptcha
 import sdl.moe.yabapi.consts.APP_KEY
 import sdl.moe.yabapi.consts.APP_SIGN
+import sdl.moe.yabapi.consts.passport.LOGIN_WEB_URL
 import sdl.moe.yabapi.consts.passport.QUERY_CAPTCHA_URL
 import sdl.moe.yabapi.consts.passport.RSA_GET_APP_URL
 import sdl.moe.yabapi.consts.passport.RSA_GET_WEB_URL
+import sdl.moe.yabapi.data.login.LoginWebResponse
+import sdl.moe.yabapi.data.login.LoginWebResponseCode.SUCCESS
 import sdl.moe.yabapi.data.login.QueryCaptchaResponse
 import sdl.moe.yabapi.data.login.RsaGetResponse
 import sdl.moe.yabapi.data.login.RsaGetResponseCode.SIGN_INVALID
 import sdl.moe.yabapi.data.login.RsaGetResponseCode.UNKNOWN
+import sdl.moe.yabapi.util.rsaEncryptWithSalt
 
 private val logger = KotlinLogging.logger {}
 
@@ -34,7 +43,9 @@ public object PassportApi : BiliApi {
         get() = this@PassportApi
 
     /**
-     * 获取验证码
+     * 获取人机验证码, 需要手动验证
+     *
+     * 可使用 [https://kuresaru.github.io/geetest-validator/]
      * @return [QueryCaptchaResponse]
      */
     @JvmName("queryLoginCaptchaExt")
@@ -94,4 +105,86 @@ public object PassportApi : BiliApi {
 
     @JvmName("getRsaKeyApp")
     public suspend fun getRsaKeyApp(client: BiliClient): RsaGetResponse = client.getRsaKeyApp()
+
+    /**
+     *  通过 Web 方式登录, 流程为 [queryLoginCaptcha] -> [getRsaKeyWeb] -> [loginWeb]
+     *
+     *  可以通过 [loginWebConsole] 交互式登录(仅命令行)
+     *  @param userName B站帐号, 手机号或邮箱
+     *  @param password 密码, 输入明文
+     *  @param validate 验证码平台返回
+     *  @param seccode 验证码平台返回
+     *  @param queryCaptchaResponse B 站验证码请求回调
+     *  @param rsaGetResponse B 站 RSA 公钥请求回调
+     */
+    @Suppress("LongParameterList")
+    @JvmName("loginWebExt")
+    public suspend fun BiliClient.loginWeb(
+        userName: String,
+        password: String,
+        validate: String,
+        seccode: String,
+        queryCaptchaResponse: QueryCaptchaResponse,
+        rsaGetResponse: RsaGetResponse? = null,
+    ): LoginWebResponse = withContext(Dispatchers.IO) {
+        logger.info { "Logging in by Web method" }
+        val actualRsaData = rsaGetResponse ?: getRsaKeyWeb()
+        require(actualRsaData.rsa != null) { "RSA Key is null, check response data: $rsaGetResponse" }
+        require(actualRsaData.salt != null) { "Salt is null, check response data: $rsaGetResponse" }
+        val pwdEncrypted =
+            rsaEncryptWithSalt(data = password, salt = actualRsaData.salt, publicKey = actualRsaData.rsa)
+        client.post<LoginWebResponse>(LOGIN_WEB_URL) {
+            val params = Parameters.build {
+                append("captchaType", "6")
+                append("username", userName)
+                append("password", pwdEncrypted)
+                append("keep", "true")
+                append("key", queryCaptchaResponse.data.result.loginKey)
+                append("challenge", queryCaptchaResponse.data.result.captchaKey)
+                append("validate", validate)
+                append("seccode", seccode)
+            }
+            body = FormDataContent(params)
+        }.also {
+            logger.debug { "Login Web Response: $it" }
+            if (it.code != SUCCESS) {
+                logger.warn { "Login failed error code ${it.code}, with message: ${it.message}" }
+            }
+        }
+    }
+
+    @Suppress("LongParameterList")
+    @JvmName("loginWeb")
+    public suspend fun loginWeb(
+        client: BiliClient,
+        userName: String,
+        password: String,
+        validate: String,
+        seccode: String,
+        queryCaptchaResponse: QueryCaptchaResponse,
+        rsaGetResponse: RsaGetResponse,
+    ): LoginWebResponse = client.loginWeb(userName, password, validate, seccode, queryCaptchaResponse, rsaGetResponse)
+
+    @JvmName("loginWebConsoleExt")
+    public suspend fun BiliClient.loginWebConsole(): Unit = withContext(Dispatchers.Default) {
+        val bclient = this@loginWebConsole
+        logger.info { "Starting Console Interactive Bilibili Web Login" }
+        val captchaResponseJob = async { bclient.queryLoginCaptcha() }
+        logger.info { "Please Input Bilibili Username:" }
+        val userName = readlnOrNull().toString()
+        logger.info { "Please Input Bilibili Password:" }
+        val pwd = readlnOrNull().toString()
+        logger.info { "Please prove you are human, do the captcha:" }
+        val captchaResponse = captchaResponseJob.await()
+        logger.info { "Open https://kuresaru.github.io/geetest-validator/ " }
+        logger.info {
+            "Then input: gt=${captchaResponse.data.result.id}, challenge=${captchaResponse.data.result.captchaKey}"
+        }
+        logger.info { "Please input the result:" }
+        logger.info { "validate=" }
+        val validate = readlnOrNull().toString()
+        logger.info { "seccode=" }
+        val seccode = readlnOrNull().toString()
+        bclient.loginWeb(userName, pwd, validate, seccode, captchaResponse)
+    }
 }
