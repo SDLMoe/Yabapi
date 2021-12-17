@@ -74,7 +74,7 @@ public object PassportApi : BiliApi {
     }
 
     @JvmName("queryLoginCaptcha")
-    public suspend fun queryLoginCaptcha(client: BiliClient): QueryCaptchaResponse = client.queryLoginCaptcha()
+    public suspend inline fun queryLoginCaptcha(client: BiliClient): QueryCaptchaResponse = client.queryLoginCaptcha()
 
     /**
      * 通过 Web 方式获取 RSA 公钥
@@ -91,7 +91,7 @@ public object PassportApi : BiliApi {
     }
 
     @JvmName("getRsaKeyWeb")
-    public suspend fun getRsaKeyWeb(client: BiliClient): RsaGetResponse = client.getRsaKeyWeb()
+    public suspend inline fun getRsaKeyWeb(client: BiliClient): RsaGetResponse = client.getRsaKeyWeb()
 
     /**
      * 通过 App 方式获取 RSA 公钥
@@ -121,7 +121,7 @@ public object PassportApi : BiliApi {
     }
 
     @JvmName("getRsaKeyApp")
-    public suspend fun getRsaKeyApp(client: BiliClient): RsaGetResponse = client.getRsaKeyApp()
+    public suspend inline fun getRsaKeyApp(client: BiliClient): RsaGetResponse = client.getRsaKeyApp()
 
     /**
      *  通过 Web 方式登录, 流程为 [queryLoginCaptcha] -> [getRsaKeyWeb] -> [loginWeb]
@@ -171,7 +171,7 @@ public object PassportApi : BiliApi {
 
     @Suppress("LongParameterList")
     @JvmName("loginWeb")
-    public suspend fun loginWeb(
+    public suspend inline fun loginWeb(
         client: BiliClient,
         userName: String,
         password: String,
@@ -205,7 +205,7 @@ public object PassportApi : BiliApi {
     }
 
     @JvmName("loginWebConsole")
-    public suspend fun loginWebConsole(client: BiliClient): Unit = client.loginWebConsole()
+    public suspend inline fun loginWebConsole(client: BiliClient): Unit = client.loginWebConsole()
 
     @JvmName("getWebQRCodeExt")
     public suspend fun BiliClient.getWebQRCode(): QRCodeWebGetResponse = withContext(Dispatchers.IO) {
@@ -217,7 +217,7 @@ public object PassportApi : BiliApi {
     }
 
     @JvmName("getWebQRCode")
-    public suspend fun getWebQRCode(client: BiliClient): QRCodeWebGetResponse = client.getWebQRCode()
+    public suspend inline fun getWebQRCode(client: BiliClient): QRCodeWebGetResponse = client.getWebQRCode()
 
     @JvmName("loginWebQRCodeExt")
     public suspend fun BiliClient.loginWebQRCode(
@@ -236,7 +236,7 @@ public object PassportApi : BiliApi {
     }
 
     @JvmName("loginWebQRCode")
-    public suspend fun loginWebQRCode(client: BiliClient): LoginWebQRCodeResponse =
+    public suspend inline fun loginWebQRCode(client: BiliClient): LoginWebQRCodeResponse =
         client.loginWebQRCode(getWebQRCode(client))
 
     private suspend fun showQRCode(string: String) = withContext(Dispatchers.Default) {
@@ -279,8 +279,9 @@ public object PassportApi : BiliApi {
         }
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     @JvmName("loginWebQRCodeInteractive")
-    public fun loginWebQRCodeInteractive(client: BiliClient): LoginWebQRCodeResponse =
+    public inline fun loginWebQRCodeInteractive(client: BiliClient): LoginWebQRCodeResponse =
         client.loginWebQRCodeInteractive()
 
     /**
@@ -297,5 +298,5 @@ public object PassportApi : BiliApi {
     }
 
     @JvmName("getCallingCode")
-    public suspend fun getCallingCode(client: BiliClient): CallingCodeGetResponse = client.getCallingCode()
+    public suspend inline fun getCallingCode(client: BiliClient): CallingCodeGetResponse = client.getCallingCode()
 }
