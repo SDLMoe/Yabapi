@@ -27,6 +27,9 @@ public object TimeApi : BiliApi {
     public val BiliClient.passport: TimeApi
         get() = this@TimeApi
 
+    /**
+     * 從 API 服務器獲得當前時間戳
+     */
     @JvmName("getTimestampExt")
     public suspend fun BiliClient.getTimestamp(): TimestampGetResponse = withContext(Dispatchers.IO) {
         logger.debug { "Getting timestamp" }
@@ -38,8 +41,13 @@ public object TimeApi : BiliApi {
     @JvmName("getTimestamp")
     public suspend inline fun getTimestamp(client: BiliClient): TimestampGetResponse = client.getTimestamp()
 
+    /**
+     * 獲取服務端側 UTC 時間
+     * @return [ZonedDateTime]
+     */
     @Suppress("MagicNumber")
-    public suspend fun BiliClient.getUTC(): ZonedDateTime = withContext(Dispatchers.IO) {
+    @JvmName("getServerUTCExt")
+    public suspend fun BiliClient.getServerUTC(): ZonedDateTime = withContext(Dispatchers.IO) {
         logger.debug { "Getting UTC" }
         val string = client.get<String>(GET_SERVER_UTC_URL).also {
             logger.debug { "UTC Get Response: $it" }
@@ -61,4 +69,7 @@ public object TimeApi : BiliApi {
             logger.debug { "UTC Parsed: $it" }
         }
     }
+
+    @JvmName("getServerUTC")
+    public suspend fun getServerUTC(client: BiliClient): ZonedDateTime = client.getServerUTC()
 }

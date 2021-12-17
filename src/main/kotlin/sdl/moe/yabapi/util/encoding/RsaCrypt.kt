@@ -41,5 +41,6 @@ internal fun rsaEncryptByPublicKey(input: String, publicKey: PublicKey): String 
     return Base64.encode(bos.toByteArray())
 }
 
+/** md5(salt+data) */
 internal fun rsaEncryptWithSalt(data: String, publicKey: String, salt: String): String =
     rsaEncryptByPublicKey(salt + data, publicKey.getPublicKey())

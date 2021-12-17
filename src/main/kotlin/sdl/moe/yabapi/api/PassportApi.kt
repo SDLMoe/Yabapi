@@ -163,7 +163,9 @@ public object PassportApi : BiliApi {
             body = FormDataContent(params)
         }.also {
             logger.debug { "Login Web Response: $it" }
-            if (it.code != SUCCESS) {
+            if (it.code == SUCCESS) {
+                isLogin = true
+            } else {
                 logger.warn { "Login failed error code ${it.code}, with message: ${it.message}" }
             }
         }
@@ -228,7 +230,9 @@ public object PassportApi : BiliApi {
             body = FormDataContent(params)
         }.also {
             logger.debug { "Login Web QR Code Response: $it" }
-            if (it.code != GeneralCode.SUCCESS) logger.warn { "Login Web QR Code failed, error code: ${it.code}" }
+            if (it.code == GeneralCode.SUCCESS) {
+                isLogin = true
+            } else logger.warn { "Login Web QR Code failed, error code: ${it.code}" }
         }
     }
 

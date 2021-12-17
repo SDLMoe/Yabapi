@@ -15,6 +15,11 @@ import kotlin.collections.set
 
 private val logger = KotlinLogging.logger {}
 
+/**
+ * API入口
+ * @param client [HttpClient] Ktor 的實現, 預設為 [DefaultHttpClient]
+ * @param cookieStorage [Cookie] 存儲器, 預設為 [AcceptAllCookiesStorage]
+ */
 public class BiliClient(
     public val client: HttpClient = DefaultHttpClient,
     private val cookieStorage: AcceptAllCookiesStorage = AcceptAllCookiesStorage()
@@ -28,8 +33,14 @@ public class BiliClient(
     }
 
     public companion object {
+        /** API 列表 */
         public val api: HashMap<String, BiliApi> = hashMapOf()
 
+        /**
+         * 把 API 註冊到列表
+         *
+         * 一般在 [BiliApi] 實例的 init 函數中調用
+         */
         internal fun registerApi(name: String, api: BiliApi) {
             logger.debug { "Registering $name api.." }
             this.api[name] = api
@@ -37,9 +48,9 @@ public class BiliClient(
     }
 
     public var isLogin: Boolean = false
-        private set(value) {
+        internal set(value) {
             field = value
-            logger.debug { "Login status changed to $value" }
+            logger.debug { "isLogin status changed to $value" }
         }
 
     public suspend fun addCookie(vararg cookie: Cookie): Unit = withContext(Dispatchers.IO) {

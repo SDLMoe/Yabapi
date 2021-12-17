@@ -3,7 +3,7 @@ package sdl.moe.yabapi.util
 import org.junit.jupiter.api.Test
 import sdl.moe.yabapi.enums.ImageFormat
 
-class ImageUrlBuilder {
+class ImageUrlBuilderTest {
     @Test
     fun main() {
         val url = "https://i1.hdslb.com/bfs/archive/e5fff1472bad1c0c6bcb3004205f9be23b58ffc0.jpg@1500w_1500h_75q.webp"
