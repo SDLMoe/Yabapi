@@ -31,7 +31,7 @@ public class BiliClient(
         public val api: HashMap<String, BiliApi> = hashMapOf()
 
         internal fun registerApi(name: String, api: BiliApi) {
-            logger.debug { "Registering api $name.." }
+            logger.debug { "Registering $name api.." }
             this.api[name] = api
         }
     }

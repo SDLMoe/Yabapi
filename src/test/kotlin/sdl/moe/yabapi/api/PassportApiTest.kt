@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.api.PassportApi.passport
 
-val client: BiliClient = BiliClient()
+private val client: BiliClient = BiliClient()
 
 class PassportApiTest {
     @Test

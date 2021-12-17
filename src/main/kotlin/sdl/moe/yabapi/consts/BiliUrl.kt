@@ -36,3 +36,5 @@ internal const val PASSPORT: String = "https://passport.bilibili.com"
  * 短视频
  */
 internal const val VC: String = "https://vc.bilibili.com"
+
+internal const val INTERFACE = "https://interface.bilibili.com"
