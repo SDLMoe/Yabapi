@@ -263,16 +263,21 @@ public object PassportApi : BiliApi {
      * 阻塞方法, 交互式扫码登录封装
      */
     @JvmName("loginWebQRCodeInteractiveExt")
-    public fun BiliClient.loginWebQRCodeInteractive(): Unit = runBlocking {
+    public fun BiliClient.loginWebQRCodeInteractive(): LoginWebQRCodeResponse = runBlocking {
+        logger.debug { "Starting Interactive Login via Web QR Code" }
         val bclient = this@loginWebQRCodeInteractive
         val data = bclient.getWebQRCode()
         showQRCode(data.data.url)
-        bclient.loginWebQRCode(data)
+
         bclient.client.cookies("https://bilibili.com").also {
             logger.debug { "Cookies: $it" }
+        }
+        bclient.loginWebQRCode(data).also {
+            logger.debug { "Login Web QR Code Response: $it" }
         }
     }
 
     @JvmName("loginWebQRCodeInteractive")
-    public fun loginWebQRCodeInteractive(client: BiliClient): Unit = client.loginWebQRCodeInteractive()
+    public fun loginWebQRCodeInteractive(client: BiliClient): LoginWebQRCodeResponse =
+        client.loginWebQRCodeInteractive()
 }

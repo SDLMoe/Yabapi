@@ -40,12 +40,13 @@ internal inline fun <reified E : Enum<E>> createEnumWithFallbackSerializer(
 }
 
 internal inline fun <reified E : Enum<E>> deserializeEnumWithFallback(decoder: Decoder, fallback: E): E =
-    decoder.decodeString().let { value ->
-        enumValues<E>().firstOrNull { it.getEnumFieldAnnotation<SerialName>()?.value == value || it.name == value }
-            ?: run {
-                logger.warn {
-                    "Unknown enum value: $value, when deserialize ${E::class.qualifiedName}, fallback to $fallback"
-                }
-                fallback
+    enumFromStringWithFallback(decoder.decodeString(), fallback)
+
+internal inline fun <reified E : Enum<E>> enumFromStringWithFallback(string: String, fallback: E): E =
+    enumValues<E>().firstOrNull { it.getEnumFieldAnnotation<SerialName>()?.value == string || it.name == string }
+        ?: run {
+            logger.warn {
+                "Unknown enum value: $string, when deserialize ${E::class.qualifiedName}, fallback to $fallback"
             }
-    }
+            fallback
+        }

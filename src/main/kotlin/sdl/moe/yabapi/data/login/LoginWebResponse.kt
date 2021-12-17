@@ -83,14 +83,14 @@ public enum class LoginWebResponseCode {
 
 /**
  * [LoginWebResponse] 的正文数据
- * @property redirectUrl 跳转地址, 用于游戏分站
- * @property isLogin 是否登录
- * @property mid 用户 mid
- * @property telephone 用户手机号, * 号遮蔽部分
- * @property email 用户邮箱, * 号遮蔽部分
- * @property sorce 未知
- * @property keepTime 未知
- * @property goUrl 重定向地址
+ * @param redirectUrl 跳转地址, 用于游戏分站
+ * @param isLogin 是否登录
+ * @param mid 用户 mid
+ * @param telephone 用户手机号, * 号遮蔽部分
+ * @param email 用户邮箱, * 号遮蔽部分
+ * @param sorce 未知
+ * @param keepTime 未知
+ * @param goUrl 重定向地址
  */
 @Serializable
 public data class LoginWebResponseData(

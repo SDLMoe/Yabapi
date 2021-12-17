@@ -9,10 +9,10 @@ import sdl.moe.yabapi.data.GeneralCode
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 /**
- * @property code [GeneralCode]
- * @property status 作用不明
- * @property timestamp 时间戳
- * @property data [QRCodeWebGetResponseData]
+ * @param code [GeneralCode]
+ * @param status 作用不明
+ * @param timestamp 时间戳
+ * @param data [QRCodeWebGetResponseData]
  */
 @Serializable
 public data class QRCodeWebGetResponse(
@@ -26,8 +26,8 @@ public data class QRCodeWebGetResponse(
 )
 
 /**
- * @property url 二维码内容地址
- * @property oauthKey 扫码登录密钥
+ * @param url 二维码内容地址
+ * @param oauthKey 扫码登录密钥
  */
 @Serializable
 public data class QRCodeWebGetResponseData(
