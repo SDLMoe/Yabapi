@@ -1,0 +1,11 @@
+<component name="CopyrightManager">
+  <settings default="YabapiCopyright">
+    <module2copyright>
+      <element module="Main" copyright="YabapiCopyright" />
+    </module2copyright>
+    <LanguageOptions name="__TEMPLATE__">
+      <option name="block" value="false" />
+      <option name="filler" value="*" />
+    </LanguageOptions>
+  </settings>
+</component>
