@@ -42,4 +42,4 @@ internal fun rsaEncryptByPublicKey(input: String, publicKey: PublicKey): String 
 }
 
 internal fun rsaEncryptWithSalt(data: String, publicKey: String, salt: String): String =
-    rsaEncryptByPublicKey(data + salt, publicKey.getPublicKey())
+    rsaEncryptByPublicKey(salt + data, publicKey.getPublicKey())

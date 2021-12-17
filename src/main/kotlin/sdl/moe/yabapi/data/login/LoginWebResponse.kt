@@ -96,25 +96,25 @@ public enum class LoginWebResponseCode {
 public data class LoginWebResponseData(
     // not login
     @SerialName("redirectUrl")
-    val redirectUrl: String?,
+    val redirectUrl: String? = null,
 
     // login-ed
     @SerialName("isLogin")
-    val isLogin: Boolean?,
+    val isLogin: Boolean? = null,
 
     // need two factor
     @SerialName("mid")
-    val mid: Int?,
+    val mid: Int? = null,
     @SerialName("tel")
-    val telephone: String?,
+    val telephone: String? = null,
     @SerialName("email")
-    val email: String?,
+    val email: String? = null,
     @SerialName("sorce")
-    val sorce: Int,
+    val sorce: Int? = null,
     @SerialName("keeptime")
-    val keepTime: Int,
+    val keepTime: Int? = null,
 
     // except for 'not login'
     @SerialName("goUrl")
-    val goUrl: String?,
+    val goUrl: String? = null,
 )

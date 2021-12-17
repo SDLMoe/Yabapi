@@ -182,30 +182,27 @@ public object PassportApi : BiliApi {
     ): LoginWebResponse = client.loginWeb(userName, password, validate, seccode, queryCaptchaResponse, rsaGetResponse)
 
     @JvmName("loginWebConsoleExt")
-    public suspend fun BiliClient.loginWebConsole(): Unit = withContext(Dispatchers.Default) {
+    public fun BiliClient.loginWebConsole(): Unit = runBlocking {
         val bclient = this@loginWebConsole
         logger.info { "Starting Console Interactive Bilibili Web Login" }
-        val captchaResponseJob = async { bclient.queryLoginCaptcha() }
         logger.info { "Please Input Bilibili Username:" }
         val userName = readlnOrNull().toString()
         logger.info { "Please Input Bilibili Password:" }
         val pwd = readlnOrNull().toString()
-        logger.info { "Please prove you are human, do the captcha:" }
-        val captchaResponse = captchaResponseJob.await()
-        logger.info { "Open https://kuresaru.github.io/geetest-validator/ " }
+        val captchaResponse = bclient.queryLoginCaptcha()
+        logger.info { "Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :" }
         logger.info {
-            "Then input: gt=${captchaResponse.data.result.id}, challenge=${captchaResponse.data.result.captchaKey}"
+            "gt=${captchaResponse.data.result.id}, challenge=${captchaResponse.data.result.captchaKey}"
         }
-        logger.info { "Please input the result:" }
-        logger.info { "validate=" }
+        logger.info { "input the result, validate=" }
         val validate = readlnOrNull().toString()
-        logger.info { "seccode=" }
-        val seccode = readlnOrNull().toString()
+        val seccode = "$validate|jordan"
         bclient.loginWeb(userName, pwd, validate, seccode, captchaResponse)
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     @JvmName("loginWebConsole")
-    public suspend inline fun loginWebConsole(client: BiliClient): Unit = client.loginWebConsole()
+    public inline fun loginWebConsole(client: BiliClient): Unit = client.loginWebConsole()
 
     @JvmName("getWebQRCodeExt")
     public suspend fun BiliClient.getWebQRCode(): QRCodeWebGetResponse = withContext(Dispatchers.IO) {
