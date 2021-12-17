@@ -48,6 +48,7 @@ public data class LoginWebResponse(
  * @property NEED_TWO_FACTOR 需要手机或邮箱二要素验证
  * @property INVALID_LOGIN_KEY 登录密钥错误 @see [QueryCaptchaResponse]
  * @property CAPTCHA_SERVICE_ERROR 验证码服务错误
+ * @property RSA_DECRYPT_FAILED RSA 解密失敗
  */
 @Serializable(with = LoginWebResponseCodeSerializer::class)
 public enum class LoginWebResponseCode {
@@ -78,7 +79,10 @@ public enum class LoginWebResponseCode {
     INVALID_LOGIN_KEY,
 
     @SerialName("2406")
-    CAPTCHA_SERVICE_ERROR;
+    CAPTCHA_SERVICE_ERROR,
+
+    @SerialName("86000")
+    RSA_DECRYPT_FAILED;
 }
 
 /**
