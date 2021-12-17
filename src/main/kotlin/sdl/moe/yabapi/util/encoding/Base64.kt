@@ -1,6 +1,6 @@
 @file:Suppress("ALL")
 
-package sdl.moe.yabapi.util
+package sdl.moe.yabapi.util.encoding
 
 public object Base64 {
 

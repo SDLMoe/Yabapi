@@ -37,7 +37,7 @@ import sdl.moe.yabapi.data.login.QueryCaptchaResponse
 import sdl.moe.yabapi.data.login.RsaGetResponse
 import sdl.moe.yabapi.data.login.RsaGetResponseCode.SIGN_INVALID
 import sdl.moe.yabapi.data.login.RsaGetResponseCode.UNKNOWN
-import sdl.moe.yabapi.util.rsaEncryptWithSalt
+import sdl.moe.yabapi.util.encoding.rsaEncryptWithSalt
 import java.awt.Dimension
 import javax.swing.ImageIcon
 import javax.swing.JDialog

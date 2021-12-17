@@ -1,4 +1,4 @@
-package sdl.moe.yabapi.util
+package sdl.moe.yabapi.util.encoding
 
 import java.io.ByteArrayOutputStream
 import java.security.KeyFactory
