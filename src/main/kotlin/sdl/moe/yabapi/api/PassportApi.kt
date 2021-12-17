@@ -20,6 +20,7 @@ import sdl.moe.yabapi.api.PassportApi.loginWebConsole
 import sdl.moe.yabapi.api.PassportApi.queryLoginCaptcha
 import sdl.moe.yabapi.consts.APP_KEY
 import sdl.moe.yabapi.consts.APP_SIGN
+import sdl.moe.yabapi.consts.passport.GET_CALLING_CODE_URL
 import sdl.moe.yabapi.consts.passport.LOGIN_QRCODE_GET_WEB_URL
 import sdl.moe.yabapi.consts.passport.LOGIN_WEB_QRCODE_URL
 import sdl.moe.yabapi.consts.passport.LOGIN_WEB_URL
@@ -27,6 +28,7 @@ import sdl.moe.yabapi.consts.passport.QUERY_CAPTCHA_URL
 import sdl.moe.yabapi.consts.passport.RSA_GET_APP_URL
 import sdl.moe.yabapi.consts.passport.RSA_GET_WEB_URL
 import sdl.moe.yabapi.data.GeneralCode
+import sdl.moe.yabapi.data.login.CallingCodeGetResponse
 import sdl.moe.yabapi.data.login.LoginWebQRCodeResponse
 import sdl.moe.yabapi.data.login.LoginWebResponse
 import sdl.moe.yabapi.data.login.LoginWebResponseCode.SUCCESS
@@ -280,4 +282,20 @@ public object PassportApi : BiliApi {
     @JvmName("loginWebQRCodeInteractive")
     public fun loginWebQRCodeInteractive(client: BiliClient): LoginWebQRCodeResponse =
         client.loginWebQRCodeInteractive()
+
+    /**
+     * 获取国际区码
+     * @return [CallingCodeGetResponse]
+     */
+    @JvmName("getCallingCodeExt")
+    public suspend fun BiliClient.getCallingCode(): CallingCodeGetResponse = withContext(Dispatchers.IO) {
+        logger.info { "Getting Calling Code" }
+        client.get<CallingCodeGetResponse>(GET_CALLING_CODE_URL).also {
+            logger.debug { "Calling Code Get Response: $it" }
+            if (it.code != GeneralCode.SUCCESS) logger.warn { "Calling Code Get failed, error code: ${it.code}" }
+        }
+    }
+
+    @JvmName("getCallingCode")
+    public suspend fun getCallingCode(client: BiliClient): CallingCodeGetResponse = client.getCallingCode()
 }
