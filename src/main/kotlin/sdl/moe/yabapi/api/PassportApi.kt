@@ -254,19 +254,20 @@ public object PassportApi : BiliApi {
         val img =
             async { QRCode.from(string).to(ImageType.PNG).withSize(qrcodeSize, qrcodeSize).stream().toByteArray() }
         val dialog = object : JDialog() {
-            private val contentPane: JPanel = JPanel()
-
             init {
-                this.title = "使用 APP 扫码, 同意后关闭此窗口"
+                title = "使用 APP 扫码, 同意后关闭此窗口"
                 size = Dimension(qrcodeSize, qrcodeSize)
-                setContentPane(contentPane)
-                val imgGet = runBlocking { img.await() }
-                contentPane.add(JLabel(ImageIcon(imgGet)))
-                setLocationRelativeTo(null)
                 isModal = true
-                this.defaultCloseOperation = DISPOSE_ON_CLOSE
+                defaultCloseOperation = DISPOSE_ON_CLOSE
+                contentPane = JPanel()
+                setLocationRelativeTo(null)
+            }
+            suspend fun init() = withContext(Dispatchers.Default) {
+                val imgGot = img.await()
+                contentPane.add(JLabel(ImageIcon(imgGot)))
             }
         }
+        dialog.init()
         dialog.pack()
         dialog.isVisible = true
     }
@@ -428,6 +429,7 @@ public object PassportApi : BiliApi {
                 }
             }
         }
+
         val sendSMSResponse = sendSMS()
         val code: Int = requireCmdInputNumber("Please Input SMS Code (e.g. 123456):")
         loginWebSMS(phone, cid, code, sendSMSResponse)
