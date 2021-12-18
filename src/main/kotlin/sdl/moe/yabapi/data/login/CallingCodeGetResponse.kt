@@ -24,6 +24,7 @@ public data class CallingCodeGetResponse(
 /**
  * @param common 常用区号
  * @param others 其他区号
+ * @property all 返回全部区号
  * @see [CallingCodeNode]
  */
 @Serializable
@@ -32,7 +33,9 @@ public data class CallingCodeGetResponseData(
     val common: List<CallingCodeNode>,
     @SerialName("others")
     val others: List<CallingCodeNode>,
-)
+) {
+    val all: List<CallingCodeNode> = common + others
+}
 
 /**
  * @param id ID, 如: 1

@@ -4,18 +4,17 @@
 
 package sdl.moe.yabapi.util
 
-import javax.swing.text.html.HTML.Attribute.N
-
-internal inline fun <reified N : Number> requireCmdInputNumber(
-    message: String = "Please Input ${N::class.simpleName}:",
+internal inline fun <reified T : Number> requireCmdInputNumber(
+    message: String = "Please Input ${T::class.simpleName}:",
     errorMessage: String = "Your input is not valid, please try again.",
     outFunc: (String) -> Unit = ::println
-): N {
+): T  {
     var loop = true
-    var input: N? = null
+
+    var input: T? = null
     while (loop) {
         outFunc(message)
-        input = when (N::class) {
+        input = when (T::class) {
             Byte::class -> readLine()?.toByteOrNull()
             Short::class -> readLine()?.toShortOrNull()
             Int::class -> readLine()?.toIntOrNull()
@@ -26,19 +25,17 @@ internal inline fun <reified N : Number> requireCmdInputNumber(
             UShort::class -> readLine()?.toUShortOrNull()
             UInt::class -> readLine()?.toUIntOrNull()
             ULong::class -> readLine()?.toULongOrNull()
-            else -> throw IllegalArgumentException("Unsupported Number Type: ${N::class.simpleName}")
-        }.let { it as N? }
+            else -> throw IllegalArgumentException("Unsupported Number Type: ${T::class.qualifiedName}")
+        }.let { it as T? }
         if (input != null) {
             loop = false
         } else outFunc(errorMessage)
     }
-    return input.also {
-        outFunc("Your input is: $it")
-    } ?: throw IllegalArgumentException("Unable to parse input $input to ${N::class.simpleName}")
+    return input ?: throw IllegalArgumentException("Unable to parse input $input to ${T::class.qualifiedName}")
 }
 
 internal fun requireCmdInputString(
-    message: String = "Please Input ${N::class.simpleName}:",
+    message: String = "Please Input String:",
     errorMessage: String = "Your input is not valid, please try again.",
     outFunc: (String) -> Unit = ::println
 ): String {

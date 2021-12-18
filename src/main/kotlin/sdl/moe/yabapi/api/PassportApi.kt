@@ -10,6 +10,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.http.Parameters
+import io.ktor.http.formUrlEncode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
@@ -27,21 +28,29 @@ import sdl.moe.yabapi.consts.APP_SIGN
 import sdl.moe.yabapi.consts.passport.GET_CALLING_CODE_URL
 import sdl.moe.yabapi.consts.passport.LOGIN_QRCODE_GET_WEB_URL
 import sdl.moe.yabapi.consts.passport.LOGIN_WEB_QRCODE_URL
+import sdl.moe.yabapi.consts.passport.LOGIN_WEB_SMS_URL
 import sdl.moe.yabapi.consts.passport.LOGIN_WEB_URL
 import sdl.moe.yabapi.consts.passport.QUERY_CAPTCHA_URL
 import sdl.moe.yabapi.consts.passport.RSA_GET_APP_URL
 import sdl.moe.yabapi.consts.passport.RSA_GET_WEB_URL
+import sdl.moe.yabapi.consts.passport.SEND_SMS_URL
 import sdl.moe.yabapi.data.GeneralCode
 import sdl.moe.yabapi.data.login.CallingCodeGetResponse
+import sdl.moe.yabapi.data.login.CallingCodeNode
 import sdl.moe.yabapi.data.login.LoginWebQRCodeResponse
 import sdl.moe.yabapi.data.login.LoginWebResponse
-import sdl.moe.yabapi.data.login.LoginWebResponseCode.SUCCESS
+import sdl.moe.yabapi.data.login.LoginWebResponseCode
+import sdl.moe.yabapi.data.login.LoginWebSMSResponse
+import sdl.moe.yabapi.data.login.LoginWebSMSResponseCode
 import sdl.moe.yabapi.data.login.QRCodeWebGetResponse
 import sdl.moe.yabapi.data.login.QueryCaptchaResponse
 import sdl.moe.yabapi.data.login.RsaGetResponse
-import sdl.moe.yabapi.data.login.RsaGetResponseCode.SIGN_INVALID
-import sdl.moe.yabapi.data.login.RsaGetResponseCode.UNKNOWN
+import sdl.moe.yabapi.data.login.RsaGetResponseCode
+import sdl.moe.yabapi.data.login.SendSMSResponse
+import sdl.moe.yabapi.data.login.SendSMSResponseCode
 import sdl.moe.yabapi.util.encoding.rsaEncryptWithSalt
+import sdl.moe.yabapi.util.requireCmdInputNumber
+import sdl.moe.yabapi.util.requireCmdInputString
 import java.awt.Dimension
 import javax.swing.ImageIcon
 import javax.swing.JDialog
@@ -62,6 +71,8 @@ public object PassportApi : BiliApi {
     @Suppress("unused")
     public val BiliClient.passport: PassportApi
         get() = this@PassportApi
+
+    public val callingCodeList: List<CallingCodeNode> = mutableListOf()
 
     /**
      * 获取人机验证码, 需要手动验证
@@ -115,11 +126,8 @@ public object PassportApi : BiliApi {
             body = FormDataContent(param)
         }.also {
             logger.debug { "RSA Get App Response: $it" }
-            if (it.code == UNKNOWN) {
-                logger.warn { "RSA Get App Response Code is UNKNOWN, with message: ${it.message}" }
-            }
-            if (it.code == SIGN_INVALID) {
-                logger.warn { "RSA Get App Response Code is SIGN_INVALID, with message: ${it.message}" }
+            if (it.code != RsaGetResponseCode.SUCCESS) {
+                logger.warn { "RSA Get App Response Code is ${it.code}, with message: ${it.message}" }
             }
         }
     }
@@ -167,7 +175,7 @@ public object PassportApi : BiliApi {
             body = FormDataContent(params)
         }.also {
             logger.debug { "Login Web Response: $it" }
-            if (it.code == SUCCESS) {
+            if (it.code == LoginWebResponseCode.SUCCESS) {
                 isLogin = true
             } else {
                 logger.warn { "Login failed error code ${it.code}, with message: ${it.message}" }
@@ -187,23 +195,20 @@ public object PassportApi : BiliApi {
         rsaGetResponse: RsaGetResponse,
     ): LoginWebResponse = client.loginWeb(userName, password, validate, seccode, queryCaptchaResponse, rsaGetResponse)
 
+    /**
+     * 命令行交互式帳號密碼登錄, 阻塞方法
+     */
     @JvmName("loginWebConsoleExt")
     public fun BiliClient.loginWebConsole(): Unit = runBlocking {
-        val bclient = this@loginWebConsole
         logger.info { "Starting Console Interactive Bilibili Web Login" }
-        logger.info { "Please Input Bilibili Username:" }
-        val userName = readlnOrNull().toString()
-        logger.info { "Please Input Bilibili Password:" }
-        val pwd = readlnOrNull().toString()
-        val captchaResponse = bclient.queryLoginCaptcha()
-        logger.info { "Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :" }
-        logger.info {
-            "gt=${captchaResponse.data.result.id}, challenge=${captchaResponse.data.result.captchaKey}"
-        }
-        logger.info { "input the result, validate=" }
-        val validate = readlnOrNull().toString()
+        val userName = requireCmdInputString("Please Input Bilibili Username:")
+        val pwd = requireCmdInputString("Please Input Bilibili Password:")
+        val captchaResponse = queryLoginCaptcha()
+        println("Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :")
+        println("gt=${captchaResponse.data.result.id}, challenge=${captchaResponse.data.result.captchaKey}")
+        val validate = requireCmdInputString("input the result, validate=")
         val seccode = "$validate|jordan"
-        bclient.loginWeb(userName, pwd, validate, seccode, captchaResponse)
+        loginWeb(userName, pwd, validate, seccode, captchaResponse)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -236,7 +241,7 @@ public object PassportApi : BiliApi {
             logger.debug { "Login Web QR Code Response: $it" }
             if (it.code == GeneralCode.SUCCESS) {
                 isLogin = true
-            } else logger.warn { "Login Web QR Code failed, error code: ${it.code}" }
+            } else logger.warn { "Login Web via QR Code failed, error code: ${it.code}" }
         }
     }
 
@@ -304,4 +309,126 @@ public object PassportApi : BiliApi {
 
     @JvmName("getCallingCode")
     public suspend inline fun getCallingCode(client: BiliClient): CallingCodeGetResponse = client.getCallingCode()
+
+    /**
+     * 請求短信驗證碼
+     * @param phone 手機號
+     * @param cid 區域代碼 可通過 [getCallingCode] 获取
+     * @param captchaResponse [QueryCaptchaResponse]
+     * @param validate 驗證碼結果
+     * @param seccode 驗證碼結果
+     */
+    @JvmName("requestSMSCodeExt")
+    public suspend fun BiliClient.requestSMSCode(
+        phone: Long,
+        cid: Int,
+        captchaResponse: QueryCaptchaResponse,
+        validate: String,
+        seccode: String,
+    ): SendSMSResponse = withContext(Dispatchers.IO) {
+        logger.info { "Requesting SMS Code" }
+        client.post<SendSMSResponse>(SEND_SMS_URL) {
+            val params = Parameters.build {
+                append("tel", phone.toString())
+                append("cid", cid.toString())
+                append("token", captchaResponse.result.loginKey)
+                append("challenge", captchaResponse.result.captchaKey)
+                append("validate", validate)
+                append("seccode", seccode)
+            }
+            params.formUrlEncode()
+            body = FormDataContent(params)
+        }.also {
+            logger.debug { "SMS Code Request Response: $it" }
+            if (it.code != SendSMSResponseCode.SUCCESS) {
+                logger.warn { "SMS Code Request failed, error code: ${it.code}" }
+            }
+        }
+    }
+
+    @Suppress("LongParameterList")
+    public suspend inline fun requestSMSCode(
+        client: BiliClient,
+        phone: Long,
+        cid: Int,
+        captchaResponse: QueryCaptchaResponse,
+        validate: String,
+        seccode: String,
+    ): SendSMSResponse = client.requestSMSCode(phone, cid, captchaResponse, validate, seccode)
+
+    /**
+     * 通過短信驗證碼登錄, 流程爲 [queryLoginCaptcha] -> [requestSMSCode] -> [loginWebSMS]
+     * @param phone 手機號
+     * @param cid 區域代碼 可通過 [getCallingCode] 获取
+     * @param code 短信驗證碼
+     * @param sendSMSResponse [SendSMSResponse]
+     *
+     */
+    @JvmName("loginWebSMSExt")
+    public suspend fun BiliClient.loginWebSMS(
+        phone: Long,
+        cid: Int,
+        code: Int,
+        sendSMSResponse: SendSMSResponse,
+    ): LoginWebSMSResponse = withContext(Dispatchers.IO) {
+        logger.info { "Logging in via Web SMS" }
+        client.post<LoginWebSMSResponse>(LOGIN_WEB_SMS_URL) {
+            val smsCaptchaKey = sendSMSResponse.captchaKey ?: throw IllegalArgumentException("Captcha key is null")
+            val params = Parameters.build {
+                append("tel", phone.toString())
+                append("cid", cid.toString())
+                append("code", code.toString())
+                append("captcha_key", smsCaptchaKey)
+            }
+            body = FormDataContent(params)
+        }.also {
+            logger.debug { "Login Web SMS Response: $it" }
+            if (it.code != LoginWebSMSResponseCode.SUCCESS) {
+                logger.warn { "Login Web SMS failed, error code: ${it.code}" }
+            }
+        }
+    }
+
+    @JvmName("loginWebSMS")
+    public suspend inline fun loginWebSMS(
+        client: BiliClient,
+        phone: Long,
+        cid: Int,
+        code: Int,
+        sendSMSResponse: SendSMSResponse,
+    ): LoginWebSMSResponse = client.loginWebSMS(phone, cid, code, sendSMSResponse)
+
+    /**
+     * 命令行交互式短信驗證登錄, 阻塞方法
+     * @param needsCallingCode 是否需要國際區碼, 默認 +86
+     */
+    public fun BiliClient.loginWebSMSConsole(
+        needsCallingCode: Boolean = false
+    ): Unit = runBlocking {
+        logger.info { "Starting Console Interactive Bilibili Web Login" }
+        var callingCode = 86
+        if (needsCallingCode) callingCode = requireCmdInputNumber("Please Input Calling Code (e.g. 86, 1):")
+        val cidList = getCallingCode().data.all
+        val cid = withContext(Dispatchers.IO) {
+            cidList.first { it.callingCode == callingCode.toString() }.id.toInt()
+        }
+        val phone: Long = requireCmdInputNumber("Please Input Phone Number (e.g. 13800138000):")
+        val captchaResponse = queryLoginCaptcha()
+        fun sendSMS(): SendSMSResponse = runBlocking {
+            println("Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :")
+            println("gt=${captchaResponse.data.result.id}, challenge=${captchaResponse.data.result.captchaKey}")
+            val validate = requireCmdInputString("validate=")
+            val sendSMSResponse = requestSMSCode(phone, cid, captchaResponse, validate, "$validate|jordan")
+            when (sendSMSResponse.code) {
+                SendSMSResponseCode.SUCCESS -> sendSMSResponse
+                else -> {
+                    logger.warn { "SMS Code Request failed, error code: ${sendSMSResponse.code}, plz retry" }
+                    sendSMS()
+                }
+            }
+        }
+        val sendSMSResponse = sendSMS()
+        val code: Int = requireCmdInputNumber("Please Input SMS Code (e.g. 123456):")
+        loginWebSMS(phone, cid, code, sendSMSResponse)
+    }
 }

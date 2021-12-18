@@ -12,17 +12,23 @@ import sdl.moe.yabapi.serializer.data.login.SendSMSResponseCodeSerializer
  * 發送短信驗證碼返回
  * @param code 狀態碼 [SendSMSResponseCode]
  * @param message 錯誤碼, 成功爲 "0"
+ * @param timestamp 時間戳, 成功時無
  * @param data [SendSMSResponseData]
  * @property captchaKey 封裝, [SendSMSResponseData.captchaKey]
  */
 @Serializable
 public data class SendSMSResponse(
+    @SerialName("code")
     val code: SendSMSResponseCode,
+    @SerialName("message")
     val message: String,
-    val data: SendSMSResponseData,
+    @SerialName("ts")
+    val timestamp: Long? = null,
+    @SerialName("data")
+    val data: SendSMSResponseData? = null,
 ) {
-    public val captchaKey: String
-        get() = data.captchaKey
+    public val captchaKey: String?
+        get() = data?.captchaKey
 }
 
 /**

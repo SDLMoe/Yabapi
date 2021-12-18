@@ -19,7 +19,13 @@ import sdl.moe.yabapi.serializer.data.login.QueryCaptchaResponseCodeSerializer
 public data class QueryCaptchaResponse(
     val code: QueryCaptchaResponseCode,
     val data: QueryCaptchaResponseData,
-)
+) {
+    /**
+     * 封裝, 少寫一層
+     * @return [QueryCaptchaResponseResult]
+     */
+    val result: QueryCaptchaResponseResult = data.result
+}
 
 /**
  * @property [UNKNOWN] 未知返回值
