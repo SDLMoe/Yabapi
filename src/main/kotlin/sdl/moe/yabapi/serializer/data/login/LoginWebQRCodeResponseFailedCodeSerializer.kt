@@ -18,7 +18,8 @@ internal object LoginWebQRCodeResponseFailedCodeSerializer : KSerializer<LoginWe
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor(this.javaClass.simpleName, INT)
 
-    override fun serialize(encoder: Encoder, value: LoginWebQRCodeResponseFailedCode) = encoder.encodeString(value.name)
+    override fun serialize(encoder: Encoder, value: LoginWebQRCodeResponseFailedCode): Unit =
+        encoder.encodeString(value.name)
 
     override fun deserialize(decoder: Decoder): LoginWebQRCodeResponseFailedCode =
         deserializeEnumWithFallback(decoder, UNKNOWN)

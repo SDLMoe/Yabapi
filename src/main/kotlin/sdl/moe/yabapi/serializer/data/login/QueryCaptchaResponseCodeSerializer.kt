@@ -14,10 +14,9 @@ import sdl.moe.yabapi.data.login.QueryCaptchaResponseCode
 import sdl.moe.yabapi.serializer.deserializeEnumWithFallback
 
 internal object QueryCaptchaResponseCodeSerializer : KSerializer<QueryCaptchaResponseCode> {
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor(this.javaClass.simpleName, PrimitiveKind.INT)
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor(this.javaClass.simpleName, PrimitiveKind.INT)
 
-    override fun serialize(encoder: Encoder, value: QueryCaptchaResponseCode) = encoder.encodeString(value.name)
+    override fun serialize(encoder: Encoder, value: QueryCaptchaResponseCode): Unit = encoder.encodeString(value.name)
 
     override fun deserialize(decoder: Decoder): QueryCaptchaResponseCode =
         deserializeEnumWithFallback(decoder, QueryCaptchaResponseCode.UNKNOWN)

@@ -14,10 +14,9 @@ import sdl.moe.yabapi.data.login.LoginWebResponseCode
 import sdl.moe.yabapi.serializer.deserializeEnumWithFallback
 
 internal object LoginWebResponseCodeSerializer : KSerializer<LoginWebResponseCode> {
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor(this.javaClass.simpleName, PrimitiveKind.INT)
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor(this.javaClass.simpleName, PrimitiveKind.INT)
 
-    override fun serialize(encoder: Encoder, value: LoginWebResponseCode) = encoder.encodeString(value.name)
+    override fun serialize(encoder: Encoder, value: LoginWebResponseCode): Unit = encoder.encodeString(value.name)
 
     override fun deserialize(decoder: Decoder): LoginWebResponseCode =
         deserializeEnumWithFallback(decoder, LoginWebResponseCode.UNKNOWN)
