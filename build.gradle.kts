@@ -26,8 +26,9 @@ dependencies {
         }
     }
     // Test
-    implementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    val jupiterVersion = "5.8.2"
+    implementation("org.junit.jupiter:junit-jupiter:$jupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter:$jupiterVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.6.0")
     // Reflect
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.0")
