@@ -424,6 +424,7 @@ public object PassportApi : BiliApi {
                 else -> {
                     logger.warn { "SMS Code Request failed, error code: ${sendSMSResponse.code}, plz retry" }
                     sendSMS()
+                    // FIXME: SMS 發送方式仍然有問題
                 }
             }
         }
