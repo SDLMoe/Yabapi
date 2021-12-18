@@ -6,6 +6,7 @@ package sdl.moe.yabapi
 
 import io.ktor.client.HttpClient
 import io.ktor.client.features.cookies.AcceptAllCookiesStorage
+import io.ktor.client.features.cookies.CookiesStorage
 import io.ktor.client.features.cookies.HttpCookies
 import io.ktor.http.Cookie
 import io.ktor.http.Url
@@ -26,7 +27,7 @@ private val logger = KotlinLogging.logger {}
  */
 public class BiliClient(
     public val client: HttpClient = DefaultHttpClient,
-    private val cookieStorage: AcceptAllCookiesStorage = AcceptAllCookiesStorage()
+    private val cookieStorage: CookiesStorage = AcceptAllCookiesStorage()
 ) {
     init {
         client.config {
