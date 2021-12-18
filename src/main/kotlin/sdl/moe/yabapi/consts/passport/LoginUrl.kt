@@ -20,3 +20,5 @@ internal const val LOGIN_QRCODE_GET_WEB_URL: String = "$PASSPORT/qrcode/getLogin
 internal const val LOGIN_WEB_QRCODE_URL = "$PASSPORT/qrcode/getLoginInfo"
 
 internal const val GET_CALLING_CODE_URL: String = "$PASSPORT/web/generic/country/list"
+
+internal const val SEND_SMS_URL: String = "$PASSPORT/web/sms/general/v2/send"
