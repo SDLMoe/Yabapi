@@ -5,7 +5,6 @@
 package sdl.moe.yabapi
 
 import io.ktor.client.HttpClient
-import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.CookiesStorage
 import io.ktor.client.features.cookies.HttpCookies
 import io.ktor.http.Cookie
