@@ -2,11 +2,13 @@
 // Use of this source code is governed by the MIT license that can be found via link below:
 // https://github.com/SDLMoe/Yabapi/blob/master/LICENSE
 
-@file:Suppress("ALL")
-
 package sdl.moe.yabapi.util.encoding
 
+import io.ktor.utils.io.charsets.Charset
+
 public object Base64 {
+
+    private val charset: Charset = Charsets.ISO_8859_1
 
     private val base64EncodeChars by lazy {
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray()
@@ -69,10 +71,9 @@ public object Base64 {
             } while (i < len && b2 == -1)
             if (b2 == -1) break
             sb.append((b1 shl 2 or (b2 and 0x30).ushr(4)).toChar())
-            /* b3 */
             do {
                 b3 = data[i++].toInt()
-                if (b3 == 61) return sb.toString().toByteArray(charset("ISO-8859-1"))
+                if (b3 == 61) return sb.toString().toByteArray(charset)
                 b3 = base64DecodeChars[b3].toInt()
             } while (i < len && b3 == -1)
             if (b3 == -1) break
@@ -80,12 +81,12 @@ public object Base64 {
             /* b4 */
             do {
                 b4 = data[i++].toInt()
-                if (b4 == 61) return sb.toString().toByteArray(charset("ISO-8859-1"))
+                if (b4 == 61) return sb.toString().toByteArray(charset)
                 b4 = base64DecodeChars[b4].toInt()
             } while (i < len && b4 == -1)
             if (b4 == -1) break
             sb.append((b3 and 0x03 shl 6 or b4).toChar())
         }
-        return sb.toString().toByteArray(charset("ISO-8859-1"))
+        return sb.toString().toByteArray(charset)
     }
 }
