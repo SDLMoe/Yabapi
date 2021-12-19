@@ -6,6 +6,9 @@ package sdl.moe.yabapi.api
 
 import sdl.moe.yabapi.BiliClient
 
+/**
+ * 表情包相关 API
+ */
 public object EmoticonApi : BiliApi {
     init {
         BiliClient.registerApi(this)

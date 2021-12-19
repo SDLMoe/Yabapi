@@ -9,9 +9,12 @@ package sdl.moe.yabapi.consts
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.UserAgent
+import io.ktor.client.features.defaultRequest
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.websocket.WebSockets
+import io.ktor.client.request.header
+import io.ktor.http.HttpHeaders
 
 public val DefaultHttpClient: HttpClient by lazy {
     HttpClient(CIO) {
@@ -25,6 +28,9 @@ public val DefaultHttpClient: HttpClient by lazy {
                 isLenient = true
             }
             serializer = KotlinxSerializer(json)
+        }
+        defaultRequest {
+            header(HttpHeaders.Accept, "*/*")
         }
     }
 }

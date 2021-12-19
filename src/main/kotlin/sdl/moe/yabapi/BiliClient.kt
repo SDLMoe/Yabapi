@@ -27,11 +27,11 @@ private val logger = KotlinLogging.logger {}
  * @param cookieStorage [CookiesStorage], 預設為 [FileCookieStorage]
  */
 public class BiliClient(
-    public val client: HttpClient = DefaultHttpClient,
+    public var client: HttpClient = DefaultHttpClient,
     private val cookieStorage: CookiesStorage = FileCookieStorage(File("cookies.txt"))
 ) {
     init {
-        client.config {
+        client = client.config {
             install(HttpCookies) {
                 storage = cookieStorage
             }
