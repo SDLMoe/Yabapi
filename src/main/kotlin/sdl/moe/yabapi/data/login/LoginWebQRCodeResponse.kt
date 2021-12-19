@@ -3,6 +3,7 @@
 // https://github.com/SDLMoe/Yabapi/blob/master/LICENSE
 
 @file:UseSerializers(BooleanJsSerializer::class)
+
 package sdl.moe.yabapi.data.login
 
 import kotlinx.serialization.SerialName
@@ -41,8 +42,16 @@ public data class LoginWebQRCodeResponse(
     @SerialName("data") private val rawData: JsonElement,
 ) {
     public var dataWhenSuccess: LoginWebQRCodeResponseData? = null
+        get() {
+            if (field == null && code == GeneralCode.SUCCESS) initData()
+            return field
+        }
         private set
     public var dataWhenFailed: LoginWebQRCodeResponseFailedCode? = null
+        get() {
+            if (field == null && code != GeneralCode.SUCCESS) initData()
+            return field
+        }
         private set
 
     /**
