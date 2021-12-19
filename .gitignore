@@ -93,4 +93,4 @@ gradle-app.setting
 .gradletasknamecache
 
 # Yabapi Cache
-./cookies.json
+/cookies.json
