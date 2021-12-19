@@ -25,7 +25,6 @@ hs_err_pid*
 # Created by https://www.gitignore.io/api/intellij
 
 # SonarLint
-
 .idea/sonarlint*
 
 ### Intellij ###
@@ -92,3 +91,6 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+# Yabapi Cache
+./cookies.json

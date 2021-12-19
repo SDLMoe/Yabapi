@@ -28,7 +28,7 @@ private val logger = KotlinLogging.logger {}
  */
 public class BiliClient(
     public var client: HttpClient = DefaultHttpClient,
-    private val cookieStorage: CookiesStorage = FileCookieStorage(File("cookies.txt"))
+    private val cookieStorage: CookiesStorage = FileCookieStorage(File("cookies.json"))
 ) {
     init {
         client = client.config {
