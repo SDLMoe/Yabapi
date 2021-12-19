@@ -59,10 +59,13 @@ import javax.swing.JPanel
 
 private val logger = KotlinLogging.logger {}
 
+/**
+ *  登录, 认证相关 API
+ */
 @Suppress("TooManyFunctions")
 public object PassportApi : BiliApi {
     init {
-        BiliClient.registerApi(apiName, this)
+        BiliClient.registerApi(this)
     }
 
     override val apiName: String

@@ -14,9 +14,12 @@ import sdl.moe.yabapi.data.time.TimestampGetResponse
 
 private val logger = KotlinLogging.logger {}
 
+/**
+ * 时间相关 API
+ */
 public object TimeApi : BiliApi {
     init {
-        BiliClient.registerApi(apiName, this)
+        BiliClient.registerApi(this)
     }
 
     override val apiName: String
@@ -28,6 +31,7 @@ public object TimeApi : BiliApi {
 
     /**
      * 從 API 服務器獲得當前時間戳
+     * @return [TimestampGetResponse]
      */
     @JvmName("getTimestampExt")
     public suspend fun BiliClient.getTimestamp(): TimestampGetResponse = withContext(Dispatchers.IO) {

@@ -40,16 +40,16 @@ public class BiliClient(
 
     public companion object {
         /** API 列表 */
-        public val api: HashMap<String, BiliApi> = hashMapOf()
+        public val apiList: HashMap<String, BiliApi> = hashMapOf()
 
         /**
          * 把 API 註冊到列表
          *
          * 一般在 [BiliApi] 實例的 init 函數中調用
          */
-        internal fun registerApi(name: String, api: BiliApi) {
-            logger.debug { "Registering $name api.." }
-            this.api[name] = api
+        internal fun registerApi(api: BiliApi) {
+            logger.debug { "Registering ${api.apiName} api.." }
+            this.apiList[api.apiName] = api
         }
     }
 
