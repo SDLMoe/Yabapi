@@ -16,6 +16,8 @@ import mu.KotlinLogging
 import sdl.moe.yabapi.api.BiliApi
 import sdl.moe.yabapi.consts.DefaultHttpClient
 import sdl.moe.yabapi.consts.MAIN
+import sdl.moe.yabapi.storage.FileCookieStorage
+import java.io.File
 import kotlin.collections.set
 
 private val logger = KotlinLogging.logger {}
@@ -23,11 +25,11 @@ private val logger = KotlinLogging.logger {}
 /**
  * API入口
  * @param client [HttpClient] Ktor 的實現, 預設為 [DefaultHttpClient]
- * @param cookieStorage [Cookie] 存儲器, 預設為 [AcceptAllCookiesStorage]
+ * @param cookieStorage [CookiesStorage], 預設為 [FileCookieStorage]
  */
 public class BiliClient(
     public val client: HttpClient = DefaultHttpClient,
-    private val cookieStorage: CookiesStorage = AcceptAllCookiesStorage()
+    private val cookieStorage: CookiesStorage = FileCookieStorage(File("cookies.txt"))
 ) {
     init {
         client.config {
