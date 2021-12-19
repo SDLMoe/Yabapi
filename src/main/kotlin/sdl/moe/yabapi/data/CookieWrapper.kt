@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 import sdl.moe.yabapi.serializer.data.GMTDateSerializer
 
 @Serializable
-internal data class CookieWrapper(
+public data class CookieWrapper(
     val name: String,
     val value: String,
     val encoding: CookieEncoding = CookieEncoding.URI_ENCODING,
@@ -24,8 +24,8 @@ internal data class CookieWrapper(
     val httpOnly: Boolean = false,
     val extensions: Map<String, String?> = emptyMap()
 ) {
-    companion object {
-        fun fromCookie(cookie: Cookie): CookieWrapper {
+    public companion object {
+        public fun fromCookie(cookie: Cookie): CookieWrapper {
             return CookieWrapper(
                 cookie.name,
                 cookie.value,
@@ -39,7 +39,20 @@ internal data class CookieWrapper(
                 cookie.extensions
             )
         }
+
+        public fun fromCookies(cookies: List<Cookie>): List<CookieWrapper> =
+            cookies.fold(mutableListOf()) { acc, c ->
+                acc.add(fromCookie(c))
+                acc
+            }
     }
 
-    fun toCookie(): Cookie = Cookie(name, value, encoding, maxAge, expires, domain, path, secure, httpOnly, extensions)
+    public fun toCookie(): Cookie =
+        Cookie(name, value, encoding, maxAge, expires, domain, path, secure, httpOnly, extensions)
 }
+
+public fun List<CookieWrapper>.toCookies(): List<Cookie> =
+    this.fold(mutableListOf()) { acc, c ->
+        acc.add(c.toCookie())
+        acc
+    }
