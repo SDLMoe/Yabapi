@@ -23,7 +23,7 @@ internal fun String.getPublicKey(): PublicKey {
 
 internal fun rsaEncryptByPublicKey(input: String, publicKey: PublicKey): String {
     val byteArray = input.toByteArray()
-    val cipher = Cipher.getInstance("RSA")
+    val cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
     cipher.init(Cipher.ENCRYPT_MODE, publicKey)
 
     var temp: ByteArray
