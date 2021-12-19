@@ -4,6 +4,7 @@
 
 package sdl.moe.yabapi.data.time
 
+import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import sdl.moe.yabapi.data.GeneralCode
@@ -27,6 +28,11 @@ public data class TimestampGetResponse(
      */
     public val timestamp: Long
         get() = data.timestamp
+
+    /**
+     * 封裝, 直接獲取 [TimestampGetResponseData.instant]
+     */
+    public val instant: Instant = data.instant
 }
 
 /**
@@ -35,4 +41,6 @@ public data class TimestampGetResponse(
 @Serializable
 public data class TimestampGetResponseData(
     @SerialName("now") val timestamp: Long
-)
+) {
+    val instant: Instant = Instant.fromEpochSeconds(timestamp)
+}
