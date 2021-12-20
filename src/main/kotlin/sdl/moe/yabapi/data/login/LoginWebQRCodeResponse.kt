@@ -17,7 +17,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import mu.KotlinLogging
 import sdl.moe.yabapi.data.GeneralCode
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
-import sdl.moe.yabapi.serializer.data.login.LoginWebQRCodeResponseFailedCodeSerializer
+import sdl.moe.yabapi.serializer.data.login.LoginWebQRCodeResponseCodeSerializer
 import sdl.moe.yabapi.serializer.enumFromStringWithFallback
 
 private val logger = KotlinLogging.logger {}
@@ -108,7 +108,7 @@ public data class LoginWebQRCodeResponseData(
 }
 
 @Suppress("MagicNumber")
-@Serializable(with = LoginWebQRCodeResponseFailedCodeSerializer::class)
+@Serializable(with = LoginWebQRCodeResponseCodeSerializer::class)
 public enum class LoginWebQRCodeResponseFailedCode {
     UNKNOWN,
 
