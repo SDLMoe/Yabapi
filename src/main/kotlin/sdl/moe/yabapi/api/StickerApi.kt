@@ -4,20 +4,23 @@
 
 package sdl.moe.yabapi.api
 
+import mu.KotlinLogging
 import sdl.moe.yabapi.BiliClient
+
+private val logger = KotlinLogging.logger {}
 
 /**
  * 表情包相关 API
  */
-public object EmoticonApi : BiliApi {
+public object StickerApi : BiliApi {
     init {
         BiliClient.registerApi(this)
     }
 
-    override val apiName: String = "emoticon"
+    override val apiName: String = "sticker"
 
     @Suppress("Unused")
-    public val BiliClient.emoticon: EmoticonApi
-        get() = this@EmoticonApi
+    public val BiliClient.sticker: StickerApi
+        get() = this@StickerApi
 
 }
