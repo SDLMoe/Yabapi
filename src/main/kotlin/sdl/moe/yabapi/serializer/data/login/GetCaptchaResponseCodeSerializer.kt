@@ -10,14 +10,14 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import sdl.moe.yabapi.data.login.QueryCaptchaResponseCode
+import sdl.moe.yabapi.data.login.GetCaptchaResponseCode
 import sdl.moe.yabapi.serializer.deserializeEnumWithFallback
 
-internal object QueryCaptchaResponseCodeSerializer : KSerializer<QueryCaptchaResponseCode> {
+internal object GetCaptchaResponseCodeSerializer : KSerializer<GetCaptchaResponseCode> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor(this.javaClass.simpleName, PrimitiveKind.INT)
 
-    override fun serialize(encoder: Encoder, value: QueryCaptchaResponseCode): Unit = encoder.encodeString(value.name)
+    override fun serialize(encoder: Encoder, value: GetCaptchaResponseCode): Unit = encoder.encodeString(value.name)
 
-    override fun deserialize(decoder: Decoder): QueryCaptchaResponseCode =
-        deserializeEnumWithFallback(decoder, QueryCaptchaResponseCode.UNKNOWN)
+    override fun deserialize(decoder: Decoder): GetCaptchaResponseCode =
+        deserializeEnumWithFallback(decoder, GetCaptchaResponseCode.UNKNOWN)
 }

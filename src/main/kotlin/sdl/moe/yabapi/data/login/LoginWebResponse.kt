@@ -50,7 +50,7 @@ public data class LoginWebResponse(
  * @property TIMEOUT 超时
  * @property MISS_PARAMETER 缺少必要参数
  * @property NEED_TWO_FACTOR 需要手机或邮箱二要素验证
- * @property INVALID_LOGIN_KEY 登录密钥错误 @see [QueryCaptchaResponse]
+ * @property INVALID_LOGIN_KEY 登录密钥错误 @see [GetCaptchaResponse]
  * @property CAPTCHA_SERVICE_ERROR 验证码服务错误
  * @property RSA_DECRYPT_FAILED RSA 解密失敗
  */

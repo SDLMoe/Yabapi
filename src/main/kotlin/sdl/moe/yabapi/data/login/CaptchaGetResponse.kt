@@ -8,31 +8,31 @@ package sdl.moe.yabapi.data.login
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import sdl.moe.yabapi.serializer.data.login.QueryCaptchaResponseCodeSerializer
+import sdl.moe.yabapi.serializer.data.login.GetCaptchaResponseCodeSerializer
 
 /**
  * Json Response
- * @param code 返回状态码 [QueryCaptchaResponseCode]
- * @param data 数据 [QueryCaptchaResponseData]
+ * @param code 返回状态码 [GetCaptchaResponseCode]
+ * @param data 数据 [GetCaptchaResponseData]
  */
 @Serializable
-public data class QueryCaptchaResponse(
-    val code: QueryCaptchaResponseCode,
-    val data: QueryCaptchaResponseData,
+public data class GetCaptchaResponse(
+    val code: GetCaptchaResponseCode,
+    val data: GetCaptchaResponseData,
 ) {
     /**
      * 封裝, 少寫一層
-     * @return [QueryCaptchaResponseResult]
+     * @return [GetCaptchaResponseResult]
      */
-    val result: QueryCaptchaResponseResult = data.result
+    val result: GetCaptchaResponseResult = data.result
 }
 
 /**
  * @property [UNKNOWN] 未知返回值
  * @property [SUCCESS] 成功 - 0
  */
-@Serializable(with = QueryCaptchaResponseCodeSerializer::class)
-public enum class QueryCaptchaResponseCode {
+@Serializable(with = GetCaptchaResponseCodeSerializer::class)
+public enum class GetCaptchaResponseCode {
     UNKNOWN,
 
     @SerialName("0")
@@ -40,12 +40,12 @@ public enum class QueryCaptchaResponseCode {
 }
 
 /**
- * @param result 结果 [QueryCaptchaResponseResult]
+ * @param result 结果 [GetCaptchaResponseResult]
  * @param type 未知值, 常见值为1
  */
 @Serializable
-public data class QueryCaptchaResponseData(
-    val result: QueryCaptchaResponseResult,
+public data class GetCaptchaResponseData(
+    val result: GetCaptchaResponseResult,
     val type: Int,
 )
 
@@ -56,7 +56,7 @@ public data class QueryCaptchaResponseData(
  * @param loginKey 登录密钥, 登录接口相关, 和 [captchaKey] 对应
  */
 @Serializable
-public data class QueryCaptchaResponseResult(
+public data class GetCaptchaResponseResult(
     @SerialName("success")
     val success: Int,
     @SerialName("gt")

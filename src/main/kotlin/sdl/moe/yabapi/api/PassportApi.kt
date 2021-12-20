@@ -22,7 +22,7 @@ import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.api.PassportApi.getRsaKeyWeb
 import sdl.moe.yabapi.api.PassportApi.loginWeb
 import sdl.moe.yabapi.api.PassportApi.loginWebConsole
-import sdl.moe.yabapi.api.PassportApi.queryLoginCaptcha
+import sdl.moe.yabapi.api.PassportApi.getCaptcha
 import sdl.moe.yabapi.consts.APP_KEY
 import sdl.moe.yabapi.consts.APP_SIGN
 import sdl.moe.yabapi.consts.passport.GET_CALLING_CODE_URL
@@ -43,7 +43,7 @@ import sdl.moe.yabapi.data.login.LoginWebResponseCode
 import sdl.moe.yabapi.data.login.LoginWebSMSResponse
 import sdl.moe.yabapi.data.login.LoginWebSMSResponseCode
 import sdl.moe.yabapi.data.login.QRCodeWebGetResponse
-import sdl.moe.yabapi.data.login.QueryCaptchaResponse
+import sdl.moe.yabapi.data.login.GetCaptchaResponse
 import sdl.moe.yabapi.data.login.RsaGetResponse
 import sdl.moe.yabapi.data.login.RsaGetResponseCode
 import sdl.moe.yabapi.data.login.SendSMSResponse
@@ -62,7 +62,6 @@ private val logger = KotlinLogging.logger {}
 /**
  *  登录, 认证相关 API
  */
-@Suppress("TooManyFunctions")
 public object PassportApi : BiliApi {
     init {
         BiliClient.registerApi(this)
@@ -81,18 +80,18 @@ public object PassportApi : BiliApi {
      * 获取人机验证码, 需要手动验证
      *
      * 可使用 [https://kuresaru.github.io/geetest-validator/]
-     * @return [QueryCaptchaResponse]
+     * @return [GetCaptchaResponse]
      */
-    @JvmName("queryLoginCaptchaExt")
-    public suspend fun BiliClient.queryLoginCaptcha(): QueryCaptchaResponse = withContext(Dispatchers.IO) {
+    @JvmName("getCaptchaExt")
+    public suspend fun BiliClient.getCaptcha(): GetCaptchaResponse = withContext(Dispatchers.IO) {
         logger.info { "Querying Login Captcha" }
-        client.get<QueryCaptchaResponse>(QUERY_CAPTCHA_URL).also {
+        client.get<GetCaptchaResponse>(QUERY_CAPTCHA_URL).also {
             logger.debug { "Query Captcha Response: $it" }
         }
     }
 
-    @JvmName("queryLoginCaptcha")
-    public suspend inline fun queryLoginCaptcha(client: BiliClient): QueryCaptchaResponse = client.queryLoginCaptcha()
+    @JvmName("getCaptcha")
+    public suspend inline fun getCaptcha(client: BiliClient): GetCaptchaResponse = client.getCaptcha()
 
     /**
      * 通过 Web 方式获取 RSA 公钥
@@ -139,14 +138,14 @@ public object PassportApi : BiliApi {
     public suspend inline fun getRsaKeyApp(client: BiliClient): RsaGetResponse = client.getRsaKeyApp()
 
     /**
-     *  通过 Web 方式登录, 流程为 [queryLoginCaptcha] -> [getRsaKeyWeb] -> [loginWeb]
+     *  通过 Web 方式登录, 流程为 [getCaptcha] -> [getRsaKeyWeb] -> [loginWeb]
      *
      *  可以通过 [loginWebConsole] 交互式登录(仅命令行)
      *  @param userName B站帐号, 手机号或邮箱
      *  @param password 密码, 输入明文
      *  @param validate 验证码平台返回
      *  @param seccode 验证码平台返回
-     *  @param queryCaptchaResponse B 站验证码请求回调
+     *  @param getCaptchaResponse B 站验证码请求回调
      *  @param rsaGetResponse B 站 RSA 公钥请求回调
      */
     @Suppress("LongParameterList")
@@ -156,7 +155,7 @@ public object PassportApi : BiliApi {
         password: String,
         validate: String,
         seccode: String,
-        queryCaptchaResponse: QueryCaptchaResponse,
+        getCaptchaResponse: GetCaptchaResponse,
         rsaGetResponse: RsaGetResponse? = null,
     ): LoginWebResponse = withContext(Dispatchers.IO) {
         logger.info { "Logging in by Web method" }
@@ -170,8 +169,8 @@ public object PassportApi : BiliApi {
                 append("username", userName)
                 append("password", pwdEncrypted)
                 append("keep", "true")
-                append("key", queryCaptchaResponse.data.result.loginKey)
-                append("challenge", queryCaptchaResponse.data.result.captchaKey)
+                append("key", getCaptchaResponse.data.result.loginKey)
+                append("challenge", getCaptchaResponse.data.result.captchaKey)
                 append("validate", validate)
                 append("seccode", seccode)
             }
@@ -194,9 +193,9 @@ public object PassportApi : BiliApi {
         password: String,
         validate: String,
         seccode: String,
-        queryCaptchaResponse: QueryCaptchaResponse,
+        getCaptchaResponse: GetCaptchaResponse,
         rsaGetResponse: RsaGetResponse,
-    ): LoginWebResponse = client.loginWeb(userName, password, validate, seccode, queryCaptchaResponse, rsaGetResponse)
+    ): LoginWebResponse = client.loginWeb(userName, password, validate, seccode, getCaptchaResponse, rsaGetResponse)
 
     /**
      * 命令行交互式帳號密碼登錄, 阻塞方法
@@ -206,7 +205,7 @@ public object PassportApi : BiliApi {
         logger.info { "Starting Console Interactive Bilibili Web Login" }
         val userName = requireCmdInputString("Please Input Bilibili Username:")
         val pwd = requireCmdInputString("Please Input Bilibili Password:")
-        val captchaResponse = queryLoginCaptcha()
+        val captchaResponse = getCaptcha()
         println("Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :")
         println("gt=${captchaResponse.data.result.id}, challenge=${captchaResponse.data.result.captchaKey}")
         val validate = requireCmdInputString("input the result, validate=")
@@ -318,7 +317,7 @@ public object PassportApi : BiliApi {
      * 請求短信驗證碼
      * @param phone 手機號
      * @param cid 區域代碼 可通過 [getCallingCode] 获取
-     * @param captchaResponse [QueryCaptchaResponse]
+     * @param captchaResponse [GetCaptchaResponse]
      * @param validate 驗證碼結果
      * @param seccode 驗證碼結果
      */
@@ -326,7 +325,7 @@ public object PassportApi : BiliApi {
     public suspend fun BiliClient.requestSMSCode(
         phone: Long,
         cid: Int,
-        captchaResponse: QueryCaptchaResponse,
+        captchaResponse: GetCaptchaResponse,
         validate: String,
         seccode: String,
     ): SendSMSResponse = withContext(Dispatchers.IO) {
@@ -355,13 +354,13 @@ public object PassportApi : BiliApi {
         client: BiliClient,
         phone: Long,
         cid: Int,
-        captchaResponse: QueryCaptchaResponse,
+        captchaResponse: GetCaptchaResponse,
         validate: String,
         seccode: String,
     ): SendSMSResponse = client.requestSMSCode(phone, cid, captchaResponse, validate, seccode)
 
     /**
-     * 通過短信驗證碼登錄, 流程爲 [queryLoginCaptcha] -> [requestSMSCode] -> [loginWebSMS]
+     * 通過短信驗證碼登錄, 流程爲 [getCaptcha] -> [requestSMSCode] -> [loginWebSMS]
      * @param phone 手機號
      * @param cid 區域代碼 可通過 [getCallingCode] 获取
      * @param code 短信驗證碼
@@ -417,7 +416,7 @@ public object PassportApi : BiliApi {
             cidList.first { it.callingCode == callingCode.toString() }.id.toInt()
         }
         val phone: Long = requireCmdInputNumber("Please Input Phone Number (e.g. 13800138000):")
-        val captchaResponse = queryLoginCaptcha()
+        val captchaResponse = getCaptcha()
         fun sendSMS(): SendSMSResponse = runBlocking {
             println("Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :")
             println("gt=${captchaResponse.data.result.id}, challenge=${captchaResponse.data.result.captchaKey}")
