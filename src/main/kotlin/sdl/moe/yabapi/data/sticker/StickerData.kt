@@ -20,14 +20,16 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class StickerData(
     @SerialName("id") val id: Int,
-    @SerialName("packageId") val packageId: Int,
+    @SerialName("package_id") val packageId: Int,
     @SerialName("text") val text: String? = null,
     @SerialName("url") val url: String? = null,
+    @SerialName("gif_url") val gifUrl: String? = null,
     @SerialName("mtime") val createdTime: Long,
     @SerialName("type") val type: StickerType,
     @SerialName("attr") val attr: Int,
     @SerialName("meta") val metadata: StickerMetadata,
     @SerialName("flags") val flags: StickerFlags? = null,
+    @SerialName("activity") val activity: StickerActivity? = null,
 )
 
 /**
@@ -38,10 +40,22 @@ public data class StickerData(
 @Serializable
 public data class StickerMetadata(
     @SerialName("size") val size: StickerSize,
-    @SerialName("alias") val alias: String,
+    @SerialName("alias") val alias: String? = null,
+    @SerialName("suggest") val suggest: List<String> = emptyList(),
+    @SerialName("gif_url") val gifUrl: String? = null,
 )
 
 @Serializable
 public data class StickerFlags(
-    @SerialName("no_access") val notAccess: Boolean,
+    @SerialName("unlocked") val unlocked: Boolean,
+)
+
+@Serializable
+public data class StickerActivity(
+    @SerialName("title") val title: String,
+    @SerialName("start_time") val startTime: Long,
+    @SerialName("end_time") val endTime: Long,
+    @SerialName("jump_url") val jumpUrl: String,
+    @SerialName("unlock_descs") val unlockDescription: List<String> = listOf(),
+    @SerialName("jump_btn_desc") val buttonDescription: String? = null,
 )

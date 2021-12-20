@@ -46,12 +46,15 @@ public data class StickerSetData(
  */
 @Serializable
 public data class StickerSetMetadata(
-    @SerialName("name") val size: StickerSize,
+    @SerialName("size") val size: StickerSize,
     @SerialName("item_id") val itemId: Int,
     @SerialName("item_url") val itemUrl: String? = null,
+    @SerialName("vip_no_access_text") val needVipText: String? = null,
 )
 
 @Serializable
 public data class StickerSetFlags(
-    @SerialName("added") val isAdded: Boolean,
+    @SerialName("added") val isAdded: Boolean? = null,
+    @SerialName("preview") val isPreview: Boolean? = null,
+    @SerialName("no_access") val noAccess: Boolean? = null,
 )

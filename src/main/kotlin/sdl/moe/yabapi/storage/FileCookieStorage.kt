@@ -30,6 +30,8 @@ public class FileCookieStorage(
     private val file: File,
 ) : CookiesStorage {
 
+    public constructor(path: String) : this(File(path))
+
     private var isInitiated: Boolean = false
 
     private val mutex = Mutex()
@@ -55,7 +57,10 @@ public class FileCookieStorage(
     private val wrappers: List<CookieWrapper>
         get() = CookieWrapper.fromCookies(cookies)
 
-    override suspend fun get(requestUrl: Url): List<Cookie> = delegateStorage.get(requestUrl)
+    override suspend fun get(requestUrl: Url): List<Cookie> {
+        init()
+        return delegateStorage.get(requestUrl)
+    }
 
     override suspend fun addCookie(requestUrl: Url, cookie: Cookie) {
         init()

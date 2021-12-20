@@ -4,8 +4,15 @@
 
 package sdl.moe.yabapi.api
 
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 import sdl.moe.yabapi.BiliClient
+import sdl.moe.yabapi.consts.GET_ALL_STICKERS_URL
+import sdl.moe.yabapi.data.sticker.AllStickersGetResponse
+import sdl.moe.yabapi.enums.StickerBusiness
 
 private val logger = KotlinLogging.logger {}
 
@@ -23,4 +30,16 @@ public object StickerApi : BiliApi {
     public val BiliClient.sticker: StickerApi
         get() = this@StickerApi
 
+    /**
+     * @param business 使用場景 [StickerBusiness]
+     */
+    public suspend fun BiliClient.getAllStickers(business: StickerBusiness): AllStickersGetResponse =
+        withContext(Dispatchers.IO) {
+            logger.debug { "Getting all stickers for business: $business" }
+            client.get<AllStickersGetResponse>(GET_ALL_STICKERS_URL) {
+                parameter("business", business.toString())
+            }.also {
+                logger.debug { "Got all stickers response: $it" }
+            }
+        }
 }
