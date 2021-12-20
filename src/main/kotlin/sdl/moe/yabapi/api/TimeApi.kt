@@ -26,7 +26,7 @@ public object TimeApi : BiliApi {
         get() = "time"
 
     @Suppress("unused")
-    public val BiliClient.passport: TimeApi
+    public val BiliClient.timeApi: TimeApi
         get() = this@TimeApi
 
     /**

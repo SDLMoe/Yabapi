@@ -72,7 +72,7 @@ public object PassportApi : BiliApi {
         get() = "passport"
 
     @Suppress("unused")
-    public val BiliClient.passport: PassportApi
+    public val BiliClient.passportApi: PassportApi
         get() = this@PassportApi
 
     public val callingCodeList: List<CallingCodeNode> = mutableListOf()

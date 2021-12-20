@@ -27,7 +27,7 @@ public object StickerApi : BiliApi {
     override val apiName: String = "sticker"
 
     @Suppress("Unused")
-    public val BiliClient.sticker: StickerApi
+    public val BiliClient.stickerApi: StickerApi
         get() = this@StickerApi
 
     /**
