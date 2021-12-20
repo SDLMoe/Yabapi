@@ -8,7 +8,7 @@ internal inline fun <reified T : Number> requireCmdInputNumber(
     message: String = "Please Input ${T::class.simpleName}:",
     errorMessage: String = "Your input is not valid, please try again.",
     outFunc: (String) -> Unit = ::println
-): T  {
+): T {
     var loop = true
 
     var input: T? = null

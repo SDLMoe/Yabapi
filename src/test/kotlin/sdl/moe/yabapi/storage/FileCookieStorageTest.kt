@@ -40,11 +40,11 @@ internal class FileCookieStorageTest {
         runBlocking {
             measureTimeMillis {
                 launch(Dispatchers.IO) {
-                    for (i in 1..50) {
+                    for (i in 1..1) {
                         launch(Dispatchers.IO) {
                             measureTimeMillis {
                                 val storage = FileCookieStorage(File("./tmp/test$i.json"))
-                                for (j in 1..1000) {
+                                for (j in 1..5000) {
                                     storage.addCookie(Url("https://www.google.com"), Cookie("test-$j", "test$j"))
                                 }
                                 storage.close()
