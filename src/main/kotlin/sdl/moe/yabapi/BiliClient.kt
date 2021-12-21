@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 import sdl.moe.yabapi.api.BiliApi
+import sdl.moe.yabapi.api.InfoApi.getBasicInfo
 import sdl.moe.yabapi.consts.DefaultHttpClient
 import sdl.moe.yabapi.consts.MAIN
 import sdl.moe.yabapi.storage.FileCookieStorage
@@ -53,11 +54,25 @@ public class BiliClient(
         }
     }
 
-    public var isLogin: Boolean = false
-        internal set(value) {
-            field = value
-            logger.debug { "isLogin status changed to $value" }
+    public suspend fun getBiliCookies(): List<Cookie> {
+        return cookieStorage.get(Url("https://.bilibili.com"))
+    }
+
+    public suspend fun getCsrfToken(): Cookie? = getBiliCookies().firstOrNull { it.name == "bili_jct" }
+
+    public suspend fun isLogin(): Boolean = getBasicInfo().data.isLogin
+
+    internal suspend fun needLogin() {
+        if (!isLogin()) {
+            throw IllegalStateException("You need login first!")
         }
+    }
+
+    internal suspend fun noNeedLogin() {
+        if (isLogin()) {
+            throw IllegalStateException("You are already logged in!")
+        }
+    }
 
     public suspend fun addCookie(vararg cookie: Cookie): Unit = withContext(Dispatchers.IO) {
         cookie.forEach {

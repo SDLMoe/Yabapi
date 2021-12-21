@@ -159,6 +159,9 @@ public enum class GeneralCode {
     @SerialName("-701")
     MINUS_CREDIT_FAILED,
 
+    @SerialName("2202")
+    ILLEGAL_CSRF,
+
     @SerialName("-8888")
     SERVICE_DOWN;
 }

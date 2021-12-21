@@ -85,8 +85,11 @@ public class FileCookieStorage(
 
     @Throws(IOException::class)
     private suspend fun init() {
-        logger.debug { "Initializing FileCookieStorage" }
         if (!isInitiated) {
+            logger.debug { "Initializing FileCookieStorage" }
+            Runtime.getRuntime().addShutdownHook(Thread {
+                runBlocking { save() }
+            })
             if (file.exists()) {
                 load()
             } else {
@@ -110,12 +113,14 @@ public class FileCookieStorage(
 
     private suspend fun load() {
         logger.debug { "Loading FileCookieStorage from ${file.absoluteFile}" }
-        var wrappers: List<CookieWrapper>
+        var wrappers: List<CookieWrapper> = listOf()
         mutex.withLock {
-            wrappers = Json.decodeFromString(file.readText())
+            val text = file.readText()
+            if (text.isNotBlank()) wrappers = Json.decodeFromString(text)
         }
         wrappers.toCookies().forEach {
             delegateStorage.addCookie(Url("${it.domain}/${it.path}"), it)
         }
+        logger.debug { "Loaded FileCookieStorage: $cookies" }
     }
 }

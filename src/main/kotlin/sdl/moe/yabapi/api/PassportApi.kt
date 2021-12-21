@@ -4,7 +4,6 @@
 
 package sdl.moe.yabapi.api
 
-import io.ktor.client.features.cookies.cookies
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
@@ -19,10 +18,11 @@ import mu.KotlinLogging
 import net.glxn.qrgen.core.image.ImageType
 import net.glxn.qrgen.javase.QRCode
 import sdl.moe.yabapi.BiliClient
+import sdl.moe.yabapi.api.PassportApi.getCaptcha
 import sdl.moe.yabapi.api.PassportApi.getRsaKeyWeb
 import sdl.moe.yabapi.api.PassportApi.loginWeb
 import sdl.moe.yabapi.api.PassportApi.loginWebConsole
-import sdl.moe.yabapi.api.PassportApi.getCaptcha
+import sdl.moe.yabapi.api.PassportApi.loginWebSMS
 import sdl.moe.yabapi.consts.APP_KEY
 import sdl.moe.yabapi.consts.APP_SIGN
 import sdl.moe.yabapi.consts.passport.GET_CALLING_CODE_URL
@@ -30,6 +30,7 @@ import sdl.moe.yabapi.consts.passport.LOGIN_QRCODE_GET_WEB_URL
 import sdl.moe.yabapi.consts.passport.LOGIN_WEB_QRCODE_URL
 import sdl.moe.yabapi.consts.passport.LOGIN_WEB_SMS_URL
 import sdl.moe.yabapi.consts.passport.LOGIN_WEB_URL
+import sdl.moe.yabapi.consts.passport.LOG_OUT_URL
 import sdl.moe.yabapi.consts.passport.QUERY_CAPTCHA_URL
 import sdl.moe.yabapi.consts.passport.RSA_GET_APP_URL
 import sdl.moe.yabapi.consts.passport.RSA_GET_WEB_URL
@@ -37,13 +38,14 @@ import sdl.moe.yabapi.consts.passport.SEND_SMS_URL
 import sdl.moe.yabapi.data.GeneralCode
 import sdl.moe.yabapi.data.login.CallingCodeGetResponse
 import sdl.moe.yabapi.data.login.CallingCodeNode
+import sdl.moe.yabapi.data.login.GetCaptchaResponse
+import sdl.moe.yabapi.data.login.LogOutResponse
 import sdl.moe.yabapi.data.login.LoginWebQRCodeResponse
 import sdl.moe.yabapi.data.login.LoginWebResponse
 import sdl.moe.yabapi.data.login.LoginWebResponseCode
 import sdl.moe.yabapi.data.login.LoginWebSMSResponse
 import sdl.moe.yabapi.data.login.LoginWebSMSResponseCode
 import sdl.moe.yabapi.data.login.QRCodeWebGetResponse
-import sdl.moe.yabapi.data.login.GetCaptchaResponse
 import sdl.moe.yabapi.data.login.RsaGetResponse
 import sdl.moe.yabapi.data.login.RsaGetResponseCode
 import sdl.moe.yabapi.data.login.SendSMSResponse
@@ -158,6 +160,7 @@ public object PassportApi : BiliApi {
         getCaptchaResponse: GetCaptchaResponse,
         rsaGetResponse: RsaGetResponse? = null,
     ): LoginWebResponse = withContext(Dispatchers.IO) {
+        noNeedLogin()
         logger.info { "Logging in by Web method" }
         val actualRsaData = rsaGetResponse ?: getRsaKeyWeb()
         require(actualRsaData.rsa != null) { "RSA Key is null, check response data: $rsaGetResponse" }
@@ -177,9 +180,7 @@ public object PassportApi : BiliApi {
             body = FormDataContent(params)
         }.also {
             logger.debug { "Login Web Response: $it" }
-            if (it.code == LoginWebResponseCode.SUCCESS) {
-                isLogin = true
-            } else {
+            if (it.code != LoginWebResponseCode.SUCCESS) {
                 logger.warn { "Login failed error code ${it.code}, with message: ${it.message}" }
             }
         }
@@ -202,6 +203,7 @@ public object PassportApi : BiliApi {
      */
     @JvmName("loginWebConsoleExt")
     public fun BiliClient.loginWebConsole(): Unit = runBlocking {
+        noNeedLogin()
         logger.info { "Starting Console Interactive Bilibili Web Login" }
         val userName = requireCmdInputString("Please Input Bilibili Username:")
         val pwd = requireCmdInputString("Please Input Bilibili Password:")
@@ -233,6 +235,7 @@ public object PassportApi : BiliApi {
     public suspend fun BiliClient.loginWebQRCode(
         qrResponse: QRCodeWebGetResponse
     ): LoginWebQRCodeResponse = withContext(Dispatchers.IO) {
+        noNeedLogin()
         logger.info { "Starting Logging in via Web QR Code" }
         client.post<LoginWebQRCodeResponse>(LOGIN_WEB_QRCODE_URL) {
             val params = Parameters.build {
@@ -241,9 +244,7 @@ public object PassportApi : BiliApi {
             body = FormDataContent(params)
         }.also {
             logger.debug { "Login Web QR Code Response: $it" }
-            if (it.code == GeneralCode.SUCCESS) {
-                isLogin = true
-            } else logger.warn { "Login Web via QR Code failed, error code: ${it.code}" }
+            if (it.code != GeneralCode.SUCCESS) logger.warn { "Login Web via QR Code failed, error code: ${it.code}" }
         }
     }
 
@@ -264,6 +265,7 @@ public object PassportApi : BiliApi {
                 contentPane = JPanel()
                 setLocationRelativeTo(null)
             }
+
             suspend fun init() = withContext(Dispatchers.Default) {
                 val imgGot = img.await()
                 contentPane.add(JLabel(ImageIcon(imgGot)))
@@ -279,15 +281,14 @@ public object PassportApi : BiliApi {
      */
     @JvmName("loginWebQRCodeInteractiveExt")
     public fun BiliClient.loginWebQRCodeInteractive(): LoginWebQRCodeResponse = runBlocking {
+        noNeedLogin()
         logger.debug { "Starting Interactive Login via Web QR Code" }
-        val bclient = this@loginWebQRCodeInteractive
-        val data = bclient.getWebQRCode()
-        showQRCode(data.data.url)
-
-        bclient.client.cookies("https://bilibili.com").also {
-            logger.debug { "Cookies: $it" }
+        val data = getWebQRCode()
+        withContext(Dispatchers.Default) {
+            showQRCode(data.data.url)
         }
-        bclient.loginWebQRCode(data).also {
+
+        loginWebQRCode(data).also {
             logger.debug { "Login Web QR Code Response: $it" }
         }
     }
@@ -350,6 +351,7 @@ public object PassportApi : BiliApi {
     }
 
     @Suppress("LongParameterList")
+    @JvmName("requestSMSCode")
     public suspend inline fun requestSMSCode(
         client: BiliClient,
         phone: Long,
@@ -386,9 +388,7 @@ public object PassportApi : BiliApi {
             body = FormDataContent(params)
         }.also {
             logger.debug { "Login Web SMS Response: $it" }
-            if (it.code != LoginWebSMSResponseCode.SUCCESS) {
-                logger.warn { "Login Web SMS failed, error code: ${it.code}" }
-            }
+            if (it.code != LoginWebSMSResponseCode.SUCCESS) logger.warn { "Login Web SMS failed, error code: ${it.code}" }
         }
     }
 
@@ -408,20 +408,24 @@ public object PassportApi : BiliApi {
     public fun BiliClient.loginWebSMSConsole(
         needsCallingCode: Boolean = false
     ): Unit = runBlocking {
+        noNeedLogin()
         logger.info { "Starting Console Interactive Bilibili Web Login" }
         var callingCode = 86
+
         if (needsCallingCode) callingCode = requireCmdInputNumber("Please Input Calling Code (e.g. 86, 1):")
-        val cidList = getCallingCode().data.all
-        val cid = withContext(Dispatchers.IO) {
+        val cid = async(Dispatchers.IO) {
+            val cidList = getCallingCode().data.all
             cidList.first { it.callingCode == callingCode.toString() }.id.toInt()
         }
+
         val phone: Long = requireCmdInputNumber("Please Input Phone Number (e.g. 13800138000):")
         val captchaResponse = getCaptcha()
+
         fun sendSMS(): SendSMSResponse = runBlocking {
             println("Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :")
             println("gt=${captchaResponse.data.result.id}, challenge=${captchaResponse.data.result.captchaKey}")
             val validate = requireCmdInputString("validate=")
-            val sendSMSResponse = requestSMSCode(phone, cid, captchaResponse, validate, "$validate|jordan")
+            val sendSMSResponse = requestSMSCode(phone, cid.await(), captchaResponse, validate, "$validate|jordan")
             when (sendSMSResponse.code) {
                 SendSMSResponseCode.SUCCESS -> sendSMSResponse
                 else -> {
@@ -432,8 +436,26 @@ public object PassportApi : BiliApi {
             }
         }
 
-        val sendSMSResponse = sendSMS()
+        val sendSMSResponse = async { sendSMS() }
         val code: Int = requireCmdInputNumber("Please Input SMS Code (e.g. 123456):")
-        loginWebSMS(phone, cid, code, sendSMSResponse)
+        loginWebSMS(phone, cid.await(), code, sendSMSResponse.await())
     }
+
+    @JvmName("logOutExt")
+    public suspend fun BiliClient.logOut(): LogOutResponse = withContext(Dispatchers.IO) {
+        logger.info { "Logging out" }
+        needLogin()
+        client.post<LogOutResponse>(LOG_OUT_URL) {
+            val params = Parameters.build {
+                append("biliCSRF", getCsrfToken()?.value ?: "")
+            }
+            body = FormDataContent(params)
+        }.also {
+            logger.debug { "Log Out Response: $it" }
+            if (it.code != GeneralCode.SUCCESS) logger.warn { "Log Out failed, error code: ${it.code}" }
+        }
+    }
+
+    @JvmName("logOut")
+    public suspend fun logOut(client: BiliClient): LogOutResponse = client.logOut()
 }

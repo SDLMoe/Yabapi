@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 import sdl.moe.yabapi.BiliClient
-import sdl.moe.yabapi.consts.GET_ALL_STICKERS_URL
+import sdl.moe.yabapi.consts.sticker.GET_ALL_STICKERS_URL
 import sdl.moe.yabapi.data.sticker.AllStickersGetResponse
 import sdl.moe.yabapi.enums.StickerBusiness
 

@@ -8,6 +8,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.encoding.Decoder
 import mu.KotlinLogging
 import sdl.moe.yabapi.util.getEnumFieldAnnotation
+import java.lang.IllegalArgumentException
 
 private val logger = KotlinLogging.logger {}
 
@@ -17,7 +18,7 @@ internal inline fun <reified E : Enum<E>> deserializeEnumWithFallback(decoder: D
 internal inline fun <reified E : Enum<E>> enumFromStringWithFallback(string: String, fallback: E): E =
     enumValues<E>().firstOrNull { it.getEnumFieldAnnotation<SerialName>()?.value == string || it.name == string }
         ?: run {
-            logger.warn {
+            logger.warn(IllegalArgumentException("Unexpected Enum Value $string")) {
                 "Unknown enum value: $string, when deserialize ${E::class.qualifiedName}, fallback to $fallback"
             }
             fallback

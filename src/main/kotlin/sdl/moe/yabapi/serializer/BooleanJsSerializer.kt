@@ -5,12 +5,15 @@
 package sdl.moe.yabapi.serializer
 
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.intOrNull
+import kotlinx.serialization.json.jsonPrimitive
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -42,17 +45,14 @@ internal object BooleanJsSerializer : KSerializer<Boolean> {
         encoder.encodeInt(if (value) 1 else 0)
     }
 
-    override fun deserialize(decoder: Decoder): Boolean {
-        return try {
-            decoder.decodeBoolean()
-        } catch (e: SerializationException) {
-            logger.warn(e) { "Failed to deserialize with default Boolean, try with Js method" }
-            try {
-                decoder.decodeInt() == 1
-            } catch (e1: SerializationException) {
-                logger.warn(e1) { "Failed to deserialize, return false default." }
-                false
+    override fun deserialize(decoder: Decoder): Boolean =
+        when (decoder) {
+            is JsonDecoder -> {
+                val element = decoder.decodeJsonElement()
+                element.jsonPrimitive.booleanOrNull ?: run {
+                    element.jsonPrimitive.intOrNull == 1
+                }
             }
+            else -> throw IllegalArgumentException("Unsupported Decoder $decoder")
         }
-    }
 }

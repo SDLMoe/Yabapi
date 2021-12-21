@@ -11,6 +11,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
+import sdl.moe.yabapi.BiliClient
+import sdl.moe.yabapi.api.PassportApi.loginWebQRCodeInteractive
 import java.io.File
 import kotlin.system.measureTimeMillis
 
@@ -56,5 +58,11 @@ internal class FileCookieStorageTest {
                 println("Total: $it ms")
             }
         }
+    }
+
+    @Test
+    fun clientTest() {
+        val client = BiliClient(cookieStorage = FileCookieStorage("cookies.json"))
+        client.loginWebQRCodeInteractive()
     }
 }
