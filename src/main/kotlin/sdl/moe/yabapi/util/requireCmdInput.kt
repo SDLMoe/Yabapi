@@ -15,16 +15,16 @@ internal inline fun <reified T : Number> requireCmdInputNumber(
     while (loop) {
         outFunc(message)
         input = when (T::class) {
-            Byte::class -> readLine()?.toByteOrNull()
-            Short::class -> readLine()?.toShortOrNull()
-            Int::class -> readLine()?.toIntOrNull()
-            Long::class -> readLine()?.toLongOrNull()
-            Float::class -> readLine()?.toFloatOrNull()
-            Double::class -> readLine()?.toDoubleOrNull()
-            UByte::class -> readLine()?.toUByteOrNull()
-            UShort::class -> readLine()?.toUShortOrNull()
-            UInt::class -> readLine()?.toUIntOrNull()
-            ULong::class -> readLine()?.toULongOrNull()
+            Byte::class -> readlnOrNull()?.toByteOrNull()
+            Short::class -> readlnOrNull()?.toShortOrNull()
+            Int::class -> readlnOrNull()?.toIntOrNull()
+            Long::class -> readlnOrNull()?.toLongOrNull()
+            Float::class -> readlnOrNull()?.toFloatOrNull()
+            Double::class -> readlnOrNull()?.toDoubleOrNull()
+            UByte::class -> readlnOrNull()?.toUByteOrNull()
+            UShort::class -> readlnOrNull()?.toUShortOrNull()
+            UInt::class -> readlnOrNull()?.toUIntOrNull()
+            ULong::class -> readlnOrNull()?.toULongOrNull()
             else -> throw IllegalArgumentException("Unsupported Number Type: ${T::class.qualifiedName}")
         }.let { it as T? }
         if (input != null) {
@@ -40,7 +40,7 @@ internal fun requireCmdInputString(
     outFunc: (String) -> Unit = ::println
 ): String {
     outFunc(message)
-    return readLine() ?: run {
+    return readlnOrNull() ?: run {
         outFunc(errorMessage)
         requireCmdInputString(message, errorMessage, outFunc)
     }
