@@ -20,7 +20,6 @@ import mu.KotlinLogging
 import sdl.moe.yabapi.data.CookieWrapper
 import sdl.moe.yabapi.data.toCookies
 import java.io.File
-import java.io.IOException
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.jvm.isAccessible
 
@@ -83,7 +82,6 @@ public class FileCookieStorage(
         runBlocking { save() }
     }
 
-    @Throws(IOException::class)
     private suspend fun init() {
         if (!isInitiated) {
             logger.debug { "Initializing FileCookieStorage" }
