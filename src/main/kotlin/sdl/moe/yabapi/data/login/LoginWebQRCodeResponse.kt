@@ -11,14 +11,14 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.serializer
 import mu.KotlinLogging
+import sdl.moe.yabapi.consts.json
 import sdl.moe.yabapi.data.GeneralCode
+import sdl.moe.yabapi.data.login.LoginWebQRCodeResponseCode.UNKNOWN
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
-import sdl.moe.yabapi.serializer.data.login.LoginWebQRCodeResponseCodeSerializer
-import sdl.moe.yabapi.serializer.enumFromStringWithFallback
 
 private val logger = KotlinLogging.logger {}
 
@@ -43,56 +43,33 @@ public data class LoginWebQRCodeResponse(
 ) {
     public var dataWhenSuccess: LoginWebQRCodeResponseData? = null
         get() {
-            if (field == null && code == GeneralCode.SUCCESS) initData()
-            return field
-        }
-        private set
-    public var dataWhenFailed: LoginWebQRCodeResponseFailedCode? = null
-        get() {
-            if (field == null && code != GeneralCode.SUCCESS) initData()
-            return field
-        }
-        private set
-
-    /**
-     * 返回 [Triple]
-     *
-     * [Boolean] 是否成功
-     *
-     * Sample:
-     *
-     * ```
-     * val client = BiliClient()
-     * val response = client.loginWebQRCodeInteractive()
-     * val isSuccess = response.initData()
-     * if (isSuccess) println(response.dataWhenSuccess)
-     * ```
-     */
-    public fun initData(): Boolean {
-        var isSuccess = false
-        try {
-            val url = rawData.jsonObject["url"]?.jsonPrimitive?.content
-            if (url != null) {
-                dataWhenSuccess = LoginWebQRCodeResponseData(url)
-                isSuccess = true
+            if (field == null && code == GeneralCode.SUCCESS) {
+                try {
+                    val url = rawData.jsonObject["url"]?.jsonPrimitive?.content
+                    if (url != null) {
+                        dataWhenSuccess = LoginWebQRCodeResponseData(url)
+                    }
+                } catch (e: IllegalArgumentException) {
+                    logger.debug(e) { "Failed to encode dataWhenSuccess" }
+                }
             }
-        } catch (_: IllegalArgumentException) {
-            isSuccess = false
-            logger.debug { "Failed to encode dataWhenSuccess" }
+            return field
         }
-        try {
-            dataWhenFailed = enumFromStringWithFallback(
-                rawData.jsonPrimitive.jsonPrimitive.intOrNull.toString(), LoginWebQRCodeResponseFailedCode.UNKNOWN
-            )
-        } catch (_: IllegalArgumentException) {
-            isSuccess = false
-            logger.debug { "Failed to encode dataWhenFailed" }
+        private set
+    public var dataWhenFailed: LoginWebQRCodeResponseCode? = null
+        get() {
+            if (field == null && code != GeneralCode.SUCCESS) {
+                try {
+                    val serializer = serializer<LoginWebQRCodeResponseCode>()
+                    dataWhenFailed = json.decodeFromJsonElement(serializer, rawData)
+                } catch (_: IllegalArgumentException) {
+                    field = UNKNOWN
+                    logger.warn { "Failed to encode dataWhenFailed, fill with UNKNOWN, raw: $rawData" }
+                }
+            }
+            return field
         }
-        if (dataWhenSuccess == null && dataWhenFailed == null) {
-            throw IllegalArgumentException("Unknown Json Object $rawData")
-        }
-        return isSuccess
-    }
+        private set
 }
 
 /**
@@ -108,8 +85,8 @@ public data class LoginWebQRCodeResponseData(
 }
 
 @Suppress("MagicNumber")
-@Serializable(with = LoginWebQRCodeResponseCodeSerializer::class)
-public enum class LoginWebQRCodeResponseFailedCode {
+@Serializable
+public enum class LoginWebQRCodeResponseCode {
     UNKNOWN,
 
     @SerialName("-1")

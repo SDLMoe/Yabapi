@@ -7,6 +7,7 @@ package sdl.moe.yabapi.data.login
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import sdl.moe.yabapi.data.GeneralCode
+import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
 
 /**
  * 获取国际电话区号的响应
@@ -16,7 +17,7 @@ import sdl.moe.yabapi.data.GeneralCode
 @Serializable
 public data class CallingCodeGetResponse(
     @SerialName("code")
-    val code: GeneralCode,
+    val code: GeneralCode = UNKNOWN,
     @SerialName("data")
     val data: CallingCodeGetResponseData,
 )

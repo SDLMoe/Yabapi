@@ -6,7 +6,11 @@ package sdl.moe.yabapi.data.sticker
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import sdl.moe.yabapi.serializer.data.sticker.StickerTypeSerializer
+import sdl.moe.yabapi.data.sticker.StickerType.EMOTICON
+import sdl.moe.yabapi.data.sticker.StickerType.NORMAL
+import sdl.moe.yabapi.data.sticker.StickerType.PAID
+import sdl.moe.yabapi.data.sticker.StickerType.UNKNOWN
+import sdl.moe.yabapi.data.sticker.StickerType.VIP
 
 /**
  * 表情类型
@@ -16,7 +20,7 @@ import sdl.moe.yabapi.serializer.data.sticker.StickerTypeSerializer
  * @property PAID 付費
  * @property EMOTICON 顏文字
  */
-@Serializable(with = StickerTypeSerializer::class)
+@Serializable
 public enum class StickerType {
     UNKNOWN,
 

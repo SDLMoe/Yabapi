@@ -12,15 +12,15 @@ import sdl.moe.yabapi.data.login.LoginWebSMSResponseCode.INVALID_SMS_CODE
 import sdl.moe.yabapi.data.login.LoginWebSMSResponseCode.REQUEST_ERROR
 import sdl.moe.yabapi.data.login.LoginWebSMSResponseCode.SMS_CODE_EXPIRED
 import sdl.moe.yabapi.data.login.LoginWebSMSResponseCode.SUCCESS
+import sdl.moe.yabapi.data.login.LoginWebSMSResponseCode.UNKNOWN
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
-import sdl.moe.yabapi.serializer.data.login.LoginWebSMSResponseCodeSerializer
 
 /**
  * L
  */
 @Serializable
 public data class LoginWebSMSResponse(
-    val code: LoginWebSMSResponseCode,
+    val code: LoginWebSMSResponseCode = UNKNOWN,
     val message: String,
     val data: LoginWebSMSResponseData,
 )
@@ -32,7 +32,7 @@ public data class LoginWebSMSResponse(
  * @property INVALID_SMS_CODE 驗證碼錯誤
  * @property SMS_CODE_EXPIRED 驗證碼過期
  */
-@Serializable(with = LoginWebSMSResponseCodeSerializer::class)
+@Serializable
 public enum class LoginWebSMSResponseCode {
     UNKNOWN,
 

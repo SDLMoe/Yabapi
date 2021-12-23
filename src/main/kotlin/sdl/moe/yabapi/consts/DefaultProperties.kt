@@ -16,23 +16,25 @@ import io.ktor.client.features.websocket.WebSockets
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 
-public val DefaultHttpClient: HttpClient by lazy {
+internal val DefaultHttpClient: HttpClient by lazy {
     HttpClient(CIO) {
         install(WebSockets)
         install(UserAgent) {
             agent = WEB_USER_AGENT
         }
         install(JsonFeature) {
-            val json = kotlinx.serialization.json.Json {
-                prettyPrint = true
-                isLenient = true
-            }
             serializer = KotlinxSerializer(json)
         }
         defaultRequest {
             header(HttpHeaders.Accept, "*/*")
         }
     }
+}
+
+internal val json = kotlinx.serialization.json.Json {
+    prettyPrint = true
+    isLenient = true
+    coerceInputValues = true
 }
 
 // Safari + MacOS User Agent 主要为了获取 HEVC

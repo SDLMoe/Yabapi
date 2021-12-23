@@ -6,7 +6,6 @@ package sdl.moe.yabapi.data.login
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import sdl.moe.yabapi.serializer.data.login.GetRsaResponseCodeSerializer
 
 /**
  * @param salt 密码校验盐值
@@ -26,10 +25,10 @@ public data class RsaGetResponse(
     @SerialName("ts")
     val timeStamp: Long? = null,
     @SerialName("code")
-    val code: RsaGetResponseCode = RsaGetResponseCode.SUCCESS
+    val code: RsaGetResponseCode = RsaGetResponseCode.SUCCESS,
 )
 
-@Serializable(with = GetRsaResponseCodeSerializer::class)
+@Serializable
 public enum class RsaGetResponseCode {
     UNKNOWN,
 

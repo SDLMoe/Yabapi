@@ -16,11 +16,11 @@ import sdl.moe.yabapi.data.login.LoginWebResponseCode.INVALID_LOGIN_KEY
 import sdl.moe.yabapi.data.login.LoginWebResponseCode.INVALID_REQUEST
 import sdl.moe.yabapi.data.login.LoginWebResponseCode.MISS_PARAMETER
 import sdl.moe.yabapi.data.login.LoginWebResponseCode.NEED_TWO_FACTOR
+import sdl.moe.yabapi.data.login.LoginWebResponseCode.RSA_DECRYPT_FAILED
 import sdl.moe.yabapi.data.login.LoginWebResponseCode.SUCCESS
 import sdl.moe.yabapi.data.login.LoginWebResponseCode.TIMEOUT
 import sdl.moe.yabapi.data.login.LoginWebResponseCode.UNKNOWN
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
-import sdl.moe.yabapi.serializer.data.login.LoginWebResponseCodeSerializer
 
 /**
  * @param code 返回值 [LoginWebResponseCode]
@@ -31,7 +31,7 @@ import sdl.moe.yabapi.serializer.data.login.LoginWebResponseCodeSerializer
 @Serializable
 public data class LoginWebResponse(
     @SerialName("code")
-    val code: LoginWebResponseCode,
+    val code: LoginWebResponseCode = UNKNOWN,
     @SerialName("ts")
     val timestamp: Long? = null,
     @SerialName("message")
@@ -54,7 +54,7 @@ public data class LoginWebResponse(
  * @property CAPTCHA_SERVICE_ERROR 验证码服务错误
  * @property RSA_DECRYPT_FAILED RSA 解密失敗
  */
-@Serializable(with = LoginWebResponseCodeSerializer::class)
+@Serializable
 public enum class LoginWebResponseCode {
     UNKNOWN,
 

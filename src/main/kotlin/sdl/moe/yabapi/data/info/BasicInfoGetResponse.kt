@@ -11,11 +11,12 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
 import kotlinx.serialization.json.JsonObject
 import sdl.moe.yabapi.data.GeneralCode
+import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
 public data class BasicInfoGetResponse(
-    @SerialName("code") val code: GeneralCode,
+    @SerialName("code") val code: GeneralCode = UNKNOWN,
     @SerialName("message") val message: String,
     @SerialName("ttl") val ttl: Int,
     @SerialName("data") val data: BasicInfoData,

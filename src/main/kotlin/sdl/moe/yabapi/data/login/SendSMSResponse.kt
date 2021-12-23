@@ -6,7 +6,15 @@ package sdl.moe.yabapi.data.login
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import sdl.moe.yabapi.serializer.data.login.SendSMSResponseCodeSerializer
+import sdl.moe.yabapi.data.login.SendSMSResponseCode.BANNED
+import sdl.moe.yabapi.data.login.SendSMSResponseCode.CAPTCHA_SERVICE_ERROR
+import sdl.moe.yabapi.data.login.SendSMSResponseCode.ERROR_REQUEST
+import sdl.moe.yabapi.data.login.SendSMSResponseCode.HAS_SENT
+import sdl.moe.yabapi.data.login.SendSMSResponseCode.INVALID_LOGIN_KEY
+import sdl.moe.yabapi.data.login.SendSMSResponseCode.INVALID_PHONE
+import sdl.moe.yabapi.data.login.SendSMSResponseCode.REQUEST_TOO_FREQUENT
+import sdl.moe.yabapi.data.login.SendSMSResponseCode.SUCCESS
+import sdl.moe.yabapi.data.login.SendSMSResponseCode.UNKNOWN
 
 /**
  * 發送短信驗證碼返回
@@ -19,7 +27,7 @@ import sdl.moe.yabapi.serializer.data.login.SendSMSResponseCodeSerializer
 @Serializable
 public data class SendSMSResponse(
     @SerialName("code")
-    val code: SendSMSResponseCode,
+    val code: SendSMSResponseCode = UNKNOWN,
     @SerialName("message")
     val message: String,
     @SerialName("ts")
@@ -43,7 +51,7 @@ public data class SendSMSResponse(
  * @property CAPTCHA_SERVICE_ERROR 驗證碼服務錯誤
  * @property REQUEST_TOO_FREQUENT 請求過於頻繁
  */
-@Serializable(with = SendSMSResponseCodeSerializer::class)
+@Serializable
 public enum class SendSMSResponseCode {
     UNKNOWN,
 
@@ -77,5 +85,5 @@ public enum class SendSMSResponseCode {
  */
 @Serializable
 public data class SendSMSResponseData(
-    @SerialName("captcha_key") val captchaKey: String
+    @SerialName("captcha_key") val captchaKey: String,
 )

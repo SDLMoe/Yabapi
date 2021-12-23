@@ -8,7 +8,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import sdl.moe.yabapi.data.GeneralCode.SUCCESS
 import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
-import sdl.moe.yabapi.serializer.data.GeneralCodeSerializer
 
 /**
  * 通用的状态码枚举类
@@ -17,7 +16,7 @@ import sdl.moe.yabapi.serializer.data.GeneralCodeSerializer
  *
  * 更多参见: [https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/other/errcode.md]
  */
-@Serializable(with = GeneralCodeSerializer::class)
+@Serializable
 public enum class GeneralCode {
     UNKNOWN,
 

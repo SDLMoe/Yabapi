@@ -8,7 +8,8 @@ package sdl.moe.yabapi.data.login
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import sdl.moe.yabapi.serializer.data.login.GetCaptchaResponseCodeSerializer
+import sdl.moe.yabapi.data.login.GetCaptchaResponseCode.SUCCESS
+import sdl.moe.yabapi.data.login.GetCaptchaResponseCode.UNKNOWN
 
 /**
  * Json Response
@@ -17,7 +18,7 @@ import sdl.moe.yabapi.serializer.data.login.GetCaptchaResponseCodeSerializer
  */
 @Serializable
 public data class GetCaptchaResponse(
-    val code: GetCaptchaResponseCode,
+    val code: GetCaptchaResponseCode = UNKNOWN,
     val data: GetCaptchaResponseData,
 ) {
     /**
@@ -31,7 +32,7 @@ public data class GetCaptchaResponse(
  * @property [UNKNOWN] 未知返回值
  * @property [SUCCESS] 成功 - 0
  */
-@Serializable(with = GetCaptchaResponseCodeSerializer::class)
+@Serializable
 public enum class GetCaptchaResponseCode {
     UNKNOWN,
 

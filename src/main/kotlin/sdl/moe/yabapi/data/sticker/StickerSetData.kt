@@ -9,6 +9,7 @@ package sdl.moe.yabapi.data.sticker
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
+import sdl.moe.yabapi.data.sticker.StickerType.UNKNOWN
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 /**
@@ -29,7 +30,7 @@ public data class StickerSetData(
     @SerialName("text") val name: String,
     @SerialName("url") val iconUrl: String,
     @SerialName("mtime") val createTime: Long,
-    @SerialName("type") val type: StickerType,
+    @SerialName("type") val type: StickerType = UNKNOWN,
     @SerialName("attr") val attr: Int,
     @SerialName("meta") val metadata: StickerSetMetadata,
     @SerialName("emote") val stickerList: List<StickerData>,
@@ -46,7 +47,7 @@ public data class StickerSetData(
  */
 @Serializable
 public data class StickerSetMetadata(
-    @SerialName("size") val size: StickerSize,
+    @SerialName("size") val size: StickerSize = StickerSize.UNKNOWN,
     @SerialName("item_id") val itemId: Int,
     @SerialName("item_url") val itemUrl: String? = null,
     @SerialName("vip_no_access_text") val needVipText: String? = null,

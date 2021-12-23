@@ -6,6 +6,7 @@ package sdl.moe.yabapi.data.sticker
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import sdl.moe.yabapi.data.sticker.StickerType.UNKNOWN
 
 /**
  * @param id 表情 ID
@@ -25,7 +26,7 @@ public data class StickerData(
     @SerialName("url") val url: String? = null,
     @SerialName("gif_url") val gifUrl: String? = null,
     @SerialName("mtime") val createdTime: Long,
-    @SerialName("type") val type: StickerType,
+    @SerialName("type") val type: StickerType = UNKNOWN,
     @SerialName("attr") val attr: Int,
     @SerialName("meta") val metadata: StickerMetadata,
     @SerialName("flags") val flags: StickerFlags? = null,
@@ -39,7 +40,7 @@ public data class StickerData(
  */
 @Serializable
 public data class StickerMetadata(
-    @SerialName("size") val size: StickerSize,
+    @SerialName("size") val size: StickerSize = StickerSize.UNKNOWN,
     @SerialName("alias") val alias: String? = null,
     @SerialName("suggest") val suggest: List<String> = emptyList(),
     @SerialName("gif_url") val gifUrl: String? = null,

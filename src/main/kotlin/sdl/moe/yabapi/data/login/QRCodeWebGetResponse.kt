@@ -10,6 +10,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
 import sdl.moe.yabapi.data.GeneralCode
+import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 /**
@@ -21,7 +22,7 @@ import sdl.moe.yabapi.serializer.BooleanJsSerializer
 @Serializable
 public data class QRCodeWebGetResponse(
     @SerialName("code")
-    val code: GeneralCode,
+    val code: GeneralCode = UNKNOWN,
     @SerialName("status")
     val status: Boolean,
     @SerialName("ts")
