@@ -111,9 +111,11 @@ public class FileCookieStorage(
 
     private suspend fun load() {
         logger.debug { "Loading FileCookieStorage from ${file.absoluteFile}" }
-        var wrappers: List<CookieWrapper> = listOf()
         val text = mutex.withLock { file.readText() }
-        if (text.isNotBlank()) wrappers = Json.decodeFromString(text)
+        val wrappers: List<CookieWrapper> =
+            if (text.isNotBlank()) {
+                Json.decodeFromString(text)
+            } else listOf()
         wrappers.toCookies().forEach {
             delegateStorage.addCookie(Url("${it.domain}/${it.path}"), it)
         }
