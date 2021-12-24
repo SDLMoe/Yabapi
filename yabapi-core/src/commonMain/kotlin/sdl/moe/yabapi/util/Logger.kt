@@ -4,7 +4,7 @@
 
 package sdl.moe.yabapi.util
 
-internal val kermit: co.touchlab.kermit.Logger by lazy {
+private val kermit: co.touchlab.kermit.Logger by lazy {
     co.touchlab.kermit.Logger
 }
 
