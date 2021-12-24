@@ -31,7 +31,6 @@ kotlin {
         else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
     }
 
-
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -39,6 +38,12 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.1")
+                // Ktor
+                implementation("io.ktor:ktor-client-core:${Versions.ktor}")
+                implementation("io.ktor:ktor-client-serialization:${Versions.ktor}")
+                implementation("io.ktor:ktor-client-websockets:${Versions.ktor}")
+                // Encoding
+                implementation("io.matthewnelson.kotlin-components:encoding-base64:1.0.3")
             }
 
         }
@@ -47,11 +52,23 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val jvmMain by getting
+        val jvmMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-cio:${Versions.ktor}")
+            }
+        }
         val jvmTest by getting
-        val jsMain by getting
+        val jsMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-js:${Versions.ktor}")
+            }
+        }
         val jsTest by getting
-        val nativeMain by getting
+        val nativeMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-curl:${Versions.ktor}")
+            }
+        }
         val nativeTest by getting
     }
 }

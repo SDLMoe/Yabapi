@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/yabapi-core/yabapi.yabapi-core.commonTest.iml" filepath="$PROJECT_DIR$/.idea/modules/yabapi-core/yabapi.yabapi-core.commonTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/yabapi-core/yabapi.yabapi-core.jsTest.iml" filepath="$PROJECT_DIR$/.idea/modules/yabapi-core/yabapi.yabapi-core.jsTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/yabapi-core/yabapi.yabapi-core.jvmTest.iml" filepath="$PROJECT_DIR$/.idea/modules/yabapi-core/yabapi.yabapi-core.jvmTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/yabapi-core/yabapi.yabapi-core.nativeTest.iml" filepath="$PROJECT_DIR$/.idea/modules/yabapi-core/yabapi.yabapi-core.nativeTest.iml" />
+    </modules>
+  </component>
+</project>
