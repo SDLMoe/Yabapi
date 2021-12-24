@@ -58,12 +58,12 @@ public val String.av: String
 public val String.bv: String
     get() {
         var s = this.lowercase().split("av")[1].toLong()
-        val str = "BV1  4 1 7  "
+        var str = "BV1  4 1 7  "
         s = (s xor XOR_VALUE) + ADD_VALUE
         for (i in 0..5) {
             val r: String? = mp2[(s / power(58, i) % 58).toInt()]
             if (r != null) {
-                str.replaceRange(ss[i]..ss[i]+1, r)
+                str = str.replaceRange(ss[i]..ss[i], r)
             }
         }
         return str
