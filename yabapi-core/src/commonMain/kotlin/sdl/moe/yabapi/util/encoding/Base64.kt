@@ -10,23 +10,21 @@ import io.matthewnelson.component.base64.encodeBase64
 import io.matthewnelson.component.base64.encodeBase64ToByteArray
 import io.matthewnelson.component.base64.encodeBase64ToCharArray
 
-public object Base64 {
+/**
+ * Base64 encoder and decoder.
+ * @param provider The base64 provider, [Base64.Default] or [Base64.UrlSafe]
+ * @see Base64
+ */
+internal class Base64(
+    private val provider: Base64 = Base64.Default
+) {
+    fun base64Encode(bytes: ByteArray): String = bytes.encodeBase64(base64 = provider)
 
-    private val base64: Base64 = Base64.Default
-    // private val base64: Base64 = Base64.UrlSafe(pad = true)
+    fun base64EncodeToCharArray(bytes: ByteArray): CharArray = bytes.encodeBase64ToCharArray(base64 = provider)
 
-    public fun base64Encode(bytes: ByteArray): String =
-        bytes.encodeBase64(base64 = base64)
+    fun base64EncodeToByteArray(bytes: ByteArray): ByteArray = bytes.encodeBase64ToByteArray(base64 = provider)
 
-    public fun base64EncodeToCharArray(bytes: ByteArray): CharArray =
-        bytes.encodeBase64ToCharArray(base64 = base64)
+    fun base64Decode(string: String): ByteArray? = string.decodeBase64ToArray()
 
-    public fun base64EncodeToByteArray(bytes: ByteArray): ByteArray =
-        bytes.encodeBase64ToByteArray(base64 = base64)
-
-    public fun base64Decode(string: String): ByteArray? =
-        string.decodeBase64ToArray()
-
-    public fun base64Decode(chars: CharArray): ByteArray? =
-        chars.decodeBase64ToArray()
+    fun base64Decode(chars: CharArray): ByteArray? = chars.decodeBase64ToArray()
 }

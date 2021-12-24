@@ -7,7 +7,7 @@ package sdl.moe.yabapi.util
 internal inline fun <reified T : Number> requireCmdInputNumber(
     message: String = "Please Input ${T::class.simpleName}:",
     errorMessage: String = "Your input is not valid, please try again.",
-    outFunc: (String) -> Unit = ::println
+    outFunc: (String) -> Unit = ::println,
 ): T {
     var loop = true
 
@@ -25,19 +25,20 @@ internal inline fun <reified T : Number> requireCmdInputNumber(
             UShort::class -> readlnOrNull()?.toUShortOrNull()
             UInt::class -> readlnOrNull()?.toUIntOrNull()
             ULong::class -> readlnOrNull()?.toULongOrNull()
-            else -> throw IllegalArgumentException("Unsupported Number Type: ${T::class.qualifiedName}")
+            else -> throw IllegalArgumentException("Unsupported Number Type: ${T::class.qualifiedName ?: T::class.simpleName}")
         }.let { it as T? }
         if (input != null) {
             loop = false
         } else outFunc(errorMessage)
     }
-    return input ?: throw IllegalArgumentException("Unable to parse input $input to ${T::class.qualifiedName}")
+    return input
+        ?: throw IllegalArgumentException("Unable to parse input $input to ${T::class.qualifiedName ?: T::class.simpleName}")
 }
 
 internal fun requireCmdInputString(
     message: String = "Please Input String:",
     errorMessage: String = "Your input is not valid, please try again.",
-    outFunc: (String) -> Unit = ::println
+    outFunc: (String) -> Unit = ::println,
 ): String {
     outFunc(message)
     return readlnOrNull() ?: run {

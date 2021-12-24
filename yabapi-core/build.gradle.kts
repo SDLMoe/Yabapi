@@ -44,6 +44,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-websockets:${Versions.ktor}")
                 // Encoding
                 implementation("io.matthewnelson.kotlin-components:encoding-base64:1.0.3")
+                implementation("com.soywiz.korlibs.krypto:krypto:2.2.0")
             }
 
         }
