@@ -13,3 +13,5 @@ internal expect object Platform {
     val IS_JVM: Boolean
     val IS_NATIVE: Boolean
 }
+
+internal fun Platform.isJs(): Boolean = IS_BROWSER || IS_NODE
