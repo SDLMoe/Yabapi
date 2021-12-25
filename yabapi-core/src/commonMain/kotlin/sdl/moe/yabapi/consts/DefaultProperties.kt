@@ -16,6 +16,11 @@ import io.ktor.http.HttpHeaders
 
 public expect fun getDefaultEngine(): HttpClientEngineFactory<*>
 
+/**
+ * 根据平台选择默认的 HttpClient
+ * 目前仅有 Engine 不同
+ * @see getDefaultEngine
+ */
 public fun getDefaultHttpClient(): HttpClient = HttpClient(getDefaultEngine()) {
     install(WebSockets)
     install(UserAgent) {

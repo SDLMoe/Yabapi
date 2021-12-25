@@ -11,6 +11,7 @@ import io.ktor.client.request.post
 import io.ktor.http.Parameters
 import io.ktor.http.formUrlEncode
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.Platform
@@ -39,7 +40,10 @@ import sdl.moe.yabapi.data.login.QRCodeWebGetResponse
 import sdl.moe.yabapi.data.login.RsaGetResponse
 import sdl.moe.yabapi.data.login.SendSMSResponse
 import sdl.moe.yabapi.data.login.SendSMSResponseCode
+import sdl.moe.yabapi.util.cookieFromHeader
 import sdl.moe.yabapi.util.logger
+import sdl.moe.yabapi.util.requireCmdInputNumber
+import sdl.moe.yabapi.util.requireCmdInputString
 
 /**
  *  登录, 认证相关 API
@@ -57,6 +61,13 @@ public object PassportApi : BiliApi {
         get() = this@PassportApi
 
     public val callingCodeList: List<CallingCodeNode> = mutableListOf()
+
+    public suspend fun BiliClient.loginCookie(cookies: String) {
+        logger.debug { "loginCookie: $cookies" }
+        cookieFromHeader(cookies).forEach {
+            this.addCookie(it)
+        }
+    }
 
     /**
      * 获取人机验证码, 需要手动验证
@@ -189,19 +200,20 @@ public object PassportApi : BiliApi {
     /**
      * 交互式扫码登录封装
      */
-    public suspend fun BiliClient.loginWebQRCodeInteractive(): LoginWebQRCodeResponse = withContext(Dispatchers.Default) {
-        noNeedLogin()
-        logger.debug { "Starting Interactive Login via Web QR Code" }
-        val data = getWebQRCode()
+    public suspend fun BiliClient.loginWebQRCodeInteractive(): LoginWebQRCodeResponse =
         withContext(Dispatchers.Default) {
-            println("打开网站，通过Bilibili手机客户端扫描二维码，在确认登录后回车继续。")
-            println("https://qrcode.jp/qr?q=${data.data.url}&s=5")
+            noNeedLogin()
+            logger.debug { "Starting Interactive Login via Web QR Code" }
+            val data = getWebQRCode()
+            withContext(Dispatchers.Default) {
+                println("打开网站，通过Bilibili手机客户端扫描二维码，在确认登录后回车继续。")
+                println("https://qrcode.jp/qr?q=${data.data.url}&s=5")
+            }
+            readln()
+            loginWebQRCode(data).also {
+                logger.debug { "Login Web QR Code Response: $it" }
+            }
         }
-        readln()
-        loginWebQRCode(data).also {
-            logger.debug { "Login Web QR Code Response: $it" }
-        }
-    }
 
     /**
      * 获取国际区码
@@ -279,44 +291,45 @@ public object PassportApi : BiliApi {
         }
     }
 
-    // /**
-    //  * 命令行交互式短信驗證登錄, 阻塞方法
-    //  * @param needsCallingCode 是否需要國際區碼, 默認 +86
-    //  */
-    // public suspend fun BiliClient.loginWebSMSConsole(
-    //     needsCallingCode: Boolean = false,
-    // ): Unit = withContext(Dispatchers.Default) {
-    //     noNeedLogin()
-    //     logger.info { "Starting Console Interactive Bilibili Web Login" }
-    //     var callingCode = 86
-    //
-    //     if (needsCallingCode) callingCode = requireCmdInputNumber("Please Input Calling Code (e.g. 86, 1):")
-    //     val cid = async(Platform.ioDispatcher) {
-    //         val cidList = getCallingCode().data.all
-    //         cidList.first { it.callingCode == callingCode.toString() }.id.toInt()
-    //     }
-    //
-    //     val phone: Long = requireCmdInputNumber("Please Input Phone Number (e.g. 13800138000):")
-    //     val captchaResponse = getCaptcha()
-    //
-    //     fun sendSMS(): SendSMSResponse = withContext(Dispatchers.Default) {
-    //         println("Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :")
-    //         println("gt=${captchaResponse.data.result.id}, challenge=${captchaResponse.data.result.captchaKey}")
-    //         val validate = requireCmdInputString("validate=")
-    //         val sendSMSResponse = requestSMSCode(phone, cid.await(), captchaResponse, validate, "$validate|jordan")
-    //         when (sendSMSResponse.code) {
-    //             SendSMSResponseCode.SUCCESS -> sendSMSResponse
-    //             else -> {
-    //                 logger.warn { "SMS Code Request failed, error code: ${sendSMSResponse.code}, plz retry" }
-    //                 sendSMS()
-    //             }
-    //         }
-    //     }
-    //
-    //     val sendSMSResponse = async { sendSMS() }
-    //     val code: Int = requireCmdInputNumber("Please Input SMS Code (e.g. 123456):")
-    //     loginWebSMS(phone, cid.await(), code, sendSMSResponse.await())
-    // }
+    /**
+     * 命令行交互式短信驗證登錄, 阻塞方法
+     * @param needsCallingCode 是否需要國際區碼, 默認 +86
+     */
+    public suspend fun BiliClient.loginWebSMSConsole(
+        needsCallingCode: Boolean = false,
+    ): Unit = withContext(Dispatchers.Default) {
+        noNeedLogin()
+        logger.info { "Starting Console Interactive Bilibili Web Login" }
+        var callingCode = 86
+
+        if (needsCallingCode) callingCode = requireCmdInputNumber("Please Input Calling Code (e.g. 86, 1):")
+        val cid = async(Platform.ioDispatcher) {
+            val cidList = getCallingCode().data.all
+            cidList.first { it.callingCode == callingCode.toString() }.id.toInt()
+        }
+
+        val phone: Long = requireCmdInputNumber("Please Input Phone Number (e.g. 13800138000):")
+
+        var smsSent = false
+        var sendSMSResponse: SendSMSResponse? = null
+        while (smsSent) {
+            val captchaResponse = getCaptcha()
+            println("Please do the captcha via https://kuresaru.github.io/geetest-validator/ :")
+            println("gt=${captchaResponse.result.id}, challenge=${captchaResponse.result.captchaKey}")
+            val validate = requireCmdInputString("validate=")
+            sendSMSResponse = requestSMSCode(phone, cid.await(), captchaResponse, validate, "$validate|jordan")
+            if (sendSMSResponse.code == SendSMSResponseCode.SUCCESS) {
+                println("SMS Code Sent")
+                smsSent = true
+            } else {
+                println("SMS Code Request Failed, Error Code: ${sendSMSResponse.code}")
+                println("Please Retry!")
+            }
+        }
+        requireNotNull(sendSMSResponse) { "SMS Code Request Failed" }
+        val code: Int = requireCmdInputNumber("Please Input SMS Code (e.g. 123456):")
+        loginWebSMS(phone, cid.await(), code, sendSMSResponse)
+    }
 
     public suspend fun BiliClient.logOut(): LogOutResponse = withContext(Platform.ioDispatcher) {
         logger.info { "Logging out" }

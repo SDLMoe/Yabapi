@@ -15,13 +15,15 @@ import sdl.moe.yabapi.api.BiliApi
 import sdl.moe.yabapi.api.InfoApi.getBasicInfo
 import sdl.moe.yabapi.consts.MAIN
 import sdl.moe.yabapi.consts.getDefaultHttpClient
+import sdl.moe.yabapi.storage.FileCookieStorage
 import sdl.moe.yabapi.util.logger
 import kotlin.collections.set
 
 /**
  * API入口
  * @param client [HttpClient] Ktor 的實現, 根據平台選擇預設值 [getDefaultHttpClient]
- * @param cookieStorage [CookiesStorage]
+ * @param cookieStorage 默认 [AcceptAllCookiesStorage] 可用 [FileCookieStorage]
+ * @see CookiesStorage
  */
 public class BiliClient(
     public var client: HttpClient = getDefaultHttpClient(),

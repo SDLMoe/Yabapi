@@ -4,6 +4,8 @@
 
 package sdl.moe.yabapi.util
 
+import sdl.moe.yabapi.util.reflect.qualifiedOrSimpleName
+
 internal inline fun <reified T : Number> requireCmdInputNumber(
     message: String = "Please Input ${T::class.simpleName}:",
     errorMessage: String = "Your input is not valid, please try again.",
@@ -25,14 +27,14 @@ internal inline fun <reified T : Number> requireCmdInputNumber(
             UShort::class -> readlnOrNull()?.toUShortOrNull()
             UInt::class -> readlnOrNull()?.toUIntOrNull()
             ULong::class -> readlnOrNull()?.toULongOrNull()
-            else -> throw IllegalArgumentException("Unsupported Number Type: ${T::class.qualifiedName ?: T::class.simpleName}")
+            else -> throw IllegalArgumentException("Unsupported Number Type: ${T::class.qualifiedOrSimpleName}")
         }.let { it as T? }
         if (input != null) {
             loop = false
         } else outFunc(errorMessage)
     }
     return input
-        ?: throw IllegalArgumentException("Unable to parse input $input to ${T::class.qualifiedName ?: T::class.simpleName}")
+        ?: throw IllegalArgumentException("Unable to parse input $input to ${T::class.qualifiedOrSimpleName}")
 }
 
 internal fun requireCmdInputString(
