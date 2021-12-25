@@ -3,6 +3,7 @@ plugins {
     kotlin("plugin.serialization") version Versions.kotlin
 }
 
+@Suppress("UNUSED_VARIABLE")
 kotlin {
 
     explicitApi()
@@ -48,7 +49,7 @@ kotlin {
                 // Logger
                 implementation("co.touchlab:kermit:1.0.0")
                 // File
-                implementation("com.squareup.okio:okio:3.0.0")
+                implementation("com.soywiz.korlibs.korio:korio:2.2.1")
             }
 
         }

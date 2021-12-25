@@ -7,7 +7,16 @@ package sdl.moe.yabapi
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
-internal actual object Platform : IPlatform {
-    override val ioDispatcher: CoroutineDispatcher
-        get() = Dispatchers.Default
+internal actual object Platform {
+    actual val ioDispatcher: CoroutineDispatcher = Dispatchers.Default
+    actual val IS_BROWSER: Boolean = js(
+        "typeof window !== 'undefined' && typeof window.document !== 'undefined' || typeof self !== 'undefined' && typeof self.location !== 'undefined'"
+    ) as Boolean
+
+    actual val IS_NODE: Boolean = js(
+        "typeof process !== 'undefined' && process.versions != null && process.versions.node != null"
+    ) as Boolean
+
+    actual val IS_JVM: Boolean = false
+    actual val IS_NATIVE: Boolean = false
 }
