@@ -4,8 +4,16 @@
 
 package sdl.moe.yabapi.util
 
+import sdl.moe.yabapi.enums.LogLevel
+import sdl.moe.yabapi.enums.toKermitSeverity
+
+public val logLevel: LogLevel = LogLevel.INFO
+
 private val kermit: co.touchlab.kermit.Logger by lazy {
-    co.touchlab.kermit.Logger
+    val logger = co.touchlab.kermit.Logger
+    logger.setTag("Yabapi")
+    logger.setMinSeverity(logLevel.toKermitSeverity())
+    logger
 }
 
 internal val logger = Logger
