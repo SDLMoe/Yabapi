@@ -31,9 +31,18 @@ import kotlin.math.min
 
 /**
  * Modified base on ktor [AcceptAllCookiesStorage]
+ *
+ * Platform Differences：
+ * - JVM 带有 Shutdown Hook 在 crash 时会保存
+ * - Js 无法使用 runBlocking, 仅能实时保存, saveInTime 参数无效
+ *
+ * @param file [VfsFile]
+ *
+ * @param saveInTime 是否即时保存, 默认为 false, 只在程序退出时保存
  */
 public class FileCookieStorage(
     private val file: VfsFile,
+    private val saveInTime: Boolean = false,
 ) : CookiesStorage {
 
     init {
@@ -80,7 +89,7 @@ public class FileCookieStorage(
                 oldestCookie.value = expires
             }
         }
-        if (Platform.isJs()) {
+        if (Platform.isJs() || saveInTime) {
             save()
         }
     }
