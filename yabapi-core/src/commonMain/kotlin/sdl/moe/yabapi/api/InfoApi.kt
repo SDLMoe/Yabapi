@@ -24,7 +24,7 @@ public object InfoApi : BiliApi {
         get() = this@InfoApi
 
     public suspend fun BiliClient.getBasicInfo(): BasicInfoGetResponse = withContext(Platform.ioDispatcher) {
-        logger.info { "Getting basic info..." }
+        logger.debug { "Getting basic info..." }
         client.get<BasicInfoGetResponse>(BASIC_INFO_GET_URL).also {
             logger.debug { "Basic info response: $it" }
         }

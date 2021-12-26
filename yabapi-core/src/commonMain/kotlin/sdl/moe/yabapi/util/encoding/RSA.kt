@@ -10,3 +10,5 @@ internal interface RSA {
 }
 
 internal expect object RSAProvider : RSA
+
+internal fun trimPem(string: String): String = Regex("""([\s\r\n]|(-.*-))""").replace(string, "")

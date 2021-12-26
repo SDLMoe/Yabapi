@@ -8,15 +8,19 @@ import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
+import io.ktor.http.CookieEncoding.RAW
 import io.ktor.http.Parameters
 import io.ktor.http.formUrlEncode
+import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.Platform
-import sdl.moe.yabapi.api.PassportApi.getCaptcha
-import sdl.moe.yabapi.api.PassportApi.loginWebSMS
+import sdl.moe.yabapi.api.InfoApi.getBasicInfo
 import sdl.moe.yabapi.consts.passport.GET_CALLING_CODE_URL
 import sdl.moe.yabapi.consts.passport.LOGIN_QRCODE_GET_WEB_URL
 import sdl.moe.yabapi.consts.passport.LOGIN_WEB_QRCODE_URL
@@ -32,6 +36,9 @@ import sdl.moe.yabapi.data.login.CallingCodeNode
 import sdl.moe.yabapi.data.login.GetCaptchaResponse
 import sdl.moe.yabapi.data.login.LogOutResponse
 import sdl.moe.yabapi.data.login.LoginWebQRCodeResponse
+import sdl.moe.yabapi.data.login.LoginWebQRCodeResponseCode.KEY_EXPIRED
+import sdl.moe.yabapi.data.login.LoginWebQRCodeResponseCode.NOT_CONFIRM
+import sdl.moe.yabapi.data.login.LoginWebQRCodeResponseCode.NOT_SCAN
 import sdl.moe.yabapi.data.login.LoginWebResponse
 import sdl.moe.yabapi.data.login.LoginWebResponseCode
 import sdl.moe.yabapi.data.login.LoginWebSMSResponse
@@ -41,6 +48,8 @@ import sdl.moe.yabapi.data.login.RsaGetResponse
 import sdl.moe.yabapi.data.login.SendSMSResponse
 import sdl.moe.yabapi.data.login.SendSMSResponseCode
 import sdl.moe.yabapi.util.cookieFromHeader
+import sdl.moe.yabapi.util.encoding.RSAProvider
+import sdl.moe.yabapi.util.encoding.trimPem
 import sdl.moe.yabapi.util.logger
 import sdl.moe.yabapi.util.requireCmdInputNumber
 import sdl.moe.yabapi.util.requireCmdInputString
@@ -62,10 +71,18 @@ public object PassportApi : BiliApi {
 
     public val callingCodeList: List<CallingCodeNode> = mutableListOf()
 
+    /**
+     * 使用 Cookies 登录, 可从浏览器 Header 处获取
+     */
     public suspend fun BiliClient.loginCookie(cookies: String) {
-        logger.debug { "loginCookie: $cookies" }
-        cookieFromHeader(cookies).forEach {
+        logger.debug { "login with cookies: $cookies" }
+        cookieFromHeader(cookies, encoding = RAW).forEach {
             this.addCookie(it)
+        }
+        this.getBasicInfo().also {
+            if (it.data.isLogin) {
+                logger.info { "Logged in successful!" }
+            } else logger.warn { "Failed to log in" }
         }
     }
 
@@ -94,29 +111,6 @@ public object PassportApi : BiliApi {
             logger.debug { "RSA Get Web Response: $it" }
         }
     }
-
-    // /**
-    //  * 通过 App 方式获取 RSA 公钥
-    //  * @return [RsaGetResponse]
-    //  */
-    // public suspend fun BiliClient.getRsaKeyApp(
-    //     appKey: String = APP_KEY,
-    //     appSign: String = APP_SIGN,
-    // ): RsaGetResponse = withContext(Platform.ioDispatcher) {
-    //     logger.info { "Getting RSA Key by App method" }
-    //     client.post<RsaGetResponse>(RSA_GET_APP_URL) {
-    //         val param = Parameters.build {
-    //             append("appkey", appKey)
-    //             append("sign", appSign)
-    //         }
-    //         body = FormDataContent(param)
-    //     }.also {
-    //         logger.debug { "RSA Get App Response: $it" }
-    //         if (it.code != RsaGetResponseCode.SUCCESS) {
-    //             logger.warn { "RSA Get App Response Code is ${it.code}, with message: ${it.message}" }
-    //         }
-    //     }
-    // }
 
     /**
      *  通过 Web 方式登录, 流程为 [getCaptcha] -> [getRsaKeyWeb] -> [loginWeb]
@@ -158,20 +152,27 @@ public object PassportApi : BiliApi {
     }
 
     /**
-     * 命令行交互式帳號密碼登錄, 阻塞方法
+     * 命令行交互式帳號密碼登錄
      */
-    // public suspend fun BiliClient.loginWebConsole(): Unit = withContext(Dispatchers.Default) {
-    //     noNeedLogin()
-    //     logger.info { "Starting Console Interactive Bilibili Web Login" }
-    //     val userName = requireCmdInputString("Please Input Bilibili Username:")
-    //     val pwd = requireCmdInputString("Please Input Bilibili Password:")
-    //     val captchaResponse = getCaptcha()
-    //     println("Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :")
-    //     println("gt=${captchaResponse.data.result.id}, challenge=${captchaResponse.data.result.captchaKey}")
-    //     val validate = requireCmdInputString("input the result, validate=")
-    //     val seccode = "$validate|jordan"
-    //     loginWeb(userName, pwd, validate, seccode, captchaResponse)
-    // }
+    public suspend fun BiliClient.loginWebConsole(
+        encryptFunc: (String, RsaGetResponse) -> String = { pwd, response ->
+            if (response.rsa != null) {
+                RSAProvider.encryptWithPublicKey(trimPem(response.rsa), response.salt + pwd)
+            } else throw IllegalArgumentException("Failed to encrypt data, RSA public key is null")
+        },
+    ): Unit = withContext(Dispatchers.Default) {
+        noNeedLogin()
+        logger.info { "Starting Console Interactive Bilibili Web Login" }
+        val userName = requireCmdInputString("Please Input Bilibili Username:")
+        val pwd = requireCmdInputString("Please Input Bilibili Password:")
+        val captchaResponse = getCaptcha()
+        println("Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :")
+        println("gt=${captchaResponse.data.result.id}, challenge=${captchaResponse.data.result.captchaKey}")
+        val validate = requireCmdInputString("input the result, validate=")
+        val seccode = "$validate|jordan"
+        val encryptPwd = encryptFunc(pwd, this@loginWebConsole.getRsaKeyWeb())
+        loginWeb(userName, encryptPwd, validate, seccode, captchaResponse)
+    }
 
     public suspend fun BiliClient.getWebQRCode(): QRCodeWebGetResponse = withContext(Platform.ioDispatcher) {
         logger.info { "Getting Web QRCode" }
@@ -185,7 +186,7 @@ public object PassportApi : BiliApi {
         qrResponse: QRCodeWebGetResponse,
     ): LoginWebQRCodeResponse = withContext(Platform.ioDispatcher) {
         noNeedLogin()
-        logger.info { "Starting Logging in via Web QR Code" }
+        logger.debug { "Starting Logging in via Web QR Code" }
         client.post<LoginWebQRCodeResponse>(LOGIN_WEB_QRCODE_URL) {
             val params = Parameters.build {
                 append("oauthKey", qrResponse.data.oauthKey)
@@ -193,26 +194,50 @@ public object PassportApi : BiliApi {
             body = FormDataContent(params)
         }.also {
             logger.debug { "Login Web QR Code Response: $it" }
-            if (it.code != GeneralCode.SUCCESS) logger.warn { "Login Web via QR Code failed, error code: ${it.code}" }
+            if (it.code != GeneralCode.SUCCESS) logger.debug { "Login Web via QR Code failed, error code: ${it.code}" }
         }
     }
 
     /**
      * 交互式扫码登录封装
      */
-    public suspend fun BiliClient.loginWebQRCodeInteractive(): LoginWebQRCodeResponse =
+    public suspend fun BiliClient.loginWebQRCodeInteractive(): List<LoginWebQRCodeResponse> =
         withContext(Dispatchers.Default) {
             noNeedLogin()
             logger.debug { "Starting Interactive Login via Web QR Code" }
-            val data = getWebQRCode()
-            withContext(Dispatchers.Default) {
-                println("打开网站，通过Bilibili手机客户端扫描二维码，在确认登录后回车继续。")
-                println("https://qrcode.jp/qr?q=${data.data.url}&s=5")
+            val getQrResponse = getWebQRCode()
+            println("打开网站，通过Bilibili手机客户端扫描二维码。")
+            println("https://qrcode.jp/qr?q=${getQrResponse.data.url}&s=10")
+            val loop = atomic(true)
+            val first = atomic(true)
+            val responseList = mutableListOf<LoginWebQRCodeResponse>()
+
+            withTimeoutOrNull(120_000) {
+                while (loop.value) {
+                    if (first.value) {
+                        first.getAndSet(true)
+                    } else delay(1_000)
+
+                    val tryLogin = loginWebQRCode(getQrResponse).also {
+                        require((it.dataWhenSuccess == null) xor (it.dataWhenFailed == null)) {
+                            "Invalid Response"
+                        }
+                        if (it.dataWhenSuccess != null) {
+                            loop.getAndSet(false)
+                            logger.info { "Logged in successfully!" }
+                            return@also
+                        }
+                        when (it.dataWhenFailed) {
+                            NOT_SCAN -> logger.debug { "wait for QR code scanning" }
+                            NOT_CONFIRM -> logger.debug { "wait for confirming" }
+                            KEY_EXPIRED -> cancel("QRCode timedout")
+                            else -> throw IllegalStateException("unexpected code, ${it.dataWhenFailed}")
+                        }
+                    }
+                    responseList.add(tryLogin)
+                }
             }
-            readln()
-            loginWebQRCode(data).also {
-                logger.debug { "Login Web QR Code Response: $it" }
-            }
+            responseList
         }
 
     /**
