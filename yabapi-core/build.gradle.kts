@@ -3,10 +3,13 @@ plugins {
     kotlin("plugin.serialization") version Versions.kotlin
 }
 
+val mingwPath = File(System.getenv("MINGW64_DIR") ?: "C:/msys64/mingw64")
+
 @Suppress("UNUSED_VARIABLE")
 kotlin {
 
-    explicitApi()
+    explicitApiWarning()
+
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
@@ -30,6 +33,20 @@ kotlin {
         hostOs == "Linux" -> linuxX64("native")
         isMingwX64 -> mingwX64("native")
         else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
+    }
+
+    nativeTarget.apply {
+        compilations["main"].cinterops {
+            /* Template for add external native library
+            val template by creating {
+                when (preset) {
+                    presets["macosX64"] -> includeDirs.headerFilterOnly("/usr/local/opt/libname/include","/opt/local/include")
+                    presets["linuxX64"] -> includeDirs.headerFilterOnly("/usr/include", "/usr/include/x86_64-linux-gnu")
+                    presets["mingwX64"] -> includeDirs.headerFilterOnly(mingwPath.resolve("include"))
+                }
+            }
+            */
+        }
     }
 
     sourceSets {
@@ -68,6 +85,7 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-js:${Versions.ktor}")
+                implementation(npm("jsencrypt", "3.2.1", generateExternals = true))
             }
         }
         val jsTest by getting
