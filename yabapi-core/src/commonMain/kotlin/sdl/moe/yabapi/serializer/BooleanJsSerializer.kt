@@ -14,9 +14,11 @@ import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
+import sdl.moe.yabapi.exception.UnsupportedDecoderException
 
 /**
  * Boolean Serializer Wrapper for JS
+ *
  * F**k JavaScript, with full of mess
  *
  * Example to specify Serializer
@@ -30,7 +32,7 @@ import kotlinx.serialization.json.jsonPrimitive
  *
  * Or file-level annotation
  * ```
- * @file:UseSerializers(BooleanJstSerializer::class)
+ * @file:UseSerializers(BooleanJsSerializer::class)
  * ```
  */
 internal object BooleanJsSerializer : KSerializer<Boolean> {
@@ -50,6 +52,6 @@ internal object BooleanJsSerializer : KSerializer<Boolean> {
                     element.jsonPrimitive.intOrNull == 1
                 }
             }
-            else -> throw IllegalArgumentException("Unsupported Decoder $decoder")
+            else -> throw UnsupportedDecoderException(decoder)
         }
 }

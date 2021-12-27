@@ -68,7 +68,7 @@ public class FileCookieStorage(
         val now = Clock.System.now().epochSeconds
         if (now >= oldestCookie.value) cleanup(now)
 
-        return container.filter { it.domain?.contains(requestUrl.host) == true }.also {
+        return@withLock container.filter { it.matches(requestUrl) }.also {
             logger.debug { "Found ${it.size} cookies for ${requestUrl.host}" }
             logger.verbose { "Cookies: $it" }
         }
