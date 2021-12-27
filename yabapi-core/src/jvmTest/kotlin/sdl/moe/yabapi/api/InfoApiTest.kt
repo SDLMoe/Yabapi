@@ -6,11 +6,15 @@ package sdl.moe.yabapi.api
 
 import org.junit.jupiter.api.Test
 import sdl.moe.yabapi.BiliClient
+import sdl.moe.yabapi.api.InfoApi.getAccountInfo
 import sdl.moe.yabapi.api.InfoApi.getBasicInfo
+import sdl.moe.yabapi.api.InfoApi.getCoinExp
 import sdl.moe.yabapi.api.InfoApi.getCoinInfo
+import sdl.moe.yabapi.api.InfoApi.getExpReward
 import sdl.moe.yabapi.api.InfoApi.getStat
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.storage.FileCookieStorage
+import sdl.moe.yabapi.util.logger
 import sdl.moe.yabapi.util.yabapiLogLevel
 
 internal class InfoApiTest {
@@ -36,6 +40,20 @@ internal class InfoApiTest {
     suspend fun getCoinTest() {
         client.getCoinInfo()
     }
+
+    @Test
+    suspend fun getAccountInfoTest() {
+        client.getAccountInfo()
+    }
+
+    @Test
+    suspend fun getExpTest() {
+        val expData = client.getExpReward().data
+        val coinExpData = client.getCoinExp()
+        expData.replaceWithCoinExp(coinExpData).countTodayRewarded().also {
+            logger.info { "Sum: $it" }
+        }
+    }
 }
 
-suspend fun main() = InfoApiTest().getCoinTest()
+suspend fun main() = InfoApiTest().getExpTest()

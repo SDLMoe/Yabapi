@@ -6,6 +6,8 @@
 
 package sdl.moe.yabapi.consts
 
+internal const val WWW : String = "https://www.bilibili.com"
+
 /** 主站 */
 internal const val MAIN: String = "https://api.bilibili.com"
 

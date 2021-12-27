@@ -7,6 +7,7 @@ package sdl.moe.yabapi.consts
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.features.UserAgent
+import io.ktor.client.features.compression.ContentEncoding
 import io.ktor.client.features.defaultRequest
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -29,8 +30,15 @@ public fun getDefaultHttpClient(): HttpClient = HttpClient(getDefaultEngine()) {
     install(JsonFeature) {
         serializer = KotlinxSerializer(json)
     }
+    install(ContentEncoding) {
+        gzip()
+        deflate()
+        identity()
+    }
     defaultRequest {
+        header(HttpHeaders.ContentType, "application/json; charset=UTF-8")
         header(HttpHeaders.Accept, "*/*")
+        header(HttpHeaders.AcceptCharset, "UTF-8")
     }
 }
 

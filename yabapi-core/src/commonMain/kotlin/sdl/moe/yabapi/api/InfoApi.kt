@@ -8,11 +8,17 @@ import io.ktor.client.request.get
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.Platform
+import sdl.moe.yabapi.consts.info.ACCOUNT_INFO_GET_URL
 import sdl.moe.yabapi.consts.info.BASIC_INFO_GET_URL
+import sdl.moe.yabapi.consts.info.COIN_EXP_GET_URL
 import sdl.moe.yabapi.consts.info.COIN_GET_URL
+import sdl.moe.yabapi.consts.info.EXP_REWARD_GET_URL
 import sdl.moe.yabapi.consts.info.STAT_GET_URL
+import sdl.moe.yabapi.data.info.AccountInfoGetResponse
 import sdl.moe.yabapi.data.info.BasicInfoGetResponse
+import sdl.moe.yabapi.data.info.CoinExpGetResponse
 import sdl.moe.yabapi.data.info.CoinGetResponse
+import sdl.moe.yabapi.data.info.ExpRewardGetResponse
 import sdl.moe.yabapi.data.info.StatGetResponse
 import sdl.moe.yabapi.util.logger
 
@@ -37,14 +43,36 @@ public object InfoApi : BiliApi {
     public suspend fun BiliClient.getStat(): StatGetResponse = withContext(Platform.ioDispatcher) {
         logger.debug { "Getting stat info..." }
         client.get<StatGetResponse>(STAT_GET_URL).also {
-            logger.debug { "Stat info response: $it" }
+            logger.debug { "Got stat info response: $it" }
         }
     }
 
     public suspend fun BiliClient.getCoinInfo(): CoinGetResponse = withContext(Platform.ioDispatcher) {
         logger.debug { "Getting coin number..." }
         client.get<CoinGetResponse>(COIN_GET_URL).also {
-            logger.debug { "Coin info response: $it" }
+            logger.debug { "Got Coin info response: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.getAccountInfo(): AccountInfoGetResponse = withContext(Platform.ioDispatcher) {
+        logger.debug { "Getting Account Info..." }
+        client.get<AccountInfoGetResponse>(ACCOUNT_INFO_GET_URL).also {
+            logger.debug { "Got Account Info Response: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.getExpReward(): ExpRewardGetResponse {
+        logger.debug { "Getting Exp Reward..." }
+        return client.get<ExpRewardGetResponse>(EXP_REWARD_GET_URL).also {
+            logger.debug { "Got Exp Reward Reponse: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.getCoinExp(): CoinExpGetResponse {
+        logger.debug { "Getting Coin Exp..." }
+
+        return client.get<CoinExpGetResponse>(COIN_EXP_GET_URL).also {
+            logger.debug { "Got Coin Exp Response: $it" }
         }
     }
 }
