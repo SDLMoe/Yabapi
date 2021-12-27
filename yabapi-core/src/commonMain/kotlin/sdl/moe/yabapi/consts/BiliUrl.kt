@@ -24,6 +24,8 @@ internal const val MEMBER: String = "https://member.bilibili.com"
 /** 鉴权 */
 internal const val PASSPORT: String = "https://passport.bilibili.com"
 
+internal const val ACCOUNT: String = "https://account.bilibili.com"
+
 /** 短视频 */
 internal const val VC: String = "https://vc.bilibili.com"
 

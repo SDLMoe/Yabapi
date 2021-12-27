@@ -7,6 +7,8 @@ package sdl.moe.yabapi.api
 import org.junit.jupiter.api.Test
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.api.InfoApi.getBasicInfo
+import sdl.moe.yabapi.api.InfoApi.getCoinInfo
+import sdl.moe.yabapi.api.InfoApi.getStat
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.storage.FileCookieStorage
 import sdl.moe.yabapi.util.yabapiLogLevel
@@ -17,12 +19,23 @@ internal class InfoApiTest {
         yabapiLogLevel = DEBUG
     }
 
+    val client = BiliClient(cookieStorage = FileCookieStorage("cookies.json"))
+
     @Test
     suspend fun getBasicInfoTest() {
-        val client = BiliClient(cookieStorage = FileCookieStorage("cookies.json"))
         // client.loginWebQRCodeInteractive()
         client.getBasicInfo()
     }
+
+    @Test
+    suspend fun getStatTest() {
+        client.getStat()
+    }
+    
+    @Test
+    suspend fun getCoinTest() {
+        client.getCoinInfo()
+    }
 }
 
-suspend fun main() = InfoApiTest().getBasicInfoTest()
+suspend fun main() = InfoApiTest().getCoinTest()

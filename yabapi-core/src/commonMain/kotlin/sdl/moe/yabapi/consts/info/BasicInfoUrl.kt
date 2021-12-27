@@ -4,6 +4,11 @@
 
 package sdl.moe.yabapi.consts.info
 
+import sdl.moe.yabapi.consts.ACCOUNT
 import sdl.moe.yabapi.consts.MAIN
 
 internal const val BASIC_INFO_GET_URL = "$MAIN/x/web-interface/nav"
+
+internal const val STAT_GET_URL = "$MAIN/x/web-interface/nav/stat"
+
+internal const val COIN_GET_URL = "$ACCOUNT/site/getCoin"
