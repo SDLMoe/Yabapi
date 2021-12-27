@@ -9,7 +9,6 @@ package sdl.moe.yabapi.data.info
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
-import kotlinx.serialization.json.JsonObject
 import sdl.moe.yabapi.data.GeneralCode
 import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
@@ -18,6 +17,9 @@ import sdl.moe.yabapi.serializer.data.info.NextExpSerializer
 import sdl.moe.yabapi.serializer.data.info.OffcialRoleSerializer
 import kotlin.jvm.JvmInline
 
+/**
+ * @see BasicInfoData
+ */
 @Serializable
 public data class BasicInfoGetResponse(
     @SerialName("code") val code: GeneralCode = UNKNOWN,
@@ -26,6 +28,14 @@ public data class BasicInfoGetResponse(
     @SerialName("data") val data: BasicInfoData,
 )
 
+/**
+ * 参数太多只列重要的
+ *
+ * @param isLogin 是否登录
+ * @param mid 用户 mid
+ * @param moral 节操值
+ * @param
+ */
 @Serializable
 public data class BasicInfoData(
     @SerialName("isLogin") val isLogin: Boolean,
@@ -50,7 +60,7 @@ public data class BasicInfoData(
     @SerialName("vip_label") val vipLabel: VipLabel? = null,
     @SerialName("vip_avatar_subscript") val isShowSubscript: Boolean? = null,
     @SerialName("vip_nickname_color") val vipNicknameColor: String? = null,
-    @SerialName("vip") val vip: JsonObject? = null,
+    @SerialName("vip") val vip: Vip? = null,
     @SerialName("wallet") val wallet: Wallet? = null,
     @SerialName("has_shop") val hasShop: Boolean? = null,
     @SerialName("shop_url") val shopUrl: String? = null,
@@ -146,6 +156,30 @@ public data class Pendant(
     @SerialName("image_enhance") val imageEnhance: String,
     @SerialName("image_enhance_frame") val imageEnhanceFrame: String,
     @SerialName("expire") val expire: Long,
+)
+
+/**
+ * 大会员数据类
+ * @param type 类型
+ * @param status 未知
+ * @param dueDate 到期时间
+ * @param vipPayType 未知
+ * @param themeType 未知
+ * @param label [VipLabel]
+ * @param role 未知
+ */
+@Serializable
+public data class Vip(
+    @SerialName("type") val type: Int,
+    @SerialName("status") val status: Int,
+    @SerialName("due_date") val dueDate: Long,
+    @SerialName("vip_pay_type") val vipPayType: Int,
+    @SerialName("theme_type") val themeType: Int,
+    @SerialName("label") val label: VipLabel,
+    @SerialName("avatar_subscript") val isShowSubscript: Boolean,
+    @SerialName("nickname_color") val nicknameColor: String,
+    @SerialName("role") val role: Int,
+    @SerialName("avatar_subscript_url") val avatarSubscriptUrl: String,
 )
 
 /**
