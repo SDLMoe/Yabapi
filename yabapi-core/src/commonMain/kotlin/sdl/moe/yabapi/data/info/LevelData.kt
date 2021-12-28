@@ -13,7 +13,7 @@ import kotlin.jvm.JvmInline
  * @param currentLevel 當前用戶等級
  * @param currentMin 當前等級最小經驗值
  * @param currentExp 當前經驗值
- * @param nextExp [NextExp] 下一級經驗值, 當等級爲 6 時, 值爲 -1 (無下一等級)
+ * @param nextExp [NextExp] 下一級 **所需的** 經驗值(而非还差多少), 當等級爲 6 時, 值爲 -1 (無下一等級)
  */
 @Serializable
 public data class LevelInfo(
@@ -21,7 +21,10 @@ public data class LevelInfo(
     @SerialName("current_min") val currentMin: Int,
     @SerialName("current_exp") val currentExp: Int,
     @SerialName("next_exp") val nextExp: NextExp,
-)
+) {
+    public fun toReadString(): String =
+        "lv.$currentLevel $currentExp/${nextExp.toReadString()}"
+}
 
 /**
  * value class 用於封裝
@@ -30,4 +33,6 @@ public data class LevelInfo(
  */
 @Serializable(with = NextExpSerializer::class)
 @JvmInline
-public value class NextExp(public val value: Int)
+public value class NextExp(public val value: Int) {
+    public fun toReadString(): String = if (value != -1) value.toString() else "--"
+}
