@@ -13,6 +13,12 @@ import sdl.moe.yabapi.data.GeneralCode
 import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
+/**
+ * 实名状态返回
+ * @param code [GeneralCode]
+ * @param message 错误信息
+ * @param data [RealNameStatus]
+ */
 @Serializable
 public data class RealNameInfoGetResponse(
     @SerialName("code") val code: GeneralCode = UNKNOWN,
@@ -21,6 +27,9 @@ public data class RealNameInfoGetResponse(
     @SerialName("data") val data: RealNameStat,
 )
 
+/**
+ * @param status 是否实名
+ */
 @Serializable
 public data class RealNameStat(
     @SerialName("status") val status: Boolean,
