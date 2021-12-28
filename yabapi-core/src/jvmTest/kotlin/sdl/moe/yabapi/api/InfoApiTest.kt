@@ -10,7 +10,10 @@ import sdl.moe.yabapi.api.InfoApi.getAccountInfo
 import sdl.moe.yabapi.api.InfoApi.getBasicInfo
 import sdl.moe.yabapi.api.InfoApi.getCoinExp
 import sdl.moe.yabapi.api.InfoApi.getCoinInfo
+import sdl.moe.yabapi.api.InfoApi.getCoinLog
 import sdl.moe.yabapi.api.InfoApi.getExpReward
+import sdl.moe.yabapi.api.InfoApi.getRealNameDetailed
+import sdl.moe.yabapi.api.InfoApi.getRealNameInfo
 import sdl.moe.yabapi.api.InfoApi.getSecureInfo
 import sdl.moe.yabapi.api.InfoApi.getStat
 import sdl.moe.yabapi.api.InfoApi.getVipStat
@@ -66,6 +69,21 @@ internal class InfoApiTest {
     suspend fun getSecureInfoTest() {
         client.getSecureInfo()
     }
+
+    @Test
+    suspend fun getRealNameInfoTest() {
+        client.getRealNameInfo()
+    }
+
+    @Test
+    suspend fun getRealNameDetailedTest() {
+        client.getRealNameDetailed()
+    }
+
+    @Test
+    suspend fun getCoinLogTest() {
+        client.getCoinLog()
+    }
 }
 
-suspend fun main() = InfoApiTest().getSecureInfoTest()
+suspend fun main() = InfoApiTest().getCoinLogTest()

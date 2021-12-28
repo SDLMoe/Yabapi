@@ -44,5 +44,8 @@ public data class ExpReward(
         return rewarded
     }
 
-    public fun replaceWithCoinExp(data: CoinExpGetResponse): ExpReward = this.copy(coinExp = data.coinExp)
+    public fun replaceWithCoinExp(data: CoinExpGetResponse): ExpReward {
+        requireNotNull(data.coinExp)
+        return this.copy(coinExp = data.coinExp)
+    }
 }

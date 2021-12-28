@@ -16,12 +16,11 @@ import sdl.moe.yabapi.util.logger
  * 时间相关 API
  */
 public object TimeApi : BiliApi {
+    override val apiName: String = "time"
+
     init {
         BiliClient.registerApi(this)
     }
-
-    override val apiName: String
-        get() = "time"
 
     @Suppress("unused")
     public val BiliClient.timeApi: TimeApi
@@ -37,5 +36,4 @@ public object TimeApi : BiliApi {
             logger.debug { "Timestamp Get Response: $it" }
         }
     }
-
 }

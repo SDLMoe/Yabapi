@@ -58,12 +58,13 @@ import sdl.moe.yabapi.util.requireCmdInputString
  *  登录, 认证相关 API
  */
 public object PassportApi : BiliApi {
-    init {
-        BiliClient.registerApi(this)
-    }
 
     override val apiName: String
         get() = "passport"
+
+    init {
+        BiliClient.registerApi(this)
+    }
 
     @Suppress("unused")
     public val BiliClient.passportApi: PassportApi

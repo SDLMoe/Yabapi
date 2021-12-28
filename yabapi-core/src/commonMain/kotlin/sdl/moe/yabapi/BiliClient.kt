@@ -21,6 +21,9 @@ import kotlin.collections.set
 
 /**
  * API入口
+ *
+ * 所有可用 Api 请参见 [BiliApi] 的子类
+ *
  * @param client [HttpClient] Ktor 的實現, 根據平台選擇預設值 [getDefaultHttpClient]
  * @param cookieStorage 默认 [AcceptAllCookiesStorage] 可用 [FileCookieStorage]
  * @see CookiesStorage
@@ -46,7 +49,9 @@ public class BiliClient(
          *
          * 一般在 [BiliApi] 實例的 init 函數中調用
          */
+        @Suppress("SENSELESS_COMPARISON")
         internal fun registerApi(api: BiliApi) {
+            require(api.apiName != null) { "Invoke registerApi before apiName property initialized." }
             logger.debug { "Registering ${api.apiName} api.." }
             this.apiList[api.apiName] = api
         }

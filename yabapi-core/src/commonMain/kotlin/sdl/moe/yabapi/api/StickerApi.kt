@@ -18,11 +18,11 @@ import sdl.moe.yabapi.util.logger
  * 表情包相关 API
  */
 public object StickerApi : BiliApi {
+    override val apiName: String = "sticker"
+
     init {
         BiliClient.registerApi(this)
     }
-
-    override val apiName: String = "sticker"
 
     @Suppress("Unused")
     public val BiliClient.stickerApi: StickerApi
