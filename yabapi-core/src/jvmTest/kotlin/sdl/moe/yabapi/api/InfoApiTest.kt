@@ -11,7 +11,9 @@ import sdl.moe.yabapi.api.InfoApi.getBasicInfo
 import sdl.moe.yabapi.api.InfoApi.getCoinExp
 import sdl.moe.yabapi.api.InfoApi.getCoinInfo
 import sdl.moe.yabapi.api.InfoApi.getExpReward
+import sdl.moe.yabapi.api.InfoApi.getSecureInfo
 import sdl.moe.yabapi.api.InfoApi.getStat
+import sdl.moe.yabapi.api.InfoApi.getVipStat
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.storage.FileCookieStorage
 import sdl.moe.yabapi.util.logger
@@ -23,7 +25,7 @@ internal class InfoApiTest {
         yabapiLogLevel = DEBUG
     }
 
-    val client = BiliClient(cookieStorage = FileCookieStorage("cookies.json"))
+    private val client = BiliClient(cookieStorage = FileCookieStorage("cookies.json"))
 
     @Test
     suspend fun getBasicInfoTest() {
@@ -35,7 +37,7 @@ internal class InfoApiTest {
     suspend fun getStatTest() {
         client.getStat()
     }
-    
+
     @Test
     suspend fun getCoinTest() {
         client.getCoinInfo()
@@ -54,6 +56,16 @@ internal class InfoApiTest {
             logger.info { "Sum: $it" }
         }
     }
+
+    @Test
+    suspend fun getVipStatTest() {
+        client.getVipStat()
+    }
+
+    @Test
+    suspend fun getSecureInfoTest() {
+        client.getSecureInfo()
+    }
 }
 
-suspend fun main() = InfoApiTest().getExpTest()
+suspend fun main() = InfoApiTest().getSecureInfoTest()

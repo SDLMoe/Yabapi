@@ -13,13 +13,17 @@ import sdl.moe.yabapi.consts.info.BASIC_INFO_GET_URL
 import sdl.moe.yabapi.consts.info.COIN_EXP_GET_URL
 import sdl.moe.yabapi.consts.info.COIN_GET_URL
 import sdl.moe.yabapi.consts.info.EXP_REWARD_GET_URL
+import sdl.moe.yabapi.consts.info.SECURE_INFO_GET_URL
 import sdl.moe.yabapi.consts.info.STAT_GET_URL
+import sdl.moe.yabapi.consts.info.VIP_STAT_GET_URL
 import sdl.moe.yabapi.data.info.AccountInfoGetResponse
 import sdl.moe.yabapi.data.info.BasicInfoGetResponse
 import sdl.moe.yabapi.data.info.CoinExpGetResponse
 import sdl.moe.yabapi.data.info.CoinGetResponse
 import sdl.moe.yabapi.data.info.ExpRewardGetResponse
+import sdl.moe.yabapi.data.info.SecureInfoGetResponse
 import sdl.moe.yabapi.data.info.StatGetResponse
+import sdl.moe.yabapi.data.info.VipStatGetResponse
 import sdl.moe.yabapi.util.logger
 
 public object InfoApi : BiliApi {
@@ -61,18 +65,31 @@ public object InfoApi : BiliApi {
         }
     }
 
-    public suspend fun BiliClient.getExpReward(): ExpRewardGetResponse {
+    public suspend fun BiliClient.getExpReward(): ExpRewardGetResponse = withContext(Platform.ioDispatcher) {
         logger.debug { "Getting Exp Reward..." }
-        return client.get<ExpRewardGetResponse>(EXP_REWARD_GET_URL).also {
+        client.get<ExpRewardGetResponse>(EXP_REWARD_GET_URL).also {
             logger.debug { "Got Exp Reward Reponse: $it" }
         }
     }
 
-    public suspend fun BiliClient.getCoinExp(): CoinExpGetResponse {
+    public suspend fun BiliClient.getCoinExp(): CoinExpGetResponse = withContext(Platform.ioDispatcher) {
         logger.debug { "Getting Coin Exp..." }
-
-        return client.get<CoinExpGetResponse>(COIN_EXP_GET_URL).also {
+        client.get<CoinExpGetResponse>(COIN_EXP_GET_URL).also {
             logger.debug { "Got Coin Exp Response: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.getVipStat(): VipStatGetResponse = withContext(Platform.ioDispatcher) {
+        logger.debug { "Getting Vip Stat..." }
+        client.get<VipStatGetResponse>(VIP_STAT_GET_URL).also {
+            logger.debug { "Got Vip Stat Response: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.getSecureInfo(): SecureInfoGetResponse = with(Platform.ioDispatcher) {
+        logger.debug { "Getting Secure Info..." }
+        client.get<SecureInfoGetResponse>(SECURE_INFO_GET_URL).also {
+            logger.debug { "Got Secure Info: $it" }
         }
     }
 }

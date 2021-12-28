@@ -5,10 +5,15 @@
 package sdl.moe.yabapi.consts.info
 
 import sdl.moe.yabapi.consts.MAIN
+import sdl.moe.yabapi.consts.PASSPORT
 import sdl.moe.yabapi.consts.WWW
 
 public const val ACCOUNT_INFO_GET_URL: String = "$MAIN/x/member/web/account"
 
-public const val EXP_REWARD_GET_URL :String = "$MAIN/x/member/web/exp/reward"
+public const val EXP_REWARD_GET_URL: String = "$MAIN/x/member/web/exp/reward"
 
-public const val COIN_EXP_GET_URL :String = "$WWW/plus/account/exp.php"
+public const val COIN_EXP_GET_URL: String = "$WWW/plus/account/exp.php"
+
+public const val VIP_STAT_GET_URL: String = "$MAIN/x/vip/web/user/info"
+
+public const val SECURE_INFO_GET_URL: String = "$PASSPORT/web/site/user/info"
