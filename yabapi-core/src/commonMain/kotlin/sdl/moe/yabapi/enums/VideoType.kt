@@ -28,6 +28,7 @@ public sealed class VideoType(
             Knowledge, Knowledge.Science, Knowledge.SocialScience, Knowledge.HumanityHistory, Knowledge.Business, Knowledge.Campus, Knowledge.Career, Knowledge.Design, Knowledge.Skill,
             Tech, Tech.Digital, Tech.Application, Tech.ComputerTech, Tech.Industry, Tech.DIY,
             Car, Car.Life, Car.Culture, Car.Geek, Car.Smart, Car.Strategy,
+            Sports, Sports.Ball, Sports.Aerobics, Sports.Atheletic, Sports.Culture, Sports.Comprehensive,
             Life, Life.Funny, Life.Home, Life.Handmake, Life.Painting, Life.Daily,
             Food, Food.Make, Food.Mesusurement, Food.Rural, Food.Record,
             Animal, Animal.Cat, Animal.Dog, Animal.Panda, Animal.Wild, Animal.Reptiles, Animal.Composite,
@@ -41,8 +42,9 @@ public sealed class VideoType(
             TV, TV.Mainland, TV.Overseas,
         )
         public fun getAllUrl(): List<String> = getAllTypes().map { it.getUrl() }
-        public fun fromTid(tid: Int): VideoType? = getAllTypes().firstOrNull { it.tid == tid }
-        public fun fromCode(string: String): VideoType? = getAllTypes().firstOrNull { it.code == string.lowercase() }
+        public fun fromTid(tid: Int): VideoType = getAllTypes().firstOrNull { it.tid == tid } ?: Unknow
+        public fun fromCode(string: String): VideoType =
+            getAllTypes().firstOrNull { it.code == string.lowercase() } ?: Unknow
     }
 }
 
