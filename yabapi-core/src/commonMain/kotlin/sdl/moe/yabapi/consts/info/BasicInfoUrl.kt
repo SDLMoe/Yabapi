@@ -12,3 +12,9 @@ internal const val BASIC_INFO_GET_URL = "$MAIN/x/web-interface/nav"
 internal const val STAT_GET_URL = "$MAIN/x/web-interface/nav/stat"
 
 internal const val COIN_GET_URL = "$ACCOUNT/site/getCoin"
+
+internal const val USER_SPACE_GET_URL = "$MAIN/x/space/acc/info"
+
+internal const val USER_CARD_GET_URL = "$MAIN/x/web-interface/card"
+
+internal const val MY_SPACE_GET_URL = "$MAIN/x/space/myinfo"

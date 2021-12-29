@@ -43,7 +43,7 @@ public data class BasicInfoData(
     @SerialName("mobile_verified") val isVerifiedMobile: Boolean? = null,
     @SerialName("money") val coin: Double? = null,
     @SerialName("moral") val moral: Double? = null,
-    @SerialName("official") val offcial: Offcial? = null,
+    @SerialName("official") val official: Official? = null,
     @SerialName("officialVerify") val offcialCertify: OffcialCertify? = null,
     @SerialName("pendant") val pendant: Pendant? = null,
     @SerialName("scores") val scores: Int? = null,

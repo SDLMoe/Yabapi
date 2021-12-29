@@ -5,6 +5,7 @@
 package sdl.moe.yabapi.api
 
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.Platform
@@ -18,6 +19,7 @@ import sdl.moe.yabapi.consts.info.REAL_NAME_DETAILED_GET_URL
 import sdl.moe.yabapi.consts.info.REAL_NAME_INFO_GET_URL
 import sdl.moe.yabapi.consts.info.SECURE_INFO_GET_URL
 import sdl.moe.yabapi.consts.info.STAT_GET_URL
+import sdl.moe.yabapi.consts.info.USER_SPACE_GET_URL
 import sdl.moe.yabapi.consts.info.VIP_STAT_GET_URL
 import sdl.moe.yabapi.data.info.AccountInfoGetResponse
 import sdl.moe.yabapi.data.info.BasicInfoGetResponse
@@ -29,6 +31,7 @@ import sdl.moe.yabapi.data.info.RealNameDetailedGetResponse
 import sdl.moe.yabapi.data.info.RealNameInfoGetResponse
 import sdl.moe.yabapi.data.info.SecureInfoGetResponse
 import sdl.moe.yabapi.data.info.StatGetResponse
+import sdl.moe.yabapi.data.info.UserSpaceGetResponse
 import sdl.moe.yabapi.data.info.VipStatGetResponse
 import sdl.moe.yabapi.util.logger
 
@@ -117,6 +120,15 @@ public object InfoApi : BiliApi {
         logger.debug { "Getting Coin Log..." }
         client.get<CoinLogGetResponse>(COIN_LOG_GET_URL).also {
             logger.debug { "Got Coin Log: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.getUserSpace(mid: Int): UserSpaceGetResponse = withContext(Platform.ioDispatcher) {
+        logger.debug { "Getting User Space Info..." }
+        client.get<UserSpaceGetResponse>(USER_SPACE_GET_URL){
+            parameter("mid", mid.toString())
+        }.also {
+            logger.debug { "Got User Space Info: $it" }
         }
     }
 }

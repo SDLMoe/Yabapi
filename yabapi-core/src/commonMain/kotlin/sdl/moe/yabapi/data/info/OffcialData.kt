@@ -19,7 +19,7 @@ import kotlin.jvm.JvmInline
  * @see [IsOffcialCertified]
  */
 @Serializable
-public data class Offcial(
+public data class Official(
     @SerialName("role") val role: OffcialRole = OffcialRole.UNKNOWN,
     @SerialName("title") val title: String? = null,
     @SerialName("desc") val info: String? = null,
@@ -46,10 +46,10 @@ public enum class OffcialRole(public val valueList: List<Int>) {
 public value class IsOffcialCertified(public val value: Boolean)
 
 /**
- * 官方认证信息, 可以认为是 [Offcial] 的迷你版¿
+ * 官方认证信息, 可以认为是 [Official] 的迷你版¿
  * @property isCertified 是否认证
  * @property info 简介
- * @see [Offcial]
+ * @see [Official]
  * @see [IsOffcialCertified]
  */
 @Serializable

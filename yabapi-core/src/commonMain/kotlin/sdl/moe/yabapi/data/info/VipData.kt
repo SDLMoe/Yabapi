@@ -2,13 +2,17 @@
 // Use of this source code is governed by the MIT license that can be found via link below:
 // https://github.com/SDLMoe/Yabapi/blob/master/LICENSE
 
+@file:UseSerializers(BooleanJsSerializer::class)
+
 package sdl.moe.yabapi.data.info
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import sdl.moe.yabapi.data.info.VipStatus.IP_CHANGE_FREQUENT
 import sdl.moe.yabapi.data.info.VipStatus.NORMAL
 import sdl.moe.yabapi.data.info.VipStatus.RISK_LOCKED
+import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 /**
  * 大会员数据类
@@ -25,7 +29,7 @@ public data class Vip(
     @SerialName("type") val type: VipType = VipType.UNNOWN,
     @SerialName("status") val status: VipStatus = VipStatus.UNKNOWN,
     @SerialName("due_date") val dueDate: Long,
-    @SerialName("vip_pay_type") val isPaid: Boolean,
+    @SerialName("vip_pay_type") val isPaid: Boolean? = null,
     @SerialName("theme_type") val themeType: Int,
     @SerialName("label") val label: VipLabel,
     @SerialName("avatar_subscript") val isShowSubscript: Boolean,

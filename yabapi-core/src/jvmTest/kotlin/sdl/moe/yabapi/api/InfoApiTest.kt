@@ -16,6 +16,7 @@ import sdl.moe.yabapi.api.InfoApi.getRealNameDetailed
 import sdl.moe.yabapi.api.InfoApi.getRealNameInfo
 import sdl.moe.yabapi.api.InfoApi.getSecureInfo
 import sdl.moe.yabapi.api.InfoApi.getStat
+import sdl.moe.yabapi.api.InfoApi.getUserSpace
 import sdl.moe.yabapi.api.InfoApi.getVipStat
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.storage.FileCookieStorage
@@ -84,6 +85,14 @@ internal class InfoApiTest {
     suspend fun getCoinLogTest() {
         client.getCoinLog()
     }
+
+    @Test
+    suspend fun getUserSpaceTest() {
+        listOf(2, 264155183, 699766742, 399308420, 1887658, 2648514, 2746732, 546195, 63231)
+            .forEach {
+                client.getUserSpace(it)
+            }
+    }
 }
 
-suspend fun main() = InfoApiTest().getCoinLogTest()
+suspend fun main() = InfoApiTest().getUserSpaceTest()
