@@ -50,7 +50,7 @@ public data class BasicInfoData(
     @SerialName("uname") val username: String? = null,
     @SerialName("vipDueDate") val vipDueDate: Long? = null,
     @SerialName("vipStatus") val vipStatus: VipStatus = VipStatus.UNKNOWN,
-    @SerialName("vipType") val vipType: VipType? = VipType.UNNOWN,
+    @SerialName("vipType") val vipType: VipType? = VipType.UNKNOWN,
     @SerialName("vip_pay_type") val vipPayType: Boolean? = null,
     @SerialName("vip_theme_type") val vipThemeType: Int? = null,
     @SerialName("vip_label") val vipLabel: VipLabel? = null,

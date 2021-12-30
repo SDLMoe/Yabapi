@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
  * @param pid 挂件id
  * @param name 名称
  * @param image 图片url
- * @param imageEnhance 未知
+ * @param imageEnhance 頭像框
  * @param imageEnhanceFrame 未知
  * @param expire 可能为过期时间, 但仅返回 `0`
  */
@@ -21,7 +21,7 @@ public data class Pendant(
     @SerialName("pid") val pid: Int,
     @SerialName("name") val name: String,
     @SerialName("image") val image: String,
-    @SerialName("image_enhance") val imageEnhance: String,
-    @SerialName("image_enhance_frame") val imageEnhanceFrame: String,
-    @SerialName("expire") val expire: Long,
+    @SerialName("image_enhance") val imageEnhance: String? = null,
+    @SerialName("image_enhance_frame") val imageEnhanceFrame: String? = null,
+    @SerialName("expire") val expire: Long? = null,
 )

@@ -7,6 +7,7 @@ package sdl.moe.yabapi.data.info
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import sdl.moe.yabapi.data.GeneralCode
+import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
 
 /**
  * @param code 返回值 [GeneralCode]
@@ -14,10 +15,10 @@ import sdl.moe.yabapi.data.GeneralCode
  */
 @Serializable
 public data class ExpRewardGetResponse(
-    @SerialName("code") val code: GeneralCode,
-    @SerialName("message") val message: String,
-    @SerialName("ttl") val ttl: Int,
-    @SerialName("data") val data: ExpReward,
+    @SerialName("code") val code: GeneralCode = UNKNOWN,
+    @SerialName("message") val message: String? = null,
+    @SerialName("ttl") val ttl: Int? = null,
+    @SerialName("data") val data: ExpReward? = null,
 )
 
 private const val LOGIN_EXP = 5

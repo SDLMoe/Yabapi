@@ -23,7 +23,7 @@ import sdl.moe.yabapi.serializer.BooleanJsSerializer
 public data class VipStatGetResponse(
     @SerialName("code") val code: GeneralCode = UNKNOWN,
     @SerialName("message") val message: String? = null,
-    @SerialName("ttl") val ttl: Int,
+    @SerialName("ttl") val ttl: Int? = null,
     @SerialName("data") val data: VipStatGetData? = null,
 )
 

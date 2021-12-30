@@ -26,7 +26,7 @@ import sdl.moe.yabapi.serializer.BooleanJsSerializer
  */
 @Serializable
 public data class Vip(
-    @SerialName("type") val type: VipType = VipType.UNNOWN,
+    @SerialName("type") val type: VipType = VipType.UNKNOWN,
     @SerialName("status") val status: VipStatus = VipStatus.UNKNOWN,
     @SerialName("due_date") val dueDate: Long,
     @SerialName("vip_pay_type") val isPaid: Boolean? = null,
@@ -40,7 +40,7 @@ public data class Vip(
 
 @Serializable
 public enum class VipType {
-    UNNOWN,
+    UNKNOWN,
 
     @SerialName("0")
     NONE,

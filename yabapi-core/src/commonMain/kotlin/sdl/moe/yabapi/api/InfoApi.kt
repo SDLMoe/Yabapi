@@ -15,10 +15,12 @@ import sdl.moe.yabapi.consts.info.COIN_EXP_GET_URL
 import sdl.moe.yabapi.consts.info.COIN_GET_URL
 import sdl.moe.yabapi.consts.info.COIN_LOG_GET_URL
 import sdl.moe.yabapi.consts.info.EXP_REWARD_GET_URL
+import sdl.moe.yabapi.consts.info.MY_SPACE_GET_URL
 import sdl.moe.yabapi.consts.info.REAL_NAME_DETAILED_GET_URL
 import sdl.moe.yabapi.consts.info.REAL_NAME_INFO_GET_URL
 import sdl.moe.yabapi.consts.info.SECURE_INFO_GET_URL
 import sdl.moe.yabapi.consts.info.STAT_GET_URL
+import sdl.moe.yabapi.consts.info.USER_CARD_GET_URL
 import sdl.moe.yabapi.consts.info.USER_SPACE_GET_URL
 import sdl.moe.yabapi.consts.info.VIP_STAT_GET_URL
 import sdl.moe.yabapi.data.info.AccountInfoGetResponse
@@ -27,10 +29,12 @@ import sdl.moe.yabapi.data.info.CoinExpGetResponse
 import sdl.moe.yabapi.data.info.CoinGetResponse
 import sdl.moe.yabapi.data.info.CoinLogGetResponse
 import sdl.moe.yabapi.data.info.ExpRewardGetResponse
+import sdl.moe.yabapi.data.info.MySpaceGetResponse
 import sdl.moe.yabapi.data.info.RealNameDetailedGetResponse
 import sdl.moe.yabapi.data.info.RealNameInfoGetResponse
 import sdl.moe.yabapi.data.info.SecureInfoGetResponse
 import sdl.moe.yabapi.data.info.StatGetResponse
+import sdl.moe.yabapi.data.info.UserCardGetResponse
 import sdl.moe.yabapi.data.info.UserSpaceGetResponse
 import sdl.moe.yabapi.data.info.VipStatGetResponse
 import sdl.moe.yabapi.util.logger
@@ -102,21 +106,22 @@ public object InfoApi : BiliApi {
         }
     }
 
-    public suspend fun BiliClient.getRealNameInfo() : RealNameInfoGetResponse = withContext(Platform.ioDispatcher) {
+    public suspend fun BiliClient.getRealNameInfo(): RealNameInfoGetResponse = withContext(Platform.ioDispatcher) {
         logger.debug { "Getting Real Name Info..." }
         client.get<RealNameInfoGetResponse>(REAL_NAME_INFO_GET_URL).also {
             logger.debug { "Got Real Name Info: $it" }
         }
     }
 
-    public suspend fun BiliClient.getRealNameDetailed(): RealNameDetailedGetResponse = withContext(Platform.ioDispatcher) {
-        logger.debug { "Getting Real Name Detailed..." }
-        client.get<RealNameDetailedGetResponse>(REAL_NAME_DETAILED_GET_URL).also {
-            logger.debug { "Got Real Name Detailed: $it" }
+    public suspend fun BiliClient.getRealNameDetailed(): RealNameDetailedGetResponse =
+        withContext(Platform.ioDispatcher) {
+            logger.debug { "Getting Real Name Detailed..." }
+            client.get<RealNameDetailedGetResponse>(REAL_NAME_DETAILED_GET_URL).also {
+                logger.debug { "Got Real Name Detailed: $it" }
+            }
         }
-    }
 
-    public suspend fun BiliClient.getCoinLog() : CoinLogGetResponse = withContext(Platform.ioDispatcher) {
+    public suspend fun BiliClient.getCoinLog(): CoinLogGetResponse = withContext(Platform.ioDispatcher) {
         logger.debug { "Getting Coin Log..." }
         client.get<CoinLogGetResponse>(COIN_LOG_GET_URL).also {
             logger.debug { "Got Coin Log: $it" }
@@ -125,10 +130,27 @@ public object InfoApi : BiliApi {
 
     public suspend fun BiliClient.getUserSpace(mid: Int): UserSpaceGetResponse = withContext(Platform.ioDispatcher) {
         logger.debug { "Getting User Space Info..." }
-        client.get<UserSpaceGetResponse>(USER_SPACE_GET_URL){
+        client.get<UserSpaceGetResponse>(USER_SPACE_GET_URL) {
             parameter("mid", mid.toString())
         }.also {
             logger.debug { "Got User Space Info: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.getUserCard(mid: Int, requestBanner: Boolean) {
+        logger.debug { "Getting User Card Info..." }
+        client.get<UserCardGetResponse>(USER_CARD_GET_URL) {
+            parameter("mid", mid.toString())
+            parameter("photo", requestBanner.toString())
+        }.also {
+            logger.debug { "Got User Card Info: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.getMySpace() {
+        logger.debug { "Getting Current User Space Info:" }
+        client.get<MySpaceGetResponse>(MY_SPACE_GET_URL).also {
+            logger.debug { "Got Current User Space Info: $it" }
         }
     }
 }

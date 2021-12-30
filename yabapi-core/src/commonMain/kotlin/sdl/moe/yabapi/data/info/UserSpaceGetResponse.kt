@@ -109,7 +109,11 @@ public data class SchoolInfo(
 
 @Serializable
 public data class UserProfession(
+    @SerialName("id") val id: Int? = null,
     @SerialName("name") val name: String? = null,
+    @SerialName("show_name") val showName: String? = null,
+    @SerialName("is_show") val isShow: Boolean? = null,
+    @SerialName("category_one") val categoryOne: String? = null,
 )
 
 @Serializable
@@ -120,7 +124,7 @@ public data class LiveRoomInfo(
     @SerialName("title") val title: String,
     @SerialName("cover") val cover: String,
     @SerialName("online") val online: Int,
-    @SerialName("roomid") val roomid: Int,
+    @SerialName("roomid") val roomId: Int,
     @SerialName("roundStatus") val isRounding: Int,
     @SerialName("broadcast_type") val broadcastType: Int,
 )

@@ -26,7 +26,7 @@ public data class RealNameDetailedGetResponse(
     @SerialName("code") val code: GeneralCode = GeneralCode.UNKNOWN,
     @SerialName("message") val message: String? = null,
     @SerialName("ttl") val ttl: Int? = null,
-    @SerialName("data") val data: RealNameDetailed,
+    @SerialName("data") val data: RealNameDetailed? = null,
 )
 
 /**
