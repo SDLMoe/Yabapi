@@ -44,7 +44,7 @@ public data class BasicInfoData(
     @SerialName("money") val coin: Double? = null,
     @SerialName("moral") val moral: Double? = null,
     @SerialName("official") val official: Official? = null,
-    @SerialName("officialVerify") val offcialCertify: OffcialCertify? = null,
+    @SerialName("officialVerify") val officialCertify: OfficialCertify? = null,
     @SerialName("pendant") val pendant: Pendant? = null,
     @SerialName("scores") val scores: Int? = null,
     @SerialName("uname") val username: String? = null,

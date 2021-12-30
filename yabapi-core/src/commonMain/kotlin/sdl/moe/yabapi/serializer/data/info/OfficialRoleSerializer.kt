@@ -11,24 +11,24 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.JsonDecoder
-import sdl.moe.yabapi.data.info.IsOffcialCertified
+import sdl.moe.yabapi.data.info.OfficialRole
+import sdl.moe.yabapi.data.info.OfficialRole.UNKNOWN
 import sdl.moe.yabapi.exception.UnsupportedDecoderException
 
 /**
- * 为 0 时返回 true, 其余为 false
+ * 根据 [OfficialRole.valueList] 序列化
  */
-public object IsOffcialCertifiedSerializer : KSerializer<IsOffcialCertified> {
+public object OfficialRoleSerializer : KSerializer<OfficialRole> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("OffcialRoleSerializer", PrimitiveKind.INT)
 
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("IsOffcialCertifedSerializer", PrimitiveKind.BOOLEAN)
+    override fun serialize(encoder: Encoder, value: OfficialRole): Unit =
+        encoder.encodeInt(value.valueList.firstOrNull() ?: 0)
 
-    override fun serialize(encoder: Encoder, value: IsOffcialCertified): Unit = when (value.value) {
-        true -> encoder.encodeInt(0)
-        false -> encoder.encodeInt(-1)
-    }
-
-    override fun deserialize(decoder: Decoder): IsOffcialCertified = when (decoder) {
-        is JsonDecoder -> IsOffcialCertified(decoder.decodeInt() == 0)
+    override fun deserialize(decoder: Decoder): OfficialRole = when (decoder) {
+        is JsonDecoder -> run {
+            val decoded = decoder.decodeInt()
+            enumValues<OfficialRole>().firstOrNull { it.valueList.contains(decoded) } ?: UNKNOWN
+        }
         else -> throw UnsupportedDecoderException(decoder)
     }
 }

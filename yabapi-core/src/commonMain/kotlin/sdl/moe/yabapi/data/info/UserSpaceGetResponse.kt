@@ -41,7 +41,7 @@ public data class UserSpace(
     @SerialName("official") val official: Official,
     @SerialName("vip") val vip: Vip,
     @SerialName("pendant") val pendant: Pendant,
-    @SerialName("nameplate") val nameplate: UserNameplate,
+    @SerialName("nameplate") val nameplate: UserNameplateData,
     @SerialName("user_honour_info") val userHonourInfo: UserHonourInfo,
     @SerialName("is_followed") val isFollowed: Boolean,
     @SerialName("top_photo") val spaceBanner: String,
@@ -82,16 +82,6 @@ public data class FansMedal(
     @SerialName("light_status") val lightStatus: Boolean,
     @SerialName("wearing_status") val isWearing: Boolean,
     @SerialName("score") val score: Int,
-)
-
-@Serializable
-public data class UserNameplate(
-    @SerialName("nid") val nid: Int,
-    @SerialName("name") val name: String,
-    @SerialName("image") val image: String,
-    @SerialName("image_small") val smallImage: String,
-    @SerialName("level") val level: String,
-    @SerialName("condition") val condition: String,
 )
 
 @Serializable
