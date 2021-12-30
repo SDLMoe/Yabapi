@@ -6,6 +6,7 @@ package sdl.moe.yabapi.consts.info
 
 import sdl.moe.yabapi.consts.ACCOUNT
 import sdl.moe.yabapi.consts.MAIN
+import sdl.moe.yabapi.consts.PASSPORT
 
 internal const val BASIC_INFO_GET_URL = "$MAIN/x/web-interface/nav"
 
@@ -18,3 +19,5 @@ internal const val USER_SPACE_GET_URL = "$MAIN/x/space/acc/info"
 internal const val USER_CARD_GET_URL = "$MAIN/x/web-interface/card"
 
 internal const val MY_SPACE_GET_URL = "$MAIN/x/space/myinfo"
+
+internal const val NICK_CHECK_URL = "$PASSPORT/web/generic/check/nickname"

@@ -16,6 +16,7 @@ import sdl.moe.yabapi.consts.info.COIN_GET_URL
 import sdl.moe.yabapi.consts.info.COIN_LOG_GET_URL
 import sdl.moe.yabapi.consts.info.EXP_REWARD_GET_URL
 import sdl.moe.yabapi.consts.info.MY_SPACE_GET_URL
+import sdl.moe.yabapi.consts.info.NICK_CHECK_URL
 import sdl.moe.yabapi.consts.info.REAL_NAME_DETAILED_GET_URL
 import sdl.moe.yabapi.consts.info.REAL_NAME_INFO_GET_URL
 import sdl.moe.yabapi.consts.info.SECURE_INFO_GET_URL
@@ -25,6 +26,7 @@ import sdl.moe.yabapi.consts.info.USER_SPACE_GET_URL
 import sdl.moe.yabapi.consts.info.VIP_STAT_GET_URL
 import sdl.moe.yabapi.data.info.AccountInfoGetResponse
 import sdl.moe.yabapi.data.info.BasicInfoGetResponse
+import sdl.moe.yabapi.data.info.CheckNickResponse
 import sdl.moe.yabapi.data.info.CoinExpGetResponse
 import sdl.moe.yabapi.data.info.CoinGetResponse
 import sdl.moe.yabapi.data.info.CoinLogGetResponse
@@ -133,24 +135,34 @@ public object InfoApi : BiliApi {
         client.get<UserSpaceGetResponse>(USER_SPACE_GET_URL) {
             parameter("mid", mid.toString())
         }.also {
-            logger.debug { "Got User Space Info: $it" }
+            logger.debug { "Got User $mid Space Info: $it" }
         }
     }
 
-    public suspend fun BiliClient.getUserCard(mid: Int, requestBanner: Boolean) {
-        logger.debug { "Getting User Card Info..." }
-        client.get<UserCardGetResponse>(USER_CARD_GET_URL) {
-            parameter("mid", mid.toString())
-            parameter("photo", requestBanner.toString())
-        }.also {
-            logger.debug { "Got User Card Info: $it" }
+    public suspend fun BiliClient.getUserCard(mid: Int, requestBanner: Boolean): UserCardGetResponse =
+        withContext(Platform.ioDispatcher) {
+            logger.debug { "Getting User Card Info..." }
+            client.get<UserCardGetResponse>(USER_CARD_GET_URL) {
+                parameter("mid", mid.toString())
+                parameter("photo", requestBanner.toString())
+            }.also {
+                logger.debug { "Got User $mid Card Info: $it" }
+            }
         }
-    }
 
-    public suspend fun BiliClient.getMySpace() {
+    public suspend fun BiliClient.getMySpace(): MySpaceGetResponse = withContext(Platform.ioDispatcher) {
         logger.debug { "Getting Current User Space Info:" }
         client.get<MySpaceGetResponse>(MY_SPACE_GET_URL).also {
             logger.debug { "Got Current User Space Info: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.checkNick(nick: String): CheckNickResponse = withContext(Platform.ioDispatcher) {
+        logger.debug { "Checking Nick Status..." }
+        client.get<CheckNickResponse>(NICK_CHECK_URL) {
+            parameter("nickName", nick)
+        }.also {
+            logger.debug { "Nick \"$nick\" status: $it" }
         }
     }
 }

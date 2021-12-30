@@ -6,6 +6,7 @@ package sdl.moe.yabapi.api
 
 import kotlinx.coroutines.runBlocking
 import sdl.moe.yabapi.BiliClient
+import sdl.moe.yabapi.api.InfoApi.checkNick
 import sdl.moe.yabapi.api.InfoApi.getAccountInfo
 import sdl.moe.yabapi.api.InfoApi.getBasicInfo
 import sdl.moe.yabapi.api.InfoApi.getCoinExp
@@ -127,23 +128,34 @@ internal object InfoApiTest {
             client.getMySpace()
         }
     }
+
+    fun nickCheckTest() {
+        runBlocking {
+            // lol 星黛*露b*ot 是敏感詞
+            listOf("//", "test11145141919810123123123", "星黛露bot", "0", "1", "哈哈哈哈哈", "儑厫爊").forEach {
+                client.checkNick(it)
+            }
+        }
+    }
 }
 
 fun main() {
-    fun testAll() {
-        InfoApiTest.getBasicInfoTest()
-        InfoApiTest.getStatTest()
-        InfoApiTest.getCoinTest()
-        InfoApiTest.getAccountInfoTest()
-        InfoApiTest.getExpTest()
-        InfoApiTest.getVipStatTest()
-        InfoApiTest.getSecureInfoTest()
-        InfoApiTest.getRealNameInfoTest()
-        InfoApiTest.getRealNameDetailedTest()
-        InfoApiTest.getCoinLogTest()
-        InfoApiTest.getUserSpaceTest()
-        InfoApiTest.getUserCardTest()
-        InfoApiTest.getMySpaceTest()
-    }
-    testAll()
+    InfoApiTest.nickCheckTest()
+}
+
+fun testAll() {
+    InfoApiTest.getBasicInfoTest()
+    InfoApiTest.getStatTest()
+    InfoApiTest.getCoinTest()
+    InfoApiTest.getAccountInfoTest()
+    InfoApiTest.getExpTest()
+    InfoApiTest.getVipStatTest()
+    InfoApiTest.getSecureInfoTest()
+    InfoApiTest.getRealNameInfoTest()
+    InfoApiTest.getRealNameDetailedTest()
+    InfoApiTest.getCoinLogTest()
+    InfoApiTest.getUserSpaceTest()
+    InfoApiTest.getUserCardTest()
+    InfoApiTest.getMySpaceTest()
+    InfoApiTest.nickCheckTest()
 }
