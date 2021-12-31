@@ -94,3 +94,5 @@ gradle-app.setting
 
 # Yabapi Cache
 /cookies.json
+/yabapi-core/cookies.json
+/tmp
