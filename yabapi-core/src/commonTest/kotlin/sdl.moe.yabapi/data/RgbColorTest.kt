@@ -16,8 +16,8 @@ internal class RgbColorTest {
 
     @Test
     fun fromHex() {
-        val random = 1..255
-        repeat(100) {
+        val random = 0..255
+        repeat(255) {
             print("$it time: ")
             val r = random.random()
             val g = random.random()

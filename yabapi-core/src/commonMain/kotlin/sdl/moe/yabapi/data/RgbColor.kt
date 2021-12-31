@@ -13,7 +13,7 @@ public data class RgbColor(
 ) {
     public companion object {
         @Transient
-        private val range = 1..255
+        private val range = 0..255
 
         @Transient
         private val hexRegex: Regex = Regex("""^#([0-9a-fA-F]{6})$""")
@@ -40,7 +40,7 @@ public data class RgbColor(
 
     init {
         require(red in range && green in range && blue in range) {
-            "RGB Value Should be in [1, 255]"
+            "RGB Value Should be in [0, 255]"
         }
     }
 
