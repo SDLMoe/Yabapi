@@ -36,7 +36,6 @@ public fun getDefaultHttpClient(): HttpClient = HttpClient(getDefaultEngine()) {
         identity()
     }
     defaultRequest {
-        header(HttpHeaders.ContentType, "application/json; charset=UTF-8")
         header(HttpHeaders.Accept, "*/*")
         header(HttpHeaders.AcceptCharset, "UTF-8")
     }

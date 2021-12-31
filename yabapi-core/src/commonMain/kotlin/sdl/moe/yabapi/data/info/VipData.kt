@@ -23,6 +23,7 @@ import sdl.moe.yabapi.serializer.BooleanJsSerializer
  * @param themeType 未知
  * @param label [VipLabel]
  * @param role 未知
+ * @param avatarSubscriptUrl 頭像下標, 如黃色閃電, 大會員
  */
 @Serializable
 public data class Vip(
