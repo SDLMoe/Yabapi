@@ -20,9 +20,17 @@ import sdl.moe.yabapi.consts.info.FOLLOWING_GET_URL
 import sdl.moe.yabapi.consts.info.FOLLOWING_SEARCH_URL
 import sdl.moe.yabapi.consts.info.MODIFY_RELATION_URL
 import sdl.moe.yabapi.consts.info.QUIETLY_FOLLOWING_GET_URL
+import sdl.moe.yabapi.consts.info.RELATION_BATCH_QUERY_URL
+import sdl.moe.yabapi.consts.info.RELATION_QUERY_MUTUALLY
+import sdl.moe.yabapi.consts.info.RELATION_QUERY_SPECIAL
+import sdl.moe.yabapi.consts.info.RELATION_QUERY_URL
 import sdl.moe.yabapi.data.relation.RelationBatchModifyResponse
 import sdl.moe.yabapi.data.relation.RelationGetResponse
 import sdl.moe.yabapi.data.relation.RelationModifyResponse
+import sdl.moe.yabapi.data.relation.RelationQueryBatchResponse
+import sdl.moe.yabapi.data.relation.RelationQueryMutuallyResponse
+import sdl.moe.yabapi.data.relation.RelationQueryResponse
+import sdl.moe.yabapi.data.relation.SpecialFollowingQueryResponse
 import sdl.moe.yabapi.enums.relation.FollowingOrder
 import sdl.moe.yabapi.enums.relation.FollowingOrder.TIME
 import sdl.moe.yabapi.enums.relation.RelationAction
@@ -225,4 +233,41 @@ public object RelationApi : BiliApi {
             logger.debug { "Modified relation for $mids, action: $action, with source $source: $it" }
         }
     }
+
+    public suspend fun BiliClient.queryRelation(mid: Int): RelationQueryResponse = withContext(Platform.ioDispatcher) {
+        logger.debug { "Querying relation to mid $mid..." }
+        client.get<RelationQueryResponse>(RELATION_QUERY_URL) {
+            parameter("fid", mid)
+        }.also {
+            logger.debug { "Queried relation to mid $mid: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.queryRelation(vararg mid: Int): RelationQueryBatchResponse =
+        withContext(Platform.ioDispatcher) {
+            logger.debug { "Querying relation to mids ${mid.contentToString()}..." }
+            client.get<RelationQueryBatchResponse>(RELATION_BATCH_QUERY_URL) {
+                parameter("fids", mid.joinToString(","))
+            }.also {
+                logger.debug { "Queried relation to mids ${mid.contentToString()}: $it" }
+            }
+        }
+
+    public suspend fun BiliClient.queryRelationMutually(mid: Int): RelationQueryMutuallyResponse =
+        withContext(Platform.ioDispatcher) {
+            logger.debug { "Querying relation mutually to mid $mid..." }
+            client.get<RelationQueryMutuallyResponse>(RELATION_QUERY_MUTUALLY) {
+                parameter("mid", mid)
+            }.also {
+                logger.debug { "Querying relation mutually to mid $mid..." }
+            }
+        }
+
+    public suspend fun BiliClient.querySpecialFollowing(): SpecialFollowingQueryResponse =
+        withContext(Platform.ioDispatcher) {
+            logger.debug { "Querying special relation for current user..." }
+            client.get<SpecialFollowingQueryResponse>(RELATION_QUERY_SPECIAL).also {
+                logger.debug { "Queried special relation: $it" }
+            }
+        }
 }

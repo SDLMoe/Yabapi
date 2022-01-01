@@ -21,3 +21,11 @@ internal const val BLACKLIST_GET_URL = "$MAIN/x/relation/blacks"
 internal const val MODIFY_RELATION_URL = "$MAIN/x/relation/modify"
 
 internal const val BATCH_MODIFY_RELATION_URL = "$MAIN/x/relation/batch/modify"
+
+internal const val RELATION_QUERY_URL = "$MAIN/x/relation"
+
+internal const val RELATION_BATCH_QUERY_URL = "$MAIN/x/relation/relations"
+
+internal const val RELATION_QUERY_MUTUALLY = "$MAIN/x/space/acc/relation"
+
+internal const val RELATION_QUERY_SPECIAL = "$MAIN/x/relation/tag/special"

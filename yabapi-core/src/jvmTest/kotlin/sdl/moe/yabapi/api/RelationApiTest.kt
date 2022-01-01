@@ -13,6 +13,9 @@ import sdl.moe.yabapi.api.RelationApi.getFans
 import sdl.moe.yabapi.api.RelationApi.getFollowing
 import sdl.moe.yabapi.api.RelationApi.getQuietlyFollowing
 import sdl.moe.yabapi.api.RelationApi.modifyRelation
+import sdl.moe.yabapi.api.RelationApi.queryRelation
+import sdl.moe.yabapi.api.RelationApi.queryRelationMutually
+import sdl.moe.yabapi.api.RelationApi.querySpecialFollowing
 import sdl.moe.yabapi.api.RelationApi.searchFollowing
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.enums.relation.FollowingOrder.MOST_FREQUENT
@@ -101,7 +104,19 @@ internal class RelationApiTest {
     @Test
     fun modifyBatchTest() {
         runBlocking {
-            client.modifyRelation(listOf(1, 2, 3, 4, 5), SUB)
+            val testList = listOf(1, 2, 3, 4, 5)
+            client.modifyRelation(testList, SUB)
+            client.modifyRelation(testList, UNSUB)
+        }
+    }
+
+    @Test
+    fun queryRelationTest() {
+        runBlocking {
+            client.queryRelation(2)
+            client.queryRelation(1, 2, 3, 4)
+            client.queryRelationMutually(2)
+            client.querySpecialFollowing()
         }
     }
 
@@ -114,5 +129,7 @@ internal class RelationApiTest {
         getQuietlyFollowingTest()
         getBlacklistTest()
         modifyTest()
+        modifyBatchTest()
+        queryRelationTest()
     }
 }

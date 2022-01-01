@@ -4,7 +4,7 @@
 
 @file:UseSerializers(BooleanJsSerializer::class)
 
-package sdl.moe.yabapi.api
+package sdl.moe.yabapi.data.relation
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -13,16 +13,15 @@ import sdl.moe.yabapi.data.info.OfficialCertify
 import sdl.moe.yabapi.data.info.VipLabel
 import sdl.moe.yabapi.data.info.VipStatus
 import sdl.moe.yabapi.data.info.VipType
-import sdl.moe.yabapi.data.relation.RelationAttribute
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 /**
- * 粉絲 Node
+ * 關係 Node
  * @param mid mid
  * @param attribute 當前賬戶對該名用戶的關注狀態
  * @param mtime 關注時間
  * @param tag 不明
- * @param special 不明
+ * @param special 是否特別關注
  * @param contractInfo 騎士相關
  * @param name 用戶名
  * @param avatar 頭像
@@ -34,15 +33,15 @@ import sdl.moe.yabapi.serializer.BooleanJsSerializer
 public data class RelationUserNode(
     @SerialName("mid") val mid: Int,
     @SerialName("attribute") val attribute: RelationAttribute = RelationAttribute.UNKNOWN,
-    @SerialName("mtime") val mtime: Int,
-    @SerialName("tag") val tag: List<String>? = null,
-    @SerialName("special") val special: Int,
+    @SerialName("mtime") val mtime: Int? = null,
+    @SerialName("tag") val tag: List<Int>? = null,
+    @SerialName("special") val special: Boolean? = null,
     @SerialName("contract_info") val contractInfo: ContractInfo? = null,
-    @SerialName("uname") val name: String,
-    @SerialName("face") val avatar: String,
-    @SerialName("sign") val bio: String,
-    @SerialName("official_verify") val officialCertify: OfficialCertify,
-    @SerialName("vip") val vip: RelationVipInfo,
+    @SerialName("uname") val name: String? = null,
+    @SerialName("face") val avatar: String? = null,
+    @SerialName("sign") val bio: String? = null,
+    @SerialName("official_verify") val officialCertify: OfficialCertify? = null,
+    @SerialName("vip") val vip: RelationVipInfo? = null,
 )
 
 /**

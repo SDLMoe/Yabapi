@@ -6,7 +6,6 @@ package sdl.moe.yabapi.data.relation
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import sdl.moe.yabapi.api.RelationUserNode
 
 /**
  * @param list 粉絲列表

@@ -1,4 +1,4 @@
-// © Copyright 2021 Colerar and repository contributors
+// © Copyright 2022 Colerar and repository contributors
 // Use of this source code is governed by the MIT license that can be found via link below:
 // https://github.com/SDLMoe/Yabapi/blob/master/LICENSE
 
@@ -8,14 +8,12 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * 獲取關係的返回
- * @param code 返回值 [RelationResponseCode]
- * @param data [RelationResponseData]
+ * @param data 特別關注 mid list
  */
 @Serializable
-public data class RelationGetResponse(
+public data class SpecialFollowingQueryResponse(
     @SerialName("code") val code: RelationResponseCode = RelationResponseCode.UNKNOWN,
     @SerialName("message") val message: String? = null,
     @SerialName("ttl") val ttl: Int? = null,
-    @SerialName("data") val data: RelationResponseData? = null,
+    @SerialName("data") val data: List<Int> = emptyList(),
 )
