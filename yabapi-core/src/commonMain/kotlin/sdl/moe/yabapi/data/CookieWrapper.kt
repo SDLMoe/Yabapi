@@ -22,11 +22,11 @@ public data class CookieWrapper(
     val path: String? = null,
     val secure: Boolean = false,
     val httpOnly: Boolean = false,
-    val extensions: Map<String, String?> = emptyMap()
+    val extensions: Map<String, String?> = emptyMap(),
 ) {
     public companion object {
-        public fun fromCookie(cookie: Cookie): CookieWrapper {
-            return CookieWrapper(
+        public fun fromCookie(cookie: Cookie): CookieWrapper =
+            CookieWrapper(
                 cookie.name,
                 cookie.value,
                 cookie.encoding,
@@ -38,7 +38,6 @@ public data class CookieWrapper(
                 cookie.httpOnly,
                 cookie.extensions
             )
-        }
 
         public fun fromCookies(cookies: List<Cookie>): List<CookieWrapper> =
             cookies.fold(mutableListOf()) { acc, c ->
@@ -51,7 +50,7 @@ public data class CookieWrapper(
         Cookie(name, value, encoding, maxAge, expires, domain, path, secure, httpOnly, extensions)
 }
 
-public fun List<CookieWrapper>.toCookies(): List<Cookie> =
+public fun Collection<CookieWrapper>.toCookies(): List<Cookie> =
     this.fold(mutableListOf()) { acc, c ->
         acc.add(c.toCookie())
         acc

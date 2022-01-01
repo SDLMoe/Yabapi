@@ -13,7 +13,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 public object GMTDateSerializer : KSerializer<GMTDate> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("GMTDate", PrimitiveKind.LONG)
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("GMTDateSerializer", PrimitiveKind.LONG)
 
     override fun serialize(encoder: Encoder, value: GMTDate): Unit = encoder.encodeLong(value.timestamp)
 
