@@ -6,8 +6,9 @@ package sdl.moe.yabapi.enums
 
 import kotlinx.serialization.Serializable
 import sdl.moe.yabapi.consts.WWW
+import sdl.moe.yabapi.serializer.data.VideoTypeSerializer
 
-@Serializable
+@Serializable(VideoTypeSerializer::class)
 public sealed class VideoType(
     public val name: String,
     public val code: String,

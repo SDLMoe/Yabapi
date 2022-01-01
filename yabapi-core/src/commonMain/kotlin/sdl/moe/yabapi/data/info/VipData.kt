@@ -29,14 +29,14 @@ import sdl.moe.yabapi.serializer.BooleanJsSerializer
 public data class Vip(
     @SerialName("type") val type: VipType = VipType.UNKNOWN,
     @SerialName("status") val status: VipStatus = VipStatus.UNKNOWN,
-    @SerialName("due_date") val dueDate: Long,
+    @SerialName("due_date") val dueDate: Long? = null,
     @SerialName("vip_pay_type") val isPaid: Boolean? = null,
-    @SerialName("theme_type") val themeType: Int,
-    @SerialName("label") val label: VipLabel,
-    @SerialName("avatar_subscript") val isShowSubscript: Boolean,
-    @SerialName("nickname_color") val nicknameColor: String,
-    @SerialName("role") val role: Int,
-    @SerialName("avatar_subscript_url") val avatarSubscriptUrl: String,
+    @SerialName("theme_type") val themeType: Int? = null,
+    @SerialName("label") val label: VipLabel? = null,
+    @SerialName("avatar_subscript") val isShowSubscript: Boolean? = null,
+    @SerialName("nickname_color") val nicknameColor: String? = null,
+    @SerialName("role") val role: Int? = null,
+    @SerialName("avatar_subscript_url") val avatarSubscriptUrl: String? = null,
 )
 
 @Serializable
