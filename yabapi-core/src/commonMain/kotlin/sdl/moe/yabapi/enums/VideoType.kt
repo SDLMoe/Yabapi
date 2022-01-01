@@ -18,7 +18,7 @@ public sealed class VideoType(
     public fun getUrl(): String = "$WWW$route"
 
     public companion object {
-        // Long list, register video type, can repalce with Annotation Processor, but KSP in experimental.
+        // Long list, register video type, can replace with Annotation Processor, but KSP in experimental.
         public fun getAllTypes(): List<VideoType> = listOf(
             Douga, Douga.MAD, Douga.MMD, Douga.Voice, Douga.GarageKit, Douga.Tokusatsu,
             Anime, Anime.Serial, Anime.Finish, Anime.Information, Anime.Official,
@@ -85,7 +85,7 @@ public object Music : VideoType("音乐", "music", 3, "/v/music") {
     public object Other : VideoType("音乐综合", "other", 130, "/v/music/other")
 }
 
-public object Dance : VideoType("舞蹈(主分区)	", "dance", 129, "/v/dance") {
+public object Dance : VideoType("舞蹈	", "dance", 129, "/v/dance") {
     public object Otaku : VideoType("宅舞", "otaku", 20, "/v/dance/otaku")
     public object Hiphop : VideoType("街舞", "hiphop", 198, "/v/dance/hiphop")
     public object Star : VideoType("明星舞蹈", "star", 199, "/v/dance/star")
@@ -148,7 +148,7 @@ public object Life : VideoType("生活", "life", 160, "/v/life") {
     public object Daily : VideoType("日常", "daily", 21, "/v/life/daily")
 }
 
-public object Food : VideoType("美食(主分区)", "food", 211, "/v/food") {
+public object Food : VideoType("美食", "food", 211, "/v/food") {
     public object Make : VideoType("美食制作", "make", 76, "/v/food/make")
     public object Detective : VideoType("美食侦探", "detective", 212, "/v/food/detective")
     public object Mesusurement : VideoType("美食测评", "measurement", 213, "/v/food/measurement")
