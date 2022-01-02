@@ -193,9 +193,7 @@ public object RelationApi : BiliApi {
                 append("fid", mid.toString())
                 append("act", action.code.toString())
                 append("re_src", source.code.toString())
-                val csrf = getCsrfToken()?.value
-                requireNotNull(csrf) { "invalid csrf: null" }
-                append("csrf", csrf)
+                putCsrf()
             }
             body = FormDataContent(params)
         }.also {
@@ -220,13 +218,11 @@ public object RelationApi : BiliApi {
         require(allowedBatchAction.contains(action))
         logger.debug { "Modify relation for $mids, action: $action, with source $source" }
         client.post<RelationBatchModifyResponse>(BATCH_MODIFY_RELATION_URL) {
-            val csrf = getCsrfToken()?.value
-            requireNotNull(csrf) { "invalid csrf: null" }
             val params = Parameters.build {
                 append("fids", mids.joinToString(","))
                 append("act", action.code.toString())
                 append("re_src", source.code.toString())
-                append("csrf", csrf)
+                putCsrf()
             }
             body = FormDataContent(params)
         }.also {

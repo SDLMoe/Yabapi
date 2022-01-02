@@ -11,3 +11,21 @@ internal const val VIDEO_INFO_GET_URL = "$MAIN/x/web-interface/view"
 internal const val VIDEO_PARTS_GET_URL = "$MAIN/x/player/pagelist"
 
 internal const val VIDEO_DESCRIPTION_GET_URL = "$MAIN/x/web-interface/archive/desc"
+
+internal const val VIDEO_LIKE_URL = "$MAIN/x/web-interface/archive/like"
+
+internal const val VIDEO_HAS_LIKE_URL = "$MAIN/x/web-interface/archive/has/like"
+
+internal const val VIDEO_COIN_URL = "$MAIN/x/web-interface/coin/add"
+
+internal const val VIDEO_COIN_CHECK_URL = "$MAIN/x/web-interface/archive/coins"
+
+// internal const val VIDEO_COLLECT_ACTION_URL = "$MAIN/x/v3/fav/resource/deal"
+
+internal const val VIDEO_COLLECT_ACTION_URL = "$MAIN/medialist/gateway/coll/resource/deal"
+
+internal const val VIDEO_COLLECT_CHECK_URL = "$MAIN/x/v2/fav/video/favoured"
+
+internal const val VIDEO_COMBO_LIKE_URL = "$MAIN/x/web-interface/archive/like/triple"
+
+internal const val VIDEO_SHARE_URL = "$MAIN/x/web-interface/share/add"

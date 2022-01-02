@@ -7,7 +7,7 @@
 package sdl.moe.yabapi.util
 
 private const val TABLE = "fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF"
-private const val XOR_VALUE: Long = 177451812
+private const val XOR_VALUE = 177451812L
 private const val ADD_VALUE = 8728348608L
 
 private val ss = intArrayOf(11, 10, 3, 8, 4, 6, 2, 9, 5, 7)
@@ -35,10 +35,10 @@ private fun power(a: Int, b: Int): Long {
 }
 
 /**
- * BV 转 AV 号，转换结果为字符串，形如：av1234567
+ * BV 转 AV 号，转换结果为 Int, 形如:(av) 1234567
  * @receiver String 输入形如 BVra123abc 的 String, 大小写敏感
  */
-public val String.av: String
+public val String.av: Long
     get() {
         var r: Long = 0
         for (i in 0..57) {
@@ -48,16 +48,22 @@ public val String.av: String
         for (i in 0..5) {
             r += mp[this.substring(ss[i], ss[i] + 1)]!! * power(58, i)
         }
-        return "av" + (r - ADD_VALUE xor XOR_VALUE)
+        return r - ADD_VALUE xor XOR_VALUE
     }
+
+public val String.avInt: Int
+    get() = av.toInt()
+
+public val String.avString: String
+    get() = "av$av"
 
 /**
  * AV 转 BV 号，转换结果为字符串，形如：BVra123abc
  * @receiver String 输入形如 av1234567 的 String, 大小写不敏感
  */
-public val String.bv: String
+public val Long.bv: String
     get() {
-        var s = this.lowercase().split("av")[1].toLong()
+        var s = this
         var str = "BV1  4 1 7  "
         s = (s xor XOR_VALUE) + ADD_VALUE
         for (i in 0..5) {
@@ -68,3 +74,9 @@ public val String.bv: String
         }
         return str
     }
+
+public val Int.bv: String
+    get() = this.toLong().bv
+
+public val String.bv: String
+    get() = this.lowercase().split("av")[1].toLong().bv

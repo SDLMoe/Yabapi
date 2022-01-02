@@ -9,6 +9,7 @@ import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.CookiesStorage
 import io.ktor.client.features.cookies.HttpCookies
 import io.ktor.http.Cookie
+import io.ktor.http.ParametersBuilder
 import io.ktor.http.Url
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.api.BiliApi
@@ -30,7 +31,7 @@ import kotlin.collections.set
  */
 public class BiliClient(
     public var client: HttpClient = getDefaultHttpClient(),
-    private val cookieStorage: CookiesStorage = AcceptAllCookiesStorage()
+    private val cookieStorage: CookiesStorage = AcceptAllCookiesStorage(),
 ) {
     init {
         client = client.config {
@@ -62,6 +63,12 @@ public class BiliClient(
     }
 
     public suspend fun getCsrfToken(): Cookie? = getBiliCookies().firstOrNull { it.name == "bili_jct" }
+
+    internal suspend fun ParametersBuilder.putCsrf(key: String = "csrf") {
+        val csrf = getCsrfToken()?.value
+        requireNotNull(csrf)
+        append(key, csrf)
+    }
 
     public suspend fun isLogin(): Boolean = getBasicInfo().data.isLogin
 

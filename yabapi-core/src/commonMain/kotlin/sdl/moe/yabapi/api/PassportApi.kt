@@ -362,7 +362,7 @@ public object PassportApi : BiliApi {
         needLogin()
         client.post<LogOutResponse>(LOG_OUT_URL) {
             val params = Parameters.build {
-                append("biliCSRF", getCsrfToken()?.value ?: "")
+                putCsrf("biliCSRF")
             }
             body = FormDataContent(params)
         }.also {

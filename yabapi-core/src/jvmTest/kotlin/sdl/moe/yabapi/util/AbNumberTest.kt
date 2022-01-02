@@ -1,12 +1,12 @@
 package sdl.moe.yabapi.util
 
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 
 internal class AbNumberTest {
 
     @Test
     fun avToBv() {
-        val av = "av1919810"
+        val av = 1919810L
         val result = av.bv
         assert(result == "BV1cx411A7dD")
     }
@@ -15,7 +15,6 @@ internal class AbNumberTest {
     fun bvToAv() {
         val bv = "BV1cx411A7dD"
         val result = bv.av
-        assert(result == "av1919810")
+        assert(result == 1919810L)
     }
-
 }
