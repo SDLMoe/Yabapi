@@ -26,10 +26,6 @@ public object VideoApi : BiliApi {
     ): VideoInfoGetResponse = withContext(Platform.ioDispatcher) {
         require(aid != null || bid != null) { "Must at LEAST one not null in param [aid, bid]." }
         require(!(aid != null && bid != null)) { "Can pass ONLY one param in [aid, bid]." }
-        client.get<String>(VIDEO_INFO_GET_URL) {
-            aid?.let { parameter("aid", aid) }
-            bid?.let { parameter("bvid", bid) }
-        }.also(::println)
         client.get(VIDEO_INFO_GET_URL) {
             aid?.let { parameter("aid", aid) }
             bid?.let { parameter("bvid", bid) }
