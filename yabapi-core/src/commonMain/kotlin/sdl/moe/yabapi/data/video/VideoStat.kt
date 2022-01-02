@@ -39,3 +39,23 @@ public data class VideoStat(
     @SerialName("evaluation") val evaluation: String,
     @SerialName("argue_msg") val argueMsg: String,
 )
+
+
+// just tiny difference, can replace with @JsonNames, but it's in Experimental
+@Serializable
+public data class UgcSeasonStat(
+    @SerialName("season_id") val seasonId: Int? = null,
+    @SerialName("aid") val aid: Int? = null,
+    @SerialName("view") val view: Int,
+    @SerialName("danmaku") val danmaku: Int,
+    @SerialName("reply") val reply: Int,
+    @SerialName("fav") val collect: Int,
+    @SerialName("coin") val coin: Int,
+    @SerialName("share") val share: Int,
+    @SerialName("now_rank") val nowRank: Int,
+    @SerialName("his_rank") val highestRank: Int,
+    @SerialName("like") val like: Int,
+    @SerialName("dislike") val dislike: Int? = null,
+    @SerialName("evaluation") val evaluation: String? = null,
+    @SerialName("argue_msg") val argueMsg: String? = null,
+)

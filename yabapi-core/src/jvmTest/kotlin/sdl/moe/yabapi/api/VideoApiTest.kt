@@ -41,4 +41,13 @@ internal class VideoApiTest {
             }
         }
     }
+
+    @Test
+    fun getUgcSeasonInfo() {
+        runBlocking {
+            listOf("BV1ei4y1X7mo", "BV1jF411B7sw", "BV17A411575p", "BV1h34y1o7bz").forEach {
+                client.getVideoInfo(it)
+            }
+        }
+    }
 }

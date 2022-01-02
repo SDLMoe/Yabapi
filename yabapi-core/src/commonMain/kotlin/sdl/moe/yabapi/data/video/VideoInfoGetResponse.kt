@@ -9,7 +9,6 @@ package sdl.moe.yabapi.data.video
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
-import kotlinx.serialization.json.JsonObject
 import sdl.moe.yabapi.data.video.VideoInfoGetCode.UNKNOWN
 import sdl.moe.yabapi.enums.VideoType
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
@@ -68,7 +67,8 @@ public data class VideoInfo(
     @SerialName("no_cache") val noCache: Boolean,
     @SerialName("pages") val parts: List<VideoPart>,
     @SerialName("subtitle") val subtitle: VideoSubtitle,
-    @SerialName("ugc_season") val ugcSeason: JsonObject? = null, // TODO: Support Ugc Season
+    @SerialName("label") val label: VideoLabel? = null,
+    @SerialName("ugc_season") val ugcSeason: UgcSeason? = null,
     @SerialName("staff") val staff: List<VideoStaff>? = null,
     @SerialName("user_garb") val userGrab: UserGarb,
     @SerialName("honor_reply") val honor: VideoHonorData,
@@ -77,4 +77,9 @@ public data class VideoInfo(
 @Serializable
 public data class UserGarb(
     @SerialName("url_image_ani_cut") val urlImageAnimeCut: String,
+)
+
+@Serializable
+public data class VideoLabel(
+    @SerialName("type") val type: Int,
 )
