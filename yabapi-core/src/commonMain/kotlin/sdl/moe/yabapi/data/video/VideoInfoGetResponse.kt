@@ -22,23 +22,6 @@ public data class VideoInfoGetResponse(
 )
 
 @Serializable
-public enum class VideoInfoGetCode {
-    UNKNOWN,
-
-    @SerialName("0")
-    SUCCESS,
-
-    @SerialName("-400")
-    INVALID_REQUEST,
-
-    @SerialName("-404")
-    NOT_FOUND,
-
-    @SerialName("62002")
-    VIDEO_INVISIBLE;
-}
-
-@Serializable
 public data class VideoInfo(
     @SerialName("bvid") val bvid: String,
     @SerialName("aid") val aid: Int,

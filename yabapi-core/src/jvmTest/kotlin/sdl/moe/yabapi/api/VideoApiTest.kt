@@ -6,7 +6,9 @@ package sdl.moe.yabapi.api
 
 import kotlinx.coroutines.runBlocking
 import sdl.moe.yabapi.BiliClient
+import sdl.moe.yabapi.api.VideoApi.getVideoDescription
 import sdl.moe.yabapi.api.VideoApi.getVideoInfo
+import sdl.moe.yabapi.api.VideoApi.getVideoParts
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.storage.FileCookieStorage
 import sdl.moe.yabapi.util.yabapiLogLevel
@@ -47,6 +49,46 @@ internal class VideoApiTest {
         runBlocking {
             listOf("BV1ei4y1X7mo", "BV1jF411B7sw", "BV17A411575p", "BV1h34y1o7bz").forEach {
                 client.getVideoInfo(it)
+            }
+        }
+    }
+
+    @Test
+    fun getVideoParts() {
+        runBlocking {
+            listOf(
+                507448290,
+                933731156,
+                971149764,
+                422651576,
+                974531866,
+                892816331,
+                252043983,
+                252702924,
+                206735865,
+                549481623,
+            ).forEach {
+                client.getVideoParts(it)
+            }
+        }
+    }
+
+    @Test
+    fun getVideoDescription() {
+        runBlocking {
+            listOf(
+                507448290,
+                933731156,
+                971149764,
+                422651576,
+                974531866,
+                892816331,
+                252043983,
+                252702924,
+                206735865,
+                549481623,
+            ).forEach {
+                client.getVideoDescription(it)
             }
         }
     }
