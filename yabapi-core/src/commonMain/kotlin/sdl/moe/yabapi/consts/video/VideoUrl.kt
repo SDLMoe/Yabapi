@@ -29,3 +29,9 @@ internal const val VIDEO_COLLECT_CHECK_URL = "$MAIN/x/v2/fav/video/favoured"
 internal const val VIDEO_COMBO_LIKE_URL = "$MAIN/x/web-interface/archive/like/triple"
 
 internal const val VIDEO_SHARE_URL = "$MAIN/x/web-interface/share/add"
+
+internal const val VIDEO_TIMELINE_HOT_URL = "https://bvc.bilivideo.com/pbp/data"
+
+internal const val VIDEO_ONLINE_GET_URL = "$MAIN/x/player/online/total"
+
+internal const val VIDEO_TAG_GET_URL  = "$MAIN/x/tag/archive/tags"

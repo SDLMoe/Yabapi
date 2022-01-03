@@ -13,9 +13,12 @@ import sdl.moe.yabapi.api.VideoApi.coinVideo
 import sdl.moe.yabapi.api.VideoApi.collectVideo
 import sdl.moe.yabapi.api.VideoApi.comboLike
 import sdl.moe.yabapi.api.VideoApi.fetchVideoStream
+import sdl.moe.yabapi.api.VideoApi.getTimelineHot
 import sdl.moe.yabapi.api.VideoApi.getVideoDescription
 import sdl.moe.yabapi.api.VideoApi.getVideoInfo
+import sdl.moe.yabapi.api.VideoApi.getVideoOnline
 import sdl.moe.yabapi.api.VideoApi.getVideoParts
+import sdl.moe.yabapi.api.VideoApi.getVideoTags
 import sdl.moe.yabapi.api.VideoApi.likeVideo
 import sdl.moe.yabapi.api.VideoApi.shareVideo
 import sdl.moe.yabapi.data.stream.QnQuality.V8K
@@ -187,6 +190,29 @@ internal class VideoApiTest {
                         needDolby = true)
                 )
             )
+        }
+    }
+
+    @Test
+    fun getTimelineHotTest() {
+        runBlocking {
+            val cid = client.getVideoParts("BV1qM4y1w716").data[0].cid
+            client.getTimelineHot(cid)
+        }
+    }
+
+    @Test
+    fun getVideoOnlineTest() {
+        runBlocking {
+            val cid = client.getVideoParts("BV1mM4y1F7yh").data[0].cid
+            client.getVideoOnline("BV1mM4y1F7yh", cid)
+        }
+    }
+
+    @Test
+    fun getVideoTagsTest() {
+        runBlocking {
+            client.getVideoTags("BV1mM4y1F7yh")
         }
     }
 }

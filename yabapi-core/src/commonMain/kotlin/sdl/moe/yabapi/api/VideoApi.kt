@@ -26,14 +26,18 @@ import sdl.moe.yabapi.consts.video.VIDEO_DESCRIPTION_GET_URL
 import sdl.moe.yabapi.consts.video.VIDEO_HAS_LIKE_URL
 import sdl.moe.yabapi.consts.video.VIDEO_INFO_GET_URL
 import sdl.moe.yabapi.consts.video.VIDEO_LIKE_URL
+import sdl.moe.yabapi.consts.video.VIDEO_ONLINE_GET_URL
 import sdl.moe.yabapi.consts.video.VIDEO_PARTS_GET_URL
 import sdl.moe.yabapi.consts.video.VIDEO_SHARE_URL
 import sdl.moe.yabapi.consts.video.VIDEO_STREAM_FETCH_URL
+import sdl.moe.yabapi.consts.video.VIDEO_TAG_GET_URL
+import sdl.moe.yabapi.consts.video.VIDEO_TIMELINE_HOT_URL
 import sdl.moe.yabapi.data.stream.StreamRequest
 import sdl.moe.yabapi.data.stream.VideoStreamResponse
 import sdl.moe.yabapi.data.video.CoinVideoResponse
 import sdl.moe.yabapi.data.video.HasLikedResponse
 import sdl.moe.yabapi.data.video.ShareVideoResponse
+import sdl.moe.yabapi.data.video.TimelineHotResponse
 import sdl.moe.yabapi.data.video.VideoCoinCheckResponse
 import sdl.moe.yabapi.data.video.VideoCollectCheck
 import sdl.moe.yabapi.data.video.VideoCollectResponse
@@ -41,7 +45,9 @@ import sdl.moe.yabapi.data.video.VideoComboLikeResponse
 import sdl.moe.yabapi.data.video.VideoDescriptionGetResponse
 import sdl.moe.yabapi.data.video.VideoInfoGetResponse
 import sdl.moe.yabapi.data.video.VideoLikeResponse
+import sdl.moe.yabapi.data.video.VideoOnlineGetResponse
 import sdl.moe.yabapi.data.video.VideoPartsGetResponse
+import sdl.moe.yabapi.data.video.VideoTagsGetResponse
 import sdl.moe.yabapi.enums.video.CollectAction
 import sdl.moe.yabapi.enums.video.CollectAction.ADD
 import sdl.moe.yabapi.enums.video.CollectAction.REMOVE
@@ -441,6 +447,101 @@ public object VideoApi : BiliApi {
         logger.debug { "Fetching Video Stream for $bid..." }
         fetchVideoStream(null, bid, cid, request).also {
             logger.debug { "Fetched video stream for $bid: $it" }
+        }
+    }
+
+    /**
+     * 获取视频时间线热度
+     */
+    private suspend inline fun BiliClient.getTimelineHot(
+        cid: Int,
+        aid: Int? = null,
+        bid: String? = null,
+    ): TimelineHotResponse = withContext(Platform.ioDispatcher) {
+        client.get(VIDEO_TIMELINE_HOT_URL) {
+            parameter("cid", cid)
+            if (aid != null || bid != null) putVideoId(aid, bid)
+        }
+    }
+
+    public suspend fun BiliClient.getTimelineHot(cid: Int): TimelineHotResponse = run {
+        logger.debug { "Getting Timeline Hot for cid $cid..." }
+        getTimelineHot(cid, null, null).also {
+            logger.debug { "Got timeline hot for cid $cid: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.getTimelineHot(
+        cid: Int,
+        aid: Int,
+    ): TimelineHotResponse = run {
+        logger.debug { "Getting Timeline Hot for cid $cid (av$aid)..." }
+        getTimelineHot(cid, aid, null).also {
+            logger.debug { "Got Timeline Hot for cid $cid (av$aid): $it" }
+        }
+    }
+
+    public suspend fun BiliClient.getTimelineHot(
+        cid: Int,
+        bid: String,
+    ): TimelineHotResponse = run {
+        logger.debug { "Getting Timeline Hot for cid $cid ($bid)..." }
+        getTimelineHot(cid, null, bid).also {
+            logger.debug { "Got Timeline Hot for cid $cid ($bid): $it" }
+        }
+    }
+
+    private suspend inline fun BiliClient.getVideoOnline(
+        cid: Int,
+        aid: Int? = null,
+        bid: String? = null,
+    ): VideoOnlineGetResponse = withContext(Platform.ioDispatcher) {
+        client.get(VIDEO_ONLINE_GET_URL) {
+            putVideoId(aid, bid)
+            parameter("cid", cid)
+        }
+    }
+
+    public suspend fun BiliClient.getVideoOnline(
+        aid: Int,
+        cid: Int,
+    ): VideoOnlineGetResponse = run {
+        logger.debug { "Getting Video Online for av$aid cid $cid..." }
+        getVideoOnline(cid, aid, null).also {
+            logger.debug { "Got Video Online for av$aid cid $cid: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.getVideoOnline(
+        bid: String,
+        cid: Int,
+    ): VideoOnlineGetResponse = run {
+        logger.debug { "Getting Video Online for $bid cid $cid..." }
+        getVideoOnline(cid, null, bid).also {
+            logger.debug { "Got Video Online for $bid cid $cid: $it" }
+        }
+    }
+
+    private suspend inline fun BiliClient.getVideoTags(
+        aid: Int? = null,
+        bid: String? = null,
+    ): VideoTagsGetResponse = withContext(Platform.ioDispatcher) {
+        client.get(VIDEO_TAG_GET_URL) {
+            putVideoId(aid, bid)
+        }
+    }
+
+    public suspend fun BiliClient.getVideoTags(aid: Int) {
+        logger.debug { "Getting Video Tags for av$aid" }
+        getVideoTags(aid, null).also {
+            logger.debug { "Got Video Tags for av$aid: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.getVideoTags(bid: String) {
+        logger.debug { "Getting Video Tags for $bid" }
+        getVideoTags(null, bid).also {
+            logger.debug { "Got Video Tags for $bid: $it" }
         }
     }
 }
