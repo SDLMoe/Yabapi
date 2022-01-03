@@ -36,8 +36,8 @@ public data class VideoStat(
     @SerialName("his_rank") val highestRank: Int,
     @SerialName("like") val like: Int,
     @SerialName("dislike") val dislike: Int,
-    @SerialName("evaluation") val evaluation: String,
-    @SerialName("argue_msg") val argueMsg: String,
+    @SerialName("evaluation") val evaluation: String? = null,
+    @SerialName("argue_msg") val argueMsg: String? = null,
 )
 
 

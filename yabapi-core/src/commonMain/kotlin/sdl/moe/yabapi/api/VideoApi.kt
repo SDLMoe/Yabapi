@@ -28,6 +28,7 @@ import sdl.moe.yabapi.consts.video.VIDEO_INFO_GET_URL
 import sdl.moe.yabapi.consts.video.VIDEO_LIKE_URL
 import sdl.moe.yabapi.consts.video.VIDEO_ONLINE_GET_URL
 import sdl.moe.yabapi.consts.video.VIDEO_PARTS_GET_URL
+import sdl.moe.yabapi.consts.video.VIDEO_RELATED_GET_URL
 import sdl.moe.yabapi.consts.video.VIDEO_SHARE_URL
 import sdl.moe.yabapi.consts.video.VIDEO_STREAM_FETCH_URL
 import sdl.moe.yabapi.consts.video.VIDEO_TAG_GET_URL
@@ -47,6 +48,7 @@ import sdl.moe.yabapi.data.video.VideoInfoGetResponse
 import sdl.moe.yabapi.data.video.VideoLikeResponse
 import sdl.moe.yabapi.data.video.VideoOnlineGetResponse
 import sdl.moe.yabapi.data.video.VideoPartsGetResponse
+import sdl.moe.yabapi.data.video.VideoRelatedGetResponse
 import sdl.moe.yabapi.data.video.VideoTagsGetResponse
 import sdl.moe.yabapi.enums.video.CollectAction
 import sdl.moe.yabapi.enums.video.CollectAction.ADD
@@ -531,17 +533,40 @@ public object VideoApi : BiliApi {
         }
     }
 
-    public suspend fun BiliClient.getVideoTags(aid: Int) {
+    public suspend fun BiliClient.getVideoTags(aid: Int): VideoTagsGetResponse = run {
         logger.debug { "Getting Video Tags for av$aid" }
         getVideoTags(aid, null).also {
             logger.debug { "Got Video Tags for av$aid: $it" }
         }
     }
 
-    public suspend fun BiliClient.getVideoTags(bid: String) {
+    public suspend fun BiliClient.getVideoTags(bid: String): VideoTagsGetResponse = run {
         logger.debug { "Getting Video Tags for $bid" }
         getVideoTags(null, bid).also {
             logger.debug { "Got Video Tags for $bid: $it" }
+        }
+    }
+
+    private suspend inline fun BiliClient.getVideoRelated(
+        aid: Int?,
+        bid: String?,
+    ): VideoRelatedGetResponse = withContext(Platform.ioDispatcher) {
+        client.get(VIDEO_RELATED_GET_URL) {
+            putVideoId(aid, bid)
+        }
+    }
+
+    public suspend fun BiliClient.getVideoRelated(aid: Int): VideoRelatedGetResponse = run {
+        logger.debug { "Getting Related Video for av$aid" }
+        getVideoRelated(aid, null).also {
+            logger.debug { "Got Related Video for av$aid: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.getVideoRelated(bid: String): VideoRelatedGetResponse = run {
+        logger.debug { "Getting Related Video for $bid" }
+        getVideoRelated(null, bid).also {
+            logger.debug { "Got Related Video for $bid: $it" }
         }
     }
 }

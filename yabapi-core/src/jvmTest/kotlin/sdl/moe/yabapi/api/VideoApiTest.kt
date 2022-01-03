@@ -18,6 +18,7 @@ import sdl.moe.yabapi.api.VideoApi.getVideoDescription
 import sdl.moe.yabapi.api.VideoApi.getVideoInfo
 import sdl.moe.yabapi.api.VideoApi.getVideoOnline
 import sdl.moe.yabapi.api.VideoApi.getVideoParts
+import sdl.moe.yabapi.api.VideoApi.getVideoRelated
 import sdl.moe.yabapi.api.VideoApi.getVideoTags
 import sdl.moe.yabapi.api.VideoApi.likeVideo
 import sdl.moe.yabapi.api.VideoApi.shareVideo
@@ -213,6 +214,13 @@ internal class VideoApiTest {
     fun getVideoTagsTest() {
         runBlocking {
             client.getVideoTags("BV1mM4y1F7yh")
+        }
+    }
+
+    @Test
+    fun getVideoRelatedTest() {
+        runBlocking {
+            client.getVideoRelated("BV1jF411B7sw")
         }
     }
 }
