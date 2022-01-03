@@ -63,12 +63,12 @@ Yabapi 基于此，力求类型安全，避免空指针，减少运行时错误�
   - [X] 点赞/投币/收藏/一键三连 及 状态查询
   - [X] 全清晰度(8K/4K/1080P+) 音视频流获取
     - [ ] 下载?
-- [X] 表情
+- 表情
   - [X] 获取表情列表
-- [X] 时间
+- 时间
   - [X] 获取服务器时间戳
 - Cookie 存储
-  - 提供 FileCookieStorage (基于 Ktor AcceptAllCookies, 以及 [korio](https://github.com/korlibs/korio) 的 VfsFile)
+  - [X] 提供 FileCookieStorage (基于 Ktor AcceptAllCookies, 以及 [korio](https://github.com/korlibs/korio) 的 VfsFile)
 
 敏感 API 不会被支持, 如 B 币钱包、注册、新人答题、课程下载。同时 API 会优先支持读取操作。
 
