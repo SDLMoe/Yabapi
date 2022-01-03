@@ -35,7 +35,7 @@ private fun power(a: Int, b: Int): Long {
 }
 
 /**
- * BV 转 AV 号，转换结果为 Int, 形如:(av) 1234567
+ * BV 转 AV 号，转换结果为 Long, 形如:(av) 1234567
  * @receiver String 输入形如 BVra123abc 的 String, 大小写敏感
  */
 public val String.av: Long

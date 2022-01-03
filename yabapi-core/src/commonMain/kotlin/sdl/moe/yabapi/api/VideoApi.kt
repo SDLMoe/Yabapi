@@ -28,6 +28,9 @@ import sdl.moe.yabapi.consts.video.VIDEO_INFO_GET_URL
 import sdl.moe.yabapi.consts.video.VIDEO_LIKE_URL
 import sdl.moe.yabapi.consts.video.VIDEO_PARTS_GET_URL
 import sdl.moe.yabapi.consts.video.VIDEO_SHARE_URL
+import sdl.moe.yabapi.consts.video.VIDEO_STREAM_FETCH_URL
+import sdl.moe.yabapi.data.stream.StreamRequest
+import sdl.moe.yabapi.data.stream.VideoStreamResponse
 import sdl.moe.yabapi.data.video.CoinVideoResponse
 import sdl.moe.yabapi.data.video.HasLikedResponse
 import sdl.moe.yabapi.data.video.ShareVideoResponse
@@ -44,6 +47,7 @@ import sdl.moe.yabapi.enums.video.CollectAction.ADD
 import sdl.moe.yabapi.enums.video.CollectAction.REMOVE
 import sdl.moe.yabapi.enums.video.LikeAction
 import sdl.moe.yabapi.enums.video.LikeAction.LIKE
+import sdl.moe.yabapi.enums.video.VideoFormat.DASH
 import sdl.moe.yabapi.util.avInt
 import sdl.moe.yabapi.util.logger
 
@@ -398,6 +402,45 @@ public object VideoApi : BiliApi {
         logger.debug { "Sharing video $bid..." }
         shareVideo(null, bid).also {
             logger.debug { "Shared video $bid: $it" }
+        }
+    }
+
+    private suspend inline fun BiliClient.fetchVideoStream(
+        aid: Int?,
+        bid: String?,
+        cid: Int,
+        request: StreamRequest,
+    ): VideoStreamResponse =
+        withContext(Platform.ioDispatcher) {
+            client.get(VIDEO_STREAM_FETCH_URL) {
+                putVideoId(aid, bid)
+                parameter("cid", cid)
+                if (request.fnvalFormat.format != DASH) parameter("qn", request.qnQuality.code)
+                parameter("fnval", request.fnvalFormat.toBinary())
+                parameter("fnver", "0")
+                parameter("fourk", request.fourk)
+            }
+        }
+
+    public suspend fun BiliClient.fetchVideoStream(
+        aid: Int,
+        cid: Int,
+        request: StreamRequest = StreamRequest(),
+    ): VideoStreamResponse = run {
+        logger.debug { "Fetching Video Stream for av$aid..." }
+        fetchVideoStream(aid, null, cid, request).also {
+            logger.debug { "Fetched video stream for av$aid: $it" }
+        }
+    }
+
+    public suspend fun BiliClient.fetchVideoStream(
+        bid: String,
+        cid: Int,
+        request: StreamRequest = StreamRequest(),
+    ): VideoStreamResponse = run {
+        logger.debug { "Fetching Video Stream for $bid..." }
+        fetchVideoStream(null, bid, cid, request).also {
+            logger.debug { "Fetched video stream for $bid: $it" }
         }
     }
 }

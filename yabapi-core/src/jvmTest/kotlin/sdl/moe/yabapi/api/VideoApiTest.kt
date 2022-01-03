@@ -12,16 +12,21 @@ import sdl.moe.yabapi.api.VideoApi.checkVideoLike
 import sdl.moe.yabapi.api.VideoApi.coinVideo
 import sdl.moe.yabapi.api.VideoApi.collectVideo
 import sdl.moe.yabapi.api.VideoApi.comboLike
+import sdl.moe.yabapi.api.VideoApi.fetchVideoStream
 import sdl.moe.yabapi.api.VideoApi.getVideoDescription
 import sdl.moe.yabapi.api.VideoApi.getVideoInfo
 import sdl.moe.yabapi.api.VideoApi.getVideoParts
 import sdl.moe.yabapi.api.VideoApi.likeVideo
 import sdl.moe.yabapi.api.VideoApi.shareVideo
+import sdl.moe.yabapi.data.stream.QnQuality.V8K
+import sdl.moe.yabapi.data.stream.StreamRequest
+import sdl.moe.yabapi.data.stream.VideoFnvalFormat
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.enums.video.CollectAction.ADD
 import sdl.moe.yabapi.enums.video.CollectAction.REMOVE
 import sdl.moe.yabapi.enums.video.LikeAction.LIKE
 import sdl.moe.yabapi.enums.video.LikeAction.UNLIKE
+import sdl.moe.yabapi.enums.video.VideoFormat.DASH
 import sdl.moe.yabapi.storage.FileCookieStorage
 import sdl.moe.yabapi.util.yabapiLogLevel
 import kotlin.test.Test
@@ -161,6 +166,27 @@ internal class VideoApiTest {
     fun shareTest() {
         runBlocking {
             client.shareVideo("BV13Z4y1F798")
+        }
+    }
+
+    @Test
+    fun fetchVideoStreamTest() {
+        runBlocking {
+            val bv = "BV1qM4y1w716"
+            val data = client.getVideoParts(bv).data
+            client.fetchVideoStream(
+                bv,
+                data[0].cid,
+                StreamRequest(
+                    qnQuality = V8K,
+                    fnvalFormat = VideoFnvalFormat(
+                        format = DASH,
+                        needHDR = true,
+                        need4K = true,
+                        need8K = true,
+                        needDolby = true)
+                )
+            )
         }
     }
 }
