@@ -1,6 +1,6 @@
 # <h1>Yabapi 😱</h1>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: CDDL](https://img.shields.io/badge/license-CDDL-%233778b4)](https://opensource.org/licenses/MIT)
 
 Bilibili API for Kotlin
 
@@ -12,9 +12,11 @@ Yabapi 是一个 B 站第三方 Kotlin API 库。
 
 # License
 
-[MIT License](https://github.com/SDLMoe/Yabapi/blob/kotlin-mt/LICENSE) 
+[CDDL License](https://github.com/SDLMoe/Yabapi/blob/kotlin-mt/LICENSE) 
 
 本项目开源且免费，引用本项目时，您需要明确指出使用了本项目。
+
+同时，请注意，CDDL 不兼容 GPL 协议。
 
 # 特性
 

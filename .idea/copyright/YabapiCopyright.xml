@@ -1,6 +1,6 @@
 <component name="CopyrightManager">
   <copyright>
-    <option name="notice" value="© Copyright &amp;#36;originalComment.match(&quot;Copyright \(c\) (\d+)&quot;, 1, &quot;-&quot;)&amp;#36;today.year Colerar and repository contributors&#10;Use of this source code is governed by the MIT license that can be found via link below:&#10;https://github.com/SDLMoe/Yabapi/blob/master/LICENSE" />
+    <option name="notice" value="© Copyright 2021-&amp;#36;originalComment.match(&quot;Copyright \(c\) (\d+)&quot;, 1, &quot;-&quot;)&amp;#36;today.year Colerar and repository contributors&#10;Use of this source code is governed by the CDDL license that can be found via link below:&#10;https://github.com/SDLMoe/Yabapi/blob/master/LICENSE" />
     <option name="myName" value="YabapiCopyright" />
   </copyright>
 </component>
