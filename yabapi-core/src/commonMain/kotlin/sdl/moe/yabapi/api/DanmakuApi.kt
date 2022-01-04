@@ -13,6 +13,7 @@ import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.consts.protoBuf
 import sdl.moe.yabapi.consts.video.VIDEO_DANMAKU_WEB_URL
+import sdl.moe.yabapi.data.danmaku.DanmakuMetadataResponse
 import sdl.moe.yabapi.data.danmaku.DanmakuResponse
 import sdl.moe.yabapi.enums.danmaku.DanmakuType
 import sdl.moe.yabapi.enums.danmaku.DanmakuType.VIDEO
@@ -49,6 +50,30 @@ public object DanmakuApi : BiliApi {
 
     @ExperimentalSerializationApi
     public suspend inline fun BiliClient.getDanmaku(
-        bid: String, part: Int = 1, aid: Int? = null, type: DanmakuType = VIDEO,
-    ): DanmakuResponse = getDanmaku(bid.avInt, part, aid, type)
+        cid: Int, part: Int = 1, bid: String, type: DanmakuType = VIDEO,
+    ): DanmakuResponse = getDanmaku(cid, part, bid.avInt, type)
+
+    // not implemented, kotlinx.serialization not support proto3 packed repeat message
+    @ExperimentalSerializationApi
+    public suspend fun BiliClient.getDanmakuMetadata(
+        cid: Int,
+        aid: Int? = null,
+        type: DanmakuType = VIDEO,
+    ): DanmakuMetadataResponse = withContext(Platform.ioDispatcher) {
+        val showAid = aid?.let { " (av$it)" } ?: ""
+        logger.debug { "Getting danmaku metadata for cid $cid$showAid..." }
+        val bytes: ByteArray = client.get(VIDEO_DANMAKU_WEB_URL) {
+            parameter("type", type.code)
+            parameter("oid", cid)
+            aid?.let { parameter("pid", aid) }
+        }
+        protoBuf.decodeFromByteArray<DanmakuMetadataResponse>(bytes).also {
+            logger.debug { "Got danmaku metadata for cid $cid$showAid: $it}" }
+        }
+    }
+
+    @ExperimentalSerializationApi
+    public suspend inline fun BiliClient.getDanmakuMetadata(
+        cid: Int, bid: String, type: DanmakuType = VIDEO,
+    ): DanmakuMetadataResponse = getDanmakuMetadata(cid, bid.avInt, type)
 }

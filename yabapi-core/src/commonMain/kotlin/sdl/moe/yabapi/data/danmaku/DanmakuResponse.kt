@@ -16,8 +16,8 @@ public data class DanmakuResponse(
 @Serializable
 public data class DanmakuContent(
     @SerialName("id") val id: Long? = null,
-    @SerialName("progress") val progress: Int? = null,
-    @SerialName("mode") val mode: Int? = null,
+    @SerialName("progress") val progress: Int? = null, // ms
+    @SerialName("mode") private val _mode: Int? = null,
     @SerialName("fontsize") val fontsize: Int? = null,
     @SerialName("color") private val _color: UInt? = null,
     @SerialName("midHash") val midHash: String? = null,
@@ -30,4 +30,6 @@ public data class DanmakuContent(
 ) {
     val color: RgbColor?
         get() = _color?.let { RgbColor.fromHex(it) }
+    val mode: DanmakuMode?
+        get() = _mode?.let { DanmakuMode.fromCode(it) }
 }

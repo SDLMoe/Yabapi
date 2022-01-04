@@ -15,6 +15,7 @@ import io.ktor.client.features.websocket.WebSockets
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.protobuf.ProtoBuf
 
 public expect fun getDefaultEngine(): HttpClientEngineFactory<*>
@@ -43,7 +44,7 @@ public fun getDefaultHttpClient(): HttpClient = HttpClient(getDefaultEngine()) {
     }
 }
 
-internal val json = kotlinx.serialization.json.Json {
+public val json: Json = Json {
     prettyPrint = true
     isLenient = true
     coerceInputValues = true
