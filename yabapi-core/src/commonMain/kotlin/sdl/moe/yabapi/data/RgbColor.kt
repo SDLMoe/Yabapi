@@ -53,19 +53,4 @@ public data class RgbColor(
             ((green and 0xFF) shl 8) or
             ((blue and 0xFF) shl 0)
     }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        return when (other) {
-            is RgbColor -> (this.red == other.red) && (this.green == other.green) && (this.blue == other.blue)
-            else -> false
-        }
-    }
-
-    override fun hashCode(): Int {
-        var result = red
-        result = 31 * result + green
-        result = 31 * result + blue
-        return result
-    }
 }
