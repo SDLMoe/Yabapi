@@ -4,12 +4,14 @@
 
 package sdl.moe.yabapi.data
 
-import kotlin.jvm.Transient
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
+@Serializable
 public data class RgbColor(
-    @Transient val red: Int,
-    @Transient val green: Int,
-    @Transient val blue: Int,
+    val red: Int,
+    val green: Int,
+    val blue: Int,
 ) {
     public companion object {
         @Transient
@@ -35,6 +37,13 @@ public data class RgbColor(
             val g = (hex and 0x00FF00) shr 8
             val b = (hex and 0x0000FF) shr 0
             return RgbColor(r, g, b)
+        }
+
+        public fun fromHex(hex: UInt): RgbColor {
+            val r = (hex and 0xFF0000u) shr 16
+            val g = (hex and 0x00FF00u) shr 8
+            val b = (hex and 0x0000FFu) shr 0
+            return RgbColor(r.toInt(), g.toInt(), b.toInt())
         }
     }
 

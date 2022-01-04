@@ -13,7 +13,7 @@ public data class VideoPart(
     @SerialName("page") val part: Int,
     @SerialName("from") val from: String,
     @SerialName("part") val name: String,
-    @SerialName("duration") val duration: Long,
+    @SerialName("duration") val duration: Long, // s
     @SerialName("vid") val vid: String? = null,
     @SerialName("weblink") val weblink: String? = null,
     @SerialName("dimension") val dimension: VideoDimension? = null,

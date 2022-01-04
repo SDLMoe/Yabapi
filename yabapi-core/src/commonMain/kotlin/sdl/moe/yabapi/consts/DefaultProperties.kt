@@ -14,6 +14,8 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.websocket.WebSockets
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.protobuf.ProtoBuf
 
 public expect fun getDefaultEngine(): HttpClientEngineFactory<*>
 
@@ -46,6 +48,9 @@ internal val json = kotlinx.serialization.json.Json {
     isLenient = true
     coerceInputValues = true
 }
+
+@ExperimentalSerializationApi
+public var protoBuf: ProtoBuf =  ProtoBuf
 
 // Safari + MacOS User Agent
 internal const val WEB_USER_AGENT: String =
