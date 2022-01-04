@@ -7,6 +7,7 @@ package sdl.moe.yabapi.enums
 import kotlinx.serialization.Serializable
 import sdl.moe.yabapi.consts.WWW
 import sdl.moe.yabapi.serializer.data.VideoTypeSerializer
+import sdl.moe.yabapi.util.logger
 
 @Serializable(VideoTypeSerializer::class)
 public sealed class VideoType(
@@ -20,7 +21,7 @@ public sealed class VideoType(
     public companion object {
         // Long list, register video type, can replace with Annotation Processor, but KSP in experimental.
         public fun getAllTypes(): List<VideoType> = listOf(
-            Douga, Douga.MAD, Douga.MMD, Douga.Voice, Douga.GarageKit, Douga.Tokusatsu,
+            Douga, Douga.MAD, Douga.MMD, Douga.Voice, Douga.Other, Douga.GarageKit, Douga.Tokusatsu,
             Anime, Anime.Serial, Anime.Finish, Anime.Information, Anime.Official,
             Guochuang, Guochuang.Donghua, Guochuang.Original, Guochuang.Puppetry, Guochuang.MotionComic, Guochuang.MotionComic, Guochuang.Information,
             Music, Music.Original, Music.Cover, Music.Vocaloid, Music.Electronic, Music.Perform, Music.MV, Music.Live, Music.Other,
@@ -31,29 +32,34 @@ public sealed class VideoType(
             Car, Car.Life, Car.Culture, Car.Geek, Car.Smart, Car.Strategy,
             Sports, Sports.Ball, Sports.Aerobics, Sports.Atheletic, Sports.Culture, Sports.Comprehensive,
             Life, Life.Funny, Life.Home, Life.Handmake, Life.Painting, Life.Daily,
-            Food, Food.Make, Food.Mesusurement, Food.Rural, Food.Record,
+            Food, Food.Make, Food.Measurement, Food.Rural, Food.Record,
             Animal, Animal.Cat, Animal.Dog, Animal.Panda, Animal.Wild, Animal.Reptiles, Animal.Composite,
             Kichiku, Kichiku.Guide, Kichiku.MAD, Kichiku.ManualVocaloid, Kichiku.Theatre, Kichiku.Course,
             Fashion, Fashion.Makeup, Fashion.Clothing, Fashion.Catwalk, Fashion.Trends,
             Information, Information.Hotspot, Information.Global, Information.Social, Information.Multiple,
             Entertainment, Entertainment.Variety, Entertainment.Star,
-            Cinephile, Cinephile.Cinecism, Cinephile.Montage, Cinephile.Shortfilm, Cinephile.TrailerInfo,
+            Cinephile, Cinephile.Cinecism, Cinephile.Montage, Cinephile.ShortFilm, Cinephile.TrailerInfo,
             Documentary, Documentary.History, Documentary.Science, Documentary.Military, Documentary.Travel,
             Movie, Movie.Chinese, Movie.West, Movie.Japan, Movie.Other,
             TV, TV.Mainland, TV.Overseas,
         )
+
         public fun getAllUrl(): List<String> = getAllTypes().map { it.getUrl() }
-        public fun fromTid(tid: Int): VideoType = getAllTypes().firstOrNull { it.tid == tid } ?: Unknow
+        public fun fromTid(tid: Int): VideoType = getAllTypes().firstOrNull { it.tid == tid } ?: run {
+            logger.debug { "Unexpected VideoType Id: $tid, fallback to Unknown" }
+            Unknown
+        }
         public fun fromCode(string: String): VideoType =
-            getAllTypes().firstOrNull { it.code == string.lowercase() } ?: Unknow
+            getAllTypes().firstOrNull { it.code == string.lowercase() } ?: Unknown
     }
 }
 
-public object Unknow : VideoType("未知", "unknown", -1, "")
+public object Unknown : VideoType("未知", "unknown", -1, "")
 
 public object Douga : VideoType("动画", "douga", 1, "/v/douga") {
     public object MAD : VideoType("MAD·AMV", "mad", 24, "/v/douga/mad")
     public object MMD : VideoType("MMD·3D", "mmd", 25, "/v/douga/mmd")
+    public object Other : VideoType("综合", "other", 27, "/v/douga/other")
     public object Voice : VideoType("短片·手书·配音", "voice", 47, "/v/douga/voice")
     public object GarageKit : VideoType("手办·模玩", "garage_kit", 210, "/v/douga/garage_kit")
     public object Tokusatsu : VideoType("特摄", "tokusatsu", 86, "/v/douga/other")
@@ -151,7 +157,7 @@ public object Life : VideoType("生活", "life", 160, "/v/life") {
 public object Food : VideoType("美食", "food", 211, "/v/food") {
     public object Make : VideoType("美食制作", "make", 76, "/v/food/make")
     public object Detective : VideoType("美食侦探", "detective", 212, "/v/food/detective")
-    public object Mesusurement : VideoType("美食测评", "measurement", 213, "/v/food/measurement")
+    public object Measurement : VideoType("美食测评", "measurement", 213, "/v/food/measurement")
     public object Rural : VideoType("田园美食", "rural", 214, "/v/food/rural")
     public object Record : VideoType("美食记录", "record", 215, "/v/food/record")
 }
@@ -195,7 +201,7 @@ public object Entertainment : VideoType("娱乐", "ent", 5, "/v/ent") {
 public object Cinephile : VideoType("影视", "cinephile", 181, "/v/cinphile") {
     public object Cinecism : VideoType("影视杂谈", "cinecism", 182, "/v/cinephile/cinecism")
     public object Montage : VideoType("影视剪辑", "montage", 183, "/v/cinephile/montage")
-    public object Shortfilm : VideoType("短片", "shortfilm", 85, "/v/cinephile/shortfilm")
+    public object ShortFilm : VideoType("短片", "shortfilm", 85, "/v/cinephile/shortfilm")
     public object TrailerInfo : VideoType("预告·资讯", "trailer_info", 184, "/v/cinephile/trailer_info")
 }
 
