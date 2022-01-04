@@ -39,3 +39,7 @@ internal const val VIDEO_TAG_GET_URL  = "$MAIN/x/tag/archive/tags"
 internal const val VIDEO_RELATED_GET_URL = "$MAIN/x/web-interface/archive/related"
 
 internal const val VIDEO_DANMAKU_WEB_URL = "$MAIN/x/v2/dm/web/seg.so"
+
+internal const val VIDEO_DANMAKU_CALENDAR_URL = "$MAIN/x/v2/dm/history/index"
+
+internal const val VIDEO_HISTORY_DANMAKU_GET_URL = "$MAIN/x/v2/dm/web/history/seg.so"

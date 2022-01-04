@@ -7,12 +7,16 @@ package sdl.moe.yabapi.api
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromByteArray
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.consts.protoBuf
+import sdl.moe.yabapi.consts.video.VIDEO_DANMAKU_CALENDAR_URL
 import sdl.moe.yabapi.consts.video.VIDEO_DANMAKU_WEB_URL
+import sdl.moe.yabapi.consts.video.VIDEO_HISTORY_DANMAKU_GET_URL
+import sdl.moe.yabapi.data.danmaku.DanmakuCalendarResponse
 import sdl.moe.yabapi.data.danmaku.DanmakuMetadataResponse
 import sdl.moe.yabapi.data.danmaku.DanmakuResponse
 import sdl.moe.yabapi.enums.danmaku.DanmakuType
@@ -76,4 +80,56 @@ public object DanmakuApi : BiliApi {
     public suspend inline fun BiliClient.getDanmakuMetadata(
         cid: Int, bid: String, type: DanmakuType = VIDEO,
     ): DanmakuMetadataResponse = getDanmakuMetadata(cid, bid.avInt, type)
+
+    public suspend fun BiliClient.getDanmakuCalendar(
+        cid: Int,
+        year: Int,
+        month: Int,
+        type: DanmakuType = VIDEO,
+    ): DanmakuCalendarResponse =
+        withContext(Platform.ioDispatcher) {
+            val date = "$year-${month.toString().padStart(2, '0')}"
+            logger.debug { "Getting calendar for cid$cid in $date" }
+            client.get<DanmakuCalendarResponse>(VIDEO_DANMAKU_CALENDAR_URL) {
+                parameter("type", type.code)
+                parameter("oid", cid)
+                parameter("month", date)
+            }.also {
+                logger.debug { "Got calendar for cid$cid in $date: $it" }
+            }
+        }
+
+    @ExperimentalSerializationApi
+    public suspend fun BiliClient.getHistoryDanmaku(
+        cid: Int,
+        date: String,
+        type: DanmakuType = VIDEO,
+    ): DanmakuResponse =
+        withContext(Platform.ioDispatcher) {
+            logger.debug { "Getting History Danmaku for cid$cid on $date..." }
+            client.get<ByteArray>(VIDEO_HISTORY_DANMAKU_GET_URL) {
+                parameter("type", type.code)
+                parameter("oid", cid)
+                parameter("date", date)
+            }.let<ByteArray, DanmakuResponse> {
+                protoBuf.decodeFromByteArray(it)
+            }.also {
+                logger.debug { "Got History Danmaku for cid$cid on $date: danmaku count ${it.danmakus.count()}" }
+                logger.verbose { "$it" }
+            }
+        }
+
+    /**
+     * @param date YYYY-MM-DD
+     */
+    @ExperimentalSerializationApi
+    public suspend fun BiliClient.getHistoryDanmaku(
+        cid: Int, date: LocalDate, type: DanmakuType = VIDEO
+    ): DanmakuResponse = run {
+        val year = date.year.toString()
+        val month = date.monthNumber.toString().padStart(2, '0')
+        val day = date.dayOfMonth.toString().padStart(2, '0')
+        val dateFormatted = "$year-$month-$day"
+        getHistoryDanmaku(cid, dateFormatted, type)
+    }
 }
