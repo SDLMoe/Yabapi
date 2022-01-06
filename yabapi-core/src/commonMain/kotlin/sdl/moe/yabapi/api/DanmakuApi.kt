@@ -12,10 +12,10 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromByteArray
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.Platform
+import sdl.moe.yabapi.consts.internal.VIDEO_DANMAKU_CALENDAR_URL
+import sdl.moe.yabapi.consts.internal.VIDEO_DANMAKU_WEB_URL
+import sdl.moe.yabapi.consts.internal.VIDEO_HISTORY_DANMAKU_GET_URL
 import sdl.moe.yabapi.consts.protoBuf
-import sdl.moe.yabapi.consts.video.VIDEO_DANMAKU_CALENDAR_URL
-import sdl.moe.yabapi.consts.video.VIDEO_DANMAKU_WEB_URL
-import sdl.moe.yabapi.consts.video.VIDEO_HISTORY_DANMAKU_GET_URL
 import sdl.moe.yabapi.data.danmaku.DanmakuCalendarResponse
 import sdl.moe.yabapi.data.danmaku.DanmakuMetadataResponse
 import sdl.moe.yabapi.data.danmaku.DanmakuResponse

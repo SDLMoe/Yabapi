@@ -2,11 +2,7 @@
 // Use of this source code is governed by the CDDL license that can be found via link below:
 // https://github.com/SDLMoe/Yabapi/blob/master/LICENSE
 
-package sdl.moe.yabapi.consts.info
-
-import sdl.moe.yabapi.consts.MAIN
-import sdl.moe.yabapi.consts.PASSPORT
-import sdl.moe.yabapi.consts.WWW
+package sdl.moe.yabapi.consts.internal
 
 internal const val ACCOUNT_INFO_GET_URL: String = "$MAIN/x/member/web/account"
 

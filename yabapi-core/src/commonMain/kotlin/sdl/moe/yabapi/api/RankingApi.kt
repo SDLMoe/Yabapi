@@ -9,8 +9,8 @@ import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.Platform
-import sdl.moe.yabapi.consts.ranking.LATEST_VIDEO_GET_URL
-import sdl.moe.yabapi.consts.ranking.RANKING_GET_URL
+import sdl.moe.yabapi.consts.internal.LATEST_VIDEO_GET_URL
+import sdl.moe.yabapi.consts.internal.RANKING_GET_URL
 import sdl.moe.yabapi.data.GeneralCode.SUCCESS
 import sdl.moe.yabapi.data.ranking.LatestVideoGetResponse
 import sdl.moe.yabapi.data.ranking.RankingGetResponse

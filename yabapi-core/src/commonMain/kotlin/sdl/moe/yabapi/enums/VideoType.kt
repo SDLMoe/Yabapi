@@ -5,7 +5,7 @@
 package sdl.moe.yabapi.enums
 
 import kotlinx.serialization.Serializable
-import sdl.moe.yabapi.consts.WWW
+import sdl.moe.yabapi.consts.internal.WWW
 import sdl.moe.yabapi.serializer.data.VideoTypeSerializer
 import sdl.moe.yabapi.util.logger
 

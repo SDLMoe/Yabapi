@@ -4,7 +4,7 @@
 
 @file:Suppress("UNUSED")
 
-package sdl.moe.yabapi.consts
+package sdl.moe.yabapi.consts.internal
 
 internal const val WWW : String = "https://www.bilibili.com"
 

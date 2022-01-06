@@ -2,9 +2,7 @@
 // Use of this source code is governed by the CDDL license that can be found via link below:
 // https://github.com/SDLMoe/Yabapi/blob/master/LICENSE
 
-package sdl.moe.yabapi.consts.ranking
-
-import sdl.moe.yabapi.consts.MAIN
+package sdl.moe.yabapi.consts.internal
 
 internal const val RANKING_GET_URL = "$MAIN/x/web-interface/ranking/region"
 

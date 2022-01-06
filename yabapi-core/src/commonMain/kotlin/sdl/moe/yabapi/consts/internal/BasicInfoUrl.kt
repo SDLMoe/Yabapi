@@ -2,11 +2,7 @@
 // Use of this source code is governed by the CDDL license that can be found via link below:
 // https://github.com/SDLMoe/Yabapi/blob/master/LICENSE
 
-package sdl.moe.yabapi.consts.info
-
-import sdl.moe.yabapi.consts.ACCOUNT
-import sdl.moe.yabapi.consts.MAIN
-import sdl.moe.yabapi.consts.PASSPORT
+package sdl.moe.yabapi.consts.internal
 
 internal const val BASIC_INFO_GET_URL = "$MAIN/x/web-interface/nav"
 

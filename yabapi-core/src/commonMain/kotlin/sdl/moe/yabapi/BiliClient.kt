@@ -14,7 +14,7 @@ import io.ktor.http.Url
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.api.BiliApi
 import sdl.moe.yabapi.api.InfoApi.getBasicInfo
-import sdl.moe.yabapi.consts.MAIN
+import sdl.moe.yabapi.consts.internal.MAIN
 import sdl.moe.yabapi.consts.getDefaultHttpClient
 import sdl.moe.yabapi.storage.FileCookieStorage
 import sdl.moe.yabapi.util.logger

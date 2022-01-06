@@ -2,8 +2,6 @@
 // Use of this source code is governed by the CDDL license that can be found via link below:
 // https://github.com/SDLMoe/Yabapi/blob/master/LICENSE
 
-package sdl.moe.yabapi.consts.passport
+package sdl.moe.yabapi.consts.internal
 
-import sdl.moe.yabapi.consts.PASSPORT
-
-internal const val LOG_OUT_URL = "$PASSPORT/login/exit/v2"
+internal const val VIDEO_STREAM_FETCH_URL = "$MAIN/x/player/playurl"
