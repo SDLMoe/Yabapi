@@ -23,7 +23,7 @@ Yabapi 是一个 B 站第三方 Kotlin API 库。
 ## 多平台
 
 Yabapi 是一个 [Kotlin Multiplatform](https://kotlinlang.org/docs/mpp-intro.html) 项目，得益于 [Ktor](https://ktor.io/)
-与众多其他多平台库的支持，主要功能可在 JVM、JavaScript、Native 多个平台上运行。
+与众多其他多平台库的支持，主要功能可在 JVM、Native 多个平台上运行。
 
 ## 类型安全
 

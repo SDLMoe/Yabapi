@@ -4,8 +4,6 @@
 
 package sdl.moe.yabapi.api
 
-import kotlinx.coroutines.runBlocking
-import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.api.InfoApi.checkNick
 import sdl.moe.yabapi.api.InfoApi.getAccountInfo
 import sdl.moe.yabapi.api.InfoApi.getBasicInfo
@@ -21,8 +19,9 @@ import sdl.moe.yabapi.api.InfoApi.getStat
 import sdl.moe.yabapi.api.InfoApi.getUserCard
 import sdl.moe.yabapi.api.InfoApi.getUserSpace
 import sdl.moe.yabapi.api.InfoApi.getVipStat
+import sdl.moe.yabapi.client
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
-import sdl.moe.yabapi.storage.FileCookieStorage
+import sdl.moe.yabapi.runTest
 import sdl.moe.yabapi.util.logger
 import sdl.moe.yabapi.util.yabapiLogLevel
 
@@ -32,35 +31,33 @@ internal object InfoApiTest {
         yabapiLogLevel = DEBUG
     }
 
-    private val client = BiliClient(cookieStorage = FileCookieStorage("cookies.json"))
-
     fun getBasicInfoTest() {
-        runBlocking {
+        runTest {
             // client.loginWebQRCodeInteractive()
             client.getBasicInfo()
         }
     }
 
     fun getStatTest() {
-        runBlocking {
+        runTest {
             client.getStat()
         }
     }
 
     fun getCoinTest() {
-        runBlocking {
+        runTest {
             client.getCoinInfo()
         }
     }
 
     fun getAccountInfoTest() {
-        runBlocking {
+        runTest {
             client.getAccountInfo()
         }
     }
 
     fun getExpTest() {
-        runBlocking {
+        runTest {
             val expData = client.getExpReward().data
             val coinExpData = client.getCoinExp()
             expData?.replaceWithCoinExp(coinExpData)?.countTodayRewarded().also {
@@ -70,37 +67,37 @@ internal object InfoApiTest {
     }
 
     fun getVipStatTest() {
-        runBlocking {
+        runTest {
             client.getVipStat()
         }
     }
 
     fun getSecureInfoTest() {
-        runBlocking {
+        runTest {
             client.getSecureInfo()
         }
     }
 
     fun getRealNameInfoTest() {
-        runBlocking {
+        runTest {
             client.getRealNameInfo()
         }
     }
 
     fun getRealNameDetailedTest() {
-        runBlocking {
+        runTest {
             client.getRealNameDetailed()
         }
     }
 
     fun getCoinLogTest() {
-        runBlocking {
+        runTest {
             client.getCoinLog()
         }
     }
 
     fun getUserSpaceTest() {
-        runBlocking {
+        runTest {
             listOf(2, 264155183, 699766742, 399308420, 1887658, 2648514, 2746732, 546195, 63231)
                 .forEach {
                     client.getUserSpace(it)
@@ -109,7 +106,7 @@ internal object InfoApiTest {
     }
 
     fun getUserCardTest() {
-        runBlocking {
+        runTest {
             val random = listOf(true, false)
             // val body: String = client.client.get(USER_CARD_GET_URL) {
             //     parameter("mid", "2")
@@ -124,13 +121,13 @@ internal object InfoApiTest {
     }
 
     fun getMySpaceTest() {
-        runBlocking {
+        runTest {
             client.getMySpace()
         }
     }
 
     fun nickCheckTest() {
-        runBlocking {
+        runTest {
             // lol 星黛*露b*ot 是敏感詞
             listOf("//", "test11145141919810123123123", "星黛露bot", "0", "1", "哈哈哈哈哈", "儑厫爊").forEach {
                 client.checkNick(it)

@@ -4,8 +4,6 @@
 
 package sdl.moe.yabapi.api
 
-import kotlinx.coroutines.runBlocking
-import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.api.InfoApi.getBasicInfo
 import sdl.moe.yabapi.api.RelationApi.getBlacklist
 import sdl.moe.yabapi.api.RelationApi.getCoFollowing
@@ -17,6 +15,7 @@ import sdl.moe.yabapi.api.RelationApi.queryRelation
 import sdl.moe.yabapi.api.RelationApi.queryRelationMutually
 import sdl.moe.yabapi.api.RelationApi.querySpecialFollowing
 import sdl.moe.yabapi.api.RelationApi.searchFollowing
+import sdl.moe.yabapi.client
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.enums.relation.FollowingOrder.MOST_FREQUENT
 import sdl.moe.yabapi.enums.relation.RelationAction.ADD_BLACKLIST
@@ -28,7 +27,7 @@ import sdl.moe.yabapi.enums.relation.RelationAction.UNSUB
 import sdl.moe.yabapi.enums.relation.RelationAction.UNSUB_QUIETLY
 import sdl.moe.yabapi.enums.relation.SubscribeSource.ACTIVITY
 import sdl.moe.yabapi.enums.relation.SubscribeSource.VIDEO
-import sdl.moe.yabapi.storage.FileCookieStorage
+import sdl.moe.yabapi.runTest
 import sdl.moe.yabapi.util.yabapiLogLevel
 import kotlin.test.Test
 
@@ -37,11 +36,9 @@ internal class RelationApiTest {
         yabapiLogLevel = DEBUG
     }
 
-    private val client = BiliClient(cookieStorage = FileCookieStorage("cookies.json"))
-
     @Test
     fun getFansTest() {
-        runBlocking {
+        runTest {
             for (i in 1..5) {
                 client.getFans(2, page = i)
             }
@@ -50,7 +47,7 @@ internal class RelationApiTest {
 
     @Test
     fun getFollowingTest() {
-        runBlocking {
+        runTest {
             client.getFollowing(2)
             client.getFollowing(2, 1, 45, MOST_FREQUENT)
         }
@@ -58,7 +55,7 @@ internal class RelationApiTest {
 
     @Test
     fun searchFollowingTest() {
-        runBlocking {
+        runTest {
             val currentUserMid = client.getBasicInfo().data.mid
             requireNotNull(currentUserMid)
             listOf(2, 223902, currentUserMid).forEach {
@@ -69,28 +66,28 @@ internal class RelationApiTest {
 
     @Test
     fun getCoFollowingTest() {
-        runBlocking {
+        runTest {
             client.getCoFollowing(2)
         }
     }
 
     @Test
     fun getQuietlyFollowingTest() {
-        runBlocking {
+        runTest {
             client.getQuietlyFollowing()
         }
     }
 
     @Test
     fun getBlacklistTest() {
-        runBlocking {
+        runTest {
             client.getBlacklist()
         }
     }
 
     @Test
     fun modifyTest() {
-        runBlocking {
+        runTest {
             client.modifyRelation(2, SUB)
             client.modifyRelation(2, UNSUB)
             client.modifyRelation(2, SUB_QUIETLY, VIDEO)
@@ -103,7 +100,7 @@ internal class RelationApiTest {
 
     @Test
     fun modifyBatchTest() {
-        runBlocking {
+        runTest {
             val testList = listOf(1, 2, 3, 4, 5)
             client.modifyRelation(testList, SUB)
             client.modifyRelation(testList, UNSUB)
@@ -112,7 +109,7 @@ internal class RelationApiTest {
 
     @Test
     fun queryRelationTest() {
-        runBlocking {
+        runTest {
             client.queryRelation(2)
             client.queryRelation(1, 2, 3, 4)
             client.queryRelationMutually(2)

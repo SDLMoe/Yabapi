@@ -4,6 +4,7 @@
 
 package sdl.moe.yabapi.enums
 
+import com.soywiz.korio.lang.assert
 import kotlin.test.Test
 
 internal class VideoTypeTest {

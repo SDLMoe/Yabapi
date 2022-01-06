@@ -4,21 +4,19 @@
 
 package sdl.moe.yabapi.api
 
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
-import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.api.DanmakuApi.getDanmaku
 import sdl.moe.yabapi.api.DanmakuApi.getDanmakuCalendar
 import sdl.moe.yabapi.api.DanmakuApi.getDanmakuMetadata
 import sdl.moe.yabapi.api.DanmakuApi.getHistoryDanmaku
 import sdl.moe.yabapi.api.VideoApi.getVideoParts
+import sdl.moe.yabapi.client
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
-import sdl.moe.yabapi.storage.FileCookieStorage
+import sdl.moe.yabapi.runTest
 import sdl.moe.yabapi.util.yabapiLogLevel
 import kotlin.test.Test
 
 internal class DanmakuApiTest {
-    private val client = BiliClient(cookieStorage = FileCookieStorage("cookies.json"))
 
     init {
         yabapiLogLevel = DEBUG
@@ -27,7 +25,7 @@ internal class DanmakuApiTest {
     @ExperimentalSerializationApi
     @Test
     fun getDanmakuTest() {
-        runBlocking {
+        runTest {
             val aid = 810872
             client.getVideoParts(aid).data.forEach { part ->
                 client.getDanmaku(part.cid).danmakus.forEach {
@@ -40,7 +38,7 @@ internal class DanmakuApiTest {
     @ExperimentalSerializationApi
     @Test
     fun getDanmakuMetadataTest() {
-        runBlocking {
+        runTest {
             val aid = 810872
             val cid = client.getVideoParts(aid).data[0].cid
             client.getDanmakuMetadata(cid)/*.also {
@@ -55,7 +53,7 @@ internal class DanmakuApiTest {
     @ExperimentalSerializationApi
     @Test
     fun getHistoryDanmaku() {
-        runBlocking {
+        runTest {
             val cid = client.getVideoParts("BV1mM4y1F7yh").data[0].cid
             val date = client.getDanmakuCalendar(cid, 2022, 1).availableList[0]
             client.getHistoryDanmaku(cid, date)

@@ -4,25 +4,20 @@
 
 package sdl.moe.yabapi.storage
 
-import com.soywiz.korio.async.runBlockingNoJs
-import com.soywiz.korio.file.std.localVfs
 import io.ktor.http.Cookie
 import io.ktor.http.Url
-import java.io.File
+import sdl.moe.yabapi.runTest
 import kotlin.test.Test
 
-internal class FileCookieStorageTest {
+internal class FileCookieStorageTest(private val storage: FileCookieStorage) {
     @Test
-    fun test() = runBlockingNoJs {
-        val storage = FileCookieStorage(localVfs(File("test.txt")))
+    fun test() = runTest {
         storage.addCookie(Url("https://example.com"), Cookie("test", "test"))
         storage.get(Url("https://example.com"))
         storage.close()
     }
 
-    @Test
-    fun test2() = runBlockingNoJs {
-        val storage = FileCookieStorage(localVfs(File("test1.txt")))
+    fun test2() = runTest {
         for (i in 0..100) {
             storage.addCookie(Url("https://example.com"), Cookie("test$i", "test$i"))
         }
@@ -30,9 +25,7 @@ internal class FileCookieStorageTest {
         storage.close()
     }
 
-    @Test
-    fun test3() = runBlockingNoJs {
-        val storage = FileCookieStorage(localVfs(File("test1.txt")))
+    fun test3() = runTest {
         for (i in 0..100) {
             storage.addCookie(Url("https://example.com"), Cookie("test$i", "test$i"))
         }

@@ -23,13 +23,6 @@ kotlin {
             useJUnitPlatform()
         }
     }
-    js(BOTH) {
-        browser {
-            commonWebpackConfig {
-                cssSupport.enabled = true
-            }
-        }
-    }
     val hostOs = System.getProperty("os.name")
     val isMingwX64 = hostOs.startsWith("Windows")
     val nativeTarget = when {
@@ -59,7 +52,7 @@ kotlin {
                 // Kotlinx Libraries
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.3.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.1")
                 implementation("org.jetbrains.kotlinx:atomicfu:0.17.0")
                 // Ktor
@@ -88,13 +81,6 @@ kotlin {
             }
         }
         val jvmTest by getting
-        val jsMain by getting {
-            dependencies {
-                implementation("io.ktor:ktor-client-js:${Versions.ktor}")
-                implementation(npm("jsencrypt", "3.2.1", generateExternals = true))
-            }
-        }
-        val jsTest by getting
         val nativeMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-curl:${Versions.ktor}")

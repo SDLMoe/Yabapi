@@ -4,8 +4,6 @@
 
 package sdl.moe.yabapi.api
 
-import kotlinx.coroutines.runBlocking
-import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.api.VideoApi.checkVideoCoin
 import sdl.moe.yabapi.api.VideoApi.checkVideoCollect
 import sdl.moe.yabapi.api.VideoApi.checkVideoLike
@@ -22,6 +20,7 @@ import sdl.moe.yabapi.api.VideoApi.getVideoRelated
 import sdl.moe.yabapi.api.VideoApi.getVideoTags
 import sdl.moe.yabapi.api.VideoApi.likeVideo
 import sdl.moe.yabapi.api.VideoApi.shareVideo
+import sdl.moe.yabapi.client
 import sdl.moe.yabapi.data.stream.QnQuality.V8K
 import sdl.moe.yabapi.data.stream.StreamRequest
 import sdl.moe.yabapi.data.stream.VideoFnvalFormat
@@ -31,7 +30,7 @@ import sdl.moe.yabapi.enums.video.CollectAction.REMOVE
 import sdl.moe.yabapi.enums.video.LikeAction.LIKE
 import sdl.moe.yabapi.enums.video.LikeAction.UNLIKE
 import sdl.moe.yabapi.enums.video.VideoFormat.DASH
-import sdl.moe.yabapi.storage.FileCookieStorage
+import sdl.moe.yabapi.runTest
 import sdl.moe.yabapi.util.yabapiLogLevel
 import kotlin.test.Test
 
@@ -41,11 +40,9 @@ internal class VideoApiTest {
         yabapiLogLevel = DEBUG
     }
 
-    private val client = BiliClient(cookieStorage = FileCookieStorage("cookies.json"))
-
     @Test
     fun getVideoInfo() {
-        runBlocking {
+        runTest {
             listOf(
                 2,
                 7,
@@ -67,7 +64,7 @@ internal class VideoApiTest {
 
     @Test
     fun getUgcSeasonInfo() {
-        runBlocking {
+        runTest {
             listOf("BV1ei4y1X7mo", "BV1jF411B7sw", "BV17A411575p", "BV1h34y1o7bz").forEach {
                 client.getVideoInfo(it)
             }
@@ -76,7 +73,7 @@ internal class VideoApiTest {
 
     @Test
     fun getVideoParts() {
-        runBlocking {
+        runTest {
             listOf(
                 507448290,
                 933731156,
@@ -96,7 +93,7 @@ internal class VideoApiTest {
 
     @Test
     fun getVideoDescription() {
-        runBlocking {
+        runTest {
             listOf(
                 507448290,
                 933731156,
@@ -116,7 +113,7 @@ internal class VideoApiTest {
 
     @Test
     fun likeVideoTest() {
-        runBlocking {
+        runTest {
             client.likeVideo("BV13Z4y1F798", LIKE)
             client.likeVideo("BV13Z4y1F798", UNLIKE)
         }
@@ -124,14 +121,14 @@ internal class VideoApiTest {
 
     @Test
     fun checkVideoLikeTest() {
-        runBlocking {
+        runTest {
             client.checkVideoLike("BV13Z4y1F798")
         }
     }
 
     @Test
     fun coinVideoTest() {
-        runBlocking {
+        runTest {
             client.coinVideo("BV13Z4y1F798")
             client.coinVideo("BV13Z4y1F798", withLike = true)
         }
@@ -139,14 +136,14 @@ internal class VideoApiTest {
 
     @Test
     fun checkCoinTest() {
-        runBlocking {
+        runTest {
             client.checkVideoCoin("BV13Z4y1F798")
         }
     }
 
     @Test
     fun collectVideo() {
-        runBlocking {
+        runTest {
             client.collectVideo("BV13Z4y1F798", ADD, listOf(83867716))
             client.collectVideo("BV13Z4y1F798", REMOVE, listOf(83867716))
         }
@@ -154,28 +151,28 @@ internal class VideoApiTest {
 
     @Test
     fun checkVideoCollect() {
-        runBlocking {
+        runTest {
             client.checkVideoCollect("BV13Z4y1F798")
         }
     }
 
     @Test
     fun comboLikeTest() {
-        runBlocking {
+        runTest {
             client.comboLike(170001)
         }
     }
 
     @Test
     fun shareTest() {
-        runBlocking {
+        runTest {
             client.shareVideo("BV13Z4y1F798")
         }
     }
 
     @Test
     fun fetchVideoStreamTest() {
-        runBlocking {
+        runTest {
             val bv = "BV1qM4y1w716"
             val data = client.getVideoParts(bv).data
             client.fetchVideoStream(
@@ -196,7 +193,7 @@ internal class VideoApiTest {
 
     @Test
     fun getTimelineHotTest() {
-        runBlocking {
+        runTest {
             val cid = client.getVideoParts("BV1qM4y1w716").data[0].cid
             client.getTimelineHot(cid)
         }
@@ -204,7 +201,7 @@ internal class VideoApiTest {
 
     @Test
     fun getVideoOnlineTest() {
-        runBlocking {
+        runTest {
             val cid = client.getVideoParts("BV1mM4y1F7yh").data[0].cid
             client.getVideoOnline("BV1mM4y1F7yh", cid)
         }
@@ -212,14 +209,14 @@ internal class VideoApiTest {
 
     @Test
     fun getVideoTagsTest() {
-        runBlocking {
+        runTest {
             client.getVideoTags("BV1mM4y1F7yh")
         }
     }
 
     @Test
     fun getVideoRelatedTest() {
-        runBlocking {
+        runTest {
             client.getVideoRelated("BV1jF411B7sw")
         }
     }
