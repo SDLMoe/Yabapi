@@ -88,8 +88,8 @@ public data class VipLabel(
     @SerialName("path") val path: String,
     @SerialName("text") val text: String,
     @SerialName("label_theme") val label: String,
-    @SerialName("text_color") val textColor: String,
-    @SerialName("bg_style") val backgroundStyle: Int,
-    @SerialName("bg_color") val backgroundColor: String,
-    @SerialName("border_color") val borderColor: String,
+    @SerialName("text_color") val textColor: String? = null,
+    @SerialName("bg_style") val backgroundStyle: Int? = null,
+    @SerialName("bg_color") val backgroundColor: String? = null,
+    @SerialName("border_color") val borderColor: String? = null,
 )

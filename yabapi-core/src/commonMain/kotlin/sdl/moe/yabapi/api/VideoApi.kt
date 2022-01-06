@@ -58,6 +58,7 @@ import sdl.moe.yabapi.enums.video.LikeAction.LIKE
 import sdl.moe.yabapi.enums.video.VideoFormat.DASH
 import sdl.moe.yabapi.util.avInt
 import sdl.moe.yabapi.util.logger
+import sdl.moe.yabapi.util.requireLeastAndOnlyOne
 
 public object VideoApi : BiliApi {
     override val apiName: String = "video"
@@ -67,8 +68,7 @@ public object VideoApi : BiliApi {
     }
 
     private fun checkVideoId(aid: Int?, bid: String?) {
-        require(aid != null || bid != null) { "Must at LEAST one not null in param [aid, bid]." }
-        require(!(aid != null && bid != null)) { "Can pass ONLY one param in [aid, bid]." }
+        requireLeastAndOnlyOne(aid, bid)
         if (bid != null) require(bid.startsWith(prefix = "bv", ignoreCase = true))
     }
 
