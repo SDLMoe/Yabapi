@@ -10,6 +10,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
+import sdl.moe.yabapi.api.BangumiApi.getBangumiDetailedByEp
 import sdl.moe.yabapi.data.GeneralCode
 import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
 import sdl.moe.yabapi.data.info.OfficialRole
@@ -20,6 +21,11 @@ import sdl.moe.yabapi.data.info.VipType
 import sdl.moe.yabapi.data.video.VideoDimension
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
+/**
+ * 通過 epid ssid 獲取到的番劇信息
+ * @param [BangumiDetailed]
+ * @see [getBangumiDetailedByEp]
+ */
 @Serializable
 public data class BangumiDetailedResponse(
     @SerialName("code") val code: GeneralCode = UNKNOWN,
@@ -30,30 +36,30 @@ public data class BangumiDetailedResponse(
 
 @Serializable
 public data class BangumiDetailed(
-    @SerialName("activity") val activity: BangumiActivity,
+    @SerialName("activity") val activity: BangumiActivity, // 活動
     @SerialName("alias") val alias: String? = null,
     @SerialName("areas") val areas: List<BangumiArea> = emptyList(),
-    @SerialName("bkg_cover") val backgroundCover: String,
-    @SerialName("cover") val cover: String,
-    @SerialName("episodes") val episodes: List<BangumiEpisode>,
-    @SerialName("evaluate") val evaluate: String,
+    @SerialName("bkg_cover") val backgroundCover: String, // 背景圖
+    @SerialName("cover") val cover: String, // 封面
+    @SerialName("episodes") val episodes: List<BangumiEpisode>, // 詳細劇集
+    @SerialName("evaluate") val evaluate: String, // 簡介
     @SerialName("jp_title") val jpTitle: String,
-    @SerialName("link") val link: String,
-    @SerialName("media_id") val mediaId: Int,
+    @SerialName("link") val link: String, // 鏈接
+    @SerialName("media_id") val mediaId: Int, // media id
     @SerialName("mode") val mode: Int,
     @SerialName("new_ep") val latestEpisode: SimpleBangumiEpisode,
     @SerialName("payment") val payment: BangumiPayment,
     @SerialName("positive") val positive: BangumiPositive,
     @SerialName("publish") val publish: BangumiPublish,
     @SerialName("rating") val rating: BangumiRating? = null,
-    @SerialName("record") val record: String? = null,
+    @SerialName("record") val record: String? = null, // 備案號
     @SerialName("rights") val rights: BangumiRights,
-    @SerialName("season_id") val seasonId: Int,
+    @SerialName("season_id") val seasonId: Int, // ssid
     @SerialName("season_title") val seasonTitle: String,
-    @SerialName("seasons") val seasons: List<BangumiSeason> = emptyList(),
-    @SerialName("section") val section: List<BangumiSection> = emptyList(),
-    @SerialName("series") val series: BangumiSeries,
-    @SerialName("share_copy") val shareString: String,
+    @SerialName("seasons") val seasons: List<BangumiSeason> = emptyList(), // 季度信息
+    @SerialName("section") val section: List<BangumiSection> = emptyList(), // section 信息, 例如 正片, PV
+    @SerialName("series") val series: BangumiSeries, // 系列信息
+    @SerialName("share_copy") val shareString: String, // 分享消息
     @SerialName("share_sub_title") val shareSubtitle: String,
     @SerialName("share_url") val shareUrl: String,
     @SerialName("show") val show: BangumiShow,
