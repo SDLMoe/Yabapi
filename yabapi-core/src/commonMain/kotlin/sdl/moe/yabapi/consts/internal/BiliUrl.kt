@@ -18,7 +18,10 @@ internal const val APP: String = "https://app.bilibili.com"
 internal const val MESSAGE: String = "https://message.bilibili.com"
 
 /** 直播中心 */
-internal const val LIVE: String = "https://live.bilibili.com"
+internal const val LIVE: String = "https://api.live.bilibili.com"
+
+/** 直播 API */
+internal const val LIVE_API : String = "https://api.live.bilibili.com"
 
 /** 创作中心 */
 internal const val MEMBER: String = "https://member.bilibili.com"
