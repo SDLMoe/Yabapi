@@ -20,15 +20,15 @@ public data class LiveDanmakuInfoGetResponse(
 public data class LiveDanmakuInfo(
     @SerialName("group") val group: String,
     @SerialName("business_id") val businessId: Int,
-    @SerialName("refresh_now_factor") val refreshNowFactor: Int,
-    @SerialName("refresh_rate") val refreshRate: Int,
-    @SerialName("max_delay") val maxDelay: Int,
+    @SerialName("refresh_row_factor") val refreshRowFactor: Double,
+    @SerialName("refresh_rate") val refreshRate: Double,
+    @SerialName("max_delay") val maxDelay: Double,
     @SerialName("token") val token: String,
-    @SerialName("host_list") val hostList: List<DanmakuHost>,
+    @SerialName("host_list") val hostList: List<LiveDanmakuHost>,
 )
 
 @Serializable
-public data class DanmakuHost(
+public data class LiveDanmakuHost(
     @SerialName("host") val host: String,
     @SerialName("port") val port: Int,
     @SerialName("wss_port") val wssPort: Int,

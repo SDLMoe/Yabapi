@@ -11,6 +11,14 @@ import io.ktor.utils.io.core.readUShort
 import io.ktor.utils.io.core.writeFully
 import io.ktor.utils.io.core.writeUInt
 import io.ktor.utils.io.core.writeUShort
+import kotlinx.atomicfu.AtomicLong
+import kotlinx.atomicfu.atomic
+import kotlin.jvm.JvmInline
+
+@JvmInline
+public value class Sequence(
+    public val value: AtomicLong = atomic(1L),
+)
 
 public data class LiveMsgPacketHead(
     val size: UInt,

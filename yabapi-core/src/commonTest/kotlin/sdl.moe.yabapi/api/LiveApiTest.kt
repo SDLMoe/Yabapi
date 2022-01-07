@@ -4,6 +4,9 @@
 
 package sdl.moe.yabapi.api
 
+import sdl.moe.yabapi.api.InfoApi.getBasicInfo
+import sdl.moe.yabapi.api.LiveApi.createLiveDanmakuConnection
+import sdl.moe.yabapi.api.LiveApi.getLiveDanmakuInfo
 import sdl.moe.yabapi.api.LiveApi.getRoomInitInfo
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.initTest
@@ -19,6 +22,17 @@ internal class LiveApiTest {
     fun getRoomInitInfoTest() {
         runTest {
             client.getRoomInitInfo(213)
+        }
+    }
+
+    @Test
+    fun connectTest() {
+        runTest {
+            val mid = 7777
+            val realId = client.getRoomInitInfo(mid).data?.roomId ?: error("Get init info failed")
+            val danmakuInfoData = client.getLiveDanmakuInfo(realId).data ?: error("Get live server failed")
+            val loginUserMid = client.getBasicInfo().data.mid ?: error("Not login")
+            client.createLiveDanmakuConnection(loginUserMid, realId, danmakuInfoData.token, danmakuInfoData.hostList[0])
         }
     }
 }

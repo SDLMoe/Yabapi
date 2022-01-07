@@ -13,18 +13,18 @@ import sdl.moe.yabapi.util.compress.BrotliImpl
 import sdl.moe.yabapi.util.compress.ZLibImpl
 
 public data class LiveMsgPacket(
-    private val head: LiveMsgPacketHead,
+    internal val head: LiveMsgPacketHead,
     private var body: ByteArray,
 ) {
     public constructor(
-        protocol: LiveMsgPacketProtocol, type: LiveMsgPacketType, sequence: UInt, body: ByteArray,
+        protocol: LiveMsgPacketProtocol, type: LiveMsgPacketType, sequence: Sequence, body: ByteArray,
     ) : this(
         LiveMsgPacketHead(
             body.size.toUInt() + LiveMsgPacketHead.HEAD_SIZE.toUInt(),
             LiveMsgPacketHead.HEAD_SIZE,
             protocol,
             type,
-            sequence,
+            sequence.value.value.toUInt(),
         ),
         body
     )

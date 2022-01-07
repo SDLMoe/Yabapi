@@ -27,7 +27,7 @@ internal class LiveMsgPacketTest {
     @Test
     fun packetReEncodeTest() {
         runTest {
-            val packet = LiveMsgPacket(COMMAND_NO_COMPRESSION, COMMAND, 114514u, "1141191293211".toByteArray())
+            val packet = LiveMsgPacket(COMMAND_NO_COMPRESSION, COMMAND, Sequence(), "1141191293211".toByteArray())
             val encoded = packet.encode()
             val decoded = LiveMsgPacket.decode(encoded)
             assertEquals(packet, decoded)
