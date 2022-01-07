@@ -31,7 +31,7 @@ public data class LiveMsgPacketHead(
     )
 
     public companion object {
-        @ExperimentalUnsignedTypes
+        @OptIn(ExperimentalUnsignedTypes::class)
         public fun decode(bytes: ByteArray): LiveMsgPacketHead {
             val size: UInt
             val headSize: UShort
@@ -61,7 +61,7 @@ public data class LiveMsgPacketHead(
         sequence: UInt = this.sequence + 1u,
     ): LiveMsgPacketHead = LiveMsgPacketHead(size, headSize, protocol, type, sequence)
 
-    @ExperimentalUnsignedTypes
+    @OptIn(ExperimentalUnsignedTypes::class)
     public fun encode(): ByteArray = buildPacket {
         this.writeUInt(this@LiveMsgPacketHead.size)
         this.writeUShort(headSize)

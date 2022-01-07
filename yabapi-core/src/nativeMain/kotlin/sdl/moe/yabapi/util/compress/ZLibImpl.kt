@@ -4,9 +4,23 @@
 
 package sdl.moe.yabapi.util.compress
 
+import kotlinx.cinterop.cValuesOf
+import kotlinx.cinterop.refTo
+
 internal actual object ZLibImpl : ICompress {
+
+    @OptIn(ExperimentalUnsignedTypes::class)
     override suspend fun compress(byteArray: ByteArray): ByteArray {
-        TODO("Not yet implemented")
+        val ubyteRaw = byteArray.toUByteArray()
+        val ubyteDst = ubyteArrayOf()
+        val dstLength = ubyteDst.size.toULong()
+        platform.zlib.compress(
+            dest = ubyteDst.refTo(0),
+            destLen = cValuesOf(dstLength),
+            source = ubyteRaw.refTo(1),
+            sourceLen = byteArray.size.toULong()
+        )
+        return ubyteDst.toByteArray()
     }
 
     override suspend fun decompress(byteArray: ByteArray): ByteArray {

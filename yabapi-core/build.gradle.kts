@@ -47,12 +47,18 @@ kotlin {
     }
 
     sourceSets {
+        all {
+            OptInAnnotations.list.forEach {
+                languageSettings.optIn(it)
+            }
+        }
+
         val commonMain by getting {
             dependencies {
                 // Kotlinx Libraries
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.3.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.1")
                 implementation("org.jetbrains.kotlinx:atomicfu:0.17.0")
                 // Ktor
@@ -78,6 +84,8 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-cio:${Versions.ktor}")
+                // Compression
+                implementation("org.apache.ant:ant-compress:1.5")
             }
         }
         val jvmTest by getting

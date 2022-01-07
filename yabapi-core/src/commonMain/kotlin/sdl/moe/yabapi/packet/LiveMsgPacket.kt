@@ -30,7 +30,6 @@ public data class LiveMsgPacket(
     )
 
     public companion object {
-        @ExperimentalUnsignedTypes
         public fun decode(packet: ByteArray): LiveMsgPacket {
             val head: LiveMsgPacketHead
             val body: ByteArray
@@ -45,7 +44,6 @@ public data class LiveMsgPacket(
         }
     }
 
-    @ExperimentalUnsignedTypes
     internal suspend fun encode(): ByteArray = buildPacket {
         body = when (head.protocol) {
             COMMAND_ZLIB -> ZLibImpl.compress(body)
