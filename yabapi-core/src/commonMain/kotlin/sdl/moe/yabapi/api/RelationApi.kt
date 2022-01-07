@@ -11,7 +11,6 @@ import io.ktor.client.request.post
 import io.ktor.http.Parameters
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
-import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.consts.internal.BATCH_MODIFY_RELATION_URL
 import sdl.moe.yabapi.consts.internal.BLACKLIST_GET_URL
 import sdl.moe.yabapi.consts.internal.CO_FOLLOWING_GET_URL
@@ -53,7 +52,7 @@ public object RelationApi : BiliApi {
      * @param pageCount 每頁多少項
      */
     public suspend fun BiliClient.getFans(mid: Int, page: Int = 1, pageCount: Int = 50): RelationGetResponse =
-        withContext(Platform.ioDispatcher) {
+        withContext(dispatcher) {
             logger.debug { "Getting fans of mid $mid, page $page for max $pageCount user(s)" }
             client.get<RelationGetResponse>(FANS_GET_URL) {
                 parameter("vmid", mid)
@@ -77,7 +76,7 @@ public object RelationApi : BiliApi {
         pageCount: Int = 50,
         order: FollowingOrder = TIME,
     ): RelationGetResponse =
-        withContext(Platform.ioDispatcher) {
+        withContext(dispatcher) {
             logger.debug { "Getting mid $mid's following, page $page for max $pageCount by $order..." }
             client.get<RelationGetResponse>(FOLLOWING_GET_URL) {
                 parameter("vmid", mid)
@@ -103,7 +102,7 @@ public object RelationApi : BiliApi {
         keyword: String,
         page: Int = 1,
         pageCount: Int = 50,
-    ): RelationGetResponse = withContext(Platform.ioDispatcher) {
+    ): RelationGetResponse = withContext(dispatcher) {
         logger.debug { "Searching Searched followings of mid $mid by keyword \"$keyword\"..." }
         client.get<RelationGetResponse>(FOLLOWING_SEARCH_URL) {
             parameter("vmid", mid)
@@ -125,7 +124,7 @@ public object RelationApi : BiliApi {
         mid: Int,
         page: Int = 1,
         pageCount: Int = 50,
-    ): RelationGetResponse = withContext(Platform.ioDispatcher) {
+    ): RelationGetResponse = withContext(dispatcher) {
         needLogin()
         logger.debug { "Getting co-followings of mid $mid..." }
         client.get<RelationGetResponse>(CO_FOLLOWING_GET_URL) {
@@ -145,7 +144,7 @@ public object RelationApi : BiliApi {
     public suspend fun BiliClient.getQuietlyFollowing(
         page: Int = 1,
         pageCount: Int = 50,
-    ): RelationGetResponse = withContext(Platform.ioDispatcher) {
+    ): RelationGetResponse = withContext(dispatcher) {
         needLogin()
         logger.debug { "Getting quietly following..." }
         client.get<RelationGetResponse>(QUIETLY_FOLLOWING_GET_URL) {
@@ -164,7 +163,7 @@ public object RelationApi : BiliApi {
     public suspend fun BiliClient.getBlacklist(
         page: Int = 1,
         pageCount: Int = 50,
-    ): RelationGetResponse = withContext(Platform.ioDispatcher) {
+    ): RelationGetResponse = withContext(dispatcher) {
         needLogin()
         logger.debug { "Getting blacklist..." }
         client.get<RelationGetResponse>(BLACKLIST_GET_URL) {
@@ -185,7 +184,7 @@ public object RelationApi : BiliApi {
         mid: Int,
         action: RelationAction,
         source: SubscribeSource = SPACE,
-    ): RelationModifyResponse = withContext(Platform.ioDispatcher) {
+    ): RelationModifyResponse = withContext(dispatcher) {
         needLogin()
         logger.debug { "Modify relation for $mid, action: $action, with source $source" }
         client.post<RelationModifyResponse>(MODIFY_RELATION_URL) {
@@ -213,7 +212,7 @@ public object RelationApi : BiliApi {
         mids: List<Int>,
         action: RelationAction,
         source: SubscribeSource = SPACE,
-    ): RelationBatchModifyResponse = withContext(Platform.ioDispatcher) {
+    ): RelationBatchModifyResponse = withContext(dispatcher) {
         needLogin()
         require(allowedBatchAction.contains(action))
         logger.debug { "Modify relation for $mids, action: $action, with source $source" }
@@ -230,7 +229,7 @@ public object RelationApi : BiliApi {
         }
     }
 
-    public suspend fun BiliClient.queryRelation(mid: Int): RelationQueryResponse = withContext(Platform.ioDispatcher) {
+    public suspend fun BiliClient.queryRelation(mid: Int): RelationQueryResponse = withContext(dispatcher) {
         logger.debug { "Querying relation to mid $mid..." }
         client.get<RelationQueryResponse>(RELATION_QUERY_URL) {
             parameter("fid", mid)
@@ -240,7 +239,7 @@ public object RelationApi : BiliApi {
     }
 
     public suspend fun BiliClient.queryRelation(vararg mid: Int): RelationQueryBatchResponse =
-        withContext(Platform.ioDispatcher) {
+        withContext(dispatcher) {
             logger.debug { "Querying relation to mids ${mid.contentToString()}..." }
             client.get<RelationQueryBatchResponse>(RELATION_BATCH_QUERY_URL) {
                 parameter("fids", mid.joinToString(","))
@@ -250,7 +249,7 @@ public object RelationApi : BiliApi {
         }
 
     public suspend fun BiliClient.queryRelationMutually(mid: Int): RelationQueryMutuallyResponse =
-        withContext(Platform.ioDispatcher) {
+        withContext(dispatcher) {
             logger.debug { "Querying relation mutually to mid $mid..." }
             client.get<RelationQueryMutuallyResponse>(RELATION_QUERY_MUTUALLY) {
                 parameter("mid", mid)
@@ -260,7 +259,7 @@ public object RelationApi : BiliApi {
         }
 
     public suspend fun BiliClient.querySpecialFollowing(): SpecialFollowingQueryResponse =
-        withContext(Platform.ioDispatcher) {
+        withContext(dispatcher) {
             logger.debug { "Querying special relation for current user..." }
             client.get<SpecialFollowingQueryResponse>(RELATION_QUERY_SPECIAL).also {
                 logger.debug { "Queried special relation: $it" }

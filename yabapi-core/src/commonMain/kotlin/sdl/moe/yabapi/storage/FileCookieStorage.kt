@@ -32,7 +32,7 @@ import kotlin.math.min
 /**
  * Modified base on ktor [AcceptAllCookiesStorage]
  *
- * Platform Differences：
+ * Platform Differences:
  * - JVM 带有 Shutdown Hook 在 crash 时会保存
  * - Js 无法使用 runBlocking, 仅能实时保存, saveInTime 参数无效
  *

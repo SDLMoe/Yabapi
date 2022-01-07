@@ -93,7 +93,7 @@ public object PassportApi : BiliApi {
      * 可使用 [https://kuresaru.github.io/geetest-validator/]
      * @return [GetCaptchaResponse]
      */
-    public suspend fun BiliClient.getCaptcha(): GetCaptchaResponse = withContext(Platform.ioDispatcher) {
+    public suspend fun BiliClient.getCaptcha(): GetCaptchaResponse = withContext(dispatcher) {
         logger.info { "Querying Login Captcha" }
         client.get<GetCaptchaResponse>(QUERY_CAPTCHA_URL).also {
             logger.debug { "Query Captcha Response: $it" }
@@ -104,7 +104,7 @@ public object PassportApi : BiliApi {
      * 通过 Web 方式获取 RSA 公钥
      * @return [RsaGetResponse]
      */
-    public suspend fun BiliClient.getRsaKeyWeb(): RsaGetResponse = withContext(Platform.ioDispatcher) {
+    public suspend fun BiliClient.getRsaKeyWeb(): RsaGetResponse = withContext(dispatcher) {
         logger.info { "Getting RSA Key by Web method" }
         client.get<RsaGetResponse>(RSA_GET_WEB_URL) {
             parameter("act", "getkey")
@@ -129,7 +129,7 @@ public object PassportApi : BiliApi {
         validate: String,
         seccode: String,
         getCaptchaResponse: GetCaptchaResponse,
-    ): LoginWebResponse = withContext(Platform.ioDispatcher) {
+    ): LoginWebResponse = withContext(dispatcher) {
         noNeedLogin()
         logger.info { "Logging in by Web method" }
         client.post<LoginWebResponse>(LOGIN_WEB_URL) {
@@ -175,7 +175,7 @@ public object PassportApi : BiliApi {
         loginWeb(userName, encryptPwd, validate, seccode, captchaResponse)
     }
 
-    public suspend fun BiliClient.getWebQRCode(): QRCodeWebGetResponse = withContext(Platform.ioDispatcher) {
+    public suspend fun BiliClient.getWebQRCode(): QRCodeWebGetResponse = withContext(dispatcher) {
         logger.info { "Getting Web QRCode" }
         client.get<QRCodeWebGetResponse>(LOGIN_QRCODE_GET_WEB_URL).also {
             logger.debug { "QRCode Web Get Response: $it" }
@@ -185,7 +185,7 @@ public object PassportApi : BiliApi {
 
     public suspend fun BiliClient.loginWebQRCode(
         qrResponse: QRCodeWebGetResponse,
-    ): LoginWebQRCodeResponse = withContext(Platform.ioDispatcher) {
+    ): LoginWebQRCodeResponse = withContext(dispatcher) {
         noNeedLogin()
         logger.debug { "Starting Logging in via Web QR Code" }
         client.post<LoginWebQRCodeResponse>(LOGIN_WEB_QRCODE_URL) {
@@ -245,7 +245,7 @@ public object PassportApi : BiliApi {
      * 获取国际区码
      * @return [CallingCodeGetResponse]
      */
-    public suspend fun BiliClient.getCallingCode(): CallingCodeGetResponse = withContext(Platform.ioDispatcher) {
+    public suspend fun BiliClient.getCallingCode(): CallingCodeGetResponse = withContext(dispatcher) {
         logger.info { "Getting Calling Code" }
         client.get<CallingCodeGetResponse>(GET_CALLING_CODE_URL).also {
             logger.debug { "Calling Code Get Response: $it" }
@@ -267,7 +267,7 @@ public object PassportApi : BiliApi {
         captchaResponse: GetCaptchaResponse,
         validate: String,
         seccode: String,
-    ): SendSMSResponse = withContext(Platform.ioDispatcher) {
+    ): SendSMSResponse = withContext(dispatcher) {
         logger.info { "Requesting SMS Code" }
         client.post<SendSMSResponse>(SEND_SMS_URL) {
             val params = Parameters.build {
@@ -300,7 +300,7 @@ public object PassportApi : BiliApi {
         cid: Int,
         code: Int,
         sendSMSResponse: SendSMSResponse,
-    ): LoginWebSMSResponse = withContext(Platform.ioDispatcher) {
+    ): LoginWebSMSResponse = withContext(dispatcher) {
         logger.info { "Logging in via Web SMS" }
         client.post<LoginWebSMSResponse>(LOGIN_WEB_SMS_URL) {
             val smsCaptchaKey = sendSMSResponse.captchaKey ?: throw IllegalArgumentException("Captcha key is null")
@@ -357,7 +357,7 @@ public object PassportApi : BiliApi {
         loginWebSMS(phone, cid.await(), code, sendSMSResponse)
     }
 
-    public suspend fun BiliClient.logOut(): LogOutResponse = withContext(Platform.ioDispatcher) {
+    public suspend fun BiliClient.logOut(): LogOutResponse = withContext(dispatcher) {
         logger.info { "Logging out" }
         needLogin()
         client.post<LogOutResponse>(LOG_OUT_URL) {

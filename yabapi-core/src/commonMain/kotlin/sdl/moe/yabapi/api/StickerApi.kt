@@ -8,7 +8,6 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
-import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.consts.internal.GET_ALL_STICKERS_URL
 import sdl.moe.yabapi.data.sticker.AllStickersGetResponse
 import sdl.moe.yabapi.enums.StickerBusiness
@@ -32,7 +31,7 @@ public object StickerApi : BiliApi {
      * @param business 使用場景 [StickerBusiness]
      */
     public suspend fun BiliClient.getAllStickers(business: StickerBusiness): AllStickersGetResponse =
-        withContext(Platform.ioDispatcher) {
+        withContext(dispatcher) {
             logger.debug { "Getting all stickers for business: $business" }
             client.get<AllStickersGetResponse>(GET_ALL_STICKERS_URL) {
                 parameter("business", business.toString())

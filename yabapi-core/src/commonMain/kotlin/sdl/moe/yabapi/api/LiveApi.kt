@@ -8,7 +8,6 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
-import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.consts.internal.LIVE_DANMAKU_INFO_URL
 import sdl.moe.yabapi.consts.internal.LIVE_INIT_INFO_GET_URL
 import sdl.moe.yabapi.data.live.LiveDanmakuInfoGetResponse
@@ -27,7 +26,7 @@ public object LiveApi : BiliApi {
      * @see [LiveInitGetResponse]
      */
     public suspend fun BiliClient.getRoomInitInfo(roomId: Int): LiveInitGetResponse =
-        withContext(Platform.ioDispatcher) {
+        withContext(dispatcher) {
             logger.debug { "Getting Room Init Info for room $roomId" }
             client.get<LiveInitGetResponse>(LIVE_INIT_INFO_GET_URL) {
                 parameter("id", roomId)

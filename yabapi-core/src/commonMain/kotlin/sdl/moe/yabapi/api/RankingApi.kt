@@ -8,7 +8,6 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
-import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.consts.internal.LATEST_VIDEO_GET_URL
 import sdl.moe.yabapi.consts.internal.RANKING_GET_URL
 import sdl.moe.yabapi.data.GeneralCode.SUCCESS
@@ -29,7 +28,7 @@ public object RankingApi : BiliApi {
      * @see VideoType
      */
     public suspend fun BiliClient.getRanking(type: VideoType, day: Int = 3): RankingGetResponse =
-        withContext(Platform.ioDispatcher) {
+        withContext(dispatcher) {
             logger.debug { "Getting Ranking for type ${type.name}, recent $day day(s)." }
             client.get<RankingGetResponse>(RANKING_GET_URL) {
                 parameter("rid", type.tid)
@@ -48,7 +47,7 @@ public object RankingApi : BiliApi {
         type: VideoType,
         page: Int = 1,
         countPerPage: Int = 5,
-    ): LatestVideoGetResponse = withContext(Platform.ioDispatcher) {
+    ): LatestVideoGetResponse = withContext(dispatcher) {
         logger.debug { "Getting latest video for type ${type.name}, page $page..." }
         client.get<LatestVideoGetResponse>(LATEST_VIDEO_GET_URL) {
             parameter("pn", page)

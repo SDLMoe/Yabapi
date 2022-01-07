@@ -8,7 +8,6 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
-import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.consts.internal.BANGUMI_DETAILED_GET_URL
 import sdl.moe.yabapi.consts.internal.BANGUMI_INFO_GET_URL
 import sdl.moe.yabapi.data.bangumi.BangumiDetailedResponse
@@ -24,7 +23,7 @@ public object BangumiApi : BiliApi {
     }
 
     public suspend fun BiliClient.getBangumiInfo(mediaId: Int): BangumiInfoGetResponse =
-        withContext(Platform.ioDispatcher) {
+        withContext(dispatcher) {
             logger.debug { "Getting bangumi info for media id $mediaId" }
             client.get<BangumiInfoGetResponse>(BANGUMI_INFO_GET_URL) {
                 parameter("media_id", mediaId)
@@ -37,7 +36,7 @@ public object BangumiApi : BiliApi {
         seasonId: Int? = null,
         epId: Int? = null,
     ): BangumiDetailedResponse =
-        withContext(Platform.ioDispatcher) {
+        withContext(dispatcher) {
             requireLeastAndOnlyOne(seasonId, epId)
             val showId = if (seasonId != null) "ss$seasonId" else "ep$epId"
             logger.debug { "Getting bangumi detailed info for $showId..." }

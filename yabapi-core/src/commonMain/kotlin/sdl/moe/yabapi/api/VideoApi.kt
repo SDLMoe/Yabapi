@@ -16,7 +16,6 @@ import io.ktor.http.Parameters
 import io.ktor.http.ParametersBuilder
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
-import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.consts.internal.VIDEO_COIN_CHECK_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_COIN_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_COLLECT_ACTION_URL
@@ -94,7 +93,7 @@ public object VideoApi : BiliApi {
     private suspend inline fun BiliClient.getVideoInfo(
         aid: Int? = null,
         bid: String? = null,
-    ): VideoInfoGetResponse = withContext(Platform.ioDispatcher) {
+    ): VideoInfoGetResponse = withContext(dispatcher) {
         client.get(VIDEO_INFO_GET_URL) {
             putVideoId(aid, bid)
         }
@@ -117,7 +116,7 @@ public object VideoApi : BiliApi {
     private suspend inline fun BiliClient.getVideoParts(
         aid: Int? = null,
         bid: String? = null,
-    ): VideoPartsGetResponse = withContext(Platform.ioDispatcher) {
+    ): VideoPartsGetResponse = withContext(dispatcher) {
         client.get(VIDEO_PARTS_GET_URL) {
             putVideoId(aid, bid)
         }
@@ -140,7 +139,7 @@ public object VideoApi : BiliApi {
     private suspend inline fun BiliClient.getVideoDescription(
         aid: Int? = null,
         bid: String? = null,
-    ): VideoDescriptionGetResponse = withContext(Platform.ioDispatcher) {
+    ): VideoDescriptionGetResponse = withContext(dispatcher) {
         client.get(VIDEO_DESCRIPTION_GET_URL) {
             putVideoId(aid, bid)
         }
@@ -164,7 +163,7 @@ public object VideoApi : BiliApi {
         aid: Int? = null,
         bid: String? = null,
         action: LikeAction = LIKE,
-    ): VideoLikeResponse = withContext(Platform.ioDispatcher) {
+    ): VideoLikeResponse = withContext(dispatcher) {
         client.post(VIDEO_LIKE_URL) {
             val params = Parameters.build {
                 putVideoId(aid, bid)
@@ -206,7 +205,7 @@ public object VideoApi : BiliApi {
     private suspend inline fun BiliClient.checkVideoLike(
         aid: Int? = null,
         bid: String? = null,
-    ): HasLikedResponse = withContext(Platform.ioDispatcher) {
+    ): HasLikedResponse = withContext(dispatcher) {
         client.get(VIDEO_HAS_LIKE_URL) {
             putVideoId(aid, bid)
         }
@@ -231,7 +230,7 @@ public object VideoApi : BiliApi {
         bid: String? = null,
         count: Int = 1,
         withLike: Boolean = false,
-    ): CoinVideoResponse = withContext(Platform.ioDispatcher) {
+    ): CoinVideoResponse = withContext(dispatcher) {
         client.post(VIDEO_COIN_URL) {
             val params = Parameters.build {
                 putVideoId(aid, bid)
@@ -268,7 +267,7 @@ public object VideoApi : BiliApi {
     private suspend inline fun BiliClient.checkVideoCoin(
         aid: Int? = null,
         bid: String? = null,
-    ): VideoCoinCheckResponse = withContext(Platform.ioDispatcher) {
+    ): VideoCoinCheckResponse = withContext(dispatcher) {
         client.get(VIDEO_COIN_CHECK_URL) {
             putVideoId(aid, bid)
         }
@@ -293,7 +292,7 @@ public object VideoApi : BiliApi {
         bid: String? = null,
         action: CollectAction = ADD,
         folderList: Collection<Int>,
-    ): VideoCollectResponse = withContext(Platform.ioDispatcher) {
+    ): VideoCollectResponse = withContext(dispatcher) {
         client.post(VIDEO_COLLECT_ACTION_URL) {
             headers {
                 header(HttpHeaders.Referrer, "https://www.bilibili.com/")
@@ -339,7 +338,7 @@ public object VideoApi : BiliApi {
     private suspend inline fun BiliClient.checkVideoCollect(
         aid: Int? = null,
         bid: String? = null,
-    ): VideoCollectCheck = withContext(Platform.ioDispatcher) {
+    ): VideoCollectCheck = withContext(dispatcher) {
         client.get(VIDEO_COLLECT_CHECK_URL) {
             parameter("aid", getActualId(aid, bid))
         }
@@ -362,7 +361,7 @@ public object VideoApi : BiliApi {
     private suspend fun BiliClient.comboLike(
         aid: Int? = null,
         bid: String? = null,
-    ): VideoComboLikeResponse = withContext(Platform.ioDispatcher) {
+    ): VideoComboLikeResponse = withContext(dispatcher) {
         client.post(VIDEO_COMBO_LIKE_URL) {
             val params = Parameters.build {
                 putVideoId(aid, bid)
@@ -389,7 +388,7 @@ public object VideoApi : BiliApi {
     private suspend inline fun BiliClient.shareVideo(
         aid: Int? = null,
         bid: String? = null,
-    ): ShareVideoResponse = withContext(Platform.ioDispatcher) {
+    ): ShareVideoResponse = withContext(dispatcher) {
         client.post(VIDEO_SHARE_URL) {
             val params = Parameters.build {
                 putVideoId(aid, bid)
@@ -419,7 +418,7 @@ public object VideoApi : BiliApi {
         cid: Int,
         request: StreamRequest,
     ): VideoStreamResponse =
-        withContext(Platform.ioDispatcher) {
+        withContext(dispatcher) {
             client.get(VIDEO_STREAM_FETCH_URL) {
                 putVideoId(aid, bid)
                 parameter("cid", cid)
@@ -459,7 +458,7 @@ public object VideoApi : BiliApi {
         cid: Int,
         aid: Int? = null,
         bid: String? = null,
-    ): TimelineHotResponse = withContext(Platform.ioDispatcher) {
+    ): TimelineHotResponse = withContext(dispatcher) {
         client.get(VIDEO_TIMELINE_HOT_URL) {
             parameter("cid", cid)
             if (aid != null || bid != null) putVideoId(aid, bid)
@@ -497,7 +496,7 @@ public object VideoApi : BiliApi {
         cid: Int,
         aid: Int? = null,
         bid: String? = null,
-    ): VideoOnlineGetResponse = withContext(Platform.ioDispatcher) {
+    ): VideoOnlineGetResponse = withContext(dispatcher) {
         client.get(VIDEO_ONLINE_GET_URL) {
             putVideoId(aid, bid)
             parameter("cid", cid)
@@ -527,7 +526,7 @@ public object VideoApi : BiliApi {
     private suspend inline fun BiliClient.getVideoTags(
         aid: Int? = null,
         bid: String? = null,
-    ): VideoTagsGetResponse = withContext(Platform.ioDispatcher) {
+    ): VideoTagsGetResponse = withContext(dispatcher) {
         client.get(VIDEO_TAG_GET_URL) {
             putVideoId(aid, bid)
         }
@@ -550,7 +549,7 @@ public object VideoApi : BiliApi {
     private suspend inline fun BiliClient.getVideoRelated(
         aid: Int?,
         bid: String?,
-    ): VideoRelatedGetResponse = withContext(Platform.ioDispatcher) {
+    ): VideoRelatedGetResponse = withContext(dispatcher) {
         client.get(VIDEO_RELATED_GET_URL) {
             putVideoId(aid, bid)
         }

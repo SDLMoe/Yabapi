@@ -30,7 +30,7 @@ public data class LiveMsgPacket(
     )
 
     public companion object {
-        public fun decode(packet: ByteArray): LiveMsgPacket {
+        public suspend fun decode(packet: ByteArray): LiveMsgPacket {
             val head: LiveMsgPacketHead
             val body: ByteArray
             buildPacket {
@@ -38,7 +38,12 @@ public data class LiveMsgPacket(
             }.apply {
                 val rawHead = readBytes(LiveMsgPacketHead.HEAD_SIZE.toInt())
                 head = LiveMsgPacketHead.decode(rawHead)
-                body = readBytes()
+                val rawBody = readBytes()
+                body = when (head.protocol) {
+                    COMMAND_ZLIB -> ZLibImpl.decompress(rawBody)
+                    COMMAND_BROTLI -> BrotliImpl.decompress(rawBody)
+                    else -> rawBody
+                }
             }
             return LiveMsgPacket(head, body)
         }

@@ -11,7 +11,6 @@ import kotlinx.datetime.LocalDate
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromByteArray
 import sdl.moe.yabapi.BiliClient
-import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.consts.internal.VIDEO_DANMAKU_CALENDAR_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_DANMAKU_WEB_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_HISTORY_DANMAKU_GET_URL
@@ -37,7 +36,7 @@ public object DanmakuApi : BiliApi {
         part: Int = 1,
         aid: Int? = null,
         type: DanmakuType = VIDEO,
-    ): DanmakuResponse = withContext(Platform.ioDispatcher) {
+    ): DanmakuResponse = withContext(dispatcher) {
         val showAid = aid?.let { " (av$it)" } ?: ""
         logger.debug { "Getting danmaku for cid $cid$showAid part $part..." }
         val bytes: ByteArray = client.get(VIDEO_DANMAKU_WEB_URL) {
@@ -63,7 +62,7 @@ public object DanmakuApi : BiliApi {
         cid: Int,
         aid: Int? = null,
         type: DanmakuType = VIDEO,
-    ): DanmakuMetadataResponse = withContext(Platform.ioDispatcher) {
+    ): DanmakuMetadataResponse = withContext(dispatcher) {
         val showAid = aid?.let { " (av$it)" } ?: ""
         logger.debug { "Getting danmaku metadata for cid $cid$showAid..." }
         val bytes: ByteArray = client.get(VIDEO_DANMAKU_WEB_URL) {
@@ -87,7 +86,7 @@ public object DanmakuApi : BiliApi {
         month: Int,
         type: DanmakuType = VIDEO,
     ): DanmakuCalendarResponse =
-        withContext(Platform.ioDispatcher) {
+        withContext(dispatcher) {
             val date = "$year-${month.toString().padStart(2, '0')}"
             logger.debug { "Getting calendar for cid$cid in $date" }
             client.get<DanmakuCalendarResponse>(VIDEO_DANMAKU_CALENDAR_URL) {
@@ -105,7 +104,7 @@ public object DanmakuApi : BiliApi {
         date: String,
         type: DanmakuType = VIDEO,
     ): DanmakuResponse =
-        withContext(Platform.ioDispatcher) {
+        withContext(dispatcher) {
             logger.debug { "Getting History Danmaku for cid$cid on $date..." }
             client.get<ByteArray>(VIDEO_HISTORY_DANMAKU_GET_URL) {
                 parameter("type", type.code)
