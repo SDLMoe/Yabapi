@@ -15,6 +15,7 @@ import io.ktor.http.cio.websocket.FrameType.BINARY
 import io.ktor.utils.io.core.buildPacket
 import io.ktor.utils.io.core.readUInt
 import io.ktor.utils.io.core.writeFully
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.channels.onSuccess
@@ -104,7 +105,7 @@ public object LiveApi : BiliApi {
             client.wss(HttpMethod.Get, host = host.host, host.wssPort, "/sub") {
                 val isSuccess = sendCertificatePacket(loginUserMid, realRoomId, token, sequence)
                 if (isSuccess) {
-                    launch(this.coroutineContext) {
+                    launch {
                         launchHeartbeatJob(sequence)
                     }
                     handleIncoming(configInstance)
@@ -128,6 +129,7 @@ public object LiveApi : BiliApi {
             isSuccess = true
         }.onClosed {
             logger.debug { "Outgoing Channel closed" }
+            cancel("Remote closed")
         }
         return isSuccess
     }
