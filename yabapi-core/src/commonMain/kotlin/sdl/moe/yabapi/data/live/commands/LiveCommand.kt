@@ -6,6 +6,7 @@ package sdl.moe.yabapi.data.live.commands
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
@@ -13,7 +14,9 @@ public class LiveCommand internal constructor(
     @SerialName("cmd")
     public val operation: String,
     @SerialName("data")
-    internal val _data: JsonElement,
+    internal val _data: JsonElement? = null,
+    @SerialName("info")
+    internal val info: JsonArray? = null,
 ) {
     public val data: LiveCommandData
         get() {
@@ -22,6 +25,10 @@ public class LiveCommand internal constructor(
 
     public fun getDataOrNull(): LiveCommandData {
         TODO()
+    }
+
+    override fun toString(): String {
+        return "LiveCommand(operation='$operation', _data=$_data, info=$info)"
     }
 }
 

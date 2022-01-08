@@ -35,8 +35,8 @@ import sdl.moe.yabapi.data.live.CertificatePacketResponse
 import sdl.moe.yabapi.data.live.LiveDanmakuHost
 import sdl.moe.yabapi.data.live.LiveDanmakuInfoGetResponse
 import sdl.moe.yabapi.data.live.LiveInitGetResponse
+import sdl.moe.yabapi.data.live.commands.LiveCommand
 import sdl.moe.yabapi.packet.LiveMsgPacket
-import sdl.moe.yabapi.packet.LiveMsgPacketNested
 import sdl.moe.yabapi.packet.LiveMsgPacketProtocol.SPECIAL_NO_COMPRESSION
 import sdl.moe.yabapi.packet.LiveMsgPacketType.CERTIFICATE
 import sdl.moe.yabapi.packet.LiveMsgPacketType.CERTIFICATE_RESPONSE
@@ -44,6 +44,7 @@ import sdl.moe.yabapi.packet.LiveMsgPacketType.COMMAND
 import sdl.moe.yabapi.packet.LiveMsgPacketType.HEARTBEAT
 import sdl.moe.yabapi.packet.LiveMsgPacketType.HEARTBEAT_RESPONSE
 import sdl.moe.yabapi.packet.Sequence
+import sdl.moe.yabapi.util.findJson
 import sdl.moe.yabapi.util.logger
 
 public object LiveApi : BiliApi {
@@ -130,23 +131,25 @@ public object LiveApi : BiliApi {
         incoming.consumeEach { frame ->
             when (frame) {
                 is Frame.Binary -> {
-                    logger.debug { "Received Binary: ${frame.data.contentToString()}" }
-                    LiveMsgPacket.decode(frame.data).also {
-                        logger.debug { "Decoded Packet Head: ${it.head}" }
-                        when (it.head.type) {
+                    logger.verbose { "Received Binary: ${frame.data.contentToString()}" }
+                    LiveMsgPacket.decode(frame.data).also { packet ->
+                        logger.debug { "Decoded Packet Head: ${packet.head}" }
+                        when (packet.head.type) {
                             HEARTBEAT_RESPONSE -> {
-                                val popular = buildPacket { writeFully(it.body) }.readUInt()
+                                val popular = buildPacket { writeFully(packet.body) }.readUInt()
                                 logger.debug { "Decoded popular value: $popular" }
                             }
                             CERTIFICATE_RESPONSE -> {
-                                val data: CertificatePacketResponse = json.decodeFromString(it.body.decodeToString())
+                                val data: CertificatePacketResponse = json.decodeFromString(packet.body.decodeToString())
                                 logger.debug { "Decoded Certificate Response: $data" }
                             }
                             COMMAND -> {
-                                val data = LiveMsgPacketNested.decode(frame.data)
-                                logger.debug { "Decoded LiveCommands ${data.stringBodies}" }
+                                val data = packet.body.decodeToString().findJson().map {
+                                    json.decodeFromString<LiveCommand>(it)
+                                }
+                                logger.debug { "Decoded LiveCommands $data" }
                             }
-                            else -> error("Decoded Unexpected Incoming Packet: $it")
+                            else -> error("Decoded Unexpected Incoming Packet: $packet")
                         }
                     }
                 }
