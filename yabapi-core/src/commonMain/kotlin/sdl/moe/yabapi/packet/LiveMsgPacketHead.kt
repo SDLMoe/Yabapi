@@ -17,7 +17,7 @@ import kotlin.jvm.JvmInline
 
 @JvmInline
 public value class Sequence(
-    public val value: AtomicLong = atomic(1L),
+    public val value: AtomicLong = atomic(0L),
 )
 
 public data class LiveMsgPacketHead(
@@ -39,7 +39,6 @@ public data class LiveMsgPacketHead(
     )
 
     public companion object {
-        @OptIn(ExperimentalUnsignedTypes::class)
         public fun decode(bytes: ByteArray): LiveMsgPacketHead {
             val size: UInt
             val headSize: UShort
@@ -60,14 +59,6 @@ public data class LiveMsgPacketHead(
 
         internal const val HEAD_SIZE: UShort = 0x10u
     }
-
-    public fun next(
-        size: UInt,
-        headSize: UShort,
-        protocol: LiveMsgPacketProtocol = this.protocol,
-        type: LiveMsgPacketType = this.type,
-        sequence: UInt = this.sequence + 1u,
-    ): LiveMsgPacketHead = LiveMsgPacketHead(size, headSize, protocol, type, sequence)
 
     @OptIn(ExperimentalUnsignedTypes::class)
     public fun encode(): ByteArray = buildPacket {

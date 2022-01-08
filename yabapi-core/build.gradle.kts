@@ -84,8 +84,6 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-cio:${Versions.ktor}")
-                // Compression
-                implementation("org.apache.ant:ant-compress:1.5")
             }
         }
         val jvmTest by getting

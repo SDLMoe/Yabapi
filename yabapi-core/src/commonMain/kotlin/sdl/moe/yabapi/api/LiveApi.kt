@@ -12,26 +12,37 @@ import io.ktor.client.request.parameter
 import io.ktor.http.HttpMethod
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.FrameType.BINARY
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Job
+import io.ktor.utils.io.core.buildPacket
+import io.ktor.utils.io.core.readUInt
+import io.ktor.utils.io.core.writeFully
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.consts.internal.LIVE_DANMAKU_INFO_URL
 import sdl.moe.yabapi.consts.internal.LIVE_INIT_INFO_GET_URL
+import sdl.moe.yabapi.consts.json
 import sdl.moe.yabapi.data.live.CertificatePacketBody
+import sdl.moe.yabapi.data.live.CertificatePacketResponse
 import sdl.moe.yabapi.data.live.LiveDanmakuHost
 import sdl.moe.yabapi.data.live.LiveDanmakuInfoGetResponse
 import sdl.moe.yabapi.data.live.LiveInitGetResponse
 import sdl.moe.yabapi.packet.LiveMsgPacket
+import sdl.moe.yabapi.packet.LiveMsgPacketNested
 import sdl.moe.yabapi.packet.LiveMsgPacketProtocol.SPECIAL_NO_COMPRESSION
 import sdl.moe.yabapi.packet.LiveMsgPacketType.CERTIFICATE
+import sdl.moe.yabapi.packet.LiveMsgPacketType.CERTIFICATE_RESPONSE
+import sdl.moe.yabapi.packet.LiveMsgPacketType.COMMAND
 import sdl.moe.yabapi.packet.LiveMsgPacketType.HEARTBEAT
+import sdl.moe.yabapi.packet.LiveMsgPacketType.HEARTBEAT_RESPONSE
 import sdl.moe.yabapi.packet.Sequence
 import sdl.moe.yabapi.util.logger
 
@@ -86,7 +97,12 @@ public object LiveApi : BiliApi {
             val sequence = Sequence()
             client.wss(HttpMethod.Get, host = host.host, host.wssPort, "/sub") {
                 val isSuccess = sendCertificatePacket(loginUserMid, realRoomId, token, sequence)
-                if (isSuccess) launchHeartbeatJob(dispatcher, sequence)
+                if (isSuccess) {
+                    launch(this.coroutineContext) {
+                        launchHeartbeatJob(sequence)
+                    }
+                    handleIncoming()
+                }
             }
         }
 
@@ -96,23 +112,57 @@ public object LiveApi : BiliApi {
         var isSuccess = false
         outgoing.trySend(Frame.byType(true, BINARY, packet.encode())).also {
             logger.debug { "Try to send ${packet.head.type} packet." }
-        }.apply {
-            onFailure { logger.debug { "Failed to send ${packet.head.type} packet." } }
-            onSuccess {
-                logger.debug { "Sent ${packet.head.type} packet: $packet" }
-                sequence.value.getAndIncrement()
-                logger.verbose { "Now Sequence: $sequence" }
-                isSuccess = true
-            }
+        }.onFailure {
+            logger.debug { "Failed to send ${packet.head.type} packet: $packet" }
+            logger.verbose(it) { "stacktrace:" }
+        }.onSuccess {
+            logger.debug { "Sent ${packet.head.type} packet: $packet" }
+            sequence.value.getAndIncrement()
+            logger.verbose { "Now Sequence: $sequence" }
+            isSuccess = true
+        }.onClosed {
+            logger.debug { "Outgoing Channel closed" }
         }
         return isSuccess
     }
 
+    private suspend fun DefaultClientWebSocketSession.handleIncoming() {
+        incoming.consumeEach { frame ->
+            when (frame) {
+                is Frame.Binary -> {
+                    logger.debug { "Received Binary: ${frame.data.contentToString()}" }
+                    LiveMsgPacket.decode(frame.data).also {
+                        logger.debug { "Decoded Packet Head: ${it.head}" }
+                        when (it.head.type) {
+                            HEARTBEAT_RESPONSE -> {
+                                val popular = buildPacket { writeFully(it.body) }.readUInt()
+                                logger.debug { "Decoded popular value: $popular" }
+                            }
+                            CERTIFICATE_RESPONSE -> {
+                                val data: CertificatePacketResponse = json.decodeFromString(it.body.decodeToString())
+                                logger.debug { "Decoded Certificate Response: $data" }
+                            }
+                            COMMAND -> {
+                                val data = LiveMsgPacketNested.decode(frame.data)
+                                logger.debug { "Decoded LiveCommands ${data.stringBodies}" }
+                            }
+                            else -> error("Decoded Unexpected Incoming Packet: $it")
+                        }
+                    }
+                }
+                is Frame.Text -> logger.debug { "Received Text: ${frame.data.contentToString()}" }
+                is Frame.Close -> logger.debug { "Remote closed." }
+                else -> {
+                    // DO NOTHING
+                }
+            }
+        }
+    }
+
     private suspend inline fun DefaultClientWebSocketSession.launchHeartbeatJob(
-        dispatcher: CoroutineDispatcher,
         sequence: Sequence,
-    ): Job = launch(dispatcher) {
-        while (true) {
+    ) {
+        while (isActive) {
             sendHeartbeatPacket(sequence)
             delay(30_000)
         }

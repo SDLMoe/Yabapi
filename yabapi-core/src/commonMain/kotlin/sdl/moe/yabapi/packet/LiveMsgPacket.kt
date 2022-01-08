@@ -11,10 +11,11 @@ import sdl.moe.yabapi.packet.LiveMsgPacketProtocol.COMMAND_BROTLI
 import sdl.moe.yabapi.packet.LiveMsgPacketProtocol.COMMAND_ZLIB
 import sdl.moe.yabapi.util.compress.BrotliImpl
 import sdl.moe.yabapi.util.compress.ZLibImpl
+import kotlin.math.min
 
-public data class LiveMsgPacket(
-    internal val head: LiveMsgPacketHead,
-    private var body: ByteArray,
+public open class LiveMsgPacket(
+    internal open val head: LiveMsgPacketHead,
+    internal open var body: ByteArray,
 ) {
     public constructor(
         protocol: LiveMsgPacketProtocol, type: LiveMsgPacketType, sequence: Sequence, body: ByteArray,
@@ -59,21 +60,7 @@ public data class LiveMsgPacket(
         writeFully(body)
     }.readBytes()
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-
-        other as LiveMsgPacket
-
-        if (head != other.head) return false
-        if (!body.contentEquals(other.body)) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = head.hashCode()
-        result = 31 * result + body.contentHashCode()
-        return result
+    override fun toString(): String {
+        return "LiveMsgPacket(head=$head, body(head 20)=${body.copyOfRange(0, min(20, body.size)).contentToString()})"
     }
 }

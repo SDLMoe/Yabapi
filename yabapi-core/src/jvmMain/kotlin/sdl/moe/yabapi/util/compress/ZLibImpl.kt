@@ -10,7 +10,7 @@ import java.util.zip.Inflater
 internal actual object ZLibImpl : ICompress {
 
     override suspend fun compress(byteArray: ByteArray): ByteArray {
-        val d = Deflater(8, true)
+        val d = Deflater()
         val dst = ByteArray(byteArray.size + 5)
         d.setInput(byteArray)
         d.finish()
@@ -20,7 +20,7 @@ internal actual object ZLibImpl : ICompress {
     }
 
     override suspend fun decompress(byteArray: ByteArray): ByteArray {
-        val i = Inflater(true)
+        val i = Inflater()
         val dst = ByteArray(byteArray.size * 5)
         i.setInput(byteArray)
         val size = i.inflate(dst)

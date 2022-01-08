@@ -26,7 +26,9 @@ public expect fun getDefaultEngine(): HttpClientEngineFactory<*>
  * @see getDefaultEngine
  */
 public fun getDefaultHttpClient(): HttpClient = HttpClient(getDefaultEngine()) {
-    install(WebSockets)
+    install(WebSockets) {
+        this.pingInterval = 500
+    }
     install(UserAgent) {
         agent = WEB_USER_AGENT
     }
