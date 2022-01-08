@@ -86,7 +86,11 @@ kotlin {
                 implementation("io.ktor:ktor-client-cio:${Versions.ktor}")
             }
         }
-        val jvmTest by getting
+        val jvmTest by getting {
+            dependencies {
+                implementation("org.junit.jupiter:junit-jupiter:5.8.1")
+            }
+        }
         val nativeMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-curl:${Versions.ktor}")

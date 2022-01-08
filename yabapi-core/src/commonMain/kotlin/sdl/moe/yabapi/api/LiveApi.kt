@@ -15,11 +15,12 @@ import io.ktor.http.cio.websocket.FrameType.BINARY
 import io.ktor.utils.io.core.buildPacket
 import io.ktor.utils.io.core.readUInt
 import io.ktor.utils.io.core.writeFully
-import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,6 +28,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import sdl.moe.yabapi.BiliClient
+import sdl.moe.yabapi.config.LiveDanmakuSocketConfig
 import sdl.moe.yabapi.consts.internal.LIVE_DANMAKU_INFO_URL
 import sdl.moe.yabapi.consts.internal.LIVE_INIT_INFO_GET_URL
 import sdl.moe.yabapi.consts.json
@@ -93,8 +95,11 @@ public object LiveApi : BiliApi {
         realRoomId: Int,
         token: String,
         host: LiveDanmakuHost,
+        config: LiveDanmakuSocketConfig.() -> Unit = {},
     ): Unit =
         withContext(dispatcher) {
+            val configInstance = LiveDanmakuSocketConfig()
+            configInstance.config()
             val sequence = Sequence()
             client.wss(HttpMethod.Get, host = host.host, host.wssPort, "/sub") {
                 val isSuccess = sendCertificatePacket(loginUserMid, realRoomId, token, sequence)
@@ -102,7 +107,7 @@ public object LiveApi : BiliApi {
                     launch(this.coroutineContext) {
                         launchHeartbeatJob(sequence)
                     }
-                    handleIncoming()
+                    handleIncoming(configInstance)
                 }
             }
         }
@@ -127,8 +132,10 @@ public object LiveApi : BiliApi {
         return isSuccess
     }
 
-    private suspend fun DefaultClientWebSocketSession.handleIncoming() {
-        incoming.consumeEach { frame ->
+    private suspend fun DefaultClientWebSocketSession.handleIncoming(
+        config: LiveDanmakuSocketConfig,
+    ) {
+        incoming.consumeAsFlow().collect { frame ->
             when (frame) {
                 is Frame.Binary -> {
                     logger.verbose { "Received Binary: ${frame.data.contentToString()}" }
@@ -138,16 +145,27 @@ public object LiveApi : BiliApi {
                             HEARTBEAT_RESPONSE -> {
                                 val popular = buildPacket { writeFully(packet.body) }.readUInt()
                                 logger.debug { "Decoded popular value: $popular" }
+                                config.onHeartbeatResponse(this, channelFlow {
+                                    this.send(popular)
+                                })
                             }
                             CERTIFICATE_RESPONSE -> {
                                 val data: CertificatePacketResponse = json.decodeFromString(packet.body.decodeToString())
                                 logger.debug { "Decoded Certificate Response: $data" }
+                                config.onCertificateResponse(this, channelFlow {
+                                    this.send(data)
+                                })
                             }
                             COMMAND -> {
                                 val data = packet.body.decodeToString().findJson().map {
                                     json.decodeFromString<LiveCommand>(it)
                                 }
                                 logger.debug { "Decoded LiveCommands $data" }
+                                data.forEach {
+                                    config.onCommandResponse(this, channelFlow {
+                                        this.send(it)
+                                    })
+                                }
                             }
                             else -> error("Decoded Unexpected Incoming Packet: $packet")
                         }
