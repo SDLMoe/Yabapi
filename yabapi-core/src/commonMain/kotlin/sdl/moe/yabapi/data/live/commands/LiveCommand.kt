@@ -4,45 +4,68 @@
 
 package sdl.moe.yabapi.data.live.commands
 
+import kotlinx.atomicfu.atomic
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-public class LiveCommand internal constructor(
+public data class LiveCommand internal constructor(
     @SerialName("cmd")
     public val operation: String,
     @SerialName("data")
-    internal val _data: JsonElement? = null,
+    internal val rawData: JsonElement? = null,
     @SerialName("info")
-    internal val info: JsonArray? = null,
+    internal val rawInfo: JsonArray? = null,
+    @SerialName("roomid")
+    private val roomId: Int? = null, // not used
 ) {
-    public val data: LiveCommandData
-        get() {
-            TODO()
+    public val data: LiveCommandData? by lazy {
+        (rawData ?: rawInfo)?.let {
+            CommandDataFactory.init()
+            CommandDataFactory.getFromOperation(operation)?.decode(it)
         }
-
-    public fun getDataOrNull(): LiveCommandData {
-        TODO()
     }
 
-    override fun toString(): String {
-        return "LiveCommand(operation='$operation', _data=$_data, info=$info)"
-    }
+    override fun toString(): String = "LiveCommand(operation='$operation', rawData=${rawData ?: rawInfo ?: "null"})"
 }
 
-@Serializable
-public sealed class LiveCommandData {
+public sealed interface LiveCommandData
+
+public sealed class CommandDataFactory {
+
     public abstract val operation: String
 
+    public abstract fun decode(data: JsonElement): LiveCommandData?
+
     public companion object {
-        public fun getAllCommands(): List<LiveCommandData> = listOf()
+        private var isInitialized = atomic(false)
 
-        public fun fromOperationOrNull(operation: String): LiveCommandData? =
-            getAllCommands().firstOrNull { operation == it.operation }
+        internal fun init() {
+            if (!isInitialized.value) {
+                registerAll(DanmakuMsgCmdData)
+                isInitialized.getAndSet(true)
+            }
+        }
 
-        public fun fromOperation(operation: String): LiveCommandData =
-            getAllCommands().first { operation == it.operation }
+        private val factories: HashMap<String, CommandDataFactory> = hashMapOf()
+
+        public fun getAllFactory(): List<CommandDataFactory> = factories.values.toList()
+
+        public fun getFromOperation(operation: String): CommandDataFactory? = factories[operation]
+
+        @Suppress("SENSELESS_COMPARISON")
+        internal fun register(factory: CommandDataFactory) {
+            require(factory.operation != null) // not always true, maybe invoke before init
+            require(!factories.containsKey(factory.operation))
+            factories[factory.operation] = factory
+        }
+
+        internal fun registerAll(vararg factory: CommandDataFactory) {
+            factory.forEach {
+                register(it)
+            }
+        }
     }
 }

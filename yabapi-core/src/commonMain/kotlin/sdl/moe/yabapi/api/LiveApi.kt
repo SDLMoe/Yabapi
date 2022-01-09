@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -152,20 +153,33 @@ public object LiveApi : BiliApi {
                                 })
                             }
                             CERTIFICATE_RESPONSE -> {
-                                val data: CertificatePacketResponse = json.decodeFromString(packet.body.decodeToString())
+                                val data: CertificatePacketResponse =
+                                    json.decodeFromString(packet.body.decodeToString())
                                 logger.debug { "Decoded Certificate Response: $data" }
                                 config.onCertificateResponse(this, channelFlow {
                                     this.send(data)
                                 })
                             }
                             COMMAND -> {
-                                val data = packet.body.decodeToString().findJson().map {
-                                    json.decodeFromString<LiveCommand>(it)
+                                val data = packet.body.decodeToString().also {
+                                    logger.verbose { "Raw Received body decoded to string: $it" }
+                                }.findJson().map {
+                                    logger.verbose { "Decoded weired json string: $it" }
+                                    try {
+                                        json.decodeFromString<LiveCommand>(it)
+                                    } catch (e: SerializationException) {
+                                        logger.warn(e) {
+                                            "Unexcepeted Serialization Exception, raw decoded: ${packet.body.decodeToString().replace("\n", "\\n")}\n" +
+                                            "Decoded json part: $it\n" +
+                                            "Probably remote send incomplete json."
+                                        }
+                                        null
+                                    }
                                 }
                                 logger.debug { "Decoded LiveCommands $data" }
                                 data.forEach {
                                     config.onCommandResponse(this, channelFlow {
-                                        this.send(it)
+                                        it?.let { this.send(it) }
                                     })
                                 }
                             }
