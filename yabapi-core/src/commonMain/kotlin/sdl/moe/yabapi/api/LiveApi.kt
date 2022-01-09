@@ -20,8 +20,10 @@ import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -39,7 +41,7 @@ import sdl.moe.yabapi.data.live.CertificatePacketResponse
 import sdl.moe.yabapi.data.live.LiveDanmakuHost
 import sdl.moe.yabapi.data.live.LiveDanmakuInfoGetResponse
 import sdl.moe.yabapi.data.live.LiveInitGetResponse
-import sdl.moe.yabapi.data.live.commands.LiveCommand
+import sdl.moe.yabapi.data.live.commands.RawLiveCommand
 import sdl.moe.yabapi.packet.LiveMsgPacket
 import sdl.moe.yabapi.packet.LiveMsgPacketProtocol.SPECIAL_NO_COMPRESSION
 import sdl.moe.yabapi.packet.LiveMsgPacketType.CERTIFICATE
@@ -144,47 +146,7 @@ public object LiveApi : BiliApi {
                     logger.verbose { "Received Binary: ${frame.data.contentToString()}" }
                     LiveMsgPacket.decode(frame.data).also { packet ->
                         logger.debug { "Decoded Packet Head: ${packet.head}" }
-                        when (packet.head.type) {
-                            HEARTBEAT_RESPONSE -> {
-                                val popular = buildPacket { writeFully(packet.body) }.readUInt()
-                                logger.debug { "Decoded popular value: $popular" }
-                                config.onHeartbeatResponse(this, channelFlow {
-                                    this.send(popular)
-                                })
-                            }
-                            CERTIFICATE_RESPONSE -> {
-                                val data: CertificatePacketResponse =
-                                    json.decodeFromString(packet.body.decodeToString())
-                                logger.debug { "Decoded Certificate Response: $data" }
-                                config.onCertificateResponse(this, channelFlow {
-                                    this.send(data)
-                                })
-                            }
-                            COMMAND -> {
-                                val data = packet.body.decodeToString().also {
-                                    logger.verbose { "Raw Received body decoded to string: $it" }
-                                }.findJson().map {
-                                    logger.verbose { "Decoded weired json string: $it" }
-                                    try {
-                                        json.decodeFromString<LiveCommand>(it)
-                                    } catch (e: SerializationException) {
-                                        logger.warn(e) {
-                                            "Unexcepeted Serialization Exception, raw decoded: ${packet.body.decodeToString().replace("\n", "\\n")}\n" +
-                                            "Decoded json part: $it\n" +
-                                            "Probably remote send incomplete json."
-                                        }
-                                        null
-                                    }
-                                }
-                                logger.debug { "Decoded LiveCommands $data" }
-                                data.forEach {
-                                    config.onCommandResponse(this, channelFlow {
-                                        it?.let { this.send(it) }
-                                    })
-                                }
-                            }
-                            else -> error("Decoded Unexpected Incoming Packet: $packet")
-                        }
+                        handleBinaryPacket(packet, config)
                     }
                 }
                 is Frame.Text -> logger.debug { "Received Text: ${frame.data.contentToString()}" }
@@ -193,6 +155,60 @@ public object LiveApi : BiliApi {
                     // DO NOTHING
                 }
             }
+        }
+    }
+
+    private suspend inline fun DefaultClientWebSocketSession.handleBinaryPacket(
+        packet: LiveMsgPacket,
+        config: LiveDanmakuSocketConfig,
+    ) {
+        when (packet.head.type) {
+            HEARTBEAT_RESPONSE -> {
+                val popular = buildPacket { writeFully(packet.body) }.readUInt()
+                logger.debug { "Decoded popular value: $popular" }
+                config.onHeartbeatResponse(this, channelFlow {
+                    this.send(popular)
+                })
+            }
+            CERTIFICATE_RESPONSE -> {
+                val data: CertificatePacketResponse =
+                    json.decodeFromString(packet.body.decodeToString())
+                logger.debug { "Decoded Certificate Response: $data" }
+                config.onCertificateResponse(this, channelFlow {
+                    this.send(data)
+                })
+            }
+            COMMAND -> {
+                val flow = packet.body.decodeToString().also {
+                    logger.verbose { "Raw Received body decoded to string: $it" }
+                }.findJson().asFlow()
+                val rawFlow = flow.map { parsed -> // String -> RawLiveCommand
+                    logger.verbose { "Decoded weired json string: $parsed" }
+                    RawLiveCommand(json.decodeFromString(parsed))
+                }
+                rawFlow.collect { raw -> // Send Raw to downstream
+                    config.onRawCommandResponse(this, channelFlow { send(raw) })
+                }
+                rawFlow.map { // RawLiveCommand -> LiveCommand
+                    try {
+                        it.data
+                    } catch (e: SerializationException) {
+                        logger.warn(e) {
+                            "Unexpected Serialization Exception, raw decoded: ${
+                                packet.body.decodeToString().replace("\n", "\\n")
+                            }\n" +
+                                "Decoded json part: $it"
+                        }
+                        null
+                    }
+                }.collect { // send LiveCommand to downstream
+                    logger.debug { "Decoded LiveRawCommands $it" }
+                    config.onCommandResponse(this, channelFlow {
+                        it?.let { this.send(it) }
+                    })
+                }
+            }
+            else -> error("Decoded Unexpected Incoming Packet: $packet")
         }
     }
 

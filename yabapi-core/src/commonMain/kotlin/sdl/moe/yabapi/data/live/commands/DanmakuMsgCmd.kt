@@ -4,14 +4,34 @@
 
 package sdl.moe.yabapi.data.live.commands
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.longOrNull
+
+@Serializable
+public data class DanmakuMsgCmd(
+    @SerialName("cmd") override val operation: String,
+    @SerialName("info") val _data: JsonArray,
+) : LiveCommand {
+    val data: DanmakuMsgCmdData by lazy {
+        DanmakuMsgCmdData.decode(_data)
+    }
+
+    public companion object : LiveCommandFactory() {
+        override val operation: String = "DANMU_MSG"
+
+        override fun decode(json: Json, data: JsonElement): LiveCommand =
+            json.decodeFromJsonElement<DanmakuMsgCmd>(data)
+    }
+}
 
 @Serializable
 public data class DanmakuMsgCmdData(
@@ -24,21 +44,14 @@ public data class DanmakuMsgCmdData(
     val content: String?,
     val liveUser: LiveUser,
     val medal: LiveFansMedal,
-) : LiveCommandData {
-
-    public companion object : CommandDataFactory() {
-
-        public override val operation: String = "DANMU_MSG"
-
+) {
+    public companion object {
         /**
          * Why Bilibili f**king use json array to serialize object?
          */
-        public override fun decode(data: JsonElement): LiveCommandData {
-            // root
-            val root = data.jsonArray
-
+        public fun decode(data: JsonArray): DanmakuMsgCmdData {
             // node 0
-            val danmakuInfo = root.getOrNull(0)?.jsonArray
+            val danmakuInfo = data.getOrNull(0)?.jsonArray
 
             val isSendFromSelf = danmakuInfo?.getIntBoolean(0)
             val playerMode = danmakuInfo?.getInt(1)
@@ -54,10 +67,10 @@ public data class DanmakuMsgCmdData(
             } else Triple(null, null, null)
 
             // node 1
-            val content = root.getString(1)
+            val content = data.getString(1)
 
             // node 2
-            val userInfo = root.getOrNull(2)?.jsonArray
+            val userInfo = data.getOrNull(2)?.jsonArray
 
             val user = userInfo?.run {
                 LiveUser(
@@ -71,7 +84,7 @@ public data class DanmakuMsgCmdData(
             }
 
             // node 3
-            val medalInfo = root.getOrNull(3)?.jsonArray
+            val medalInfo = data.getOrNull(3)?.jsonArray
 
             val medal = medalInfo?.run {
                 LiveFansMedal(
