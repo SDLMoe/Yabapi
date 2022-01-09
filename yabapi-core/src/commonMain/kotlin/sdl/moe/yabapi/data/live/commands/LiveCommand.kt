@@ -13,7 +13,6 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import sdl.moe.yabapi.consts.json
-import sdl.moe.yabapi.util.logger
 
 @Serializable
 public data class RawLiveCommand(
@@ -27,9 +26,7 @@ public data class RawLiveCommand(
     public val data: LiveCommand? by lazy {
         value.let {
             LiveCommandFactory.init()
-            LiveCommandFactory.getFromOperation(operation)?.decode(json, it).also {
-                logger.debug { "Decoded Live Command: $it" }
-            }
+            LiveCommandFactory.getFromOperation(operation)?.decode(json, it)
         }
     }
 }

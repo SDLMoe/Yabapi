@@ -182,29 +182,24 @@ public object LiveApi : BiliApi {
                 val flow = packet.body.decodeToString().also {
                     logger.verbose { "Raw Received body decoded to string: $it" }
                 }.findJson().asFlow()
-                val rawFlow = flow.map { parsed -> // String -> RawLiveCommand
+                flow.map { parsed -> // String -> RawLiveCommand
                     logger.verbose { "Decoded weired json string: $parsed" }
                     RawLiveCommand(json.decodeFromString(parsed))
-                }
-                rawFlow.collect { raw -> // Send Raw to downstream
+                }.collect { raw -> // Send Raw to downstream
+                    logger.debug { "Decoded RawLiveCommand $raw" }
                     config.onRawCommandResponse(this, channelFlow { send(raw) })
-                }
-                rawFlow.map { // RawLiveCommand -> LiveCommand
-                    try {
-                        it.data
+
+                    val data = try {
+                        raw.data
                     } catch (e: SerializationException) {
                         logger.warn(e) {
-                            "Unexpected Serialization Exception, raw decoded: ${
-                                packet.body.decodeToString().replace("\n", "\\n")
-                            }\n" +
-                                "Decoded json part: $it"
+                            "Unexpected Serialization Exception, raw decoded: $raw"
                         }
                         null
                     }
-                }.collect { // send LiveCommand to downstream
-                    logger.debug { "Decoded LiveRawCommands $it" }
+                    logger.debug { "Decoded LiveCommand $data" }
                     config.onCommandResponse(this, channelFlow {
-                        it?.let { this.send(it) }
+                        data?.let { this.send(it) }
                     })
                 }
             }
