@@ -4,27 +4,42 @@
 
 package sdl.moe.yabapi.util.compress
 
+import java.io.ByteArrayOutputStream
 import java.util.zip.Deflater
+import java.util.zip.Deflater.BEST_COMPRESSION
 import java.util.zip.Inflater
 
 internal actual object ZLibImpl : ICompress {
 
-    override suspend fun compress(byteArray: ByteArray): ByteArray {
-        val d = Deflater()
-        val dst = ByteArray(byteArray.size + 5)
-        d.setInput(byteArray)
-        d.finish()
-        val size = d.deflate(dst)
-        d.end()
-        return dst.copyOfRange(0, size)
+    private const val BUFFER_SIZE = 1024
+
+    override suspend fun compress(data: ByteArray): ByteArray {
+        val d = Deflater().apply {
+            setLevel(BEST_COMPRESSION)
+            setInput(data)
+        }
+        return ByteArrayOutputStream(data.size).use {
+            d.finish()
+            val buffer = ByteArray(BUFFER_SIZE)
+            while (!d.finished()) {
+                val count = d.deflate(buffer)
+                it.write(buffer, 0, count)
+            }
+            it.toByteArray()
+        }
     }
 
-    override suspend fun decompress(byteArray: ByteArray): ByteArray {
-        val i = Inflater()
-        val dst = ByteArray(byteArray.size * 5)
-        i.setInput(byteArray)
-        val size = i.inflate(dst)
-        i.end()
-        return dst.copyOfRange(0, size)
+    override suspend fun decompress(data: ByteArray): ByteArray {
+        val i = Inflater().apply {
+            setInput(data)
+        }
+        return ByteArrayOutputStream(data.size).use {
+            val buffer = ByteArray(BUFFER_SIZE)
+            while (!i.finished()) {
+                val count = i.inflate(buffer)
+                it.write(buffer, 0, count)
+            }
+            it.toByteArray()
+        }
     }
 }

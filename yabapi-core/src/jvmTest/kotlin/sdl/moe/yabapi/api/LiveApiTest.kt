@@ -33,7 +33,7 @@ internal class LiveApiJvmTest {
     @Test
     fun captureCommands() {
         runBlocking {
-            val roomId = listOf(271744, 24037599, 23256987, 22384516)
+            val roomId = listOf(5050, 271744, 1017, 213, 510, 22384516, 8792912, 23625060, 55, 734, 3044248, 33989)
             roomId.map { id ->
                 launch(newSingleThreadContext("capture-thread-$id")) {
                     LiveApiTest().createConnection(id) {
