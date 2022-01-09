@@ -12,6 +12,7 @@ import io.ktor.client.request.parameter
 import io.ktor.http.HttpMethod
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.FrameType.BINARY
+import io.ktor.utils.io.CancellationException
 import io.ktor.utils.io.core.buildPacket
 import io.ktor.utils.io.core.readUInt
 import io.ktor.utils.io.core.writeFully
@@ -123,6 +124,10 @@ public object LiveApi : BiliApi {
         outgoing.trySend(Frame.byType(true, BINARY, packet.encode())).also {
             logger.debug { "Try to send ${packet.head.type} packet." }
         }.onFailure {
+            if (it is CancellationException) {
+                logger.info(it) { "Send Job Cancelled" }
+                return@onFailure
+            }
             logger.debug { "Failed to send ${packet.head.type} packet: $packet" }
             logger.verbose(it) { "stacktrace:" }
         }.onSuccess {
@@ -132,7 +137,7 @@ public object LiveApi : BiliApi {
             isSuccess = true
         }.onClosed {
             logger.debug { "Outgoing Channel closed" }
-            cancel("Remote closed")
+            cancel("Remote closed", it)
         }
         return isSuccess
     }
@@ -150,7 +155,7 @@ public object LiveApi : BiliApi {
                     }
                 }
                 is Frame.Text -> logger.debug { "Received Text: ${frame.data.contentToString()}" }
-                is Frame.Close -> logger.debug { "Remote closed." }
+                is Frame.Close -> cancel("Remote closed.")
                 else -> {
                     // DO NOTHING
                 }
