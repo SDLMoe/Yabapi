@@ -36,7 +36,9 @@ import sdl.moe.yabapi.enums.relation.RelationAction
 import sdl.moe.yabapi.enums.relation.RelationAction.ADD_BLACKLIST
 import sdl.moe.yabapi.enums.relation.SubscribeSource
 import sdl.moe.yabapi.enums.relation.SubscribeSource.SPACE
-import sdl.moe.yabapi.util.logger
+import sdl.moe.yabapi.util.Logger
+
+private val logger = Logger("RelationApi")
 
 public object RelationApi : BiliApi {
     override val apiName: String = "relation"

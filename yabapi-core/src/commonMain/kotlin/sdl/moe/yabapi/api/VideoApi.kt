@@ -55,9 +55,11 @@ import sdl.moe.yabapi.enums.video.CollectAction.REMOVE
 import sdl.moe.yabapi.enums.video.LikeAction
 import sdl.moe.yabapi.enums.video.LikeAction.LIKE
 import sdl.moe.yabapi.enums.video.VideoFormat.DASH
+import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.avInt
-import sdl.moe.yabapi.util.logger
 import sdl.moe.yabapi.util.requireLeastAndOnlyOne
+
+private val logger = Logger("VideoApi")
 
 public object VideoApi : BiliApi {
     override val apiName: String = "video"

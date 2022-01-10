@@ -47,12 +47,14 @@ import sdl.moe.yabapi.data.login.QRCodeWebGetResponse
 import sdl.moe.yabapi.data.login.RsaGetResponse
 import sdl.moe.yabapi.data.login.SendSMSResponse
 import sdl.moe.yabapi.data.login.SendSMSResponseCode
+import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.cookieFromHeader
 import sdl.moe.yabapi.util.encoding.RSAProvider
 import sdl.moe.yabapi.util.encoding.trimPem
-import sdl.moe.yabapi.util.logger
 import sdl.moe.yabapi.util.requireCmdInputNumber
 import sdl.moe.yabapi.util.requireCmdInputString
+
+private val logger = Logger("PassportApi")
 
 /**
  *  登录, 认证相关 API

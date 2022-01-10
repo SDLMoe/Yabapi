@@ -9,16 +9,18 @@ import sdl.moe.yabapi.enums.toKermitSeverity
 
 public var yabapiLogLevel: LogLevel = LogLevel.INFO
 
-private val kermit: co.touchlab.kermit.Logger by lazy {
-    val logger = co.touchlab.kermit.Logger
-    logger.setTag("Yabapi")
-    logger.setMinSeverity(yabapiLogLevel.toKermitSeverity())
-    logger
-}
+internal val logger = Logger()
 
-internal val logger = Logger
+internal class Logger(tag: String? = null) : ILogger {
+    private val kermit: co.touchlab.kermit.Logger by lazy {
+        val logger = co.touchlab.kermit.Logger
+        tag?.also {
+            logger.setTag("Yabapi > $it")
+        } ?: logger.setTag("Yabapi")
+        logger.setMinSeverity(yabapiLogLevel.toKermitSeverity())
+        logger
+    }
 
-internal object Logger : ILogger {
     override fun verbose(throwable: Throwable?, message: () -> String) =
         if (throwable != null) {
             kermit.v(throwable, message)

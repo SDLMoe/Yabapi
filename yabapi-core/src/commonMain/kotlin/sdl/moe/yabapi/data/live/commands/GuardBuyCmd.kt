@@ -12,14 +12,14 @@ import kotlinx.serialization.json.decodeFromJsonElement
 import sdl.moe.yabapi.data.live.BatteryCurrency
 
 @Serializable
-public data class GuardBuyCommand(
+public data class GuardBuyCmd(
     @SerialName("cmd") override val operation: String,
     @SerialName("data") val data: GuardBuyInfo,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "GUARD_BUY"
         override fun decode(json: Json, data: JsonElement): LiveCommand =
-            json.decodeFromJsonElement<GuardBuyCommand>(data)
+            json.decodeFromJsonElement<GuardBuyCmd>(data)
     }
 }
 

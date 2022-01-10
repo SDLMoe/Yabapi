@@ -11,7 +11,9 @@ import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.consts.internal.GET_ALL_STICKERS_URL
 import sdl.moe.yabapi.data.sticker.AllStickersGetResponse
 import sdl.moe.yabapi.enums.StickerBusiness
-import sdl.moe.yabapi.util.logger
+import sdl.moe.yabapi.util.Logger
+
+private val logger = Logger("StickerApi")
 
 /**
  * 表情包相关 API

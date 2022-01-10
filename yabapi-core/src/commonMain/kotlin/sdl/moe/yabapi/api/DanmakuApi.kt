@@ -20,8 +20,10 @@ import sdl.moe.yabapi.data.danmaku.DanmakuMetadataResponse
 import sdl.moe.yabapi.data.danmaku.DanmakuResponse
 import sdl.moe.yabapi.enums.danmaku.DanmakuType
 import sdl.moe.yabapi.enums.danmaku.DanmakuType.VIDEO
+import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.avInt
-import sdl.moe.yabapi.util.logger
+
+private val logger = Logger("DanmakuApi")
 
 public object DanmakuApi : BiliApi {
     override val apiName: String = "danmaku"

@@ -51,8 +51,10 @@ import sdl.moe.yabapi.packet.LiveMsgPacketType.COMMAND
 import sdl.moe.yabapi.packet.LiveMsgPacketType.HEARTBEAT
 import sdl.moe.yabapi.packet.LiveMsgPacketType.HEARTBEAT_RESPONSE
 import sdl.moe.yabapi.packet.Sequence
+import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.findJson
-import sdl.moe.yabapi.util.logger
+
+private val logger = Logger("LiveApi")
 
 public object LiveApi : BiliApi {
     override val apiName: String = "live"

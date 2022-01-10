@@ -12,8 +12,10 @@ import sdl.moe.yabapi.consts.internal.BANGUMI_DETAILED_GET_URL
 import sdl.moe.yabapi.consts.internal.BANGUMI_INFO_GET_URL
 import sdl.moe.yabapi.data.bangumi.BangumiDetailedResponse
 import sdl.moe.yabapi.data.bangumi.BangumiInfoGetResponse
-import sdl.moe.yabapi.util.logger
+import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.requireLeastAndOnlyOne
+
+private val logger = Logger("BangumiApi")
 
 public object BangumiApi : BiliApi {
     override val apiName: String = "bangumi"

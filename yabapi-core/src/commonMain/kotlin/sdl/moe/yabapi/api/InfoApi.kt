@@ -39,7 +39,9 @@ import sdl.moe.yabapi.data.info.StatGetResponse
 import sdl.moe.yabapi.data.info.UserCardGetResponse
 import sdl.moe.yabapi.data.info.UserSpaceGetResponse
 import sdl.moe.yabapi.data.info.VipStatGetResponse
-import sdl.moe.yabapi.util.logger
+import sdl.moe.yabapi.util.Logger
+
+private val logger = Logger("InfoApi")
 
 public object InfoApi : BiliApi {
     override val apiName: String = "info"

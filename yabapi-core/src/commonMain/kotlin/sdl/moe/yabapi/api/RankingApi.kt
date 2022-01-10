@@ -14,7 +14,9 @@ import sdl.moe.yabapi.data.GeneralCode.SUCCESS
 import sdl.moe.yabapi.data.ranking.LatestVideoGetResponse
 import sdl.moe.yabapi.data.ranking.RankingGetResponse
 import sdl.moe.yabapi.enums.VideoType
-import sdl.moe.yabapi.util.logger
+import sdl.moe.yabapi.util.Logger
+
+private val logger = Logger("RankingApi")
 
 public object RankingApi : BiliApi {
     override val apiName: String = "ranking"
