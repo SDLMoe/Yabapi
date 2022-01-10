@@ -58,7 +58,7 @@ public data class CommandDanmaku(
     @SerialName("extra") private val _extra: String? = null,
     @SerialName("idStr") val idStr: String? = null,
 ) {
-    public fun getExtra(json: Json = sdl.moe.yabapi.consts.json): CommandDanmakuExtra = when (command) {
+    public fun getExtra(json: Json = sdl.moe.yabapi.consts.defaultJsonParser): CommandDanmakuExtra = when (command) {
         "#UP#" -> _extra?.let { json.decodeFromString<CommandDanmakuExtraUp>(it) } ?: Unknown
         "#LINK#" -> _extra?.let { json.decodeFromString<CommandDanmakuExtraLink>(it) } ?: Unknown
         "ATTENTION" -> _extra?.let { json.decodeFromString<CommandDanmakuExtraSub>(it) } ?: Unknown

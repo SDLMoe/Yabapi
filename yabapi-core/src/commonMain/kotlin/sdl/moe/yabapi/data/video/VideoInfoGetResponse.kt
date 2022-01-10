@@ -86,7 +86,7 @@ public data class VideoInfo(
     @SerialName("honor_reply") val honor: VideoHonorData? = null,
 ) {
 
-    public fun getSubtitle(json: Json = sdl.moe.yabapi.consts.json): VideoSubtitle? =
+    public fun getSubtitle(json: Json = sdl.moe.yabapi.consts.defaultJsonParser): VideoSubtitle? =
         if (_subtitle is JsonObject || _subtitle != null) {
             json.decodeFromJsonElement<VideoSubtitle>(_subtitle)
         } else null

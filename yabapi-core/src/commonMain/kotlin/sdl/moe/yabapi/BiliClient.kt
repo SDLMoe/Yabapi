@@ -8,12 +8,16 @@ import io.ktor.client.HttpClient
 import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.CookiesStorage
 import io.ktor.client.features.cookies.HttpCookies
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.http.Cookie
 import io.ktor.http.ParametersBuilder
 import io.ktor.http.Url
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
 import sdl.moe.yabapi.api.getBasicInfo
+import sdl.moe.yabapi.consts.defaultJsonParser
 import sdl.moe.yabapi.consts.getDefaultHttpClient
 import sdl.moe.yabapi.consts.internal.MAIN
 import sdl.moe.yabapi.storage.FileCookieStorage
@@ -34,11 +38,15 @@ public class BiliClient(
     public val dispatcher: CoroutineDispatcher = Platform.ioDispatcher,
     public var client: HttpClient = getDefaultHttpClient(),
     private val cookieStorage: CookiesStorage = AcceptAllCookiesStorage(),
+    public val json: Json = defaultJsonParser,
 ) {
     init {
         client = client.config {
             install(HttpCookies) {
                 storage = cookieStorage
+            }
+            install(JsonFeature) {
+                serializer = KotlinxSerializer(json)
             }
         }
     }

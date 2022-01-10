@@ -5,8 +5,8 @@
 package sdl.moe.yabapi.api
 
 import sdl.moe.yabapi.client
-import sdl.moe.yabapi.config.LiveDanmakuSocketConfig
-import sdl.moe.yabapi.config.onCommandResponse
+import sdl.moe.yabapi.connect.LiveDanmakuConnectConfig
+import sdl.moe.yabapi.connect.onCommandResponse
 import sdl.moe.yabapi.initTest
 import sdl.moe.yabapi.runTest
 import kotlin.test.Test
@@ -16,7 +16,7 @@ internal class LiveApiTest {
         initTest()
     }
 
-    suspend fun createConnection(roomId: Int, config: LiveDanmakuSocketConfig.() -> Unit = {}) {
+    suspend fun createConnection(roomId: Int, config: LiveDanmakuConnectConfig.() -> Unit = {}) {
         val realId = client.getRoomInitInfo(roomId).data?.roomId ?: error("Get init info failed")
         val danmakuInfoData = client.getLiveDanmakuInfo(realId).data ?: error("Get live server failed")
         val loginUserMid = client.getBasicInfo().data.mid ?: error("Not login")
@@ -45,7 +45,7 @@ internal class LiveApiTest {
     @Test
     fun serializeTest() {
         runTest {
-            val roomId = 33989
+            val roomId = 7777
             createConnection(roomId) {
                 onCommandResponse { flow ->
                     // flow.collect {}

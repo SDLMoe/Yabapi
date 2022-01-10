@@ -9,8 +9,6 @@ import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.features.UserAgent
 import io.ktor.client.features.compression.ContentEncoding
 import io.ktor.client.features.defaultRequest
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.websocket.WebSockets
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
@@ -32,9 +30,6 @@ public fun getDefaultHttpClient(): HttpClient = HttpClient(getDefaultEngine()) {
     install(UserAgent) {
         agent = WEB_USER_AGENT
     }
-    install(JsonFeature) {
-        serializer = KotlinxSerializer(json)
-    }
     install(ContentEncoding) {
         gzip()
         deflate()
@@ -49,7 +44,7 @@ public fun getDefaultHttpClient(): HttpClient = HttpClient(getDefaultEngine()) {
 /**
  * variable, can be changed to control the behaviour of yabapi json serializer
  */
-public var json: Json = Json {
+public val defaultJsonParser: Json = Json {
     prettyPrint = true
     isLenient = true
     coerceInputValues = true
