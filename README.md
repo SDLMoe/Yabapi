@@ -20,10 +20,9 @@ Yabapi 是一个 B 站第三方 Kotlin API 库。
 
 # 特性
 
-## 多平台
+## 高性能
 
-Yabapi 是一个 [Kotlin Multiplatform](https://kotlinlang.org/docs/mpp-intro.html) 项目，得益于 [Ktor](https://ktor.io/)
-与众多其他多平台库的支持，主要功能可在 JVM、Native 多个平台上运行。
+基于 [Kotlin 协程](https://github.com/Kotlin/kotlinx.coroutines) 的支持，开发者可以轻松写出高性能的代码。
 
 ## 类型安全
 
@@ -70,6 +69,8 @@ Yabapi 基于此，力求类型安全，避免空指针，减少运行时错误�
     - [X] 点赞/投币/收藏/一键三连 及 状态查询
     - [X] 全清晰度(8K/4K/1080P+) 音视频流获取
         - [ ] 下载?
+- 直播
+    - [X] 哈哈
 - 表情
     - [X] 获取表情列表
 - 时间
@@ -86,6 +87,7 @@ Yabapi 基于此，力求类型安全，避免空指针，减少运行时错误�
 - [Kotlin](https://github.com/JetBrains/kotlin) - A modern programming language that makes developers happier.
 - [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) - Kotlin multiplatform / multi-format
   **reflectionless** serialization
+- [kotlinx.coroutines](https://github.com/Kotlin/kotlinx.coroutines) -  A rich library for coroutines developed by JetBrains
 - [Ktor](https://github.com/ktorio/ktor) - An asynchronous framework for creating microservices, web applications and
   more.
 - [Kermit](https://github.com/touchlab/Kermit) - Multiplatform logger library
