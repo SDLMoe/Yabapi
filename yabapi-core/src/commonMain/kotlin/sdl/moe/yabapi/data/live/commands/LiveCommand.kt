@@ -25,8 +25,7 @@ public data class RawLiveCommand(
 
     public val data: LiveCommand? by lazy {
         value.let {
-            LiveCommandFactory.init()
-            LiveCommandFactory.getFromOperation(operation)?.decode(json, it)
+            LiveCommandFactory.map[operation]?.decode(json, it)
         }
     }
 }
@@ -48,28 +47,22 @@ public sealed class LiveCommandFactory {
 
         internal fun init() {
             if (!isInitialized.value) {
-                registerAll(DanmakuMsgCmd)
+
                 isInitialized.getAndSet(true)
             }
         }
 
-        private val factories: HashMap<String, LiveCommandFactory> = hashMapOf()
+        public val factories: List<LiveCommandFactory> = listOf(
+            DanmakuMsgCmd,
+            GuardBuyCmd,
+            SuperChatDeleteCmd,
+            SuperChatEntranceCmd,
+            SuperChatMsgCmd,
+            SuperChatMsgJpnCmd,
+        )
 
-        public fun getAllFactory(): List<LiveCommandFactory> = factories.values.toList()
-
-        public fun getFromOperation(operation: String): LiveCommandFactory? = factories[operation]
-
-        @Suppress("SENSELESS_COMPARISON")
-        private fun register(factory: LiveCommandFactory) {
-            require(factory.operation != null) // not always true, maybe invoke before init
-            require(!factories.containsKey(factory.operation))
-            factories[factory.operation] = factory
-        }
-
-        private fun registerAll(vararg factory: LiveCommandFactory) {
-            factory.forEach {
-                register(it)
-            }
+        public val map: Map<String, LiveCommandFactory> by lazy {
+            factories.associateBy { it.operation }
         }
     }
 }

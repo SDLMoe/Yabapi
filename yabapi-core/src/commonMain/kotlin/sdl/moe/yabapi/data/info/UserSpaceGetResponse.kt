@@ -12,6 +12,7 @@ import kotlinx.serialization.UseSerializers
 import kotlinx.serialization.json.JsonObject
 import sdl.moe.yabapi.data.GeneralCode
 import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
+import sdl.moe.yabapi.data.live.GuardLevel
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
@@ -59,11 +60,11 @@ public data class UserSpace(
 public data class UserFansMedal(
     @SerialName("show") val show: Boolean,
     @SerialName("wear") val wear: Boolean,
-    @SerialName("medal") val medal: FansMedal? = null,
+    @SerialName("medal") val medal: UserSpaceFanMedal? = null,
 )
 
 @Serializable
-public data class FansMedal(
+public data class UserSpaceFanMedal(
     @SerialName("uid") val uid: Int,
     @SerialName("target_id") val targetId: Int,
     @SerialName("medal_id") val medalId: Int,
@@ -78,7 +79,7 @@ public data class FansMedal(
     @SerialName("medal_color_end") val medalColorEnd: String,
     @SerialName("medal_color_border") val medalColorBorder: String,
     @SerialName("is_lighted") val isLighted: Boolean,
-    @SerialName("guard_level") val guardLevel: Int? = null,
+    @SerialName("guard_level") val guardLevel: GuardLevel = GuardLevel.UNKNOWN,
     @SerialName("light_status") val lightStatus: Boolean,
     @SerialName("wearing_status") val isWearing: Boolean,
     @SerialName("score") val score: Int,

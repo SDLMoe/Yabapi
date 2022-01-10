@@ -14,6 +14,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromJsonElement
 import sdl.moe.yabapi.data.RgbColor
 import sdl.moe.yabapi.data.live.BatteryCurrency
+import sdl.moe.yabapi.data.live.GuardLevel
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 import sdl.moe.yabapi.serializer.data.RgbColorStringSerializer
 
@@ -39,7 +40,7 @@ public data class UserToast(
     @SerialName("dmscore") val score: Int,
     @SerialName("start_time") val startTime: Long, // 开始显示时间
     @SerialName("end_time") val endTime: Long, // 结束时间
-    @SerialName("gurad_level") val guardLevel: Int, // 等级? 舰长为 3
+    @SerialName("gurad_level") val guardLevel: GuardLevel, // 等级
     @SerialName("num") val num: Int, // 上舰数量
     @SerialName("unit") val unit: String, // 时间单位
     @SerialName("username") val username: String, // 用户名

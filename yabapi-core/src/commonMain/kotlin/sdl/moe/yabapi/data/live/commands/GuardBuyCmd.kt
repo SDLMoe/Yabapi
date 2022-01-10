@@ -10,6 +10,8 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromJsonElement
 import sdl.moe.yabapi.data.live.BatteryCurrency
+import sdl.moe.yabapi.data.live.GuardLevel
+import sdl.moe.yabapi.data.live.GuardLevel.UNKNOWN
 
 @Serializable
 public data class GuardBuyCmd(
@@ -27,7 +29,7 @@ public data class GuardBuyCmd(
 public data class GuardBuyInfo(
     @SerialName("uid") val uid: Int, // 用户 uid
     @SerialName("username") val username: String, // 用户名
-    @SerialName("guard_level") val level: Int, // 上舰等级 舰长为 3, 猜测 2 是提督, 1 是总督
+    @SerialName("guard_level") val level: GuardLevel = UNKNOWN,
     @SerialName("num") val num: Int, // 开通数量
     @SerialName("price") val price: BatteryCurrency, // 花费额, 电池
     @SerialName("gift_id") val giftId: Int, // 礼物 id 舰长为 10003
