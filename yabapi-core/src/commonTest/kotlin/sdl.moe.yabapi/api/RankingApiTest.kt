@@ -4,8 +4,6 @@
 
 package sdl.moe.yabapi.api
 
-import sdl.moe.yabapi.api.RankingApi.getLatestVideo
-import sdl.moe.yabapi.api.RankingApi.getRanking
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.enums.Anime
 import sdl.moe.yabapi.enums.Cinephile

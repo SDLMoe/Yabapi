@@ -7,7 +7,9 @@ package sdl.moe.yabapi.enums
 import kotlinx.serialization.Serializable
 import sdl.moe.yabapi.consts.internal.WWW
 import sdl.moe.yabapi.serializer.data.VideoTypeSerializer
-import sdl.moe.yabapi.util.logger
+import sdl.moe.yabapi.util.Logger
+
+private val logger = Logger("VideoType")
 
 @Serializable(VideoTypeSerializer::class)
 public sealed class VideoType(

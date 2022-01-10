@@ -17,40 +17,32 @@ import sdl.moe.yabapi.util.requireLeastAndOnlyOne
 
 private val logger = Logger("BangumiApi")
 
-public object BangumiApi : BiliApi {
-    override val apiName: String = "bangumi"
-
-    init {
-        BiliClient.registerApi(this)
+public suspend fun BiliClient.getBangumiInfo(mediaId: Int): BangumiInfoGetResponse =
+    withContext(dispatcher) {
+        logger.debug { "Getting bangumi info for media id $mediaId" }
+        client.get<BangumiInfoGetResponse>(BANGUMI_INFO_GET_URL) {
+            parameter("media_id", mediaId)
+        }.also {
+            logger.debug { "Got bangumi info for media id $mediaId： $it" }
+        }
     }
 
-    public suspend fun BiliClient.getBangumiInfo(mediaId: Int): BangumiInfoGetResponse =
-        withContext(dispatcher) {
-            logger.debug { "Getting bangumi info for media id $mediaId" }
-            client.get<BangumiInfoGetResponse>(BANGUMI_INFO_GET_URL) {
-                parameter("media_id", mediaId)
-            }.also {
-                logger.debug { "Got bangumi info for media id $mediaId： $it" }
-            }
-        }
+private suspend inline fun BiliClient.getBangumiDetailed(
+    seasonId: Int? = null,
+    epId: Int? = null,
+): BangumiDetailedResponse =
+    withContext(dispatcher) {
+        requireLeastAndOnlyOne(seasonId, epId)
+        val showId = if (seasonId != null) "ss$seasonId" else "ep$epId"
+        logger.debug { "Getting bangumi detailed info for $showId..." }
+        client.get<BangumiDetailedResponse>(BANGUMI_DETAILED_GET_URL) {
+            seasonId?.let { parameter("season_id", it) }
+            seasonId?.let { parameter("ep_id", it) }
+        }.also { logger.debug { "Got bangumi detailed info for $showId: $it" } }
+    }
 
-    private suspend inline fun BiliClient.getBangumiDetailed(
-        seasonId: Int? = null,
-        epId: Int? = null,
-    ): BangumiDetailedResponse =
-        withContext(dispatcher) {
-            requireLeastAndOnlyOne(seasonId, epId)
-            val showId = if (seasonId != null) "ss$seasonId" else "ep$epId"
-            logger.debug { "Getting bangumi detailed info for $showId..." }
-            client.get<BangumiDetailedResponse>(BANGUMI_DETAILED_GET_URL) {
-                seasonId?.let { parameter("season_id", it) }
-                seasonId?.let { parameter("ep_id", it) }
-            }.also { logger.debug { "Got bangumi detailed info for $showId: $it" } }
-        }
+public suspend fun BiliClient.getBangumiDetailedBySeason(seasonId: Int): BangumiDetailedResponse =
+    getBangumiDetailed(seasonId, null)
 
-    public suspend fun BiliClient.getBangumiDetailedBySeason(seasonId: Int): BangumiDetailedResponse =
-        getBangumiDetailed(seasonId, null)
-
-    public suspend fun BiliClient.getBangumiDetailedByEp(epId: Int): BangumiDetailedResponse =
-        getBangumiDetailed(null, epId)
-}
+public suspend fun BiliClient.getBangumiDetailedByEp(epId: Int): BangumiDetailedResponse =
+    getBangumiDetailed(null, epId)

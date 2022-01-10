@@ -4,26 +4,13 @@
 
 package sdl.moe.yabapi.api
 
-import sdl.moe.yabapi.api.InfoApi.checkNick
-import sdl.moe.yabapi.api.InfoApi.getAccountInfo
-import sdl.moe.yabapi.api.InfoApi.getBasicInfo
-import sdl.moe.yabapi.api.InfoApi.getCoinExp
-import sdl.moe.yabapi.api.InfoApi.getCoinInfo
-import sdl.moe.yabapi.api.InfoApi.getCoinLog
-import sdl.moe.yabapi.api.InfoApi.getExpReward
-import sdl.moe.yabapi.api.InfoApi.getMySpace
-import sdl.moe.yabapi.api.InfoApi.getRealNameDetailed
-import sdl.moe.yabapi.api.InfoApi.getRealNameInfo
-import sdl.moe.yabapi.api.InfoApi.getSecureInfo
-import sdl.moe.yabapi.api.InfoApi.getStat
-import sdl.moe.yabapi.api.InfoApi.getUserCard
-import sdl.moe.yabapi.api.InfoApi.getUserSpace
-import sdl.moe.yabapi.api.InfoApi.getVipStat
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.runTest
-import sdl.moe.yabapi.util.logger
+import sdl.moe.yabapi.util.KermitLogger
 import sdl.moe.yabapi.util.yabapiLogLevel
+
+private val logger = KermitLogger("InfoApiTest")
 
 internal object InfoApiTest {
 

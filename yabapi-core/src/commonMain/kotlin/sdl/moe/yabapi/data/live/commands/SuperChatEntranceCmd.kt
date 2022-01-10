@@ -18,7 +18,7 @@ public data class SuperChatEntranceCmd(
     public companion object : LiveCommandFactory() {
         override val operation: String = "SUPER_CHAT_ENTRANCE"
 
-        override fun decode(json: Json, data: JsonElement): LiveCommand = json.decodeFromJsonElement(data)
+        override fun decode(json: Json, data: JsonElement): SuperChatEntranceCmd = json.decodeFromJsonElement(data)
     }
 }
 

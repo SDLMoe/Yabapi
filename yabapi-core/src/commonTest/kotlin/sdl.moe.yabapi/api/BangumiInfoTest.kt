@@ -4,9 +4,6 @@
 
 package sdl.moe.yabapi.api
 
-import sdl.moe.yabapi.api.BangumiApi.getBangumiDetailedByEp
-import sdl.moe.yabapi.api.BangumiApi.getBangumiDetailedBySeason
-import sdl.moe.yabapi.api.BangumiApi.getBangumiInfo
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.initTest
 import sdl.moe.yabapi.runTest

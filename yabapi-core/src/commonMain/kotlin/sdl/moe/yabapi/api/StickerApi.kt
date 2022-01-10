@@ -18,27 +18,16 @@ private val logger = Logger("StickerApi")
 /**
  * 表情包相关 API
  */
-public object StickerApi : BiliApi {
-    override val apiName: String = "sticker"
 
-    init {
-        BiliClient.registerApi(this)
-    }
-
-    @Suppress("Unused")
-    public val BiliClient.stickerApi: StickerApi
-        get() = this@StickerApi
-
-    /**
-     * @param business 使用場景 [StickerBusiness]
-     */
-    public suspend fun BiliClient.getAllStickers(business: StickerBusiness): AllStickersGetResponse =
-        withContext(dispatcher) {
-            logger.debug { "Getting all stickers for business: $business" }
-            client.get<AllStickersGetResponse>(GET_ALL_STICKERS_URL) {
-                parameter("business", business.toString())
-            }.also {
-                logger.debug { "Got all stickers response: $it" }
-            }
+/**
+ * @param business 使用場景 [StickerBusiness]
+ */
+public suspend fun BiliClient.getAllStickers(business: StickerBusiness): AllStickersGetResponse =
+    withContext(dispatcher) {
+        logger.debug { "Getting all stickers for business: $business" }
+        client.get<AllStickersGetResponse>(GET_ALL_STICKERS_URL) {
+            parameter("business", business.toString())
+        }.also {
+            logger.debug { "Got all stickers response: $it" }
         }
-}
+    }

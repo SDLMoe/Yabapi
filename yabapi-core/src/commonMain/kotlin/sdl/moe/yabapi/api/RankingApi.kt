@@ -18,47 +18,39 @@ import sdl.moe.yabapi.util.Logger
 
 private val logger = Logger("RankingApi")
 
-public object RankingApi : BiliApi {
-    override val apiName: String = "ranking"
-
-    init {
-        BiliClient.registerApi(this)
-    }
-
-    /**
-     * 通過視頻分區獲得排行榜
-     * @see VideoType
-     */
-    public suspend fun BiliClient.getRanking(type: VideoType, day: Int = 3): RankingGetResponse =
-        withContext(dispatcher) {
-            logger.debug { "Getting Ranking for type ${type.name}, recent $day day(s)." }
-            client.get<RankingGetResponse>(RANKING_GET_URL) {
-                parameter("rid", type.tid)
-                parameter("day", day)
-            }.also {
-                logger.debug { "Got Ranking for ${type.name}, recent $day day(s), count: ${it.data.count()}" }
-                if (it.code != SUCCESS) logger.debug { "$it" }
-                else logger.verbose { "$it" }
-            }
-        }
-
-    /**
-     * 通過視頻分區獲得最新發佈的視頻
-     */
-    public suspend fun BiliClient.getLatestVideo(
-        type: VideoType,
-        page: Int = 1,
-        countPerPage: Int = 5,
-    ): LatestVideoGetResponse = withContext(dispatcher) {
-        logger.debug { "Getting latest video for type ${type.name}, page $page..." }
-        client.get<LatestVideoGetResponse>(LATEST_VIDEO_GET_URL) {
-            parameter("pn", page)
-            parameter("ps", countPerPage)
+/**
+ * 通過視頻分區獲得排行榜
+ * @see VideoType
+ */
+public suspend fun BiliClient.getRanking(type: VideoType, day: Int = 3): RankingGetResponse =
+    withContext(dispatcher) {
+        logger.debug { "Getting Ranking for type ${type.name}, recent $day day(s)." }
+        client.get<RankingGetResponse>(RANKING_GET_URL) {
             parameter("rid", type.tid)
+            parameter("day", day)
         }.also {
-            logger.debug { "Got latest video for type ${type.name}, page $page, count: ${it.data?.archives?.count()}" }
+            logger.debug { "Got Ranking for ${type.name}, recent $day day(s), count: ${it.data.count()}" }
             if (it.code != SUCCESS) logger.debug { "$it" }
             else logger.verbose { "$it" }
         }
+    }
+
+/**
+ * 通過視頻分區獲得最新發佈的視頻
+ */
+public suspend fun BiliClient.getLatestVideo(
+    type: VideoType,
+    page: Int = 1,
+    countPerPage: Int = 5,
+): LatestVideoGetResponse = withContext(dispatcher) {
+    logger.debug { "Getting latest video for type ${type.name}, page $page..." }
+    client.get<LatestVideoGetResponse>(LATEST_VIDEO_GET_URL) {
+        parameter("pn", page)
+        parameter("ps", countPerPage)
+        parameter("rid", type.tid)
+    }.also {
+        logger.debug { "Got latest video for type ${type.name}, page $page, count: ${it.data?.archives?.count()}" }
+        if (it.code != SUCCESS) logger.debug { "$it" }
+        else logger.verbose { "$it" }
     }
 }

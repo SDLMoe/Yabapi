@@ -4,9 +4,6 @@
 
 package sdl.moe.yabapi.api
 
-import sdl.moe.yabapi.api.PassportApi.loginCookie
-import sdl.moe.yabapi.api.PassportApi.loginWebConsole
-import sdl.moe.yabapi.api.PassportApi.loginWebQRCodeInteractive
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.util.requireCmdInputString

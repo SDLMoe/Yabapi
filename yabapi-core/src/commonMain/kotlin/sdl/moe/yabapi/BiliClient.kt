@@ -13,17 +13,18 @@ import io.ktor.http.ParametersBuilder
 import io.ktor.http.Url
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import sdl.moe.yabapi.api.BiliApi
-import sdl.moe.yabapi.api.InfoApi.getBasicInfo
+import sdl.moe.yabapi.api.getBasicInfo
 import sdl.moe.yabapi.consts.getDefaultHttpClient
 import sdl.moe.yabapi.consts.internal.MAIN
 import sdl.moe.yabapi.storage.FileCookieStorage
-import sdl.moe.yabapi.util.logger
+import sdl.moe.yabapi.util.Logger
+
+private val logger = Logger("BiliClient")
 
 /**
  * API入口
  *
- * 所有可用 Api 请参见 [BiliApi] 的子类
+ * 所有可用 Api 请参见 [sdl.moe.yabapi.api]
  *
  * @param client [HttpClient] Ktor 的實現, 根據平台選擇預設值 [getDefaultHttpClient]
  * @param cookieStorage 默认 [AcceptAllCookiesStorage] 可用 [FileCookieStorage]
@@ -39,23 +40,6 @@ public class BiliClient(
             install(HttpCookies) {
                 storage = cookieStorage
             }
-        }
-    }
-
-    public companion object {
-        /** API 列表 */
-        public val apiList: HashMap<String, BiliApi> = hashMapOf()
-
-        /**
-         * 把 API 註冊到列表
-         *
-         * 一般在 [BiliApi] 實例的 init 函數中調用
-         */
-        @Suppress("SENSELESS_COMPARISON")
-        internal fun registerApi(api: BiliApi) {
-            require(api.apiName != null) { "Invoke registerApi before apiName property initialized." }
-            logger.debug { "Registering ${api.apiName} api.." }
-            this.apiList[api.apiName] = api
         }
     }
 

@@ -10,7 +10,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
-import sdl.moe.yabapi.api.BangumiApi.getBangumiDetailedByEp
 import sdl.moe.yabapi.data.GeneralCode
 import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
 import sdl.moe.yabapi.data.info.OfficialRole
@@ -23,8 +22,6 @@ import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 /**
  * 通過 epid ssid 獲取到的番劇信息
- * @param [BangumiDetailed]
- * @see [getBangumiDetailedByEp]
  */
 @Serializable
 public data class BangumiDetailedResponse(

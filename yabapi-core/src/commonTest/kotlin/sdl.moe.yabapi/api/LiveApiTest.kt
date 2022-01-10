@@ -4,10 +4,6 @@
 
 package sdl.moe.yabapi.api
 
-import sdl.moe.yabapi.api.InfoApi.getBasicInfo
-import sdl.moe.yabapi.api.LiveApi.createLiveDanmakuConnection
-import sdl.moe.yabapi.api.LiveApi.getLiveDanmakuInfo
-import sdl.moe.yabapi.api.LiveApi.getRoomInitInfo
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.config.LiveDanmakuSocketConfig
 import sdl.moe.yabapi.config.onCommandResponse

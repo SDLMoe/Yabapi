@@ -4,17 +4,6 @@
 
 package sdl.moe.yabapi.api
 
-import sdl.moe.yabapi.api.InfoApi.getBasicInfo
-import sdl.moe.yabapi.api.RelationApi.getBlacklist
-import sdl.moe.yabapi.api.RelationApi.getCoFollowing
-import sdl.moe.yabapi.api.RelationApi.getFans
-import sdl.moe.yabapi.api.RelationApi.getFollowing
-import sdl.moe.yabapi.api.RelationApi.getQuietlyFollowing
-import sdl.moe.yabapi.api.RelationApi.modifyRelation
-import sdl.moe.yabapi.api.RelationApi.queryRelation
-import sdl.moe.yabapi.api.RelationApi.queryRelationMutually
-import sdl.moe.yabapi.api.RelationApi.querySpecialFollowing
-import sdl.moe.yabapi.api.RelationApi.searchFollowing
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.enums.relation.FollowingOrder.MOST_FREQUENT

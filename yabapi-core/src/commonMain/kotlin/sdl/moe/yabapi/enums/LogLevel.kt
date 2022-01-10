@@ -18,7 +18,8 @@ public enum class LogLevel {
     INFO,
     WARN,
     ERROR,
-    ASSERT
+    ASSERT,
+    ;
 }
 
 internal fun LogLevel.toKermitSeverity() = when (this) {

@@ -6,7 +6,9 @@ package sdl.moe.yabapi.data.stream
 
 import kotlinx.serialization.Serializable
 import sdl.moe.yabapi.serializer.data.stream.QnQualitySerializer
-import sdl.moe.yabapi.util.logger
+import sdl.moe.yabapi.util.Logger
+
+private val logger = Logger("QnQuality")
 
 @Serializable(QnQualitySerializer::class)
 public enum class QnQuality(public val code: Int) {

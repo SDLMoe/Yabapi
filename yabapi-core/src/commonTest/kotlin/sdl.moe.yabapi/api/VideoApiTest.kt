@@ -4,22 +4,6 @@
 
 package sdl.moe.yabapi.api
 
-import sdl.moe.yabapi.api.VideoApi.checkVideoCoin
-import sdl.moe.yabapi.api.VideoApi.checkVideoCollect
-import sdl.moe.yabapi.api.VideoApi.checkVideoLike
-import sdl.moe.yabapi.api.VideoApi.coinVideo
-import sdl.moe.yabapi.api.VideoApi.collectVideo
-import sdl.moe.yabapi.api.VideoApi.comboLike
-import sdl.moe.yabapi.api.VideoApi.fetchVideoStream
-import sdl.moe.yabapi.api.VideoApi.getTimelineHot
-import sdl.moe.yabapi.api.VideoApi.getVideoDescription
-import sdl.moe.yabapi.api.VideoApi.getVideoInfo
-import sdl.moe.yabapi.api.VideoApi.getVideoOnline
-import sdl.moe.yabapi.api.VideoApi.getVideoParts
-import sdl.moe.yabapi.api.VideoApi.getVideoRelated
-import sdl.moe.yabapi.api.VideoApi.getVideoTags
-import sdl.moe.yabapi.api.VideoApi.likeVideo
-import sdl.moe.yabapi.api.VideoApi.shareVideo
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.data.stream.QnQuality.V8K
 import sdl.moe.yabapi.data.stream.StreamRequest

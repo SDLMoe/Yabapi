@@ -5,11 +5,6 @@
 package sdl.moe.yabapi.api
 
 import kotlinx.serialization.ExperimentalSerializationApi
-import sdl.moe.yabapi.api.DanmakuApi.getDanmaku
-import sdl.moe.yabapi.api.DanmakuApi.getDanmakuCalendar
-import sdl.moe.yabapi.api.DanmakuApi.getDanmakuMetadata
-import sdl.moe.yabapi.api.DanmakuApi.getHistoryDanmaku
-import sdl.moe.yabapi.api.VideoApi.getVideoParts
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.runTest

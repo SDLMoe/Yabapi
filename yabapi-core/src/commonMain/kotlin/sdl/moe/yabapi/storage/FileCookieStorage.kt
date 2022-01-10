@@ -26,8 +26,10 @@ import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.data.CookieWrapper
 import sdl.moe.yabapi.data.toCookies
 import sdl.moe.yabapi.isJs
-import sdl.moe.yabapi.util.logger
+import sdl.moe.yabapi.util.Logger
 import kotlin.math.min
+
+private val logger = Logger("FileCookieStorage")
 
 /**
  * Modified base on ktor [AcceptAllCookiesStorage]

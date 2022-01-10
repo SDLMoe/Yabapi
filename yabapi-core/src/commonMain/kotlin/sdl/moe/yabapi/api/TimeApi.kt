@@ -13,28 +13,15 @@ import sdl.moe.yabapi.util.Logger
 
 private val logger = Logger("TimeApi")
 
+// 时间相关 API
+
 /**
- * 时间相关 API
+ * 從 API 服務器獲得當前時間戳
+ * @return [TimestampGetResponse]
  */
-public object TimeApi : BiliApi {
-    override val apiName: String = "time"
-
-    init {
-        BiliClient.registerApi(this)
-    }
-
-    @Suppress("unused")
-    public val BiliClient.timeApi: TimeApi
-        get() = this@TimeApi
-
-    /**
-     * 從 API 服務器獲得當前時間戳
-     * @return [TimestampGetResponse]
-     */
-    public suspend fun BiliClient.getTimestamp(): TimestampGetResponse = withContext(dispatcher) {
-        logger.debug { "Getting timestamp" }
-        client.get<TimestampGetResponse>(GET_TIMESTAMP_URL).also {
-            logger.debug { "Timestamp Get Response: $it" }
-        }
+public suspend fun BiliClient.getTimestamp(): TimestampGetResponse = withContext(dispatcher) {
+    logger.debug { "Getting timestamp" }
+    client.get<TimestampGetResponse>(GET_TIMESTAMP_URL).also {
+        logger.debug { "Timestamp Get Response: $it" }
     }
 }
