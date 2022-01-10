@@ -47,7 +47,7 @@ internal class LiveApiTest {
         runTest {
             val roomId = 7777
             createConnection(roomId) {
-                onCommandResponse { flow ->
+                onCommandResponse { //flow ->
                     // flow.collect {}
                 }
             }

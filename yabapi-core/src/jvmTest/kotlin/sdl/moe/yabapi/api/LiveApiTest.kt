@@ -39,7 +39,7 @@ internal class LiveApiJvmTest {
                             command.collect {
                                 val encoded = defaultJsonParser.encodeToString(it)
                                 withContext(Dispatchers.IO) {
-                                    val file = File("~/tmp/commands/${it.operation}/${
+                                    val file = File("./tmp/commands/${it.operation}/${
                                         System.now().toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime().toLocalDate()
                                     }/${System.now()}-${System.now().nanosecondsOfSecond}.json")
                                     file.parentFile.mkdirs()

@@ -13,6 +13,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import sdl.moe.yabapi.BiliClient
+import kotlin.native.concurrent.ThreadLocal
 
 @Serializable
 public data class RawLiveCommand(
@@ -46,6 +47,7 @@ public sealed class LiveCommandFactory {
 
     public abstract fun decode(json: Json, data: JsonElement): LiveCommand
 
+    @ThreadLocal
     public companion object {
         private var isInitialized = atomic(false)
 
