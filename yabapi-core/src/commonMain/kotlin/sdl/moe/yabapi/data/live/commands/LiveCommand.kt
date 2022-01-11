@@ -59,12 +59,32 @@ public sealed class LiveCommandFactory {
         }
 
         public val factories: List<LiveCommandFactory> = listOf(
+            ComboSendCmd,
             DanmakuMsgCmd,
+            EntryEffectCmd,
             GuardBuyCmd,
+            HotRankChangeCmd,
+            HotRankChangeV2Cmd,
+            HotRankSettlementCmd,
+            HotRankSettlementV2Cmd,
+            HotRoomNotifyCmd,
+            InteractWordCmd,
+            LiveInteractGameCmd,
+            MatchRoomConfCmd,
+            NoticeMsgCmd,
+            OnlineRankCountCmd,
+            OnlineRankTopCmd,
+            OnlineRankV2Cmd,
+            RoomChangeCmd,
+            RoomUpdateCmd,
+            SendGiftCmd,
+            StopRoomListCmd,
             SuperChatDeleteCmd,
             SuperChatEntranceCmd,
             SuperChatMsgCmd,
             SuperChatMsgJpnCmd,
+            UserToastMsgCmd,
+            WidgetBannerCmd
         )
 
         public val map: Map<String, LiveCommandFactory> by lazy {

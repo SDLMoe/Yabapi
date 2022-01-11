@@ -7,13 +7,12 @@ package sdl.moe.yabapi.api
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.connect.LiveDanmakuConnectConfig
 import sdl.moe.yabapi.connect.onCommandResponse
-import sdl.moe.yabapi.initTest
 import sdl.moe.yabapi.runTest
 import kotlin.test.Test
 
 internal class LiveApiTest {
     init {
-        initTest()
+        // initTest()
     }
 
     suspend fun createConnection(roomId: Int, config: LiveDanmakuConnectConfig.() -> Unit = {}) {

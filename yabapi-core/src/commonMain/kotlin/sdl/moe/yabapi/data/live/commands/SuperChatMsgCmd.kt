@@ -56,7 +56,7 @@ public data class SuperChatData(
     @SerialName("id") val id: Int,
     @SerialName("is_ranked") val isRanked: Boolean,
     @SerialName("is_send_audit") val isSendAudit: Boolean,
-    @SerialName("medal_info") val medalInfo: SuperChatMedalInfo? = null,
+    @SerialName("medal_info") val medalInfo: LiveMedal? = null,
     @SerialName("message") val message: String,
     @Serializable(RgbColorStringSerializer::class)
     @SerialName("message_font_color") val messageFontColor: RgbColor,
@@ -70,34 +70,34 @@ public data class SuperChatData(
     @SerialName("ts") val timestamp: Long,
     @SerialName("uid") val uid: Int,
     @SerialName("user_info") val userInfo: SuperChatUserInfo,
-)
+) {
+    @Serializable
+    public data class LiveMedal(
+        @SerialName("anchor_roomid") val roomId: Int, // 房间id
+        @SerialName("anchor_uname") val liverName: String, // 主播名称
+        @SerialName("guard_level") val guardLevel: GuardLevel = UNKNOWN, // 等级
+        @SerialName("icon_id") val iconId: Int, // icon id
+        @SerialName("is_lighted") val isLighted: Boolean, // 是否点亮
+        @Serializable(RgbColorStringSerializer::class)
+        @SerialName("medal_color") val medalColor: RgbColor,
+        @Serializable(RgbColorIntSerializer::class)
+        @SerialName("medal_color_border") val medalColorBorder: RgbColor,
+        @Serializable(RgbColorIntSerializer::class)
+        @SerialName("medal_color_end") val medalColorEnd: RgbColor,
+        @Serializable(RgbColorIntSerializer::class)
+        @SerialName("medal_color_start") val medalColorStart: RgbColor,
+        @SerialName("medal_level") val level: Int,
+        @SerialName("medal_name") val name: String,
+        @SerialName("special") val special: String,
+        @SerialName("target_id") val targetId: Int, // 主播 mid
+    )
+}
 
 @Serializable
 public data class SuperChatLiveGift(
     @SerialName("gift_id") val id: Int,
     @SerialName("gift_name") val name: String,
     @SerialName("num") val num: Int,
-)
-
-@Serializable
-public data class SuperChatMedalInfo(
-    @SerialName("medal_level") val level: Int,
-    @SerialName("medal_name") val name: String? = null,
-    @SerialName("anchor_roomid") val roomId: Int, // 房间id
-    @SerialName("target_id") val targetId: Int, // 主播 mid
-    @SerialName("icon_id") val iconId: Int, // icon id
-    @SerialName("anchor_uname") val liverName: String, // 主播名称
-    @SerialName("is_lighted") val isLighted: Boolean? = null, // 是否点亮
-    @SerialName("guard_level") val guardLevel: GuardLevel = UNKNOWN, // 等级
-    @Serializable(RgbColorStringSerializer::class)
-    @SerialName("medal_color") val medalColor: RgbColor? = null,
-    @Serializable(RgbColorIntSerializer::class)
-    @SerialName("medal_color_border") val medalColorBorder: RgbColor? = null,
-    @Serializable(RgbColorIntSerializer::class)
-    @SerialName("medal_color_end") val medalColorEnd: RgbColor? = null,
-    @Serializable(RgbColorIntSerializer::class)
-    @SerialName("medal_color_start") val medalColorStart: RgbColor? = null,
-    @SerialName("special") val special: String? = null,
 )
 
 @Serializable

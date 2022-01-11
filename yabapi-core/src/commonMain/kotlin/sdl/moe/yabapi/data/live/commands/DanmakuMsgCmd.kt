@@ -2,10 +2,13 @@
 // Use of this source code is governed by the CDDL license that can be found via link below:
 // https://github.com/SDLMoe/Yabapi/blob/master/LICENSE
 
+@file:UseSerializers(BooleanJsSerializer::class)
+
 package sdl.moe.yabapi.data.live.commands
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -13,8 +16,10 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.longOrNull
+import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
 public data class DanmakuMsgCmd(
@@ -36,12 +41,14 @@ public data class DanmakuMsgCmd(
 @Serializable
 public data class DanmakuMsgCmdData(
     val isSendFromSelf: Boolean?,
+    val isSticker: Boolean?,
     val playerMode: Int?,
     val fontSize: Int?,
     val danmakuColor: Int?,
     val sentTime: Long?,
     val colors: Triple<String?, String?, String?>,
     val content: String?,
+    val stickerData: LiveStickerData?,
     val liveUser: LiveUser,
     val medal: LiveFansMedal,
 ) {
@@ -61,6 +68,11 @@ public data class DanmakuMsgCmdData(
             val colorList = if (danmakuInfo?.getInt(10) == 5) {
                 danmakuInfo.getString(11)?.split(',')
             } else null
+
+            val isSticker = danmakuInfo?.getIntBoolean(12)
+            val stickerObject = if (isSticker == true) danmakuInfo.getOrNull(13)?.jsonObject else null
+            val stickerData: LiveStickerData? = stickerObject?.let { Json.decodeFromJsonElement(stickerObject) }
+
             val colors = if (colorList?.size == 3) {
                 val (color1, color2, color3) = colorList
                 Triple(color1, color2, color3)
@@ -101,12 +113,14 @@ public data class DanmakuMsgCmdData(
 
             return DanmakuMsgCmdData(
                 isSendFromSelf = isSendFromSelf,
+                isSticker = isSticker,
                 playerMode = playerMode,
                 fontSize = fontSize,
                 danmakuColor = danmakuColor,
                 sentTime = sendTime,
                 colors = colors,
                 content = content,
+                stickerData = stickerData,
                 liveUser = user ?: LiveUser(),
                 medal = medal ?: LiveFansMedal(),
             )
@@ -134,6 +148,17 @@ public data class LiveFansMedal(
     val color2: Int? = null,
     val color3: Int? = null,
     val color4: Int? = null,
+)
+
+@Serializable
+public data class LiveStickerData(
+    @SerialName("bulge_display") val bulgeDisplay: Boolean,
+    @SerialName("emoticon_unique") val id: String,
+    @SerialName("height") val height: Int,
+    @SerialName("in_player_area") val inPlayerArea: Boolean,
+    @SerialName("is_dynamic") val isDynamic: Boolean,
+    @SerialName("url") val url: String,
+    @SerialName("width") val width: Int,
 )
 
 @Suppress("NOTHING_TO_INLINE")

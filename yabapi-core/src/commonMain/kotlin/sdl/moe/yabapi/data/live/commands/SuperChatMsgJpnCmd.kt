@@ -49,7 +49,7 @@ public data class SuperChatJpnData(
     @SerialName("background_bottom_color") val backgroundBottomColor: RgbColor,
     @SerialName("ts") val timestamp: Long,
     @SerialName("token") val token: String,
-    @SerialName("medal_info") val medalInfo: SuperChatMedalInfo,
+    @SerialName("medal_info") val medalInfo: LiveMedal? = null,
     @SerialName("user_info") val userInfo: SuperChatUserInfo,
     @SerialName("time") val time: Int,
     @SerialName("start_time") val startTime: Long,
@@ -58,4 +58,17 @@ public data class SuperChatJpnData(
 ) {
     val id: Int? by lazy { _id.toIntOrNull() }
     val uid: Int? by lazy { _uid.toIntOrNull() }
+
+    @Serializable
+    public data class LiveMedal(
+        @SerialName("icon_id") val iconId: Int, // icon id
+        @SerialName("target_id") val targetId: Int, // 主播 mid
+        @SerialName("special") val special: String,
+        @SerialName("anchor_uname") val liverName: String, // 主播名称
+        @SerialName("anchor_roomid") val roomId: Int, // 房间id
+        @SerialName("medal_level") val level: Int,
+        @SerialName("medal_name") val name: String,
+        @Serializable(RgbColorStringSerializer::class)
+        @SerialName("medal_color") val medalColor: RgbColor,
+    )
 }

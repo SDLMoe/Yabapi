@@ -40,9 +40,7 @@ internal object BooleanJsSerializer : KSerializer<Boolean> {
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor("BooleanIntSerializer", PrimitiveKind.BOOLEAN)
 
-    override fun serialize(encoder: Encoder, value: Boolean) {
-        encoder.encodeInt(if (value) 1 else 0)
-    }
+    override fun serialize(encoder: Encoder, value: Boolean) = encoder.encodeBoolean(value)
 
     override fun deserialize(decoder: Decoder): Boolean =
         when (decoder) {
