@@ -63,6 +63,8 @@ import kotlin.native.concurrent.SharedImmutable
 @SharedImmutable
 private val logger = Logger("VideoApi")
 
+// region ==================== Util ====================
+
 private fun checkVideoId(aid: Int?, bid: String?) {
     requireLeastAndOnlyOne(aid, bid)
     if (bid != null) require(bid.startsWith(prefix = "bv", ignoreCase = true))
@@ -87,6 +89,10 @@ private fun getActualId(aid: Int?, bid: String?): Int {
     return actualId
 }
 
+// endregion
+
+// region ==================== Info ====================
+
 private suspend inline fun BiliClient.getVideoInfo(
     aid: Int? = null,
     bid: String? = null,
@@ -96,16 +102,26 @@ private suspend inline fun BiliClient.getVideoInfo(
     }
 }
 
-public suspend fun BiliClient.getVideoInfo(aid: Int): VideoInfoGetResponse = run {
+/**
+ *  获取视频信息, 输入 av 号, 返回 [VideoInfoGetResponse]
+ *  @see getVideoInfo
+ *  @see VideoInfoGetResponse
+ */
+public suspend fun BiliClient.getVideoInfo(aid: Int): VideoInfoGetResponse {
     logger.debug { "Getting video info for av$aid..." }
-    this.getVideoInfo(aid, null).also {
+    return this.getVideoInfo(aid, null).also {
         logger.debug { "Got video info for av$aid: $it" }
     }
 }
 
-public suspend fun BiliClient.getVideoInfo(bid: String): VideoInfoGetResponse = run {
+/**
+ * 获取视频信息, 输入 bv 号, 返回 [VideoInfoGetResponse]
+ *  @see getVideoInfo
+ *  @see VideoInfoGetResponse
+ */
+public suspend fun BiliClient.getVideoInfo(bid: String): VideoInfoGetResponse {
     logger.debug { "Getting video info for $bid..." }
-    this.getVideoInfo(null, bid).also {
+    return this.getVideoInfo(null, bid).also {
         logger.debug { "Got video info for $bid: $it" }
     }
 }
@@ -119,16 +135,26 @@ private suspend inline fun BiliClient.getVideoParts(
     }
 }
 
-public suspend fun BiliClient.getVideoParts(aid: Int): VideoPartsGetResponse = run {
+/**
+ * 获取视频分P, 输入 av 号, 返回 [VideoPartsGetResponse]
+ * @see getVideoParts
+ * @see VideoPartsGetResponse
+ */
+public suspend fun BiliClient.getVideoParts(aid: Int): VideoPartsGetResponse {
     logger.debug { "Getting video parts for av$aid" }
-    getVideoParts(aid, null).also {
+    return getVideoParts(aid, null).also {
         logger.debug { "Got video parts for av$aid: $it" }
     }
 }
 
-public suspend fun BiliClient.getVideoParts(bid: String): VideoPartsGetResponse = run {
+/**
+ * 获取视频分P, 输入 bv 号, 返回 [VideoPartsGetResponse]
+ * @see getVideoParts
+ * @see VideoPartsGetResponse
+ */
+public suspend fun BiliClient.getVideoParts(bid: String): VideoPartsGetResponse {
     logger.debug { "Getting video parts for $bid" }
-    getVideoParts(null, bid).also {
+    return getVideoParts(null, bid).also {
         logger.debug { "Got video parts for $bid: $it" }
     }
 }
@@ -142,19 +168,66 @@ private suspend inline fun BiliClient.getVideoDescription(
     }
 }
 
-public suspend fun BiliClient.getVideoDescription(aid: Int): VideoDescriptionGetResponse = run {
+/**
+ * 获取视频简介, 输入 av 号, 返回 [VideoDescriptionGetResponse]
+ * @see [getVideoDescription]
+ * @see VideoDescriptionGetResponse
+ */
+public suspend fun BiliClient.getVideoDescription(aid: Int): VideoDescriptionGetResponse {
     logger.debug { "Getting video description for av$aid" }
-    getVideoDescription(aid, null).also {
+    return getVideoDescription(aid, null).also {
         logger.debug { "Got video description for av$aid: $it" }
     }
 }
 
-public suspend fun BiliClient.getVideoDescription(bid: String): VideoDescriptionGetResponse = run {
+/**
+ * 获取视频简介, 输入 bv 号, 返回 [VideoDescriptionGetResponse]
+ * @see [getVideoDescription]
+ * @see VideoDescriptionGetResponse
+ */
+public suspend fun BiliClient.getVideoDescription(bid: String): VideoDescriptionGetResponse {
     logger.debug { "Getting video description for $bid" }
-    getVideoDescription(null, bid).also {
+    return getVideoDescription(null, bid).also {
         logger.debug { "Got video description for $bid: $it" }
     }
 }
+
+private suspend inline fun BiliClient.getVideoTags(
+    aid: Int? = null,
+    bid: String? = null,
+): VideoTagsGetResponse = withContext(context) {
+    client.get(VIDEO_TAG_GET_URL) {
+        putVideoId(aid, bid)
+    }
+}
+
+/**
+ * 获取视频 Tags, 输入 av 号, 返回 [VideoTagsGetResponse]
+ * @see getVideoTags
+ * @see VideoTagsGetResponse
+ */
+public suspend fun BiliClient.getVideoTags(aid: Int): VideoTagsGetResponse {
+    logger.debug { "Getting Video Tags for av$aid" }
+    return getVideoTags(aid, null).also {
+        logger.debug { "Got Video Tags for av$aid: $it" }
+    }
+}
+
+/**
+ * 获取视频 Tags, 输入 bv 号, 返回 [VideoTagsGetResponse]
+ * @see getVideoTags
+ * @see VideoTagsGetResponse
+ */
+public suspend fun BiliClient.getVideoTags(bid: String): VideoTagsGetResponse {
+    logger.debug { "Getting Video Tags for $bid" }
+    return getVideoTags(null, bid).also {
+        logger.debug { "Got Video Tags for $bid: $it" }
+    }
+}
+
+// endregion
+
+// region ==================== Interact & Check ====================
 
 private suspend inline fun BiliClient.likeVideo(
     aid: Int? = null,
@@ -172,29 +245,33 @@ private suspend inline fun BiliClient.likeVideo(
 }
 
 /**
+ * 点赞视频
  * @param aid avid
  * @param action [LikeAction]
+ * @see VideoLikeResponse
  */
 public suspend fun BiliClient.likeVideo(
     aid: Int,
     action: LikeAction = LIKE,
-): VideoLikeResponse = run {
+): VideoLikeResponse {
     logger.debug { "$action video av$aid" }
-    likeVideo(aid, null, action).also {
+    return likeVideo(aid, null, action).also {
         logger.debug { "$action video av$aid response: $it" }
     }
 }
 
 /**
+ * 点赞视频
  * @param bid bvid
  * @param action [LikeAction]
+ * @see VideoLikeResponse
  */
 public suspend fun BiliClient.likeVideo(
     bid: String,
     action: LikeAction = LIKE,
-): VideoLikeResponse = run {
+): VideoLikeResponse {
     logger.debug { "$action video $bid" }
-    likeVideo(null, bid, action).also {
+    return likeVideo(null, bid, action).also {
         logger.debug { "$action video $bid response: $it" }
     }
 }
@@ -208,16 +285,26 @@ private suspend inline fun BiliClient.checkVideoLike(
     }
 }
 
-public suspend fun BiliClient.checkVideoLike(aid: Int) {
+/**
+ * 检查视频是否被点赞, 输入 bv 号, 返回 [HasLikedResponse]
+ * @see checkVideoLike
+ * @see HasLikedResponse
+ */
+public suspend fun BiliClient.checkVideoLike(aid: Int): HasLikedResponse {
     logger.debug { "Checking like status for av$aid" }
-    checkVideoLike(aid, null).also {
+    return checkVideoLike(aid, null).also {
         logger.debug { "Get like status for av$aid: $it" }
     }
 }
 
-public suspend fun BiliClient.checkVideoLike(bid: String) {
+/**
+ * 检查视频是否被点赞, 输入 bv 号, 返回 [HasLikedResponse]
+ * @see checkVideoLike
+ * @see HasLikedResponse
+ */
+public suspend fun BiliClient.checkVideoLike(bid: String): HasLikedResponse {
     logger.debug { "Checking like status for $bid" }
-    checkVideoLike(null, bid).also {
+    return checkVideoLike(null, bid).also {
         logger.debug { "Get like status for $bid: $it" }
     }
 }
@@ -231,7 +318,8 @@ private suspend inline fun BiliClient.coinVideo(
     client.post(VIDEO_COIN_URL) {
         val params = Parameters.build {
             putVideoId(aid, bid)
-            append("multiply", count.toString())
+            val actualCount = if (count >= 2) "2" else "1"
+                append("multiply", actualCount)
             if (withLike) append("select_like", "1")
             putCsrf()
         }
@@ -239,24 +327,38 @@ private suspend inline fun BiliClient.coinVideo(
     }
 }
 
+/**
+ * 投币视频
+ * @param aid av id
+ * @param count 投币数量 in 1..2
+ * @param withLike 是否同时点赞
+ * @return [CoinVideoResponse]
+ */
 public suspend fun BiliClient.coinVideo(
     aid: Int? = null,
     count: Int = 1,
     withLike: Boolean = false,
-): CoinVideoResponse = run {
+): CoinVideoResponse {
     logger.debug { "Coin Video av$aid ${if (withLike) "with like" else ""}..." }
-    coinVideo(aid, null, count, withLike).also {
+    return coinVideo(aid, null, count, withLike).also {
         logger.debug { "Coined video av$aid: $it" }
     }
 }
 
+/**
+ * 投币视频
+ * @param bid bv 号
+ * @param count 投币数量 in 1..2
+ * @param withLike 是否同时点赞
+ * @return [CoinVideoResponse]
+ */
 public suspend fun BiliClient.coinVideo(
     bid: String? = null,
     count: Int = 1,
     withLike: Boolean = false,
-): CoinVideoResponse = run {
+): CoinVideoResponse {
     logger.debug { "Coin Video $bid ${if (withLike) "with like" else ""}..." }
-    coinVideo(null, bid, count, withLike).also {
+    return coinVideo(null, bid, count, withLike).also {
         logger.debug { "Coined video $bid: $it" }
     }
 }
@@ -270,6 +372,12 @@ private suspend inline fun BiliClient.checkVideoCoin(
     }
 }
 
+/**
+ * 检查视频投币情况
+ * @param aid av号
+ * @return [VideoCoinCheckResponse]
+ * @see checkVideoCoin
+ */
 public suspend fun BiliClient.checkVideoCoin(aid: Int): VideoCoinCheckResponse = run {
     logger.debug { "Checking coin for video av$aid" }
     checkVideoCoin(aid, null).also {
@@ -277,6 +385,12 @@ public suspend fun BiliClient.checkVideoCoin(aid: Int): VideoCoinCheckResponse =
     }
 }
 
+/**
+ * 检查视频投币情况
+ * @param bid bv 号
+ * @return [VideoCoinCheckResponse]
+ * @see checkVideoCoin
+ */
 public suspend fun BiliClient.checkVideoCoin(bid: String) {
     logger.debug { "Checking coin for video $bid" }
     checkVideoCoin(null, bid).also {
@@ -310,6 +424,12 @@ private suspend inline fun BiliClient.collectVideo(
     }
 }
 
+/**
+ * 收藏视频
+ * @param aid av 号
+ * @param action 收藏操作, ADD / REMOVE
+ * @param folderList 收藏夹id, 可能需要手动获取默认id
+ */
 public suspend fun BiliClient.collectVideo(
     aid: Int,
     action: CollectAction = ADD,
@@ -321,13 +441,19 @@ public suspend fun BiliClient.collectVideo(
     }
 }
 
+/**
+ * 收藏视频
+ * @param bid bv 号
+ * @param action 收藏操作, ADD / REMOVE
+ * @param folderList 收藏夹id, 可能需要手动获取默认id
+ */
 public suspend fun BiliClient.collectVideo(
     bid: String,
     action: CollectAction = ADD,
     folderList: Collection<Int>,
-): VideoCollectResponse = run {
+): VideoCollectResponse {
     logger.debug { "Collect video $bid..." }
-    collectVideo(null, bid, action, folderList).also {
+    return collectVideo(null, bid, action, folderList).also {
         logger.debug { "$action Collect video $bid response: $it" }
     }
 }
@@ -341,16 +467,23 @@ private suspend inline fun BiliClient.checkVideoCollect(
     }
 }
 
-public suspend fun BiliClient.checkVideoCollect(aid: Int) {
+/**
+ * 检查视频收藏状态 输入 av 号, 返回 [VideoCollectCheck]
+ */
+public suspend fun BiliClient.checkVideoCollect(aid: Int): VideoCollectCheck {
     logger.debug { "Checking video av$aid collect status..." }
-    checkVideoCollect(aid, null).also {
+    return checkVideoCollect(aid, null).also {
         logger.debug { "Checked video av$aid collect status: $it" }
     }
 }
 
-public suspend fun BiliClient.checkVideoCollect(bid: String) {
+
+/**
+ * 检查视频收藏状态 输入 bv 号, 返回 [VideoCollectCheck]
+ */
+public suspend fun BiliClient.checkVideoCollect(bid: String): VideoCollectCheck {
     logger.debug { "Checking video $bid collect status..." }
-    checkVideoCollect(null, bid).also {
+    return checkVideoCollect(null, bid).also {
         logger.debug { "Checked video $bid collect status: $it" }
     }
 }
@@ -368,13 +501,19 @@ private suspend fun BiliClient.comboLike(
     }
 }
 
-public suspend fun BiliClient.comboLike(aid: Int): VideoComboLikeResponse = run {
+/**
+ * 一键三连, 输入 aid, 返回 [VideoComboLikeResponse]
+ */
+public suspend fun BiliClient.comboLike(aid: Int): VideoComboLikeResponse {
     logger.debug { "Combo liking video av$aid..." }
-    comboLike(aid, null).also {
+    return comboLike(aid, null).also {
         logger.debug { "Combo liked video av$aid: $it" }
     }
 }
 
+/**
+ * 一键三连, 输入 bid, 返回 [VideoComboLikeResponse]
+ */
 public suspend fun BiliClient.comboLike(bid: String): VideoComboLikeResponse = run {
     logger.debug { "Combo liking video $bid..." }
     comboLike(null, bid).also {
@@ -395,6 +534,11 @@ private suspend inline fun BiliClient.shareVideo(
     }
 }
 
+
+/**
+ * 分享视频, 输入 av 号, 返回 [ShareVideoResponse]
+ * 注意, 并不会返回分享链接, 只会增加视频数据
+ */
 public suspend fun BiliClient.shareVideo(aid: Int): ShareVideoResponse = run {
     logger.debug { "Sharing video av$aid..." }
     shareVideo(aid, null).also {
@@ -402,12 +546,20 @@ public suspend fun BiliClient.shareVideo(aid: Int): ShareVideoResponse = run {
     }
 }
 
+/**
+ * 分享视频, 输入 bv 号, 返回 [ShareVideoResponse]
+ * 注意, 并不会返回分享链接, 只会增加视频数据
+ */
 public suspend fun BiliClient.shareVideo(bid: String): ShareVideoResponse = run {
     logger.debug { "Sharing video $bid..." }
     shareVideo(null, bid).also {
         logger.debug { "Shared video $bid: $it" }
     }
 }
+
+// endregion
+
+// region ==================== Fetch Stream ====================
 
 private suspend inline fun BiliClient.fetchVideoStream(
     aid: Int?,
@@ -426,6 +578,14 @@ private suspend inline fun BiliClient.fetchVideoStream(
         }
     }
 
+/**
+ * 获取视频流
+ * @param aid av 号
+ * @param cid 分p id
+ * @param request 请求内容
+ * @return 返回 VideoStreamResponse
+ * @see StreamRequest
+ */
 public suspend fun BiliClient.fetchVideoStream(
     aid: Int,
     cid: Int,
@@ -437,6 +597,15 @@ public suspend fun BiliClient.fetchVideoStream(
     }
 }
 
+
+/**
+ * 获取视频流
+ * @param bid bv 号
+ * @param cid 分p id
+ * @param request 请求内容
+ * @return 返回 VideoStreamResponse
+ * @see StreamRequest
+ */
 public suspend fun BiliClient.fetchVideoStream(
     bid: String,
     cid: Int,
@@ -447,6 +616,10 @@ public suspend fun BiliClient.fetchVideoStream(
         logger.debug { "Fetched video stream for $bid: $it" }
     }
 }
+
+// endregion
+
+// region ==================== Hot ====================
 
 /**
  * 获取视频时间线热度
@@ -462,6 +635,11 @@ private suspend inline fun BiliClient.getTimelineHot(
     }
 }
 
+/**
+ * 获取视频分p 高能进度条
+ * @param cid 分 p 号码
+ * @return [TimelineHotResponse]
+ */
 public suspend fun BiliClient.getTimelineHot(cid: Int): TimelineHotResponse = run {
     logger.debug { "Getting Timeline Hot for cid $cid..." }
     getTimelineHot(cid, null, null).also {
@@ -469,6 +647,12 @@ public suspend fun BiliClient.getTimelineHot(cid: Int): TimelineHotResponse = ru
     }
 }
 
+/**
+ * 获取视频分p 高能进度条
+ * @param cid 分 p 号码
+ * @param aid av 号
+ * @return [TimelineHotResponse]
+ */
 public suspend fun BiliClient.getTimelineHot(
     cid: Int,
     aid: Int,
@@ -479,6 +663,12 @@ public suspend fun BiliClient.getTimelineHot(
     }
 }
 
+/**
+ * 获取视频分p 高能进度条
+ * @param cid 分 p 号码
+ * @param bid bv 号
+ * @return [TimelineHotResponse]
+ */
 public suspend fun BiliClient.getTimelineHot(
     cid: Int,
     bid: String,
@@ -500,6 +690,12 @@ private suspend inline fun BiliClient.getVideoOnline(
     }
 }
 
+/**
+ * 获取视频在线人数
+ * @param aid av 号
+ * @param cid 分 p 号
+ * @return [VideoOnlineGetResponse]
+ */
 public suspend fun BiliClient.getVideoOnline(
     aid: Int,
     cid: Int,
@@ -510,6 +706,12 @@ public suspend fun BiliClient.getVideoOnline(
     }
 }
 
+/**
+ * 获取视频在线人数
+ * @param bid bv 号
+ * @param cid 分 p 号
+ * @return [VideoOnlineGetResponse]
+ */
 public suspend fun BiliClient.getVideoOnline(
     bid: String,
     cid: Int,
@@ -520,28 +722,9 @@ public suspend fun BiliClient.getVideoOnline(
     }
 }
 
-private suspend inline fun BiliClient.getVideoTags(
-    aid: Int? = null,
-    bid: String? = null,
-): VideoTagsGetResponse = withContext(context) {
-    client.get(VIDEO_TAG_GET_URL) {
-        putVideoId(aid, bid)
-    }
-}
+// endregion
 
-public suspend fun BiliClient.getVideoTags(aid: Int): VideoTagsGetResponse = run {
-    logger.debug { "Getting Video Tags for av$aid" }
-    getVideoTags(aid, null).also {
-        logger.debug { "Got Video Tags for av$aid: $it" }
-    }
-}
-
-public suspend fun BiliClient.getVideoTags(bid: String): VideoTagsGetResponse = run {
-    logger.debug { "Getting Video Tags for $bid" }
-    getVideoTags(null, bid).also {
-        logger.debug { "Got Video Tags for $bid: $it" }
-    }
-}
+// region ==================== Recommended ====================
 
 private suspend inline fun BiliClient.getVideoRelated(
     aid: Int?,
@@ -552,6 +735,9 @@ private suspend inline fun BiliClient.getVideoRelated(
     }
 }
 
+/**
+ * 获取视频的相关推荐, 输入 av 号, 返回 [VideoRelatedGetResponse]
+ */
 public suspend fun BiliClient.getVideoRelated(aid: Int): VideoRelatedGetResponse = run {
     logger.debug { "Getting Related Video for av$aid" }
     getVideoRelated(aid, null).also {
@@ -559,9 +745,14 @@ public suspend fun BiliClient.getVideoRelated(aid: Int): VideoRelatedGetResponse
     }
 }
 
+/**
+ * 获取视频的相关推荐, 输入 bv 号, 返回 [VideoRelatedGetResponse]
+ */
 public suspend fun BiliClient.getVideoRelated(bid: String): VideoRelatedGetResponse = run {
     logger.debug { "Getting Related Video for $bid" }
     getVideoRelated(null, bid).also {
         logger.debug { "Got Related Video for $bid: $it" }
     }
 }
+
+// endregion
