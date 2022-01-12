@@ -10,7 +10,7 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import sdl.moe.yabapi.enums.VideoType
+import sdl.moe.yabapi.enums.video.VideoType
 
 public object VideoTypeSerializer : KSerializer<VideoType> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("VideoTypeSerializer", INT)
