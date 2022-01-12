@@ -22,7 +22,9 @@ import sdl.moe.yabapi.enums.danmaku.DanmakuType
 import sdl.moe.yabapi.enums.danmaku.DanmakuType.VIDEO
 import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.avInt
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = Logger("DanmakuApi")
 
 @ExperimentalSerializationApi

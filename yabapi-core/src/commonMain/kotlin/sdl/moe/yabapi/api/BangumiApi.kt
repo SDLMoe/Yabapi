@@ -14,7 +14,9 @@ import sdl.moe.yabapi.data.bangumi.BangumiDetailedResponse
 import sdl.moe.yabapi.data.bangumi.BangumiInfoGetResponse
 import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.requireLeastAndOnlyOne
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = Logger("BangumiApi")
 
 public suspend fun BiliClient.getBangumiInfo(mediaId: Int): BangumiInfoGetResponse =

@@ -37,7 +37,9 @@ import sdl.moe.yabapi.enums.relation.RelationAction.ADD_BLACKLIST
 import sdl.moe.yabapi.enums.relation.SubscribeSource
 import sdl.moe.yabapi.enums.relation.SubscribeSource.SPACE
 import sdl.moe.yabapi.util.Logger
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = Logger("RelationApi")
 
 /**

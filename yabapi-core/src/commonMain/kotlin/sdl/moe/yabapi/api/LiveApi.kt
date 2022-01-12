@@ -16,7 +16,9 @@ import sdl.moe.yabapi.data.live.LiveDanmakuHost
 import sdl.moe.yabapi.data.live.LiveDanmakuInfoGetResponse
 import sdl.moe.yabapi.data.live.LiveInitGetResponse
 import sdl.moe.yabapi.util.Logger
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = Logger("LiveApi")
 
 /**

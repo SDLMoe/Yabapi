@@ -52,7 +52,9 @@ import sdl.moe.yabapi.util.findJson
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
 import kotlin.coroutines.CoroutineContext
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = Logger("LiveMessageConnection")
 
 private typealias Wss = DefaultClientWebSocketSession

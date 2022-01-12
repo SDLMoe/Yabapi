@@ -12,7 +12,9 @@ import sdl.moe.yabapi.consts.internal.GET_ALL_STICKERS_URL
 import sdl.moe.yabapi.data.sticker.AllStickersGetResponse
 import sdl.moe.yabapi.enums.StickerBusiness
 import sdl.moe.yabapi.util.Logger
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = Logger("StickerApi")
 
 /**

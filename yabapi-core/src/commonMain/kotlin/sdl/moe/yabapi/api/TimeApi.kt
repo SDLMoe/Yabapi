@@ -10,7 +10,9 @@ import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.consts.internal.GET_TIMESTAMP_URL
 import sdl.moe.yabapi.data.time.TimestampGetResponse
 import sdl.moe.yabapi.util.Logger
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = Logger("TimeApi")
 
 // 时间相关 API

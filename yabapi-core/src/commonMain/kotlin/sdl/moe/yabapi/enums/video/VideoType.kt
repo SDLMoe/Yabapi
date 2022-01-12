@@ -8,7 +8,9 @@ import kotlinx.serialization.Serializable
 import sdl.moe.yabapi.consts.internal.WWW
 import sdl.moe.yabapi.serializer.data.VideoTypeSerializer
 import sdl.moe.yabapi.util.Logger
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = Logger("VideoType")
 
 @Serializable(VideoTypeSerializer::class)

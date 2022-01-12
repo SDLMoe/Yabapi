@@ -40,7 +40,9 @@ import sdl.moe.yabapi.data.info.UserCardGetResponse
 import sdl.moe.yabapi.data.info.UserSpaceGetResponse
 import sdl.moe.yabapi.data.info.VipStatGetResponse
 import sdl.moe.yabapi.util.Logger
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = Logger("InfoApi")
 
 public suspend fun BiliClient.getBasicInfo(): BasicInfoGetResponse = withContext(context) {

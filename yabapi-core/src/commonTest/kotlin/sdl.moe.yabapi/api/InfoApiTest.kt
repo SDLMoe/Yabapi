@@ -9,7 +9,9 @@ import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.runTest
 import sdl.moe.yabapi.util.KermitLogger
 import sdl.moe.yabapi.util.yabapiLogLevel
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = KermitLogger("InfoApiTest")
 
 internal object InfoApiTest {

@@ -51,7 +51,9 @@ import sdl.moe.yabapi.util.encoding.RSAProvider
 import sdl.moe.yabapi.util.encoding.trimPem
 import sdl.moe.yabapi.util.requireCmdInputNumber
 import sdl.moe.yabapi.util.requireCmdInputString
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = Logger("PassportApi")
 
 /**

@@ -58,7 +58,9 @@ import sdl.moe.yabapi.enums.video.VideoFormat.DASH
 import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.avInt
 import sdl.moe.yabapi.util.requireLeastAndOnlyOne
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = Logger("VideoApi")
 
 private fun checkVideoId(aid: Int?, bid: String?) {

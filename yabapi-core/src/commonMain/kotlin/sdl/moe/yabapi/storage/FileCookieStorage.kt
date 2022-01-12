@@ -28,7 +28,9 @@ import sdl.moe.yabapi.data.toCookies
 import sdl.moe.yabapi.isJs
 import sdl.moe.yabapi.util.Logger
 import kotlin.math.min
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = Logger("FileCookieStorage")
 
 /**

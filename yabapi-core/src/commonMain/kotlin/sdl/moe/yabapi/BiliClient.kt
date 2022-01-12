@@ -23,7 +23,9 @@ import sdl.moe.yabapi.consts.internal.MAIN
 import sdl.moe.yabapi.storage.FileCookieStorage
 import sdl.moe.yabapi.util.Logger
 import kotlin.coroutines.CoroutineContext
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val logger = Logger("BiliClient")
 
 /**

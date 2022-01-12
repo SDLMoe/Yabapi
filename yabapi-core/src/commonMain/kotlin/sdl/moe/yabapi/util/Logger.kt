@@ -13,7 +13,9 @@ import sdl.moe.yabapi.enums.LogLevel.INFO
 import sdl.moe.yabapi.enums.LogLevel.VERBOSE
 import sdl.moe.yabapi.enums.LogLevel.WARN
 import sdl.moe.yabapi.enums.toKermitSeverity
+import kotlin.native.concurrent.ThreadLocal
 
+@ThreadLocal
 public var yabapiLogLevel: LogLevel = INFO
 
 internal typealias Logger = StdOutLogger
