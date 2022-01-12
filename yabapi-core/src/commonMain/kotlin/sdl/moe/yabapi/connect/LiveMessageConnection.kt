@@ -99,7 +99,7 @@ internal class LiveMessageConnection(
             logger.debug { "Try to send ${packet.head.type} packet." }
         }.onFailure {
             if (it is CancellationException) {
-                logger.info(it) { "Send Job Cancelled" }
+                logger.info { "Send Job Cancelled" }
                 return@onFailure
             }
             logger.debug { "Failed to send ${packet.head.type} packet: $packet" }

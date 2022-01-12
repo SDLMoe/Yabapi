@@ -20,15 +20,13 @@ public var yabapiLogLevel: LogLevel = INFO
 
 internal typealias Logger = StdOutLogger
 
-internal class StdOutLogger(private var tag: String) : ILogger {
-    init {
-        tag = "[Yabapi] > $tag: "
-    }
+internal class StdOutLogger(tag: String) : ILogger {
+    private val tag = "[Yabapi] > $tag:"
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun log(level: LogLevel, throwable: Throwable?, noinline message: () -> String) {
         if (level >= yabapiLogLevel) {
-            println(tag + message())
+            println("${nowLocalString()} [${level.name}] $tag ${message()}")
             throwable?.printStackTrace()
         }
     }

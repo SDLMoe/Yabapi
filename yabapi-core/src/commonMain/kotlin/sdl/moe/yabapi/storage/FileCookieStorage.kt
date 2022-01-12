@@ -48,11 +48,6 @@ public class FileCookieStorage(
     private val file: VfsFile,
     private val saveInTime: Boolean = false,
 ) : CookiesStorage {
-
-    init {
-        this.addShutdownHook()
-    }
-
     private val fileMutex = Mutex()
 
     private val mutex = Mutex()
@@ -119,6 +114,7 @@ public class FileCookieStorage(
 
     private suspend fun init() {
         if (!isInitiated) {
+            addShutdownHook()
             logger.debug { "Initializing FileCookieStorage" }
             if (file.exists()) {
                 load()

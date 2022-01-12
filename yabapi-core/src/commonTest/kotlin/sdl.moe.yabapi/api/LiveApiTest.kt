@@ -24,7 +24,8 @@ internal class LiveApiTest {
             realId,
             danmakuInfoData.token,
             danmakuInfoData.hostList[0],
-            config)
+            config
+        )
     }
 
     @Test
