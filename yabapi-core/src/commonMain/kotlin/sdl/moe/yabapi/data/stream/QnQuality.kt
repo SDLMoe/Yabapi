@@ -31,7 +31,7 @@ public enum class QnQuality(public val code: Int) {
     A192K(30280);
 
     public companion object {
-        public fun fromCode(code: Int): QnQuality = enumValues<QnQuality>().firstOrNull { it.code == code }
+        public fun fromCode(code: Int): QnQuality = values().firstOrNull { it.code == code }
             ?: run {
                 logger.warn { "Unknown QnQuality code $code" }
                 UNKNOWN

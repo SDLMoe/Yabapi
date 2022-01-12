@@ -6,7 +6,7 @@ package sdl.moe.yabapi.data.video
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import sdl.moe.yabapi.enums.VideoType
+import sdl.moe.yabapi.enums.video.VideoType
 
 @Serializable
 public data class UgcSeason(

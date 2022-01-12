@@ -25,7 +25,8 @@ public data class GetCaptchaResponse(
      * 封裝, 少寫一層
      * @return [GetCaptchaResponseResult]
      */
-    val result: GetCaptchaResponseResult = data.result
+    inline val result: GetCaptchaResponseResult
+        get() = data.result
 }
 
 /**

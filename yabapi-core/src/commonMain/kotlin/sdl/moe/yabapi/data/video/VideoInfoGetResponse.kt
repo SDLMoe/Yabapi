@@ -8,7 +8,6 @@ package sdl.moe.yabapi.data.video
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -18,7 +17,8 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.longOrNull
 import sdl.moe.yabapi.data.video.VideoInfoGetCode.UNKNOWN
-import sdl.moe.yabapi.enums.VideoType
+import sdl.moe.yabapi.enums.video.Unknown
+import sdl.moe.yabapi.enums.video.VideoType
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
@@ -38,7 +38,7 @@ public data class VideoInfo(
     @SerialName("rcmd_reason") val recommendReason: String? = null,
     @SerialName("aid") val aid: Int,
     @SerialName("cid") val cid: Int? = null,
-    @SerialName("tid") val videoType: VideoType? = null,
+    @SerialName("tid") val videoType: VideoType? = Unknown,
     @SerialName("typename") private val _typename: String? = null,
     @SerialName("tname") private val _tname: String? = null,
     @SerialName("videos") val partsCount: Int? = null,
@@ -91,17 +91,13 @@ public data class VideoInfo(
             json.decodeFromJsonElement<VideoSubtitle>(_subtitle)
         } else null
 
-    @Transient
-    val typeName: String? = _typename ?: _tname
+    val typeName: String? by lazy { _typename ?: _tname }
 
-    @Transient
-    val description: String = _desc ?: _description ?: ""
+    val description: String by lazy { _desc ?: _description ?: "" }
 
-    @Transient
-    val durationLong: Long? = _duration.longOrNull
+    val durationLong: Long? by lazy { _duration.longOrNull }
 
-    @Transient
-    val durationStr: String? = _duration.contentOrNull
+    val durationStr: String? by lazy { _duration.contentOrNull }
 }
 
 @Serializable

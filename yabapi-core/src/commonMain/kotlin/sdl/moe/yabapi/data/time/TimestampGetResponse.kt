@@ -21,18 +21,19 @@ public data class TimestampGetResponse(
     @SerialName("code") val code: GeneralCode,
     @SerialName("message") val message: String,
     @SerialName("ttl") val ttl: Int,
-    @SerialName("data") val data: TimestampGetResponseData
+    @SerialName("data") val data: TimestampGetResponseData,
 ) {
     /**
      * 封裝, 直接獲取 [TimestampGetResponseData.timestamp]
      */
-    public val timestamp: Long
+    public inline val timestamp: Long
         get() = data.timestamp
 
     /**
      * 封裝, 直接獲取 [TimestampGetResponseData.instant]
      */
-    public val instant: Instant = data.instant
+    public inline val instant: Instant
+        get() = data.instant
 }
 
 /**
@@ -40,7 +41,8 @@ public data class TimestampGetResponse(
  */
 @Serializable
 public data class TimestampGetResponseData(
-    @SerialName("now") val timestamp: Long
+    @SerialName("now") val timestamp: Long,
 ) {
-    val instant: Instant = Instant.fromEpochSeconds(timestamp)
+    inline val instant: Instant
+        get() = Instant.fromEpochSeconds(timestamp)
 }

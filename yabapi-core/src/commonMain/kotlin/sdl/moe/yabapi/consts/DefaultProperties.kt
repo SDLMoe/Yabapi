@@ -41,9 +41,6 @@ public fun getDefaultHttpClient(): HttpClient = HttpClient(getDefaultEngine()) {
     }
 }
 
-/**
- * variable, can be changed to control the behaviour of yabapi json serializer
- */
 public val defaultJsonParser: Json = Json {
     prettyPrint = true
     isLenient = true

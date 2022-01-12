@@ -13,7 +13,7 @@ import sdl.moe.yabapi.consts.internal.RANKING_GET_URL
 import sdl.moe.yabapi.data.GeneralCode.SUCCESS
 import sdl.moe.yabapi.data.ranking.LatestVideoGetResponse
 import sdl.moe.yabapi.data.ranking.RankingGetResponse
-import sdl.moe.yabapi.enums.VideoType
+import sdl.moe.yabapi.enums.video.VideoType
 import sdl.moe.yabapi.util.Logger
 
 private val logger = Logger("RankingApi")

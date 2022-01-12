@@ -28,7 +28,8 @@ public data class UserCardGetResponse(
     /**
      * 封裝, 減少一層
      */
-    public val card: UserCard? = data?.card
+    inline val card: UserCard?
+        get() = data?.card
 }
 
 @Serializable

@@ -5,9 +5,9 @@
 package sdl.moe.yabapi.api
 
 import sdl.moe.yabapi.client
-import sdl.moe.yabapi.enums.Anime
-import sdl.moe.yabapi.enums.Cinephile
-import sdl.moe.yabapi.enums.Douga
+import sdl.moe.yabapi.enums.video.Anime
+import sdl.moe.yabapi.enums.video.Cinephile
+import sdl.moe.yabapi.enums.video.Douga
 import sdl.moe.yabapi.initTest
 import sdl.moe.yabapi.runTest
 import kotlin.test.Test

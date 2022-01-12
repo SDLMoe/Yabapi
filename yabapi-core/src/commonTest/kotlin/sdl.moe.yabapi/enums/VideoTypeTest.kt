@@ -5,6 +5,8 @@
 package sdl.moe.yabapi.enums
 
 import com.soywiz.korio.lang.assert
+import sdl.moe.yabapi.enums.video.Douga
+import sdl.moe.yabapi.enums.video.VideoType
 import kotlin.test.Test
 
 internal class VideoTypeTest {

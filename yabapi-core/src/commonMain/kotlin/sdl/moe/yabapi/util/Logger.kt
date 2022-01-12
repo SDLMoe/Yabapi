@@ -18,7 +18,6 @@ public var yabapiLogLevel: LogLevel = INFO
 
 internal typealias Logger = StdOutLogger
 
-@Suppress("OVERRIDE_BY_INLINE") // if a class is open, override inline function may cause error, but here is final
 internal class StdOutLogger(private var tag: String) : ILogger {
     init {
         tag = "[Yabapi] > $tag: "
