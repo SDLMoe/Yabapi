@@ -18,7 +18,7 @@ import sdl.moe.yabapi.util.requireLeastAndOnlyOne
 private val logger = Logger("BangumiApi")
 
 public suspend fun BiliClient.getBangumiInfo(mediaId: Int): BangumiInfoGetResponse =
-    withContext(dispatcher) {
+    withContext(context) {
         logger.debug { "Getting bangumi info for media id $mediaId" }
         client.get<BangumiInfoGetResponse>(BANGUMI_INFO_GET_URL) {
             parameter("media_id", mediaId)
@@ -31,7 +31,7 @@ private suspend inline fun BiliClient.getBangumiDetailed(
     seasonId: Int? = null,
     epId: Int? = null,
 ): BangumiDetailedResponse =
-    withContext(dispatcher) {
+    withContext(context) {
         requireLeastAndOnlyOne(seasonId, epId)
         val showId = if (seasonId != null) "ss$seasonId" else "ep$epId"
         logger.debug { "Getting bangumi detailed info for $showId..." }

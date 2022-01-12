@@ -31,7 +31,7 @@ public suspend fun BiliClient.getDanmaku(
     part: Int = 1,
     aid: Int? = null,
     type: DanmakuType = VIDEO,
-): DanmakuResponse = withContext(dispatcher) {
+): DanmakuResponse = withContext(context) {
     val showAid = aid?.let { " (av$it)" } ?: ""
     logger.debug { "Getting danmaku for cid $cid$showAid part $part..." }
     val bytes: ByteArray = client.get(VIDEO_DANMAKU_WEB_URL) {
@@ -57,7 +57,7 @@ public suspend fun BiliClient.getDanmakuMetadata(
     cid: Int,
     aid: Int? = null,
     type: DanmakuType = VIDEO,
-): DanmakuMetadataResponse = withContext(dispatcher) {
+): DanmakuMetadataResponse = withContext(context) {
     val showAid = aid?.let { " (av$it)" } ?: ""
     logger.debug { "Getting danmaku metadata for cid $cid$showAid..." }
     val bytes: ByteArray = client.get(VIDEO_DANMAKU_WEB_URL) {
@@ -81,7 +81,7 @@ public suspend fun BiliClient.getDanmakuCalendar(
     month: Int,
     type: DanmakuType = VIDEO,
 ): DanmakuCalendarResponse =
-    withContext(dispatcher) {
+    withContext(context) {
         val date = "$year-${month.toString().padStart(2, '0')}"
         logger.debug { "Getting calendar for cid$cid in $date" }
         client.get<DanmakuCalendarResponse>(VIDEO_DANMAKU_CALENDAR_URL) {
@@ -99,7 +99,7 @@ public suspend fun BiliClient.getHistoryDanmaku(
     date: String,
     type: DanmakuType = VIDEO,
 ): DanmakuResponse =
-    withContext(dispatcher) {
+    withContext(context) {
         logger.debug { "Getting History Danmaku for cid$cid on $date..." }
         client.get<ByteArray>(VIDEO_HISTORY_DANMAKU_GET_URL) {
             parameter("type", type.code)

@@ -23,7 +23,7 @@ private val logger = Logger("StickerApi")
  * @param business 使用場景 [StickerBusiness]
  */
 public suspend fun BiliClient.getAllStickers(business: StickerBusiness): AllStickersGetResponse =
-    withContext(dispatcher) {
+    withContext(context) {
         logger.debug { "Getting all stickers for business: $business" }
         client.get<AllStickersGetResponse>(GET_ALL_STICKERS_URL) {
             parameter("business", business.toString())

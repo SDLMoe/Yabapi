@@ -23,7 +23,7 @@ private val logger = Logger("RankingApi")
  * @see VideoType
  */
 public suspend fun BiliClient.getRanking(type: VideoType, day: Int = 3): RankingGetResponse =
-    withContext(dispatcher) {
+    withContext(context) {
         logger.debug { "Getting Ranking for type ${type.name}, recent $day day(s)." }
         client.get<RankingGetResponse>(RANKING_GET_URL) {
             parameter("rid", type.tid)
@@ -42,7 +42,7 @@ public suspend fun BiliClient.getLatestVideo(
     type: VideoType,
     page: Int = 1,
     countPerPage: Int = 5,
-): LatestVideoGetResponse = withContext(dispatcher) {
+): LatestVideoGetResponse = withContext(context) {
     logger.debug { "Getting latest video for type ${type.name}, page $page..." }
     client.get<LatestVideoGetResponse>(LATEST_VIDEO_GET_URL) {
         parameter("pn", page)

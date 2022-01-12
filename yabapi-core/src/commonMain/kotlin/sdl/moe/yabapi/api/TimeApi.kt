@@ -19,7 +19,7 @@ private val logger = Logger("TimeApi")
  * 從 API 服務器獲得當前時間戳
  * @return [TimestampGetResponse]
  */
-public suspend fun BiliClient.getTimestamp(): TimestampGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getTimestamp(): TimestampGetResponse = withContext(context) {
     logger.debug { "Getting timestamp" }
     client.get<TimestampGetResponse>(GET_TIMESTAMP_URL).also {
         logger.debug { "Timestamp Get Response: $it" }

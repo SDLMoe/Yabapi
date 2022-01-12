@@ -88,7 +88,7 @@ private fun getActualId(aid: Int?, bid: String?): Int {
 private suspend inline fun BiliClient.getVideoInfo(
     aid: Int? = null,
     bid: String? = null,
-): VideoInfoGetResponse = withContext(dispatcher) {
+): VideoInfoGetResponse = withContext(context) {
     client.get(VIDEO_INFO_GET_URL) {
         putVideoId(aid, bid)
     }
@@ -111,7 +111,7 @@ public suspend fun BiliClient.getVideoInfo(bid: String): VideoInfoGetResponse = 
 private suspend inline fun BiliClient.getVideoParts(
     aid: Int? = null,
     bid: String? = null,
-): VideoPartsGetResponse = withContext(dispatcher) {
+): VideoPartsGetResponse = withContext(context) {
     client.get(VIDEO_PARTS_GET_URL) {
         putVideoId(aid, bid)
     }
@@ -134,7 +134,7 @@ public suspend fun BiliClient.getVideoParts(bid: String): VideoPartsGetResponse 
 private suspend inline fun BiliClient.getVideoDescription(
     aid: Int? = null,
     bid: String? = null,
-): VideoDescriptionGetResponse = withContext(dispatcher) {
+): VideoDescriptionGetResponse = withContext(context) {
     client.get(VIDEO_DESCRIPTION_GET_URL) {
         putVideoId(aid, bid)
     }
@@ -158,7 +158,7 @@ private suspend inline fun BiliClient.likeVideo(
     aid: Int? = null,
     bid: String? = null,
     action: LikeAction = LIKE,
-): VideoLikeResponse = withContext(dispatcher) {
+): VideoLikeResponse = withContext(context) {
     client.post(VIDEO_LIKE_URL) {
         val params = Parameters.build {
             putVideoId(aid, bid)
@@ -200,7 +200,7 @@ public suspend fun BiliClient.likeVideo(
 private suspend inline fun BiliClient.checkVideoLike(
     aid: Int? = null,
     bid: String? = null,
-): HasLikedResponse = withContext(dispatcher) {
+): HasLikedResponse = withContext(context) {
     client.get(VIDEO_HAS_LIKE_URL) {
         putVideoId(aid, bid)
     }
@@ -225,7 +225,7 @@ private suspend inline fun BiliClient.coinVideo(
     bid: String? = null,
     count: Int = 1,
     withLike: Boolean = false,
-): CoinVideoResponse = withContext(dispatcher) {
+): CoinVideoResponse = withContext(context) {
     client.post(VIDEO_COIN_URL) {
         val params = Parameters.build {
             putVideoId(aid, bid)
@@ -262,7 +262,7 @@ public suspend fun BiliClient.coinVideo(
 private suspend inline fun BiliClient.checkVideoCoin(
     aid: Int? = null,
     bid: String? = null,
-): VideoCoinCheckResponse = withContext(dispatcher) {
+): VideoCoinCheckResponse = withContext(context) {
     client.get(VIDEO_COIN_CHECK_URL) {
         putVideoId(aid, bid)
     }
@@ -287,7 +287,7 @@ private suspend inline fun BiliClient.collectVideo(
     bid: String? = null,
     action: CollectAction = ADD,
     folderList: Collection<Int>,
-): VideoCollectResponse = withContext(dispatcher) {
+): VideoCollectResponse = withContext(context) {
     client.post(VIDEO_COLLECT_ACTION_URL) {
         headers {
             header(HttpHeaders.Referrer, "https://www.bilibili.com/")
@@ -333,7 +333,7 @@ public suspend fun BiliClient.collectVideo(
 private suspend inline fun BiliClient.checkVideoCollect(
     aid: Int? = null,
     bid: String? = null,
-): VideoCollectCheck = withContext(dispatcher) {
+): VideoCollectCheck = withContext(context) {
     client.get(VIDEO_COLLECT_CHECK_URL) {
         parameter("aid", getActualId(aid, bid))
     }
@@ -356,7 +356,7 @@ public suspend fun BiliClient.checkVideoCollect(bid: String) {
 private suspend fun BiliClient.comboLike(
     aid: Int? = null,
     bid: String? = null,
-): VideoComboLikeResponse = withContext(dispatcher) {
+): VideoComboLikeResponse = withContext(context) {
     client.post(VIDEO_COMBO_LIKE_URL) {
         val params = Parameters.build {
             putVideoId(aid, bid)
@@ -383,7 +383,7 @@ public suspend fun BiliClient.comboLike(bid: String): VideoComboLikeResponse = r
 private suspend inline fun BiliClient.shareVideo(
     aid: Int? = null,
     bid: String? = null,
-): ShareVideoResponse = withContext(dispatcher) {
+): ShareVideoResponse = withContext(context) {
     client.post(VIDEO_SHARE_URL) {
         val params = Parameters.build {
             putVideoId(aid, bid)
@@ -413,7 +413,7 @@ private suspend inline fun BiliClient.fetchVideoStream(
     cid: Int,
     request: StreamRequest,
 ): VideoStreamResponse =
-    withContext(dispatcher) {
+    withContext(context) {
         client.get(VIDEO_STREAM_FETCH_URL) {
             putVideoId(aid, bid)
             parameter("cid", cid)
@@ -453,7 +453,7 @@ private suspend inline fun BiliClient.getTimelineHot(
     cid: Int,
     aid: Int? = null,
     bid: String? = null,
-): TimelineHotResponse = withContext(dispatcher) {
+): TimelineHotResponse = withContext(context) {
     client.get(VIDEO_TIMELINE_HOT_URL) {
         parameter("cid", cid)
         if (aid != null || bid != null) putVideoId(aid, bid)
@@ -491,7 +491,7 @@ private suspend inline fun BiliClient.getVideoOnline(
     cid: Int,
     aid: Int? = null,
     bid: String? = null,
-): VideoOnlineGetResponse = withContext(dispatcher) {
+): VideoOnlineGetResponse = withContext(context) {
     client.get(VIDEO_ONLINE_GET_URL) {
         putVideoId(aid, bid)
         parameter("cid", cid)
@@ -521,7 +521,7 @@ public suspend fun BiliClient.getVideoOnline(
 private suspend inline fun BiliClient.getVideoTags(
     aid: Int? = null,
     bid: String? = null,
-): VideoTagsGetResponse = withContext(dispatcher) {
+): VideoTagsGetResponse = withContext(context) {
     client.get(VIDEO_TAG_GET_URL) {
         putVideoId(aid, bid)
     }
@@ -544,7 +544,7 @@ public suspend fun BiliClient.getVideoTags(bid: String): VideoTagsGetResponse = 
 private suspend inline fun BiliClient.getVideoRelated(
     aid: Int?,
     bid: String?,
-): VideoRelatedGetResponse = withContext(dispatcher) {
+): VideoRelatedGetResponse = withContext(context) {
     client.get(VIDEO_RELATED_GET_URL) {
         putVideoId(aid, bid)
     }

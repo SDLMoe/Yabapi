@@ -13,7 +13,7 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.http.Cookie
 import io.ktor.http.ParametersBuilder
 import io.ktor.http.Url
-import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import sdl.moe.yabapi.api.getBasicInfo
@@ -22,6 +22,7 @@ import sdl.moe.yabapi.consts.getDefaultHttpClient
 import sdl.moe.yabapi.consts.internal.MAIN
 import sdl.moe.yabapi.storage.FileCookieStorage
 import sdl.moe.yabapi.util.Logger
+import kotlin.coroutines.CoroutineContext
 
 private val logger = Logger("BiliClient")
 
@@ -35,7 +36,7 @@ private val logger = Logger("BiliClient")
  * @see CookiesStorage
  */
 public class BiliClient(
-    public val dispatcher: CoroutineDispatcher = Platform.ioDispatcher,
+    public val context: CoroutineContext = Platform.ioDispatcher + CoroutineName("yabapi"),
     public var client: HttpClient = getDefaultHttpClient(),
     private val cookieStorage: CookiesStorage = AcceptAllCookiesStorage(),
     public val json: Json = defaultJsonParser,
@@ -73,7 +74,7 @@ public class BiliClient(
         if (isLogin()) throw IllegalStateException("You are already logged in!")
     }
 
-    public suspend fun addCookie(vararg cookie: Cookie): Unit = withContext(dispatcher) {
+    public suspend fun addCookie(vararg cookie: Cookie): Unit = withContext(context) {
         cookie.forEach {
             cookieStorage.addCookie(Url(MAIN), it)
         }

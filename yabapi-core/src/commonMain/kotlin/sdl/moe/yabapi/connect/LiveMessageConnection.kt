@@ -15,7 +15,7 @@ import io.ktor.utils.io.core.buildPacket
 import io.ktor.utils.io.core.readUInt
 import io.ktor.utils.io.core.writeFully
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.channels.onFailure
@@ -51,6 +51,7 @@ import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.findJson
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
+import kotlin.coroutines.CoroutineContext
 
 private val logger = Logger("LiveMessageConnection")
 
@@ -63,7 +64,7 @@ internal class LiveMessageConnection(
     private val host: LiveDanmakuHost,
     private val client: HttpClient,
     private val jsonParser: Json,
-    private val dispatcher: CoroutineDispatcher = Platform.ioDispatcher,
+    private val context: CoroutineContext = Platform.ioDispatcher + CoroutineName("yabapi-live-msg-connect"),
     config: LiveDanmakuConnectConfig.() -> Unit = {},
 ) {
     private val configInstance = LiveDanmakuConnectConfig()
@@ -75,7 +76,7 @@ internal class LiveMessageConnection(
     private val sequence = Sequence()
 
     suspend fun start() = coroutineScope {
-        launch(dispatcher) {
+        launch(context) {
             client.wss(HttpMethod.Get, host = host.host, host.wssPort, "/sub") {
                 val isSuccess = sendCertificatePacket()
                 if (isSuccess) {

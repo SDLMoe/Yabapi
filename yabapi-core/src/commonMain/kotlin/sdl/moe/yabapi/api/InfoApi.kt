@@ -43,49 +43,49 @@ import sdl.moe.yabapi.util.Logger
 
 private val logger = Logger("InfoApi")
 
-public suspend fun BiliClient.getBasicInfo(): BasicInfoGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getBasicInfo(): BasicInfoGetResponse = withContext(context) {
     logger.debug { "Getting basic info..." }
     client.get<BasicInfoGetResponse>(BASIC_INFO_GET_URL).also {
         logger.debug { "Basic info response: $it" }
     }
 }
 
-public suspend fun BiliClient.getStat(): StatGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getStat(): StatGetResponse = withContext(context) {
     logger.debug { "Getting stat info..." }
     client.get<StatGetResponse>(STAT_GET_URL).also {
         logger.debug { "Got stat info response: $it" }
     }
 }
 
-public suspend fun BiliClient.getCoinInfo(): CoinGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getCoinInfo(): CoinGetResponse = withContext(context) {
     logger.debug { "Getting coin number..." }
     client.get<CoinGetResponse>(COIN_GET_URL).also {
         logger.debug { "Got Coin info response: $it" }
     }
 }
 
-public suspend fun BiliClient.getAccountInfo(): AccountInfoGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getAccountInfo(): AccountInfoGetResponse = withContext(context) {
     logger.debug { "Getting Account Info..." }
     client.get<AccountInfoGetResponse>(ACCOUNT_INFO_GET_URL).also {
         logger.debug { "Got Account Info Response: $it" }
     }
 }
 
-public suspend fun BiliClient.getExpReward(): ExpRewardGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getExpReward(): ExpRewardGetResponse = withContext(context) {
     logger.debug { "Getting Exp Reward..." }
     client.get<ExpRewardGetResponse>(EXP_REWARD_GET_URL).also {
         logger.debug { "Got Exp Reward Reponse: $it" }
     }
 }
 
-public suspend fun BiliClient.getCoinExp(): CoinExpGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getCoinExp(): CoinExpGetResponse = withContext(context) {
     logger.debug { "Getting Coin Exp..." }
     client.get<CoinExpGetResponse>(COIN_EXP_GET_URL).also {
         logger.debug { "Got Coin Exp Response: $it" }
     }
 }
 
-public suspend fun BiliClient.getVipStat(): VipStatGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getVipStat(): VipStatGetResponse = withContext(context) {
     logger.debug { "Getting Vip Stat..." }
     client.get<VipStatGetResponse>(VIP_STAT_GET_URL).also {
         logger.debug { "Got Vip Stat Response: $it" }
@@ -99,7 +99,7 @@ public suspend fun BiliClient.getSecureInfo(): SecureInfoGetResponse = with(Plat
     }
 }
 
-public suspend fun BiliClient.getRealNameInfo(): RealNameInfoGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getRealNameInfo(): RealNameInfoGetResponse = withContext(context) {
     logger.debug { "Getting Real Name Info..." }
     client.get<RealNameInfoGetResponse>(REAL_NAME_INFO_GET_URL).also {
         logger.debug { "Got Real Name Info: $it" }
@@ -107,21 +107,21 @@ public suspend fun BiliClient.getRealNameInfo(): RealNameInfoGetResponse = withC
 }
 
 public suspend fun BiliClient.getRealNameDetailed(): RealNameDetailedGetResponse =
-    withContext(dispatcher) {
+    withContext(context) {
         logger.debug { "Getting Real Name Detailed..." }
         client.get<RealNameDetailedGetResponse>(REAL_NAME_DETAILED_GET_URL).also {
             logger.debug { "Got Real Name Detailed: $it" }
         }
     }
 
-public suspend fun BiliClient.getCoinLog(): CoinLogGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getCoinLog(): CoinLogGetResponse = withContext(context) {
     logger.debug { "Getting Coin Log..." }
     client.get<CoinLogGetResponse>(COIN_LOG_GET_URL).also {
         logger.debug { "Got Coin Log: $it" }
     }
 }
 
-public suspend fun BiliClient.getUserSpace(mid: Int): UserSpaceGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getUserSpace(mid: Int): UserSpaceGetResponse = withContext(context) {
     logger.debug { "Getting User Space Info..." }
     client.get<UserSpaceGetResponse>(USER_SPACE_GET_URL) {
         parameter("mid", mid.toString())
@@ -131,7 +131,7 @@ public suspend fun BiliClient.getUserSpace(mid: Int): UserSpaceGetResponse = wit
 }
 
 public suspend fun BiliClient.getUserCard(mid: Int, requestBanner: Boolean): UserCardGetResponse =
-    withContext(dispatcher) {
+    withContext(context) {
         logger.debug { "Getting User Card Info..." }
         client.get<UserCardGetResponse>(USER_CARD_GET_URL) {
             parameter("mid", mid.toString())
@@ -141,14 +141,14 @@ public suspend fun BiliClient.getUserCard(mid: Int, requestBanner: Boolean): Use
         }
     }
 
-public suspend fun BiliClient.getMySpace(): MySpaceGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getMySpace(): MySpaceGetResponse = withContext(context) {
     logger.debug { "Getting Current User Space Info:" }
     client.get<MySpaceGetResponse>(MY_SPACE_GET_URL).also {
         logger.debug { "Got Current User Space Info: $it" }
     }
 }
 
-public suspend fun BiliClient.checkNick(nick: String): CheckNickResponse = withContext(dispatcher) {
+public suspend fun BiliClient.checkNick(nick: String): CheckNickResponse = withContext(context) {
     logger.debug { "Checking Nick Status..." }
     client.get<CheckNickResponse>(NICK_CHECK_URL) {
         parameter("nickName", nick)

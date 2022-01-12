@@ -79,7 +79,7 @@ public suspend fun BiliClient.loginCookie(cookies: String) {
  * 可使用 [https://kuresaru.github.io/geetest-validator/]
  * @return [GetCaptchaResponse]
  */
-public suspend fun BiliClient.getCaptcha(): GetCaptchaResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getCaptcha(): GetCaptchaResponse = withContext(context) {
     logger.info { "Querying Login Captcha" }
     client.get<GetCaptchaResponse>(QUERY_CAPTCHA_URL).also {
         logger.debug { "Query Captcha Response: $it" }
@@ -90,7 +90,7 @@ public suspend fun BiliClient.getCaptcha(): GetCaptchaResponse = withContext(dis
  * 通过 Web 方式获取 RSA 公钥
  * @return [RsaGetResponse]
  */
-public suspend fun BiliClient.getRsaKeyWeb(): RsaGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getRsaKeyWeb(): RsaGetResponse = withContext(context) {
     logger.info { "Getting RSA Key by Web method" }
     client.get<RsaGetResponse>(RSA_GET_WEB_URL) {
         parameter("act", "getkey")
@@ -115,7 +115,7 @@ public suspend fun BiliClient.loginWeb(
     validate: String,
     seccode: String,
     getCaptchaResponse: GetCaptchaResponse,
-): LoginWebResponse = withContext(dispatcher) {
+): LoginWebResponse = withContext(context) {
     noNeedLogin()
     logger.info { "Logging in by Web method" }
     client.post<LoginWebResponse>(LOGIN_WEB_URL) {
@@ -161,7 +161,7 @@ public suspend fun BiliClient.loginWebConsole(
     loginWeb(userName, encryptPwd, validate, seccode, captchaResponse)
 }
 
-public suspend fun BiliClient.getWebQRCode(): QRCodeWebGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getWebQRCode(): QRCodeWebGetResponse = withContext(context) {
     logger.info { "Getting Web QRCode" }
     client.get<QRCodeWebGetResponse>(LOGIN_QRCODE_GET_WEB_URL).also {
         logger.debug { "QRCode Web Get Response: $it" }
@@ -171,7 +171,7 @@ public suspend fun BiliClient.getWebQRCode(): QRCodeWebGetResponse = withContext
 
 public suspend fun BiliClient.loginWebQRCode(
     qrResponse: QRCodeWebGetResponse,
-): LoginWebQRCodeResponse = withContext(dispatcher) {
+): LoginWebQRCodeResponse = withContext(context) {
     noNeedLogin()
     logger.debug { "Starting Logging in via Web QR Code" }
     client.post<LoginWebQRCodeResponse>(LOGIN_WEB_QRCODE_URL) {
@@ -231,7 +231,7 @@ public suspend fun BiliClient.loginWebQRCodeInteractive(): List<LoginWebQRCodeRe
  * 获取国际区码
  * @return [CallingCodeGetResponse]
  */
-public suspend fun BiliClient.getCallingCode(): CallingCodeGetResponse = withContext(dispatcher) {
+public suspend fun BiliClient.getCallingCode(): CallingCodeGetResponse = withContext(context) {
     logger.info { "Getting Calling Code" }
     client.get<CallingCodeGetResponse>(GET_CALLING_CODE_URL).also {
         logger.debug { "Calling Code Get Response: $it" }
@@ -253,7 +253,7 @@ public suspend fun BiliClient.requestSMSCode(
     captchaResponse: GetCaptchaResponse,
     validate: String,
     seccode: String,
-): SendSMSResponse = withContext(dispatcher) {
+): SendSMSResponse = withContext(context) {
     logger.info { "Requesting SMS Code" }
     client.post<SendSMSResponse>(SEND_SMS_URL) {
         val params = Parameters.build {
@@ -286,7 +286,7 @@ public suspend fun BiliClient.loginWebSMS(
     cid: Int,
     code: Int,
     sendSMSResponse: SendSMSResponse,
-): LoginWebSMSResponse = withContext(dispatcher) {
+): LoginWebSMSResponse = withContext(context) {
     logger.info { "Logging in via Web SMS" }
     client.post<LoginWebSMSResponse>(LOGIN_WEB_SMS_URL) {
         val smsCaptchaKey = sendSMSResponse.captchaKey ?: throw IllegalArgumentException("Captcha key is null")
@@ -343,7 +343,7 @@ public suspend fun BiliClient.loginWebSMSConsole(
     loginWebSMS(phone, cid.await(), code, sendSMSResponse)
 }
 
-public suspend fun BiliClient.logOut(): LogOutResponse = withContext(dispatcher) {
+public suspend fun BiliClient.logOut(): LogOutResponse = withContext(context) {
     logger.info { "Logging out" }
     needLogin()
     client.post<LogOutResponse>(LOG_OUT_URL) {

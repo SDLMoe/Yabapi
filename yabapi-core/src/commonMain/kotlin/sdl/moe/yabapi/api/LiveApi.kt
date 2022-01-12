@@ -24,7 +24,7 @@ private val logger = Logger("LiveApi")
  * @see [LiveInitGetResponse]
  */
 public suspend fun BiliClient.getRoomInitInfo(roomId: Int): LiveInitGetResponse =
-    withContext(dispatcher) {
+    withContext(context) {
         logger.debug { "Getting Room Init Info for room $roomId" }
         client.get<LiveInitGetResponse>(LIVE_INIT_INFO_GET_URL) {
             parameter("id", roomId)
@@ -38,7 +38,7 @@ public suspend fun BiliClient.getRoomInitInfo(roomId: Int): LiveInitGetResponse 
  * @see getRoomInitInfo
  */
 public suspend fun BiliClient.getLiveDanmakuInfo(realRoomId: Int): LiveDanmakuInfoGetResponse =
-    withContext(dispatcher) {
+    withContext(context) {
         logger.debug { "Getting live danmaku info for room $realRoomId" }
         client.get<LiveDanmakuInfoGetResponse>(LIVE_DANMAKU_INFO_URL) {
             parameter("id", realRoomId)
@@ -60,7 +60,7 @@ public suspend fun BiliClient.createLiveDanmakuConnection(
     host: LiveDanmakuHost,
     config: LiveDanmakuConnectConfig.() -> Unit = {},
 ): Unit =
-    withContext(dispatcher) {
+    withContext(context) {
         val bClient = this@createLiveDanmakuConnection
         LiveMessageConnection(
             loginUserMid,
@@ -69,7 +69,7 @@ public suspend fun BiliClient.createLiveDanmakuConnection(
             host,
             bClient.client,
             bClient.json,
-            bClient.dispatcher,
+            bClient.context,
             config
         ).start().join()
     }
