@@ -16,6 +16,7 @@ import io.ktor.http.Parameters
 import io.ktor.http.ParametersBuilder
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
+import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.consts.internal.VIDEO_COIN_CHECK_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_COIN_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_COLLECT_ACTION_URL
@@ -28,6 +29,7 @@ import sdl.moe.yabapi.consts.internal.VIDEO_LIKE_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_ONLINE_GET_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_PARTS_GET_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_RELATED_GET_URL
+import sdl.moe.yabapi.consts.internal.VIDEO_REPORT_PROGRESS_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_SHARE_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_STREAM_FETCH_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_TAG_GET_URL
@@ -36,6 +38,7 @@ import sdl.moe.yabapi.data.stream.StreamRequest
 import sdl.moe.yabapi.data.stream.VideoStreamResponse
 import sdl.moe.yabapi.data.video.CoinVideoResponse
 import sdl.moe.yabapi.data.video.HasLikedResponse
+import sdl.moe.yabapi.data.video.ReportWatchResponse
 import sdl.moe.yabapi.data.video.ShareVideoResponse
 import sdl.moe.yabapi.data.video.TimelineHotResponse
 import sdl.moe.yabapi.data.video.VideoCoinCheckResponse
@@ -319,7 +322,7 @@ private suspend inline fun BiliClient.coinVideo(
         val params = Parameters.build {
             putVideoId(aid, bid)
             val actualCount = if (count >= 2) "2" else "1"
-                append("multiply", actualCount)
+            append("multiply", actualCount)
             if (withLike) append("select_like", "1")
             putCsrf()
         }
@@ -477,7 +480,6 @@ public suspend fun BiliClient.checkVideoCollect(aid: Int): VideoCollectCheck {
     }
 }
 
-
 /**
  * 检查视频收藏状态 输入 bv 号, 返回 [VideoCollectCheck]
  */
@@ -533,7 +535,6 @@ private suspend inline fun BiliClient.shareVideo(
         body = FormDataContent(params)
     }
 }
-
 
 /**
  * 分享视频, 输入 av 号, 返回 [ShareVideoResponse]
@@ -596,7 +597,6 @@ public suspend fun BiliClient.fetchVideoStream(
         logger.debug { "Fetched video stream for av$aid: $it" }
     }
 }
-
 
 /**
  * 获取视频流
@@ -756,3 +756,43 @@ public suspend fun BiliClient.getVideoRelated(bid: String): VideoRelatedGetRespo
 }
 
 // endregion
+
+// region ==================== Report ====================
+
+/**
+ * 上报观看进度
+ * @param aid av号
+ * @param cid 分p id
+ * @param progress 进度, 单位秒
+ */
+public suspend fun BiliClient.reportVideoProgress(
+    aid: Int,
+    cid: Int,
+    progress: Int,
+): ReportWatchResponse = withContext(Platform.ioDispatcher) {
+    logger.debug { "Reporting Video Watch Progress for av$aid, cid$cid." }
+    client.post<ReportWatchResponse>(VIDEO_REPORT_PROGRESS_URL) {
+        body = FormDataContent(Parameters.build {
+            append("aid", aid.toString())
+            append("cid", cid.toString())
+            append("progress", progress.toString())
+            putCsrf()
+        })
+    }.also {
+        logger.debug { "Reported Video Watch Progress for av$aid, cid$cid: $it" }
+    }
+}
+
+/**
+ * 上报观看进度
+ * @param bid bv号
+ * @param cid 分p id
+ * @param progress 进度, 单位秒
+ */
+public suspend inline fun BiliClient.reportVideoProgress(
+    bid: String,
+    cid: Int,
+    progress: Int,
+): ReportWatchResponse = reportVideoProgress(bid.avInt, cid, progress)
+
+// end region

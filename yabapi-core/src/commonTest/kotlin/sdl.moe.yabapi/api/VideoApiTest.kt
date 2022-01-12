@@ -204,4 +204,13 @@ internal class VideoApiTest {
             client.getVideoRelated("BV1jF411B7sw")
         }
     }
+
+    @Test
+    fun reportVideoProgressTest() {
+        runTest {
+            val avid = 170001
+            val cid = client.getVideoParts(avid).data[0].cid
+            client.reportVideoProgress(avid, cid, 3 * 60)
+        }
+    }
 }

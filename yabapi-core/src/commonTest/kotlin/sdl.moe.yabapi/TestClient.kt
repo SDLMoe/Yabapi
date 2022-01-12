@@ -7,6 +7,7 @@
 package sdl.moe.yabapi
 
 import io.ktor.http.Cookie
+import kotlinx.coroutines.CoroutineScope
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.util.yabapiLogLevel
 import kotlin.jvm.JvmName
@@ -16,7 +17,7 @@ internal const val TEST_COOKIE_PATH = "./cookies.json"
 
 internal expect val client: BiliClient
 
-expect fun <T> runTest(block: suspend () -> T)
+expect fun <T> runTest(block: suspend CoroutineScope.() -> T)
 
 internal fun initTest() {
     yabapiLogLevel = DEBUG
