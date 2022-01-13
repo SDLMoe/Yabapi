@@ -33,7 +33,7 @@ public enum class GeneralCode {
     INVALID_TOKEN_KEY,
 
     @SerialName("-4")
-    NO_PREMISSION,
+    NO_PERMISSION,
 
     @SerialName("-101")
     NOT_LOGIN,
@@ -69,13 +69,13 @@ public enum class GeneralCode {
     MAINTENANCE,
 
     @SerialName("-113")
-    UNCREDIT,
+    UNCREDITED,
 
     @SerialName("-114")
     BIND_PHONE_FIRST,
 
     @SerialName("-115")
-    CREDNT_FIRST,
+    CREDIT_FIRST,
 
     @SerialName("-304")
     NO_DIFFER,
@@ -87,7 +87,7 @@ public enum class GeneralCode {
     ERROR_REQUEST,
 
     @SerialName("-401")
-    UNCERTIFICATED,
+    NOT_CERTIFICATED,
 
     @SerialName("-403")
     FORBIDDEN,

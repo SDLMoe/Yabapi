@@ -36,6 +36,8 @@ internal const val ACCOUNT: String = "https://account.bilibili.com"
 /** 短视频 */
 internal const val VC: String = "https://vc.bilibili.com"
 
+internal const val VC_API: String = "https://api.vc.bilibili.com"
+
 internal const val INTERFACE = "https://interface.bilibili.com"
 
 // endregion
@@ -216,5 +218,15 @@ internal const val SEND_SMS_URL: String = "$PASSPORT/web/sms/general/v2/send"
 internal const val LOGIN_WEB_SMS_URL: String = "$PASSPORT/x/passport-login/web/login/sms"
 
 internal const val LOG_OUT_URL = "$PASSPORT/login/exit/v2"
+
+// endregion
+
+// region ================ Message ========================================
+
+internal const val UNREAD_MESSAGE_COUNT_GET_URL = "$MAIN/x/msgfeed/unread"
+
+internal const val UNREAD_WHISPER_COUNT_GET_URL = "$VC_API/session_svr/v1/session_svr/single_unread"
+
+internal const val SEND_MESSAGE_URL = "$VC_API/web_im/v1/web_im/send_msg"
 
 // endregion
