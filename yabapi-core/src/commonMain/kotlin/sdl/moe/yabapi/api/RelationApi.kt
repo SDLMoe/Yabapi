@@ -49,17 +49,20 @@ private val logger = Logger("RelationApi")
  * @param page 頁碼
  * @param pageCount 每頁多少項
  */
-public suspend fun BiliClient.getFans(mid: Int, page: Int = 1, pageCount: Int = 50): RelationGetResponse =
-    withContext(context) {
-        logger.debug { "Getting fans of mid $mid, page $page for max $pageCount user(s)" }
-        client.get<RelationGetResponse>(FANS_GET_URL) {
-            parameter("vmid", mid)
-            parameter("ps", pageCount)
-            parameter("pn", page)
-        }.also {
-            logger.debug { "Got fans of mid $mid, page $page: $it" }
-        }
+public suspend fun BiliClient.getFans(
+    mid: Int,
+    page: Int = 1,
+    pageCount: Int = 50,
+): RelationGetResponse = withContext(context) {
+    logger.debug { "Getting fans of mid $mid, page $page for max $pageCount user(s)" }
+    client.get<RelationGetResponse>(FANS_GET_URL) {
+        parameter("vmid", mid)
+        parameter("ps", pageCount)
+        parameter("pn", page)
+    }.also {
+        logger.debug { "Got fans of mid $mid, page $page: $it" }
     }
+}
 
 /**
  * 獲取指定用戶的關注列表
@@ -73,20 +76,19 @@ public suspend fun BiliClient.getFollowing(
     page: Int = 1,
     pageCount: Int = 50,
     order: FollowingOrder = TIME,
-): RelationGetResponse =
-    withContext(context) {
-        logger.debug { "Getting mid $mid's following, page $page for max $pageCount by $order..." }
-        client.get<RelationGetResponse>(FOLLOWING_GET_URL) {
-            parameter("vmid", mid)
-            if (order == FollowingOrder.MOST_FREQUENT) {
-                parameter("order_type", "attention")
-            }
-            parameter("ps", pageCount)
-            parameter("pn", page)
-        }.also {
-            logger.debug { "Got followings of mid $mid, page $page: $it" }
+): RelationGetResponse = withContext(context) {
+    logger.debug { "Getting mid $mid's following, page $page for max $pageCount by $order..." }
+    client.get<RelationGetResponse>(FOLLOWING_GET_URL) {
+        parameter("vmid", mid)
+        if (order == FollowingOrder.MOST_FREQUENT) {
+            parameter("order_type", "attention")
         }
+        parameter("ps", pageCount)
+        parameter("pn", page)
+    }.also {
+        logger.debug { "Got followings of mid $mid, page $page: $it" }
     }
+}
 
 /**
  * 搜索某位用戶的關注列表, 似乎只能返回當前登錄的帳號
@@ -123,7 +125,6 @@ public suspend fun BiliClient.getCoFollowing(
     page: Int = 1,
     pageCount: Int = 50,
 ): RelationGetResponse = withContext(context) {
-    needLogin()
     logger.debug { "Getting co-followings of mid $mid..." }
     client.get<RelationGetResponse>(CO_FOLLOWING_GET_URL) {
         parameter("vmid", mid)
@@ -143,7 +144,6 @@ public suspend fun BiliClient.getQuietlyFollowing(
     page: Int = 1,
     pageCount: Int = 50,
 ): RelationGetResponse = withContext(context) {
-    needLogin()
     logger.debug { "Getting quietly following..." }
     client.get<RelationGetResponse>(QUIETLY_FOLLOWING_GET_URL) {
         parameter("ps", pageCount)
@@ -162,7 +162,6 @@ public suspend fun BiliClient.getBlacklist(
     page: Int = 1,
     pageCount: Int = 50,
 ): RelationGetResponse = withContext(context) {
-    needLogin()
     logger.debug { "Getting blacklist..." }
     client.get<RelationGetResponse>(BLACKLIST_GET_URL) {
         parameter("ps", pageCount)
@@ -184,7 +183,6 @@ public suspend fun BiliClient.modifyRelation(
     source: SubscribeSource = SPACE,
     context: CoroutineContext = this.context,
 ): RelationModifyResponse = withContext(context) {
-    needLogin()
     logger.debug { "Modify relation for $mid, action: $action, with source $source" }
     client.post<RelationModifyResponse>(MODIFY_RELATION_URL) {
         val params = Parameters.build {
@@ -213,7 +211,6 @@ public suspend fun BiliClient.modifyRelation(
     source: SubscribeSource = SPACE,
     context: CoroutineContext = this.context,
 ): RelationBatchModifyResponse = withContext(context) {
-    needLogin()
     require(allowedBatchAction.contains(action))
     logger.debug { "Modify relation for $mids, action: $action, with source $source" }
     client.post<RelationBatchModifyResponse>(BATCH_MODIFY_RELATION_URL) {
@@ -229,6 +226,11 @@ public suspend fun BiliClient.modifyRelation(
     }
 }
 
+/**
+ * 查询和目标用户的单向关系
+ * @param mid 目标用户 mid
+ * @see RelationQueryResponse
+ */
 public suspend fun BiliClient.queryRelation(
     mid: Int,
     context: CoroutineContext = this.context,
@@ -241,38 +243,49 @@ public suspend fun BiliClient.queryRelation(
     }
 }
 
+/**
+ * 查询多个用户的关系
+ * @param mid vararg 属性, 传入多个用户
+ * @see RelationQueryBatchResponse
+ */
 public suspend fun BiliClient.queryRelation(
     vararg mid: Int,
     context: CoroutineContext = this.context,
-): RelationQueryBatchResponse =
-    withContext(context) {
-        logger.debug { "Querying relation to mids ${mid.contentToString()}..." }
-        client.get<RelationQueryBatchResponse>(RELATION_BATCH_QUERY_URL) {
-            parameter("fids", mid.joinToString(","))
-        }.also {
-            logger.debug { "Queried relation to mids ${mid.contentToString()}: $it" }
-        }
+): RelationQueryBatchResponse = withContext(context) {
+    logger.debug { "Querying relation to mids ${mid.contentToString()}..." }
+    client.get<RelationQueryBatchResponse>(RELATION_BATCH_QUERY_URL) {
+        parameter("fids", mid.joinToString(","))
+    }.also {
+        logger.debug { "Queried relation to mids ${mid.contentToString()}: $it" }
     }
+}
 
+/**
+ * 查询双向关系
+ * @param mid 目标用户 mid
+ * @see RelationQueryMutuallyResponse
+ */
 public suspend fun BiliClient.queryRelationMutually(
     mid: Int,
     context: CoroutineContext = this.context,
-): RelationQueryMutuallyResponse =
-    withContext(context) {
+): RelationQueryMutuallyResponse = withContext(context) {
+    logger.debug { "Querying relation mutually to mid $mid..." }
+    client.get<RelationQueryMutuallyResponse>(RELATION_QUERY_MUTUALLY) {
+        parameter("mid", mid)
+    }.also {
         logger.debug { "Querying relation mutually to mid $mid..." }
-        client.get<RelationQueryMutuallyResponse>(RELATION_QUERY_MUTUALLY) {
-            parameter("mid", mid)
-        }.also {
-            logger.debug { "Querying relation mutually to mid $mid..." }
-        }
     }
+}
 
+/**
+ * 查询自身特别关注
+ * @see SpecialFollowingQueryResponse
+ */
 public suspend fun BiliClient.querySpecialFollowing(
     context: CoroutineContext = this.context,
-): SpecialFollowingQueryResponse =
-    withContext(context) {
-        logger.debug { "Querying special relation for current user..." }
-        client.get<SpecialFollowingQueryResponse>(RELATION_QUERY_SPECIAL).also {
-            logger.debug { "Queried special relation: $it" }
-        }
+): SpecialFollowingQueryResponse = withContext(context) {
+    logger.debug { "Querying special relation for current user..." }
+    client.get<SpecialFollowingQueryResponse>(RELATION_QUERY_SPECIAL).also {
+        logger.debug { "Queried special relation: $it" }
     }
+}

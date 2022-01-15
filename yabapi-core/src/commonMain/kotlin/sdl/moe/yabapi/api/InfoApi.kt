@@ -45,6 +45,12 @@ import kotlin.native.concurrent.SharedImmutable
 @SharedImmutable
 private val logger = Logger("InfoApi")
 
+// region ============= Self =================
+
+/**
+ * 获取自己的基本信息, 需登录
+ * @see [BasicInfoGetResponse]
+ */
 public suspend fun BiliClient.getBasicInfo(
     context: CoroutineContext = this.context,
 ): BasicInfoGetResponse = withContext(context) {
@@ -54,6 +60,10 @@ public suspend fun BiliClient.getBasicInfo(
     }
 }
 
+/**
+ * 获取自己的状态值, 需登录
+ * @see StatGetResponse
+ */
 public suspend fun BiliClient.getStat(
     context: CoroutineContext = this.context,
 ): StatGetResponse = withContext(context) {
@@ -63,6 +73,10 @@ public suspend fun BiliClient.getStat(
     }
 }
 
+/**
+ * 获取自己的硬币状态数
+ * @see CoinGetResponse
+ */
 public suspend fun BiliClient.getCoinInfo(
     context: CoroutineContext = this.context,
 ): CoinGetResponse = withContext(context) {
@@ -72,6 +86,10 @@ public suspend fun BiliClient.getCoinInfo(
     }
 }
 
+/**
+ * 获取自己的帐号信息, 个人简介相关
+ * @see AccountInfoGetResponse
+ */
 public suspend fun BiliClient.getAccountInfo(
     context: CoroutineContext = this.context,
 ): AccountInfoGetResponse = withContext(context) {
@@ -81,6 +99,10 @@ public suspend fun BiliClient.getAccountInfo(
     }
 }
 
+/**
+ * 获取自身经验计算相关属性
+ * @see ExpRewardGetResponse
+ */
 public suspend fun BiliClient.getExpReward(
     context: CoroutineContext = this.context,
 ): ExpRewardGetResponse = withContext(context) {
@@ -90,6 +112,10 @@ public suspend fun BiliClient.getExpReward(
     }
 }
 
+/**
+ * 获取硬币经验, 与 [getExpReward] 不同的是, 此接口实时更新
+ * @see CoinExpGetResponse
+ */
 public suspend fun BiliClient.getCoinExp(
     context: CoroutineContext = this.context,
 ): CoinExpGetResponse = withContext(context) {
@@ -99,6 +125,10 @@ public suspend fun BiliClient.getCoinExp(
     }
 }
 
+/**
+ * 获取自身 Vip 状态值
+ * @see VipStatGetResponse
+ */
 public suspend fun BiliClient.getVipStat(
     context: CoroutineContext = this.context,
 ): VipStatGetResponse = withContext(context) {
@@ -108,6 +138,10 @@ public suspend fun BiliClient.getVipStat(
     }
 }
 
+/**
+ * 获取自身安全状态信息
+ * @see SecureInfoGetResponse
+ */
 public suspend fun BiliClient.getSecureInfo(
     context: CoroutineContext = this.context,
 ): SecureInfoGetResponse = with(context) {
@@ -117,6 +151,10 @@ public suspend fun BiliClient.getSecureInfo(
     }
 }
 
+/**
+ * 获取自身实名信息
+ * @see RealNameInfoGetResponse
+ */
 public suspend fun BiliClient.getRealNameInfo(
     context: CoroutineContext = this.context,
 ): RealNameInfoGetResponse = withContext(context) {
@@ -126,6 +164,10 @@ public suspend fun BiliClient.getRealNameInfo(
     }
 }
 
+/**
+ * 获取详细实名信息
+ * @see RealNameDetailedGetResponse
+ */
 public suspend fun BiliClient.getRealNameDetailed(
     context: CoroutineContext = this.context,
 ): RealNameDetailedGetResponse =
@@ -136,6 +178,10 @@ public suspend fun BiliClient.getRealNameDetailed(
         }
     }
 
+/**
+ * 获取硬币收支记录
+ * @see CoinLogGetResponse
+ */
 public suspend fun BiliClient.getCoinLog(
     context: CoroutineContext = this.context,
 ): CoinLogGetResponse = withContext(context) {
@@ -145,6 +191,28 @@ public suspend fun BiliClient.getCoinLog(
     }
 }
 
+/**
+ * 获取自身用户空间信息
+ */
+public suspend fun BiliClient.getMySpace(
+    context: CoroutineContext = this.context,
+): MySpaceGetResponse = withContext(context) {
+    logger.debug { "Getting Current User Space Info:" }
+    client.get<MySpaceGetResponse>(MY_SPACE_GET_URL).also {
+        logger.debug { "Got Current User Space Info: $it" }
+    }
+}
+
+// endregion
+
+// region ============= Other =================
+
+/**
+ * 获取目标用户空间信息
+ * @param mid 用户 mid
+ * @see UserSpaceGetResponse
+ * @see getMySpace
+ */
 public suspend fun BiliClient.getUserSpace(
     mid: Int,
     context: CoroutineContext = this.context,
@@ -157,6 +225,12 @@ public suspend fun BiliClient.getUserSpace(
     }
 }
 
+/**
+ * 获取用户卡片信息
+ * @param mid 目标用户 mid
+ * @param requestBanner 是否请求空间头图 banner
+ * @see UserCardGetResponse
+ */
 public suspend fun BiliClient.getUserCard(
     mid: Int,
     requestBanner: Boolean,
@@ -172,15 +246,13 @@ public suspend fun BiliClient.getUserCard(
         }
     }
 
-public suspend fun BiliClient.getMySpace(
-    context: CoroutineContext = this.context,
-): MySpaceGetResponse = withContext(context) {
-    logger.debug { "Getting Current User Space Info:" }
-    client.get<MySpaceGetResponse>(MY_SPACE_GET_URL).also {
-        logger.debug { "Got Current User Space Info: $it" }
-    }
-}
+// endregion
 
+/**
+ * 检查名称是否可用
+ * @param nick 需要检查的昵称
+ * @see CheckNickResponse
+ */
 public suspend fun BiliClient.checkNick(
     nick: String,
     context: CoroutineContext = this.context,

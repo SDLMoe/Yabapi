@@ -61,6 +61,8 @@ public suspend fun BiliClient.getLiveDanmakuInfo(
  * @param realRoomId 真實直播間 ID
  * @param token 密鑰, 獲取: [LiveDanmakuInfoGetResponse]
  * @param host [LiveDanmakuHost]
+ * @see LiveMessageConnection
+ * @see LiveDanmakuConnectConfig
  */
 public suspend fun BiliClient.createLiveDanmakuConnection(
     loginUserMid: Int,

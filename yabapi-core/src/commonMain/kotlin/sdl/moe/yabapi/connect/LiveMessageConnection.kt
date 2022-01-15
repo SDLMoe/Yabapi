@@ -221,6 +221,16 @@ internal class LiveMessageConnection(
 
 private typealias Config = LiveDanmakuConnectConfig
 
+/**
+ * 直播弹幕信息流的配置
+ *
+ * 将函数存储为值以供调用, 默认为空
+ *
+ * 流是通过 `channelFlow` 构造的, 上流是 `channel` 下流是 `flow`.
+ * 因此, 并不具备冷流特性, 详见官方文档
+ * @see channelFlow
+ * @see Flow
+ */
 public class LiveDanmakuConnectConfig {
     internal var onHeartbeatResponse: suspend Wss.(popular: Flow<UInt>) -> Unit = {}
 

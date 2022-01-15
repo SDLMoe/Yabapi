@@ -22,6 +22,7 @@ import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 /**
  * 通過 epid ssid 獲取到的番劇信息
+ * @property data 成功时返回的 data [BangumiDetailed]
  */
 @Serializable
 public data class BangumiDetailedResponse(
@@ -79,17 +80,20 @@ public data class BangumiActivity(
     @SerialName("title") val title: String,
 )
 
+/**
+ * 番剧的单集信息
+ */
 @Serializable
 public data class BangumiEpisode(
-    @SerialName("aid") val aid: Int,
-    @SerialName("badge") val badge: String,
-    @SerialName("badge_info") val badgeInfo: BangumiBadgeInfo,
-    @SerialName("badge_type") val badgeType: Int,
-    @SerialName("bvid") val bvid: String,
-    @SerialName("cid") val cid: Int,
-    @SerialName("cover") val cover: String,
-    @SerialName("dimension") val dimension: VideoDimension,
-    @SerialName("duration") val duration: Long,
+    @SerialName("aid") val aid: Int, // av 号
+    @SerialName("badge") val badge: String, // badge 提示
+    @SerialName("badge_info") val badgeInfo: BangumiBadgeInfo, // badge 信息
+    @SerialName("badge_type") val badgeType: Int, // badge 类型, 未知
+    @SerialName("bvid") val bvId: String, // bv 号
+    @SerialName("cid") val cid: Int, // 分 p id
+    @SerialName("cover") val cover: String, // 封面链接
+    @SerialName("dimension") val dimension: VideoDimension, // 视频分辨率
+    @SerialName("duration") val duration: Long, // 时长
     @SerialName("from") val from: String,
     @SerialName("id") val id: Int,
     @SerialName("is_view_hide") val isViewHide: Boolean,
@@ -105,7 +109,7 @@ public data class BangumiEpisode(
     @SerialName("stat") val stat: BanugmiStat? = null,
     @SerialName("status") val status: Int,
     @SerialName("subtitle") val subtitle: String,
-    @SerialName("title") val title: String,
+    @SerialName("title") val title: String, // 标题
     @SerialName("vid") val vid: String,
 )
 

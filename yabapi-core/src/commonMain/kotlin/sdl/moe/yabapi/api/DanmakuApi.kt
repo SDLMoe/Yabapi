@@ -28,6 +28,14 @@ import kotlin.native.concurrent.SharedImmutable
 @SharedImmutable
 private val logger = Logger("DanmakuApi")
 
+/**
+ * 获取视频弹幕
+ * @param cid 分p id
+ * @param part 弹幕分块, 现时(22年1月)为 6 分钟一分块
+ * @param aid 可选 av 号
+ * @param type [DanmakuType] 弹幕类型, 仅已知视频
+ * @return [DanmakuResponse]
+ */
 @ExperimentalSerializationApi
 public suspend fun BiliClient.getDanmaku(
     cid: Int,
@@ -80,25 +88,40 @@ public suspend inline fun BiliClient.getDanmakuMetadata(
     cid: Int, bid: String, type: DanmakuType = VIDEO, context: CoroutineContext = this.context,
 ): DanmakuMetadataResponse = getDanmakuMetadata(cid, bid.avInt, type, context)
 
+/**
+ * 获取弹幕日历, 返回有弹幕的日期
+ * @param cid 分 p 号
+ * @param year 公元年
+ * @param month 公历月
+ * @param type 弹幕类型
+ * @return [DanmakuCalendarResponse]
+ * @see getHistoryDanmaku
+ */
 public suspend fun BiliClient.getDanmakuCalendar(
     cid: Int,
     year: Int,
     month: Int,
     type: DanmakuType = VIDEO,
     context: CoroutineContext = this.context,
-): DanmakuCalendarResponse =
-    withContext(context) {
-        val date = "$year-${month.toString().padStart(2, '0')}"
-        logger.debug { "Getting calendar for cid$cid in $date" }
-        client.get<DanmakuCalendarResponse>(VIDEO_DANMAKU_CALENDAR_URL) {
-            parameter("type", type.code)
-            parameter("oid", cid)
-            parameter("month", date)
-        }.also {
-            logger.debug { "Got calendar for cid$cid in $date: $it" }
-        }
+): DanmakuCalendarResponse = withContext(context) {
+    val date = "$year-${month.toString().padStart(2, '0')}"
+    logger.debug { "Getting calendar for cid$cid in $date" }
+    client.get<DanmakuCalendarResponse>(VIDEO_DANMAKU_CALENDAR_URL) {
+        parameter("type", type.code)
+        parameter("oid", cid)
+        parameter("month", date)
+    }.also {
+        logger.debug { "Got calendar for cid$cid in $date: $it" }
     }
+}
 
+/**
+ * 获取历史弹幕, 可通过 [getDanmakuCalendar] 得知哪些天数有弹幕
+ * @param cid 分 p 号
+ * @param date 日期, YYYY-MM-DD 格式, 与 [getDanmakuCalendar] 的返回一致
+ * @param type 弹幕类型
+ * @see getDanmakuCalendar
+ */
 @ExperimentalSerializationApi
 public suspend fun BiliClient.getHistoryDanmaku(
     cid: Int,
@@ -121,11 +144,13 @@ public suspend fun BiliClient.getHistoryDanmaku(
     }
 
 /**
- * @param date YYYY-MM-DD
+ * 对 kotlinx.datetime 的封装支持
+ * @see getHistoryDanmaku
  */
 @ExperimentalSerializationApi
 public suspend fun BiliClient.getHistoryDanmaku(
-    cid: Int, date: LocalDate,
+    cid: Int,
+    date: LocalDate,
     type: DanmakuType = VIDEO,
     context: CoroutineContext = this.context,
 ): DanmakuResponse = run {

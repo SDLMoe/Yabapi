@@ -27,6 +27,9 @@ import kotlin.native.concurrent.SharedImmutable
 @SharedImmutable
 private val logger = Logger("MessageApi")
 
+/**
+ * 获取总共未读消息数量
+ */
 public suspend fun BiliClient.getUnreadMsgCount(
     context: CoroutineContext = this.context,
 ): UnreadMsgCountGetResponse = withContext(context) {
@@ -36,6 +39,9 @@ public suspend fun BiliClient.getUnreadMsgCount(
     }
 }
 
+/**
+ * 获取私信未读消息数量
+ */
 public suspend fun BiliClient.getUnreadWhisperCount(
     context: CoroutineContext = this.context,
 ): UnreadWhisperCountGetResponse =
@@ -46,33 +52,57 @@ public suspend fun BiliClient.getUnreadWhisperCount(
         }
     }
 
+/**
+ * 发送信息(原始api)
+ * @param message 信息属性
+ * @see MessageData
+ */
 public suspend fun BiliClient.sendMessage(
     message: MessageData,
     context: CoroutineContext = this.context,
-): MessageSendResponse =
-    withContext(context) {
-        logger.debug { "try to send message: $message" }
-        client.post<MessageSendResponse>(SEND_MESSAGE_URL) {
-            val params = Parameters.build {
-                message.put(this, json)
-                putCsrf()
-            }
-            body = FormDataContent(params)
-        }.also {
-            logger.debug { "Sent message, response: $it" }
+): MessageSendResponse = withContext(context) {
+    logger.debug { "try to send message: $message" }
+    client.post<MessageSendResponse>(SEND_MESSAGE_URL) {
+        val params = Parameters.build {
+            message.put(this, json)
+            putCsrf()
         }
+        body = FormDataContent(params)
+    }.also {
+        logger.debug { "Sent message, response: $it" }
     }
+}
 
+/**
+ * 向目标用户发送消息
+ * @param targetMid 目标用户 mid
+ * @param messageContent 消息内容
+ * @param selfMid 自身 mid, 可选, 若为空则开启一个协程通过 [getBasicInfo] 获取 mid, 获取失败时抛出异常
+ * @see MessageData
+ */
 public suspend fun BiliClient.sendMessageTo(
     targetMid: Int,
     messageContent: MessageContent,
+    selfMid: Int? = null,
     context: CoroutineContext = this.context,
-): MessageSendResponse =
-    withContext(context) {
-        val loginMid = async { getBasicInfo().data.mid }
-        sendMessage(MessageData(
+): MessageSendResponse = withContext(context) {
+    val loginMid = async { selfMid ?: getBasicInfo().data.mid }
+    sendMessage(
+        MessageData(
             loginMid.await() ?: error("Not login or network unstable"),
             targetMid,
             messageContent
-        ))
-    }
+        )
+    )
+}
+
+/**
+ * 向目标用户发送文本消息
+ * @see sendMessageTo
+ */
+public suspend inline fun BiliClient.sendTextMsgTo(
+    targetMid: Int,
+    text: String,
+    selfMid: Int? = null,
+    context: CoroutineContext = this.context,
+): MessageSendResponse = sendMessageTo(targetMid, MessageContent.Text(text), selfMid, context)

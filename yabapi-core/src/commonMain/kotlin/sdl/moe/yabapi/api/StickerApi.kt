@@ -23,6 +23,8 @@ private val logger = Logger("StickerApi")
  */
 
 /**
+ * 获取站内可用的所有表情包
+ * 实际返回会根据用户而异, 并非真正的所有表情
  * @param business 使用場景 [StickerBusiness]
  */
 public suspend fun BiliClient.getAllStickers(
