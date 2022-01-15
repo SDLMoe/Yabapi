@@ -34,9 +34,13 @@ hs_err_pid*
 # User-specific stuff:
 .idea/workspace.xml
 .idea/tasks.xml
-.idea/dictionaries
+#.idea/dictionaries
+.idea/dictionaries/**/*
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+
+# allowed dictionaries
+!.idea/dictionaries/hbj.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
