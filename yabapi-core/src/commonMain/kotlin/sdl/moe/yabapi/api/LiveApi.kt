@@ -16,6 +16,7 @@ import sdl.moe.yabapi.data.live.LiveDanmakuHost
 import sdl.moe.yabapi.data.live.LiveDanmakuInfoGetResponse
 import sdl.moe.yabapi.data.live.LiveInitGetResponse
 import sdl.moe.yabapi.util.Logger
+import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
@@ -25,7 +26,10 @@ private val logger = Logger("LiveApi")
  * 獲得直播間初始化信息
  * @see [LiveInitGetResponse]
  */
-public suspend fun BiliClient.getRoomInitInfo(roomId: Int): LiveInitGetResponse =
+public suspend fun BiliClient.getRoomInitInfo(
+    roomId: Int,
+    context: CoroutineContext = this.context,
+): LiveInitGetResponse =
     withContext(context) {
         logger.debug { "Getting Room Init Info for room $roomId" }
         client.get<LiveInitGetResponse>(LIVE_INIT_INFO_GET_URL) {
@@ -39,7 +43,10 @@ public suspend fun BiliClient.getRoomInitInfo(roomId: Int): LiveInitGetResponse 
  * @param realRoomId 需要輸入真實直播間 ID
  * @see getRoomInitInfo
  */
-public suspend fun BiliClient.getLiveDanmakuInfo(realRoomId: Int): LiveDanmakuInfoGetResponse =
+public suspend fun BiliClient.getLiveDanmakuInfo(
+    realRoomId: Int,
+    context: CoroutineContext = this.context,
+): LiveDanmakuInfoGetResponse =
     withContext(context) {
         logger.debug { "Getting live danmaku info for room $realRoomId" }
         client.get<LiveDanmakuInfoGetResponse>(LIVE_DANMAKU_INFO_URL) {
@@ -60,6 +67,7 @@ public suspend fun BiliClient.createLiveDanmakuConnection(
     realRoomId: Int,
     token: String,
     host: LiveDanmakuHost,
+    context: CoroutineContext = this.context,
     config: LiveDanmakuConnectConfig.() -> Unit = {},
 ): Unit =
     withContext(context) {

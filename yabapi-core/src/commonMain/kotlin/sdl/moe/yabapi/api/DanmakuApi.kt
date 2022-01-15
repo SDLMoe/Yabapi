@@ -22,6 +22,7 @@ import sdl.moe.yabapi.enums.danmaku.DanmakuType
 import sdl.moe.yabapi.enums.danmaku.DanmakuType.VIDEO
 import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.avInt
+import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
@@ -33,6 +34,7 @@ public suspend fun BiliClient.getDanmaku(
     part: Int = 1,
     aid: Int? = null,
     type: DanmakuType = VIDEO,
+    context: CoroutineContext = this.context,
 ): DanmakuResponse = withContext(context) {
     val showAid = aid?.let { " (av$it)" } ?: ""
     logger.debug { "Getting danmaku for cid $cid$showAid part $part..." }
@@ -50,8 +52,8 @@ public suspend fun BiliClient.getDanmaku(
 
 @ExperimentalSerializationApi
 public suspend inline fun BiliClient.getDanmaku(
-    cid: Int, part: Int = 1, bid: String, type: DanmakuType = VIDEO,
-): DanmakuResponse = getDanmaku(cid, part, bid.avInt, type)
+    cid: Int, part: Int = 1, bid: String, type: DanmakuType = VIDEO, context: CoroutineContext = this.context,
+): DanmakuResponse = getDanmaku(cid, part, bid.avInt, type, context)
 
 // not implemented, kotlinx.serialization not support proto3 packed repeat message
 @ExperimentalSerializationApi
@@ -59,6 +61,7 @@ public suspend fun BiliClient.getDanmakuMetadata(
     cid: Int,
     aid: Int? = null,
     type: DanmakuType = VIDEO,
+    context: CoroutineContext = this.context,
 ): DanmakuMetadataResponse = withContext(context) {
     val showAid = aid?.let { " (av$it)" } ?: ""
     logger.debug { "Getting danmaku metadata for cid $cid$showAid..." }
@@ -74,14 +77,15 @@ public suspend fun BiliClient.getDanmakuMetadata(
 
 @ExperimentalSerializationApi
 public suspend inline fun BiliClient.getDanmakuMetadata(
-    cid: Int, bid: String, type: DanmakuType = VIDEO,
-): DanmakuMetadataResponse = getDanmakuMetadata(cid, bid.avInt, type)
+    cid: Int, bid: String, type: DanmakuType = VIDEO, context: CoroutineContext = this.context,
+): DanmakuMetadataResponse = getDanmakuMetadata(cid, bid.avInt, type, context)
 
 public suspend fun BiliClient.getDanmakuCalendar(
     cid: Int,
     year: Int,
     month: Int,
     type: DanmakuType = VIDEO,
+    context: CoroutineContext = this.context,
 ): DanmakuCalendarResponse =
     withContext(context) {
         val date = "$year-${month.toString().padStart(2, '0')}"
@@ -100,6 +104,7 @@ public suspend fun BiliClient.getHistoryDanmaku(
     cid: Int,
     date: String,
     type: DanmakuType = VIDEO,
+    context: CoroutineContext = this.context,
 ): DanmakuResponse =
     withContext(context) {
         logger.debug { "Getting History Danmaku for cid$cid on $date..." }
@@ -120,11 +125,13 @@ public suspend fun BiliClient.getHistoryDanmaku(
  */
 @ExperimentalSerializationApi
 public suspend fun BiliClient.getHistoryDanmaku(
-    cid: Int, date: LocalDate, type: DanmakuType = VIDEO,
+    cid: Int, date: LocalDate,
+    type: DanmakuType = VIDEO,
+    context: CoroutineContext = this.context,
 ): DanmakuResponse = run {
     val year = date.year.toString()
     val month = date.monthNumber.toString().padStart(2, '0')
     val day = date.dayOfMonth.toString().padStart(2, '0')
     val dateFormatted = "$year-$month-$day"
-    getHistoryDanmaku(cid, dateFormatted, type)
+    getHistoryDanmaku(cid, dateFormatted, type, context)
 }

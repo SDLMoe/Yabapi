@@ -14,12 +14,16 @@ import sdl.moe.yabapi.data.bangumi.BangumiDetailedResponse
 import sdl.moe.yabapi.data.bangumi.BangumiInfoGetResponse
 import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.requireLeastAndOnlyOne
+import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
 private val logger = Logger("BangumiApi")
 
-public suspend fun BiliClient.getBangumiInfo(mediaId: Int): BangumiInfoGetResponse =
+public suspend fun BiliClient.getBangumiInfo(
+    mediaId: Int,
+    context: CoroutineContext = this.context,
+): BangumiInfoGetResponse =
     withContext(context) {
         logger.debug { "Getting bangumi info for media id $mediaId" }
         client.get<BangumiInfoGetResponse>(BANGUMI_INFO_GET_URL) {
@@ -32,6 +36,7 @@ public suspend fun BiliClient.getBangumiInfo(mediaId: Int): BangumiInfoGetRespon
 private suspend inline fun BiliClient.getBangumiDetailed(
     seasonId: Int? = null,
     epId: Int? = null,
+    context: CoroutineContext = this.context,
 ): BangumiDetailedResponse =
     withContext(context) {
         requireLeastAndOnlyOne(seasonId, epId)
@@ -43,8 +48,14 @@ private suspend inline fun BiliClient.getBangumiDetailed(
         }.also { logger.debug { "Got bangumi detailed info for $showId: $it" } }
     }
 
-public suspend fun BiliClient.getBangumiDetailedBySeason(seasonId: Int): BangumiDetailedResponse =
-    getBangumiDetailed(seasonId, null)
+public suspend fun BiliClient.getBangumiDetailedBySeason(
+    seasonId: Int,
+    context: CoroutineContext = this.context,
+): BangumiDetailedResponse =
+    getBangumiDetailed(seasonId, null, context)
 
-public suspend fun BiliClient.getBangumiDetailedByEp(epId: Int): BangumiDetailedResponse =
-    getBangumiDetailed(null, epId)
+public suspend fun BiliClient.getBangumiDetailedByEp(
+    epId: Int,
+    context: CoroutineContext = this.context,
+): BangumiDetailedResponse =
+    getBangumiDetailed(null, epId, context)

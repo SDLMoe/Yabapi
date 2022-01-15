@@ -11,7 +11,6 @@ import io.ktor.http.Parameters
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
-import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.consts.internal.SEND_MESSAGE_URL
 import sdl.moe.yabapi.consts.internal.UNREAD_MESSAGE_COUNT_GET_URL
 import sdl.moe.yabapi.consts.internal.UNREAD_WHISPER_COUNT_GET_URL
@@ -22,28 +21,36 @@ import sdl.moe.yabapi.data.message.UnreadMsgCountGetResponse
 import sdl.moe.yabapi.data.message.UnreadWhisperCountGetResponse
 import sdl.moe.yabapi.data.message.put
 import sdl.moe.yabapi.util.Logger
+import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
 private val logger = Logger("MessageApi")
 
-public suspend fun BiliClient.getUnreadMsgCount(): UnreadMsgCountGetResponse = withContext(Platform.ioDispatcher) {
+public suspend fun BiliClient.getUnreadMsgCount(
+    context: CoroutineContext = this.context,
+): UnreadMsgCountGetResponse = withContext(context) {
     logger.debug { "Getting unread message count..." }
     client.get<UnreadMsgCountGetResponse>(UNREAD_MESSAGE_COUNT_GET_URL).also {
         logger.debug { "Got unread message count: $it" }
     }
 }
 
-public suspend fun BiliClient.getUnreadWhisperCount(): UnreadWhisperCountGetResponse =
-    withContext(Platform.ioDispatcher) {
+public suspend fun BiliClient.getUnreadWhisperCount(
+    context: CoroutineContext = this.context,
+): UnreadWhisperCountGetResponse =
+    withContext(context) {
         logger.debug { "Getting unread whisper count..." }
         client.get<UnreadWhisperCountGetResponse>(UNREAD_WHISPER_COUNT_GET_URL).also {
             logger.debug { "Got unread whisper count: $it" }
         }
     }
 
-public suspend fun BiliClient.sendMessage(message: MessageData): MessageSendResponse =
-    withContext(Platform.ioDispatcher) {
+public suspend fun BiliClient.sendMessage(
+    message: MessageData,
+    context: CoroutineContext = this.context,
+): MessageSendResponse =
+    withContext(context) {
         logger.debug { "try to send message: $message" }
         client.post<MessageSendResponse>(SEND_MESSAGE_URL) {
             val params = Parameters.build {
@@ -56,8 +63,12 @@ public suspend fun BiliClient.sendMessage(message: MessageData): MessageSendResp
         }
     }
 
-public suspend fun BiliClient.sendMessageTo(targetMid: Int, messageContent: MessageContent): MessageSendResponse =
-    withContext(Platform.ioDispatcher) {
+public suspend fun BiliClient.sendMessageTo(
+    targetMid: Int,
+    messageContent: MessageContent,
+    context: CoroutineContext = this.context,
+): MessageSendResponse =
+    withContext(context) {
         val loginMid = async { getBasicInfo().data.mid }
         sendMessage(MessageData(
             loginMid.await() ?: error("Not login or network unstable"),

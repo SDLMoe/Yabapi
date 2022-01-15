@@ -12,6 +12,7 @@ import sdl.moe.yabapi.consts.internal.GET_ALL_STICKERS_URL
 import sdl.moe.yabapi.data.sticker.AllStickersGetResponse
 import sdl.moe.yabapi.enums.StickerBusiness
 import sdl.moe.yabapi.util.Logger
+import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
@@ -24,12 +25,14 @@ private val logger = Logger("StickerApi")
 /**
  * @param business 使用場景 [StickerBusiness]
  */
-public suspend fun BiliClient.getAllStickers(business: StickerBusiness): AllStickersGetResponse =
-    withContext(context) {
-        logger.debug { "Getting all stickers for business: $business" }
-        client.get<AllStickersGetResponse>(GET_ALL_STICKERS_URL) {
-            parameter("business", business.toString())
-        }.also {
-            logger.debug { "Got all stickers response: $it" }
-        }
+public suspend fun BiliClient.getAllStickers(
+    business: StickerBusiness,
+    context: CoroutineContext = this.context,
+): AllStickersGetResponse = withContext(context) {
+    logger.debug { "Getting all stickers for business: $business" }
+    client.get<AllStickersGetResponse>(GET_ALL_STICKERS_URL) {
+        parameter("business", business.toString())
+    }.also {
+        logger.debug { "Got all stickers response: $it" }
     }
+}

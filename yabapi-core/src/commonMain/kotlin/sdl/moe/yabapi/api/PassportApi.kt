@@ -12,14 +12,12 @@ import io.ktor.http.CookieEncoding.RAW
 import io.ktor.http.Parameters
 import io.ktor.http.formUrlEncode
 import kotlinx.atomicfu.atomic
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import sdl.moe.yabapi.BiliClient
-import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.consts.internal.GET_CALLING_CODE_URL
 import sdl.moe.yabapi.consts.internal.LOGIN_QRCODE_GET_WEB_URL
 import sdl.moe.yabapi.consts.internal.LOGIN_WEB_QRCODE_URL
@@ -51,6 +49,7 @@ import sdl.moe.yabapi.util.encoding.RSAProvider
 import sdl.moe.yabapi.util.encoding.trimPem
 import sdl.moe.yabapi.util.requireCmdInputNumber
 import sdl.moe.yabapi.util.requireCmdInputString
+import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
@@ -117,6 +116,7 @@ public suspend fun BiliClient.loginWeb(
     validate: String,
     seccode: String,
     getCaptchaResponse: GetCaptchaResponse,
+    context: CoroutineContext = this.context,
 ): LoginWebResponse = withContext(context) {
     noNeedLogin()
     logger.info { "Logging in by Web method" }
@@ -149,7 +149,8 @@ public suspend fun BiliClient.loginWebConsole(
             RSAProvider.encryptWithPublicKey(trimPem(response.rsa), response.salt + pwd)
         } else throw IllegalArgumentException("Failed to encrypt data, RSA public key is null")
     },
-): Unit = withContext(Dispatchers.Default) {
+    context: CoroutineContext = this.context,
+): Unit = withContext(context) {
     noNeedLogin()
     logger.info { "Starting Console Interactive Bilibili Web Login" }
     val userName = requireCmdInputString("Please Input Bilibili Username:")
@@ -163,7 +164,9 @@ public suspend fun BiliClient.loginWebConsole(
     loginWeb(userName, encryptPwd, validate, seccode, captchaResponse)
 }
 
-public suspend fun BiliClient.getWebQRCode(): QRCodeWebGetResponse = withContext(context) {
+public suspend fun BiliClient.getWebQRCode(
+    context: CoroutineContext = this.context,
+): QRCodeWebGetResponse = withContext(context) {
     logger.info { "Getting Web QRCode" }
     client.get<QRCodeWebGetResponse>(LOGIN_QRCODE_GET_WEB_URL).also {
         logger.debug { "QRCode Web Get Response: $it" }
@@ -173,6 +176,7 @@ public suspend fun BiliClient.getWebQRCode(): QRCodeWebGetResponse = withContext
 
 public suspend fun BiliClient.loginWebQRCode(
     qrResponse: QRCodeWebGetResponse,
+    context: CoroutineContext = this.context,
 ): LoginWebQRCodeResponse = withContext(context) {
     noNeedLogin()
     logger.debug { "Starting Logging in via Web QR Code" }
@@ -190,8 +194,10 @@ public suspend fun BiliClient.loginWebQRCode(
 /**
  * 交互式扫码登录封装
  */
-public suspend fun BiliClient.loginWebQRCodeInteractive(): List<LoginWebQRCodeResponse> =
-    withContext(Dispatchers.Default) {
+public suspend fun BiliClient.loginWebQRCodeInteractive(
+    context: CoroutineContext = this.context
+): List<LoginWebQRCodeResponse> =
+    withContext(context) {
         noNeedLogin()
         logger.debug { "Starting Interactive Login via Web QR Code" }
         val getQrResponse = getWebQRCode()
@@ -233,7 +239,9 @@ public suspend fun BiliClient.loginWebQRCodeInteractive(): List<LoginWebQRCodeRe
  * 获取国际区码
  * @return [CallingCodeGetResponse]
  */
-public suspend fun BiliClient.getCallingCode(): CallingCodeGetResponse = withContext(context) {
+public suspend fun BiliClient.getCallingCode(
+    context: CoroutineContext = this.context
+): CallingCodeGetResponse = withContext(context) {
     logger.info { "Getting Calling Code" }
     client.get<CallingCodeGetResponse>(GET_CALLING_CODE_URL).also {
         logger.debug { "Calling Code Get Response: $it" }
@@ -255,6 +263,7 @@ public suspend fun BiliClient.requestSMSCode(
     captchaResponse: GetCaptchaResponse,
     validate: String,
     seccode: String,
+    context: CoroutineContext = this.context
 ): SendSMSResponse = withContext(context) {
     logger.info { "Requesting SMS Code" }
     client.post<SendSMSResponse>(SEND_SMS_URL) {
@@ -288,6 +297,7 @@ public suspend fun BiliClient.loginWebSMS(
     cid: Int,
     code: Int,
     sendSMSResponse: SendSMSResponse,
+    context: CoroutineContext = this.context
 ): LoginWebSMSResponse = withContext(context) {
     logger.info { "Logging in via Web SMS" }
     client.post<LoginWebSMSResponse>(LOGIN_WEB_SMS_URL) {
@@ -311,13 +321,14 @@ public suspend fun BiliClient.loginWebSMS(
  */
 public suspend fun BiliClient.loginWebSMSConsole(
     needsCallingCode: Boolean = false,
-): Unit = withContext(Dispatchers.Default) {
+    context: CoroutineContext = this.context
+): Unit = withContext(context) {
     noNeedLogin()
     logger.info { "Starting Console Interactive Bilibili Web Login" }
     var callingCode = 86
 
     if (needsCallingCode) callingCode = requireCmdInputNumber("Please Input Calling Code (e.g. 86, 1):")
-    val cid = async(Platform.ioDispatcher) {
+    val cid = async(context) {
         val cidList = getCallingCode().data.all
         cidList.first { it.callingCode == callingCode.toString() }.id.toInt()
     }
@@ -345,7 +356,9 @@ public suspend fun BiliClient.loginWebSMSConsole(
     loginWebSMS(phone, cid.await(), code, sendSMSResponse)
 }
 
-public suspend fun BiliClient.logOut(): LogOutResponse = withContext(context) {
+public suspend fun BiliClient.logOut(
+    context: CoroutineContext = this.context
+): LogOutResponse = withContext(context) {
     logger.info { "Logging out" }
     needLogin()
     client.post<LogOutResponse>(LOG_OUT_URL) {

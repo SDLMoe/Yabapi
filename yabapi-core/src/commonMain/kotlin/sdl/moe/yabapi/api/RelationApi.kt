@@ -37,6 +37,7 @@ import sdl.moe.yabapi.enums.relation.RelationAction.ADD_BLACKLIST
 import sdl.moe.yabapi.enums.relation.SubscribeSource
 import sdl.moe.yabapi.enums.relation.SubscribeSource.SPACE
 import sdl.moe.yabapi.util.Logger
+import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
@@ -181,6 +182,7 @@ public suspend fun BiliClient.modifyRelation(
     mid: Int,
     action: RelationAction,
     source: SubscribeSource = SPACE,
+    context: CoroutineContext = this.context,
 ): RelationModifyResponse = withContext(context) {
     needLogin()
     logger.debug { "Modify relation for $mid, action: $action, with source $source" }
@@ -209,6 +211,7 @@ public suspend fun BiliClient.modifyRelation(
     mids: List<Int>,
     action: RelationAction,
     source: SubscribeSource = SPACE,
+    context: CoroutineContext = this.context,
 ): RelationBatchModifyResponse = withContext(context) {
     needLogin()
     require(allowedBatchAction.contains(action))
@@ -226,7 +229,10 @@ public suspend fun BiliClient.modifyRelation(
     }
 }
 
-public suspend fun BiliClient.queryRelation(mid: Int): RelationQueryResponse = withContext(context) {
+public suspend fun BiliClient.queryRelation(
+    mid: Int,
+    context: CoroutineContext = this.context,
+): RelationQueryResponse = withContext(context) {
     logger.debug { "Querying relation to mid $mid..." }
     client.get<RelationQueryResponse>(RELATION_QUERY_URL) {
         parameter("fid", mid)
@@ -235,7 +241,10 @@ public suspend fun BiliClient.queryRelation(mid: Int): RelationQueryResponse = w
     }
 }
 
-public suspend fun BiliClient.queryRelation(vararg mid: Int): RelationQueryBatchResponse =
+public suspend fun BiliClient.queryRelation(
+    vararg mid: Int,
+    context: CoroutineContext = this.context,
+): RelationQueryBatchResponse =
     withContext(context) {
         logger.debug { "Querying relation to mids ${mid.contentToString()}..." }
         client.get<RelationQueryBatchResponse>(RELATION_BATCH_QUERY_URL) {
@@ -245,7 +254,10 @@ public suspend fun BiliClient.queryRelation(vararg mid: Int): RelationQueryBatch
         }
     }
 
-public suspend fun BiliClient.queryRelationMutually(mid: Int): RelationQueryMutuallyResponse =
+public suspend fun BiliClient.queryRelationMutually(
+    mid: Int,
+    context: CoroutineContext = this.context,
+): RelationQueryMutuallyResponse =
     withContext(context) {
         logger.debug { "Querying relation mutually to mid $mid..." }
         client.get<RelationQueryMutuallyResponse>(RELATION_QUERY_MUTUALLY) {
@@ -255,7 +267,9 @@ public suspend fun BiliClient.queryRelationMutually(mid: Int): RelationQueryMutu
         }
     }
 
-public suspend fun BiliClient.querySpecialFollowing(): SpecialFollowingQueryResponse =
+public suspend fun BiliClient.querySpecialFollowing(
+    context: CoroutineContext = this.context,
+): SpecialFollowingQueryResponse =
     withContext(context) {
         logger.debug { "Querying special relation for current user..." }
         client.get<SpecialFollowingQueryResponse>(RELATION_QUERY_SPECIAL).also {

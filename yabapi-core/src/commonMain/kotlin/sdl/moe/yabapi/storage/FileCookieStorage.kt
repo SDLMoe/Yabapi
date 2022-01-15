@@ -27,6 +27,7 @@ import sdl.moe.yabapi.data.CookieWrapper
 import sdl.moe.yabapi.data.toCookies
 import sdl.moe.yabapi.isJs
 import sdl.moe.yabapi.util.Logger
+import kotlin.coroutines.CoroutineContext
 import kotlin.math.min
 import kotlin.native.concurrent.SharedImmutable
 
@@ -47,6 +48,7 @@ private val logger = Logger("FileCookieStorage")
 public class FileCookieStorage(
     private val file: VfsFile,
     private val saveInTime: Boolean = false,
+    private val context: CoroutineContext = Platform.ioDispatcher,
 ) : CookiesStorage {
     private val fileMutex = Mutex()
 
@@ -128,7 +130,7 @@ public class FileCookieStorage(
         }
     }
 
-    public suspend fun save(): Unit = withContext(Platform.ioDispatcher) {
+    public suspend fun save(): Unit = withContext(context) {
         logger.debug { "Saving FileCookieStorage to ${file.absolutePath}" }
         init()
         fileMutex.withLock {

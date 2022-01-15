@@ -15,6 +15,7 @@ import sdl.moe.yabapi.data.ranking.LatestVideoGetResponse
 import sdl.moe.yabapi.data.ranking.RankingGetResponse
 import sdl.moe.yabapi.enums.video.VideoType
 import sdl.moe.yabapi.util.Logger
+import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
@@ -24,7 +25,11 @@ private val logger = Logger("RankingApi")
  * 通過視頻分區獲得排行榜
  * @see VideoType
  */
-public suspend fun BiliClient.getRanking(type: VideoType, day: Int = 3): RankingGetResponse =
+public suspend fun BiliClient.getRanking(
+    type: VideoType,
+    day: Int = 3,
+    context: CoroutineContext = this.context,
+): RankingGetResponse =
     withContext(context) {
         logger.debug { "Getting Ranking for type ${type.name}, recent $day day(s)." }
         client.get<RankingGetResponse>(RANKING_GET_URL) {
@@ -44,6 +49,7 @@ public suspend fun BiliClient.getLatestVideo(
     type: VideoType,
     page: Int = 1,
     countPerPage: Int = 5,
+    context: CoroutineContext = this.context,
 ): LatestVideoGetResponse = withContext(context) {
     logger.debug { "Getting latest video for type ${type.name}, page $page..." }
     client.get<LatestVideoGetResponse>(LATEST_VIDEO_GET_URL) {
