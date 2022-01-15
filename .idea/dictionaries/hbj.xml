@@ -1,12 +1,14 @@
 <component name="ProjectDictionaryState">
-  <dictionary name="hbj" />
-  <words>
-    <w>bangumi</w>
-    <w>bilibili</w>
-    <w>cddl</w>
-    <w>colerar</w>
-    <w>danmaku</w>
-    <w>reflectionless</w>
-    <w>yabapi</w>
-  </words>
+  <dictionary name="hbj">
+    <words>
+      <w>bilibili</w>
+      <w>cddl</w>
+      <w>colerar</w>
+      <w>geetest</w>
+      <w>korio</w>
+      <w>korlibs</w>
+      <w>reflectionless</w>
+      <w>yabapi</w>
+    </words>
+  </dictionary>
 </component>

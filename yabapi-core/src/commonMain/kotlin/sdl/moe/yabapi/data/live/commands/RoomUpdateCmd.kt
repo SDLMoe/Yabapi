@@ -20,7 +20,7 @@ public data class RoomUpdateCmd(
 
         override fun decode(json: Json, data: JsonElement): RoomUpdateCmd = json.decodeFromJsonElement(data)
     }
-} 
+}
 
 @Serializable
 public data class RoomUpdateData(

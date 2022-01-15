@@ -27,7 +27,7 @@ public data class QRCodeWebGetResponse(
     val status: Boolean,
     @SerialName("ts")
     val timestamp: Long,
-    val data: QRCodeWebGetResponseData
+    val data: QRCodeWebGetResponseData,
 )
 
 /**

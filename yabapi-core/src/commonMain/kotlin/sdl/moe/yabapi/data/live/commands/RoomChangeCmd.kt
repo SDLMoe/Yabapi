@@ -15,7 +15,7 @@ public data class RoomChangeCmd(
     @SerialName("cmd") override val operation: String,
     @SerialName("data") val data: RoomChangeData,
 ) : LiveCommand {
-    public companion object: LiveCommandFactory() {
+    public companion object : LiveCommandFactory() {
         override val operation: String = "ROOM_CHANGE"
         override fun decode(json: Json, data: JsonElement): LiveCommand = json.decodeFromJsonElement(data)
     }

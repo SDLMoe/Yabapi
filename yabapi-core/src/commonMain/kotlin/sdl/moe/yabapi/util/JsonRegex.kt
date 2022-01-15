@@ -4,7 +4,6 @@
 
 package sdl.moe.yabapi.util
 
-
 private val jsonRegex = Regex("""[{\[]([,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]|".*?")+[}\]]""")
 
 /**

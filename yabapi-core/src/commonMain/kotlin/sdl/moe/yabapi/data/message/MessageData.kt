@@ -22,7 +22,7 @@ public data class MessageData(
     val devId: String = generateFakeUUID(),
     val timestamp: Long = Clock.System.now().epochSeconds,
 ) {
-    val msgType: MessageType = when(content) {
+    val msgType: MessageType = when (content) {
         is MessageContent.Text -> TEXT
         is MessageContent.Image -> IMAGE
         is MessageContent.Recall -> RECALL

@@ -195,7 +195,7 @@ public suspend fun BiliClient.loginWebQRCode(
  * 交互式扫码登录封装
  */
 public suspend fun BiliClient.loginWebQRCodeInteractive(
-    context: CoroutineContext = this.context
+    context: CoroutineContext = this.context,
 ): List<LoginWebQRCodeResponse> =
     withContext(context) {
         noNeedLogin()
@@ -240,7 +240,7 @@ public suspend fun BiliClient.loginWebQRCodeInteractive(
  * @return [CallingCodeGetResponse]
  */
 public suspend fun BiliClient.getCallingCode(
-    context: CoroutineContext = this.context
+    context: CoroutineContext = this.context,
 ): CallingCodeGetResponse = withContext(context) {
     logger.info { "Getting Calling Code" }
     client.get<CallingCodeGetResponse>(GET_CALLING_CODE_URL).also {
@@ -263,7 +263,7 @@ public suspend fun BiliClient.requestSMSCode(
     captchaResponse: GetCaptchaResponse,
     validate: String,
     seccode: String,
-    context: CoroutineContext = this.context
+    context: CoroutineContext = this.context,
 ): SendSMSResponse = withContext(context) {
     logger.info { "Requesting SMS Code" }
     client.post<SendSMSResponse>(SEND_SMS_URL) {
@@ -297,7 +297,7 @@ public suspend fun BiliClient.loginWebSMS(
     cid: Int,
     code: Int,
     sendSMSResponse: SendSMSResponse,
-    context: CoroutineContext = this.context
+    context: CoroutineContext = this.context,
 ): LoginWebSMSResponse = withContext(context) {
     logger.info { "Logging in via Web SMS" }
     client.post<LoginWebSMSResponse>(LOGIN_WEB_SMS_URL) {
@@ -321,7 +321,7 @@ public suspend fun BiliClient.loginWebSMS(
  */
 public suspend fun BiliClient.loginWebSMSConsole(
     needsCallingCode: Boolean = false,
-    context: CoroutineContext = this.context
+    context: CoroutineContext = this.context,
 ): Unit = withContext(context) {
     noNeedLogin()
     logger.info { "Starting Console Interactive Bilibili Web Login" }
@@ -357,7 +357,7 @@ public suspend fun BiliClient.loginWebSMSConsole(
 }
 
 public suspend fun BiliClient.logOut(
-    context: CoroutineContext = this.context
+    context: CoroutineContext = this.context,
 ): LogOutResponse = withContext(context) {
     logger.info { "Logging out" }
     needLogin()

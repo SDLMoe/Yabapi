@@ -27,6 +27,7 @@ public enum class QnQuality(public val code: Int) {
     HDR(125),
     DOLBY(126),
     V8K(127),
+
     // audio
     A64K(30216),
     A132K(30232),

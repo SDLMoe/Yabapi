@@ -40,7 +40,6 @@ public data class VideoStat(
     @SerialName("argue_msg") val argueMsg: String? = null,
 )
 
-
 // just tiny difference, can replace with @JsonNames, but it's in Experimental
 @Serializable
 public data class UgcSeasonStat(

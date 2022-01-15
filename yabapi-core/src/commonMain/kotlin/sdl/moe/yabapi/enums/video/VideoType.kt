@@ -35,7 +35,7 @@ public sealed class VideoType(
             Tech, Tech.Digital, Tech.Application, Tech.ComputerTech, Tech.Industry, Tech.DIY,
             Car, Car.Life, Car.Culture, Car.Geek, Car.Smart, Car.Strategy,
             Sports, Sports.Ball, Sports.Aerobics, Sports.Atheletic, Sports.Culture, Sports.Comprehensive,
-            Life, Life.Funny, Life.Home, Life.Handmake, Life.Painting, Life.Daily,
+            Life, Life.Funny, Life.Home, Life.HandMake, Life.Painting, Life.Daily,
             Food, Food.Make, Food.Measurement, Food.Rural, Food.Record,
             Animal, Animal.Cat, Animal.Dog, Animal.Panda, Animal.Wild, Animal.Reptiles, Animal.Composite,
             Kichiku, Kichiku.Guide, Kichiku.MAD, Kichiku.ManualVocaloid, Kichiku.Theatre, Kichiku.Course,
@@ -53,6 +53,7 @@ public sealed class VideoType(
             logger.debug { "Unexpected VideoType Id: $tid, fallback to Unknown" }
             Unknown
         }
+
         public fun fromCode(string: String): VideoType =
             getAllTypes().firstOrNull { it.code == string.lowercase() } ?: Unknown
     }
@@ -153,7 +154,7 @@ public object Car : VideoType("汽车", "car", 223, "/v/car") {
 public object Life : VideoType("生活", "life", 160, "/v/life") {
     public object Funny : VideoType("搞笑", "funny", 138, "/v/life/funny")
     public object Home : VideoType("家居房产", "home", 239, "/v/life/home")
-    public object Handmake : VideoType("手工", "handmake", 161, "/v/life/handmake")
+    public object HandMake : VideoType("手工", "handmake", 161, "/v/life/handmake")
     public object Painting : VideoType("绘画", "painting", 162, "/v/life/painting")
     public object Daily : VideoType("日常", "daily", 21, "/v/life/daily")
 }

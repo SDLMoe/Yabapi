@@ -37,8 +37,6 @@ public data class StickerSetData(
     @SerialName("flags") val flags: StickerSetFlags,
 )
 
-
-
 /**
  * 表情包元數據
  * @param size 表情包的尺寸 [StickerSize]

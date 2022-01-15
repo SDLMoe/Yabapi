@@ -48,7 +48,7 @@ public val defaultJsonParser: Json = Json {
 }
 
 @ExperimentalSerializationApi
-public var protoBuf: ProtoBuf =  ProtoBuf
+public var protoBuf: ProtoBuf = ProtoBuf
 
 // Safari + MacOS User Agent
 internal const val WEB_USER_AGENT: String =

@@ -73,5 +73,4 @@ public data class ComboSendData(
         @SerialName("special") val special: String? = null,
         @SerialName("target_id") val targetId: Int, // 主播 mid
     )
-
 }

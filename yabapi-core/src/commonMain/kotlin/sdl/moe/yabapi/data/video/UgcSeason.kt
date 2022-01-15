@@ -47,7 +47,6 @@ public data class UgcSeasonEpisode(
     @SerialName("bvid") val bvId: String,
 )
 
-
 @Serializable
 public data class VideoArchive(
     @SerialName("aid") val aid: Int,

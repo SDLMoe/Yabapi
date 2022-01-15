@@ -16,7 +16,7 @@ import io.matthewnelson.component.base64.encodeBase64ToCharArray
  * @see Base64
  */
 internal class Base64(
-    private val provider: Base64 = Base64.Default
+    private val provider: Base64 = Base64.Default,
 ) {
     fun base64Encode(bytes: ByteArray): String = bytes.encodeBase64(base64 = provider)
 

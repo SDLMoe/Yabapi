@@ -23,7 +23,7 @@ private val logger = Logger("TimeApi")
  * @return [TimestampGetResponse]
  */
 public suspend fun BiliClient.getTimestamp(
-    context: CoroutineContext = this.context
+    context: CoroutineContext = this.context,
 ): TimestampGetResponse = withContext(context) {
     logger.debug { "Getting timestamp" }
     client.get<TimestampGetResponse>(GET_TIMESTAMP_URL).also {

@@ -53,7 +53,6 @@ public data class InteractWordData(
         @SerialName("grade") val grade: Int,
     )
 
-
     @Serializable
     public data class LiveMedal(
         @SerialName("anchor_roomid") val roomId: Int, // 房间id
@@ -74,5 +73,4 @@ public data class InteractWordData(
         @SerialName("special") val special: String,
         @SerialName("target_id") val targetId: Int, // 主播 mid
     )
-
 }

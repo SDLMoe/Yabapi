@@ -116,5 +116,4 @@ public data class SendGiftData(
         @SerialName("score") val score: Int? = null,
         @SerialName("target_id") val targetId: Int, // 主播 mid
     )
-
 }

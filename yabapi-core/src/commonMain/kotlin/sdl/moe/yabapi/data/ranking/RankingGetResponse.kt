@@ -23,7 +23,7 @@ public data class LatestVideoGetResponse(
     @SerialName("code") val code: GeneralCode = UNKNOWN,
     @SerialName("message") val message: String? = null,
     @SerialName("ttl") val ttl: Int? = null,
-    @SerialName("data") val data: LatestVideoData? = null
+    @SerialName("data") val data: LatestVideoData? = null,
 )
 
 @Serializable
