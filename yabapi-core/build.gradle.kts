@@ -2,12 +2,46 @@
 // Use of this source code is governed by the CDDL license that can be found via link below:
 // https://github.com/SDLMoe/Yabapi/blob/master/LICENSE
 
+import java.util.Properties
+
 plugins {
-    kotlin("multiplatform")
+    kotlin("multiplatform") version Versions.kotlin
     kotlin("plugin.serialization") version Versions.kotlin
+    `maven-publish`
+    signing
 }
 
 val mingwPath = File(System.getenv("MINGW64_DIR") ?: "C:/msys64/mingw64")
+
+ext["signing.keyId"] = null
+ext["signing.password"] = null
+ext["signing.secretKeyRingFile"] = null
+ext["ossrhUsername"] = null
+ext["ossrhPassword"] = null
+
+val secretPropsFile = project.rootProject.file("local.properties")
+if (secretPropsFile.exists()) {
+    secretPropsFile.reader().use {
+        Properties().apply {
+            load(it)
+        }
+    }.onEach { (name, value) ->
+        ext[name.toString()] = value
+    }
+} else {
+    ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
+    ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
+    ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_SECRET_KEY_RING_FILE")
+    ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
+    ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
+}
+
+val javadocJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
+}
+
+fun getExtraString(name: String) = ext[name]?.toString()
+
 
 @Suppress("UNUSED_VARIABLE")
 kotlin {
@@ -82,6 +116,7 @@ kotlin {
             }
         }
         val jvmMain by getting {
+            dependsOn(commonMain)
             dependencies {
                 implementation("io.ktor:ktor-client-cio:${Versions.ktor}")
             }
@@ -92,10 +127,63 @@ kotlin {
             }
         }
         val nativeMain by getting {
+            dependsOn(commonMain)
             dependencies {
                 implementation("io.ktor:ktor-client-curl:${Versions.ktor}")
             }
         }
         val nativeTest by getting
     }
+}
+
+
+publishing {
+    // Configure maven central repository
+    repositories {
+        maven {
+            name = "sonatype"
+            setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = getExtraString("ossrhUsername")
+                password = getExtraString("ossrhPassword")
+            }
+        }
+    }
+
+    // Configure all publications
+    publications.withType<MavenPublication> {
+
+        // Stub javadoc.jar artifact
+        artifact(javadocJar.get())
+
+        // Provide artifacts information requited by Maven Central
+        pom {
+            name.set("Yabapi")
+            description.set("A Third-party API for Bilibili")
+            url.set("https://github.com/SDLMoe/Yabapi/")
+
+            licenses {
+                license {
+                    name.set("CDDL")
+                    url.set("https://spdx.org/licenses/CDDL-1.1.html")
+                }
+            }
+            developers {
+                developer {
+                    id.set("Colerar")
+                    email.set("233hbj@gmail.com")
+                }
+            }
+            scm {
+                url.set("https://github.com/SDLMoe/Yabapi.git")
+            }
+
+        }
+    }
+}
+
+// Signing artifacts. Signing.* extra properties values will be used
+
+signing {
+    sign(publishing.publications)
 }

@@ -18,7 +18,3 @@ val kotlinVersion = FileInputStream(file("../gradle.properties")).use { propFile
     require(ver is String) { "kotlin.version must be string in ../gradle.properties, got $ver instead" }
     ver
 }
-
-dependencies {
-    implementation(kotlin("gradle-plugin", kotlinVersion))
-}

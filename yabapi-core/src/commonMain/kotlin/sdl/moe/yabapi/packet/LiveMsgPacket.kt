@@ -7,8 +7,6 @@ package sdl.moe.yabapi.packet
 import io.ktor.utils.io.core.buildPacket
 import io.ktor.utils.io.core.readBytes
 import io.ktor.utils.io.core.writeFully
-import sdl.moe.yabapi.packet.LiveMsgPacketProtocol.COMMAND_BROTLI
-import sdl.moe.yabapi.packet.LiveMsgPacketProtocol.COMMAND_ZLIB
 import sdl.moe.yabapi.util.compress.BrotliImpl
 import sdl.moe.yabapi.util.compress.ZLibImpl
 import kotlin.math.min
@@ -41,8 +39,8 @@ public open class LiveMsgPacket(
                 head = LiveMsgPacketHead.decode(rawHead)
                 val rawBody = readBytes()
                 body = when (head.protocol) {
-                    COMMAND_ZLIB -> ZLibImpl.decompress(rawBody)
-                    COMMAND_BROTLI -> BrotliImpl.decompress(rawBody)
+                    LiveMsgPacketProtocol.COMMAND_ZLIB -> ZLibImpl.decompress(rawBody)
+                    LiveMsgPacketProtocol.COMMAND_BROTLI -> BrotliImpl.decompress(rawBody)
                     else -> rawBody
                 }
             }
@@ -52,8 +50,8 @@ public open class LiveMsgPacket(
 
     internal suspend fun encode(): ByteArray = buildPacket {
         body = when (head.protocol) {
-            COMMAND_ZLIB -> ZLibImpl.compress(body)
-            COMMAND_BROTLI -> BrotliImpl.compress(body)
+            LiveMsgPacketProtocol.COMMAND_ZLIB -> ZLibImpl.compress(body)
+            LiveMsgPacketProtocol.COMMAND_BROTLI -> BrotliImpl.compress(body)
             else -> body
         }
         writeFully(head.encode())
