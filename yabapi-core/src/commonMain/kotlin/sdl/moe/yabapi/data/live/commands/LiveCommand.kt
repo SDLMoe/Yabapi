@@ -58,7 +58,7 @@ public sealed class LiveCommandFactory {
             }
         }
 
-        public val factories: List<LiveCommandFactory> = listOf(
+        private val factories: List<LiveCommandFactory> = listOf(
             ComboSendCmd,
             DanmakuMsgCmd,
             EntryEffectCmd,
@@ -70,6 +70,10 @@ public sealed class LiveCommandFactory {
             HotRoomNotifyCmd,
             InteractWordCmd,
             LiveInteractGameCmd,
+            LotAwardCmd,
+            LotCheckStatusCmd,
+            LotEndCmd,
+            LotStartCmd,
             MatchRoomConfCmd,
             NoticeMsgCmd,
             OnlineRankCountCmd,
