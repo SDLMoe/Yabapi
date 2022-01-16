@@ -164,8 +164,8 @@ publishing {
 
             licenses {
                 license {
-                    name.set("CDDL")
-                    url.set("https://spdx.org/licenses/CDDL-1.1.html")
+                    name.set("CC0")
+                    url.set("https://creativecommons.org/publicdomain/zero/1.0/legalcode")
                 }
             }
             developers {

@@ -1,7 +1,7 @@
-# <h1>Yabapi 😱</h1>
+# Yabapi 😱
 
-[![License: CDDL](https://img.shields.io/badge/license-CDDL-%233778b4)](https://opensource.org/licenses/cddl1.txt)
-[![Maven-Central Yabapi Version](https://img.shields.io/maven-central/v/moe.sdl.yabapi/yabapi-core-jvm)](https://repo1.maven.org/maven2/moe/sdl/yabapi/)
+[![License: CC0](https://img.shields.io/badge/License-CC0-lightgrey?style=for-the-badge)](https://creativecommons.org/publicdomain/zero/1.0/legalcode)
+[![Maven-Central Yabapi Version](https://img.shields.io/maven-central/v/moe.sdl.yabapi/yabapi-core-jvm?style=for-the-badge)](https://repo1.maven.org/maven2/moe/sdl/yabapi/)
 
 Bilibili API for Kotlin
 
@@ -15,11 +15,9 @@ Yabapi 是一个 B 站第三方 Kotlin API 库。
 
 # License
 
-[CDDL License](https://github.com/SDLMoe/Yabapi/blob/kotlin-mt/LICENSE)
+[CC0](https://github.com/SDLMoe/Yabapi/blob/kotlin-mt/LICENSE)
 
-本项目开源且免费，引用本项目时，您需要明确指出使用了本项目。
-
-同时，请注意，CDDL 不兼容 GPL 协议。
+本项目基于 CC0 分发, 释放于公有领域, 如果你乐意, 可以在使用时附上我的名字(这并不强制).
 
 # 特性
 
