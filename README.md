@@ -1,10 +1,13 @@
 # <h1>Yabapi 😱</h1>
 
 [![License: CDDL](https://img.shields.io/badge/license-CDDL-%233778b4)](https://opensource.org/licenses/cddl1.txt)
+[![Maven-Central Yabapi Version](https://img.shields.io/maven-central/v/moe.sdl.yabapi/yabapi-core-jvm)](https://repo1.maven.org/maven2/moe/sdl/yabapi/)
 
 Bilibili API for Kotlin
 
 🔧 WIP
+
+> 并没有进入稳定版本, API 可能会发生变动
 
 # Intro
 
@@ -105,6 +108,18 @@ Yabapi 基于此，力求类型安全，避免空指针，减少运行时错误�
 </details>
 
 敏感 API 不会被支持, 如 B 币钱包、注册、新人答题、课程下载。同时 API 会优先支持读取操作。
+
+# Setup
+
+## JVM
+
+```kotlin
+dependencies {
+  implementation("sdl.moe.yabapi:yabapi-core-jvm:$version")
+}
+```
+
+其他平台可能会在以后支持.
 
 # Thanks
 
