@@ -6,15 +6,20 @@ package sdl.moe.yabapi.api
 
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.connect.LiveDanmakuConnectConfig
 import sdl.moe.yabapi.connect.LiveMessageConnection
 import sdl.moe.yabapi.consts.internal.LIVE_DANMAKU_INFO_URL
 import sdl.moe.yabapi.consts.internal.LIVE_INIT_INFO_GET_URL
+import sdl.moe.yabapi.consts.internal.LIVE_STREAM_FETCH_URL
 import sdl.moe.yabapi.data.live.LiveDanmakuHost
 import sdl.moe.yabapi.data.live.LiveDanmakuInfoGetResponse
 import sdl.moe.yabapi.data.live.LiveInitGetResponse
+import sdl.moe.yabapi.data.stream.LiveStreamRequest
+import sdl.moe.yabapi.data.stream.LiveStreamResponse
+import sdl.moe.yabapi.data.stream.putLiveStreamRequest
 import sdl.moe.yabapi.util.Logger
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
@@ -71,17 +76,30 @@ public suspend fun BiliClient.createLiveDanmakuConnection(
     host: LiveDanmakuHost,
     context: CoroutineContext = this.context,
     config: LiveDanmakuConnectConfig.() -> Unit = {},
-): Unit =
-    withContext(context) {
-        val bClient = this@createLiveDanmakuConnection
-        LiveMessageConnection(
-            loginUserMid,
-            realRoomId,
-            token,
-            host,
-            bClient.client,
-            bClient.json,
-            bClient.context,
-            config
-        ).start().join()
+): Job = withContext(context) {
+    val bClient = this@createLiveDanmakuConnection
+    LiveMessageConnection(
+        loginUserMid,
+        realRoomId,
+        token,
+        host,
+        bClient.client,
+        bClient.json,
+        bClient.context,
+        config
+    ).start()
+}
+
+public suspend fun BiliClient.fetchLiveStream(
+    roomId: Int,
+    request: LiveStreamRequest = LiveStreamRequest(),
+    context: CoroutineContext = this.context,
+): LiveStreamResponse = withContext(context) {
+    logger.debug { "Fetching Live Stream..." }
+    client.get<LiveStreamResponse>(LIVE_STREAM_FETCH_URL) {
+        parameter("room_id", roomId)
+        putLiveStreamRequest(request)
+    }.also {
+        logger.debug { "Fetched Live Stream: $it" }
     }
+}

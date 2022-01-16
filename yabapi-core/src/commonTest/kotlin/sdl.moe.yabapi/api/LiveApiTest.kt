@@ -4,6 +4,7 @@
 
 package sdl.moe.yabapi.api
 
+import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.connect.LiveDanmakuConnectConfig
 import sdl.moe.yabapi.connect.onCommandResponse
@@ -24,6 +25,7 @@ internal class LiveApiTest {
             realId,
             danmakuInfoData.token,
             danmakuInfoData.hostList[0],
+            Platform.ioDispatcher,
             config
         )
     }
@@ -52,6 +54,19 @@ internal class LiveApiTest {
                     // flow.collect {}
                 }
             }
+        }
+    }
+
+    @Test
+    fun fetchStream() {
+        runTest {
+            client.fetchLiveStream(22495291)
+                .data?.playUrlInfo?.playUrl?.stream
+                ?.firstOrNull { it.protocolName == "http_stream" }
+                ?.format?.firstOrNull { it.formatName == "flv" }
+                ?.codec?.firstOrNull { it.codecName == "avc" }?.playUrl.also {
+                    println(it)
+                }
         }
     }
 }

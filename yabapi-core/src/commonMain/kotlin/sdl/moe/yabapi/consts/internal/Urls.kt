@@ -194,6 +194,8 @@ internal const val LIVE_INIT_INFO_GET_URL = "$LIVE/room/v1/Room/room_init"
 
 internal const val LIVE_DANMAKU_INFO_URL = "$LIVE/xlive/web-room/v1/index/getDanmuInfo"
 
+internal const val LIVE_STREAM_FETCH_URL = "https://api.live.bilibili.com/xlive/web-room/v2/index/getRoomPlayInfo"
+
 // endregion
 
 // region ================ Passport ========================================
