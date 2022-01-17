@@ -200,16 +200,12 @@ public suspend fun BiliClient.loginWebQRCodeInteractive(
         println("打开网站，通过Bilibili手机客户端扫描二维码。")
         println("https://qrcode.jp/qr?q=${getQrResponse.data.url}&s=10")
         val loop = atomic(true)
-        val first = atomic(true)
         val responseList = mutableListOf<LoginWebQRCodeResponse>()
 
         withTimeoutOrNull(120_000) {
-            while (loop.value) {
-                if (first.value) {
-                    first.getAndSet(true)
-                } else delay(1_000)
-
-                val tryLogin = loginWebQRCode(getQrResponse).also {
+            do {
+                loginWebQRCode(getQrResponse).also {
+                    responseList.add(it)
                     require((it.dataWhenSuccess == null) xor (it.dataWhenFailed == null)) {
                         "Invalid Response"
                     }
@@ -219,14 +215,14 @@ public suspend fun BiliClient.loginWebQRCodeInteractive(
                         return@also
                     }
                     when (it.dataWhenFailed) {
-                        NOT_SCAN -> logger.debug { "wait for QR code scanning" }
-                        NOT_CONFIRM -> logger.debug { "wait for confirming" }
+                        NOT_SCAN -> logger.verbose { "wait for QR code scanning" }
+                        NOT_CONFIRM -> logger.verbose { "wait for confirming" }
                         KEY_EXPIRED -> cancel("QRCode timedout")
                         else -> throw IllegalStateException("unexpected code, ${it.dataWhenFailed}")
                     }
                 }
-                responseList.add(tryLogin)
-            }
+                delay(1_000)
+            } while (loop.value)
         }
         responseList
     }

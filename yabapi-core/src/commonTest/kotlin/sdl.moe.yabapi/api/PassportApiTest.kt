@@ -2,10 +2,12 @@ package sdl.moe.yabapi.api
 
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
+import sdl.moe.yabapi.runTest
 import sdl.moe.yabapi.util.requireCmdInputString
 import sdl.moe.yabapi.util.yabapiLogLevel
+import kotlin.test.Test
 
-class PassportApiTest {
+internal class PassportApiTest {
 
     init {
         yabapiLogLevel = DEBUG
@@ -20,7 +22,10 @@ class PassportApiTest {
         client.loginCookie(cookies)
     }
 
-    suspend fun loginWebQRCodeInteractive() {
-        client.loginWebQRCodeInteractive()
+    @Test
+    fun loginWebQRCodeInteractive() {
+        runTest {
+            client.loginWebQRCodeInteractive()
+        }
     }
 }

@@ -58,5 +58,5 @@ public data class BasicInfoData(
     @SerialName("shop_url") val shopUrl: String? = null,
     @SerialName("allowance_count") val allowanceCount: Int? = null,
     @SerialName("answer_status") val answerStatus: Int? = null,
-    @SerialName("is_senior_member") val isSeniorMember: Int,
+    @SerialName("is_senior_member") val isSeniorMember: Int? = null,
 )

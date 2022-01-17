@@ -13,6 +13,37 @@ internal class LiveApiTest {
         initTest()
     }
 
+    @Test
+    fun getLiveAreasTest() {
+        runTest {
+            client.getLiveAreas()
+        }
+    }
+
+    @Test
+    fun generateAreasCode() = runTest {
+        val sb = StringBuilder()
+        sb.appendLine("public sealed class LiveArea(val id: Int, val name: String) {")
+        client.getLiveAreas().data.sortedBy {
+            it.id
+        }.forEach {
+            sb.appendLine()
+            sb.appendLine("""    public object  : LiveArea(id = ${it.id}, name = "${it.name}")""")
+        }
+        sb.appendLine("}")
+        println(sb.toString())
+    }
+
+    @Test
+    fun getRoomIdByUid() = runTest {
+        client.getRoomIdByUid(2)
+    }
+
+    @Test
+    fun getLiverInfo(): Unit = runTest {
+        client.getLiverInfo(63231)
+    }
+
     suspend fun createConnection(roomId: Int, config: LiveDanmakuConnectConfig.() -> Unit = {}) {
         val realId = client.getRoomInitInfo(roomId).data?.roomId ?: error("Get init info failed")
         val danmakuInfoData = client.getLiveDanmakuInfo(realId).data ?: error("Get live server failed")
@@ -31,6 +62,16 @@ internal class LiveApiTest {
         runTest {
             client.getRoomInitInfo(213)
         }
+    }
+
+    @Test
+    fun getLiveIndexListTest() = runTest {
+        client.getLiveIndexList()
+    }
+
+    @Test
+    fun getLiveHover() = runTest {
+        client.getLiveHover(2)
     }
 
     @Test
@@ -64,5 +105,20 @@ internal class LiveApiTest {
                     println(it)
                 }
         }
+    }
+
+    @Test
+    fun signTest() = runTest {
+        client.signLive()
+    }
+
+    @Test
+    fun getLiveSignInfoTest() = runTest {
+        client.getLiveSignInfo()
+    }
+
+    @Test
+    fun getLiveSignLastMonthInfo() = runTest {
+        client.getLiveSignLastMonthInfo()
     }
 }
