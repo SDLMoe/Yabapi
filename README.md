@@ -3,11 +3,11 @@
 [![License: CC0](https://img.shields.io/badge/License-CC0-lightgrey?style=for-the-badge)](https://creativecommons.org/publicdomain/zero/1.0/legalcode)
 [![Maven-Central Yabapi Version](https://img.shields.io/maven-central/v/moe.sdl.yabapi/yabapi-core-jvm?style=for-the-badge)](https://repo1.maven.org/maven2/moe/sdl/yabapi/)
 
+<img src="./imgs/yabapi-logo.svg" height="350" alt="yabapi logo">
+
 Bilibili API for Kotlin
 
-🔧 WIP
-
-> 并没有进入稳定版本, API 可能会发生变动
+> 🔧 WIP 并没有进入稳定版本, API 可能会发生变动
 
 # Intro
 
