@@ -208,6 +208,10 @@ internal const val LIVE_SIGN_INFO_URL = "$LIVE/xlive/web-ucenter/v1/sign/WebGetS
 
 internal const val LIVE_SIGN_LAST_MONTH_URL = "$LIVE/sign/getLastMonthSignDays"
 
+internal const val LIVE_RANKING_GET_URL = "$LIVE/rankdb/v1/Rank2018/getWebTop"
+
+internal const val LIVE_MEDAL_RANK_GET_URL = "$LIVE/xlive/general-interface/v1/Rank/GetTotalMedalLevelRank"
+
 // endregion
 
 // region ================ Passport ========================================

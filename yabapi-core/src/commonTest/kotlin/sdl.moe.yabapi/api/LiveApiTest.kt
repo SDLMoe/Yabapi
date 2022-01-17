@@ -4,6 +4,7 @@ import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.connect.LiveDanmakuConnectConfig
 import sdl.moe.yabapi.connect.onCommandResponse
+import sdl.moe.yabapi.enums.live.LiveRankType
 import sdl.moe.yabapi.initTest
 import sdl.moe.yabapi.runTest
 import kotlin.test.Test
@@ -120,5 +121,16 @@ internal class LiveApiTest {
     @Test
     fun getLiveSignLastMonthInfo() = runTest {
         client.getLiveSignLastMonthInfo()
+    }
+
+    @Test
+    fun getLiveRank() = runTest {
+        LiveRankType.values().forEach {
+            client.getLiveRank(it)
+        }
+    }
+    @Test
+    fun getLiveMedalRank() = runTest {
+        client.getLiveMedalRank()
     }
 }

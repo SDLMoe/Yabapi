@@ -36,7 +36,7 @@ public data class LotAwardData(
 public data class LotAwardUser(
     @SerialName("uid") val uid: Int,
     @SerialName("uname") val uname: String,
-    @SerialName("face") val face: String,
+    @SerialName("face") val avatar: String,
     @SerialName("level") val level: Int,
     @Serializable(RgbColorIntSerializer::class)
     @SerialName("color") val color: RgbColor,

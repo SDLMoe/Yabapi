@@ -29,7 +29,7 @@ public data class SubtitleAuthor(
     @SerialName("mid") val mid: Int,
     @SerialName("name") val name: String,
     @SerialName("sex") val sex: String,
-    @SerialName("face") val face: String,
+    @SerialName("face") val avatar: String,
     @SerialName("sign") val bio: String,
     @SerialName("rank") val rank: Int,
     @SerialName("birthday") val birthday: Int,

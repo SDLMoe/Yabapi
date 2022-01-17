@@ -12,11 +12,13 @@ import sdl.moe.yabapi.consts.internal.LIVE_AREA_URL
 import sdl.moe.yabapi.consts.internal.LIVE_DANMAKU_INFO_URL
 import sdl.moe.yabapi.consts.internal.LIVE_HOVER_GET_URL
 import sdl.moe.yabapi.consts.internal.LIVE_INIT_INFO_GET_URL
+import sdl.moe.yabapi.consts.internal.LIVE_MEDAL_RANK_GET_URL
+import sdl.moe.yabapi.consts.internal.LIVE_RANKING_GET_URL
+import sdl.moe.yabapi.consts.internal.LIVE_SHOW_LIST_GET
 import sdl.moe.yabapi.consts.internal.LIVE_SIGN_INFO_URL
 import sdl.moe.yabapi.consts.internal.LIVE_SIGN_LAST_MONTH_URL
 import sdl.moe.yabapi.consts.internal.LIVE_SIGN_URL
 import sdl.moe.yabapi.consts.internal.LIVE_STREAM_FETCH_URL
-import sdl.moe.yabapi.consts.internal.LIVE_SHOW_LIST_GET
 import sdl.moe.yabapi.consts.internal.LIVE_UID_TO_ROOM_ID
 import sdl.moe.yabapi.data.LiveIndexList
 import sdl.moe.yabapi.data.live.LiveAreasGetResponse
@@ -24,6 +26,8 @@ import sdl.moe.yabapi.data.live.LiveDanmakuHost
 import sdl.moe.yabapi.data.live.LiveDanmakuInfoGetResponse
 import sdl.moe.yabapi.data.live.LiveHoverGetResponse
 import sdl.moe.yabapi.data.live.LiveInitGetResponse
+import sdl.moe.yabapi.data.live.LiveRankMedalResponse
+import sdl.moe.yabapi.data.live.LiveRankResponse
 import sdl.moe.yabapi.data.live.LiveSignInfoGetResponse
 import sdl.moe.yabapi.data.live.LiveSignLastMonthResponse
 import sdl.moe.yabapi.data.live.LiveSignResponse
@@ -33,6 +37,9 @@ import sdl.moe.yabapi.data.stream.LiveStreamRequest
 import sdl.moe.yabapi.data.stream.LiveStreamResponse
 import sdl.moe.yabapi.data.stream.putLiveStreamRequest
 import sdl.moe.yabapi.enums.live.LiveArea
+import sdl.moe.yabapi.enums.live.LiveRankType
+import sdl.moe.yabapi.enums.live.LiveRankType.LIVER_VITALITY
+import sdl.moe.yabapi.enums.live.LiveRankType.USER_ENERGY
 import sdl.moe.yabapi.util.Logger
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
@@ -114,7 +121,7 @@ public suspend fun BiliClient.getLiveIndexList(
  */
 public suspend fun BiliClient.getLiveHover(
     areaId: Int,
-    context: CoroutineContext = this.context
+    context: CoroutineContext = this.context,
 ): LiveHoverGetResponse = withContext(context) {
     logger.debug { "Getting live hover of area $areaId..." }
     client.get<LiveHoverGetResponse>(LIVE_HOVER_GET_URL) {
@@ -126,7 +133,7 @@ public suspend fun BiliClient.getLiveHover(
 
 public suspend inline fun BiliClient.getLiveHover(
     area: LiveArea,
-    context: CoroutineContext = this.context
+    context: CoroutineContext = this.context,
 ): LiveHoverGetResponse = getLiveHover(area.id, context)
 
 /**
@@ -237,6 +244,47 @@ public suspend fun BiliClient.getLiveSignLastMonthInfo(
     logger.debug { "Getting last-month live sign info..." }
     client.get<LiveSignLastMonthResponse>(LIVE_SIGN_LAST_MONTH_URL).also {
         logger.debug { "Got last-month Live Sign Info: $it" }
+    }
+}
+
+// endregion
+
+// region =========================== Rank ===========================
+
+public suspend fun BiliClient.getLiveRank(
+    type: LiveRankType,
+    areaId: Int? = null,
+    page: Int = 1,
+    pageSize: Int = 20,
+    date: String = "week",
+    isTrend: Boolean = true,
+    context: CoroutineContext = this.context,
+): LiveRankResponse = withContext(context) {
+    logger.debug { "Getting live rank, type $type, page $page..." }
+    client.get<LiveRankResponse>(LIVE_RANKING_GET_URL) {
+        if (type == USER_ENERGY || type == LIVER_VITALITY) parameter("date", date)
+        parameter("type", type.code)
+        parameter("area_id", if (type == LIVER_VITALITY) areaId ?: 0 else "")
+        parameter("page", page)
+        parameter("pageSize", pageSize)
+        parameter("isTrend", if (isTrend) "1" else "0")
+    }.also {
+        logger.debug { "Got live rank, type $type, page $page: $it" }
+    }
+}
+
+public suspend fun BiliClient.getLiveMedalRank(
+    page: Int = 1,
+    pageSize: Int = 20,
+    context: CoroutineContext = this.context,
+): LiveRankMedalResponse = withContext(context) {
+    logger.debug { "Getting Live Medal Rank, page $page..." }
+    client.get<LiveRankMedalResponse>(LIVE_MEDAL_RANK_GET_URL) {
+        parameter("page", page)
+        parameter("page_size", pageSize)
+    }.also {
+        logger.debug { "Got Live Medal Rank, page $page: $it" }
+
     }
 }
 

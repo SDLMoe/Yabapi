@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public enum class LiveRoomStatus {
+    UNKNOWN,
+
     @SerialName("0")
     NOT_LIVE,
 

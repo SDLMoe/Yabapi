@@ -10,7 +10,7 @@ public data class VideoStaff(
     @SerialName("mid") val mid: Int,
     @SerialName("title") val title: String,
     @SerialName("name") val name: String,
-    @SerialName("face") val face: String,
+    @SerialName("face") val avatar: String,
     @SerialName("vip") val vip: Vip,
     @SerialName("official") val official: Official,
     @SerialName("follower") val follower: Int,

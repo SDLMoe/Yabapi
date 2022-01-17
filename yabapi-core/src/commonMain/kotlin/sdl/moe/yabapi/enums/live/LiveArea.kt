@@ -1,6 +1,7 @@
 package sdl.moe.yabapi.enums.live
 
 public sealed class LiveArea(public val id: Int, public val name: String) {
+    public object All : LiveArea(id = 0, name = "全部")
 
     public object Entertainment : LiveArea(id = 1, name = "娱乐")
 

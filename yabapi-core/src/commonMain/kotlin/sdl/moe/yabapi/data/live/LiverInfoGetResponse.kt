@@ -34,7 +34,7 @@ public data class LiverData(
 public data class LiverInfo(
     @SerialName("uid") val uid: Int,
     @SerialName("uname") val uname: String,
-    @SerialName("face") val face: String,
+    @SerialName("face") val avatar: String,
     @SerialName("official_verify") val officialCertify: OfficialCertify,
     @SerialName("gender") val gender: Gender = Gender.UNKNOWN,
 )
