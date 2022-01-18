@@ -15,7 +15,7 @@ Yabapi 是一个 B 站第三方 Kotlin API 库。
 
 # License
 
-本项目代码基于 [CC0]([CC0](https://github.com/SDLMoe/Yabapi/blob/kotlin-mt/LICENSE)) 分发, 释放于公有领域, 如果你乐意, 可以在使用时附上我的名字(这并不强制).
+本项目代码基于 [CC0](https://github.com/SDLMoe/Yabapi/blob/kotlin-mt/LICENSE) 分发, 释放于公有领域, 如果你乐意, 可以在使用时附上我的名字(这并不强制).
 
 [本项目 Logo](./imgs/yabapi-logo.svg) 基于 [CC BY ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/) 分发, 
 若需要使用 Logo, 务必附上本项目地址, 并且不得更改其内容.
