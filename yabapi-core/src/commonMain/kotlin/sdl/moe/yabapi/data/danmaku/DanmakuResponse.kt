@@ -2,7 +2,10 @@ package sdl.moe.yabapi.data.danmaku
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.data.RgbColor
+import sdl.moe.yabapi.util.encoding.inverseCrc32
+import kotlin.coroutines.CoroutineContext
 
 @Serializable
 public data class DanmakuResponse(
@@ -28,4 +31,8 @@ public data class DanmakuContent(
         get() = _color?.let { RgbColor.fromHex(it) }
     val mode: DanmakuMode?
         get() = _mode?.let { DanmakuMode.fromCode(it) }
+
+    public suspend fun getActualMid(
+        context: CoroutineContext = Platform.ioDispatcher,
+    ): Int? = midHash?.let { inverseCrc32(midHash, context) }?.toIntOrNull()
 }
