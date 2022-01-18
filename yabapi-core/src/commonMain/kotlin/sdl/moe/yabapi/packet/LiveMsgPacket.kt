@@ -3,23 +3,23 @@ package sdl.moe.yabapi.packet
 import io.ktor.utils.io.core.buildPacket
 import io.ktor.utils.io.core.readBytes
 import io.ktor.utils.io.core.writeFully
+import kotlinx.atomicfu.AtomicLong
 import sdl.moe.yabapi.util.compress.BrotliImpl
 import sdl.moe.yabapi.util.compress.ZLibImpl
-import kotlin.math.min
 
 public open class LiveMsgPacket(
-    internal open val head: LiveMsgPacketHead,
+    internal open val header: LiveMsgPacketHead,
     internal open var body: ByteArray,
 ) {
     public constructor(
-        protocol: LiveMsgPacketProtocol, type: LiveMsgPacketType, sequence: Sequence, body: ByteArray,
+        protocol: LiveMsgPacketProtocol, type: LiveMsgPacketType, sequence: AtomicLong, body: ByteArray,
     ) : this(
         LiveMsgPacketHead(
             body.size.toUInt() + LiveMsgPacketHead.HEAD_SIZE.toUInt(),
             LiveMsgPacketHead.HEAD_SIZE,
             protocol,
             type,
-            sequence.value.value.toUInt(),
+            sequence.value.toUInt(),
         ),
         body
     )
@@ -44,17 +44,19 @@ public open class LiveMsgPacket(
         }
     }
 
-    internal suspend fun encode(): ByteArray = buildPacket {
-        body = when (head.protocol) {
+    private suspend inline fun encodeBody(body: ByteArray): ByteArray =
+        when (header.protocol) {
             LiveMsgPacketProtocol.COMMAND_ZLIB -> ZLibImpl.compress(body)
             LiveMsgPacketProtocol.COMMAND_BROTLI -> BrotliImpl.compress(body)
             else -> body
         }
-        writeFully(head.encode())
-        writeFully(body)
+
+    public suspend fun encode(): ByteArray = buildPacket {
+        writeFully(header.encode())
+        writeFully(encodeBody(body))
     }.readBytes()
 
     override fun toString(): String {
-        return "LiveMsgPacket(head=$head, body(head 20)=${body.copyOfRange(0, min(20, body.size)).contentToString()})"
+        return "LiveMsgPacket(head=$header, body(head 20)=[${body.joinToString(limit = 20)}])"
     }
 }

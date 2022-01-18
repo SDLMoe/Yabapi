@@ -10,6 +10,7 @@ import io.ktor.http.cio.websocket.FrameType.BINARY
 import io.ktor.utils.io.core.buildPacket
 import io.ktor.utils.io.core.readUInt
 import io.ktor.utils.io.core.writeFully
+import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.cancel
@@ -42,7 +43,6 @@ import sdl.moe.yabapi.packet.LiveMsgPacketType.CERTIFICATE_RESPONSE
 import sdl.moe.yabapi.packet.LiveMsgPacketType.COMMAND
 import sdl.moe.yabapi.packet.LiveMsgPacketType.HEARTBEAT
 import sdl.moe.yabapi.packet.LiveMsgPacketType.HEARTBEAT_RESPONSE
-import sdl.moe.yabapi.packet.Sequence
 import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.findJson
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
@@ -71,7 +71,7 @@ internal class LiveMessageConnection(
         configInstance.config()
     }
 
-    private val sequence = Sequence()
+    private val sequence = atomic(0L)
 
     suspend fun start() = coroutineScope {
         launch(context) {
@@ -92,17 +92,17 @@ internal class LiveMessageConnection(
     ): Boolean {
         var isSuccess = false
         outgoing.trySend(Frame.byType(true, BINARY, packet.encode())).also {
-            logger.debug { "Try to send ${packet.head.type} packet." }
+            logger.debug { "Try to send ${packet.header.type} packet." }
         }.onFailure {
             if (it is CancellationException) {
                 logger.info { "Send Job Cancelled" }
                 return@onFailure
             }
-            logger.debug { "Failed to send ${packet.head.type} packet: $packet" }
+            logger.debug { "Failed to send ${packet.header.type} packet: $packet" }
             logger.verbose(it) { "stacktrace:" }
         }.onSuccess {
-            logger.debug { "Sent ${packet.head.type} packet: $packet" }
-            sequence.value.getAndIncrement()
+            logger.debug { "Sent ${packet.header.type} packet: $packet" }
+            sequence.getAndIncrement()
             logger.verbose { "Now Sequence: $sequence" }
             isSuccess = true
         }.onClosed {
@@ -118,7 +118,7 @@ internal class LiveMessageConnection(
                 is Frame.Binary -> {
                     logger.verbose { "Received Binary: ${frame.data.contentToString()}" }
                     LiveMsgPacket.decode(frame.data).also { packet ->
-                        logger.debug { "Decoded Packet Head: ${packet.head}" }
+                        logger.debug { "Decoded Packet Head: ${packet.header}" }
                         handleBinaryPacket(packet)
                     }
                 }
@@ -134,7 +134,7 @@ internal class LiveMessageConnection(
     private suspend inline fun Wss.handleBinaryPacket(
         packet: LiveMsgPacket,
     ) {
-        when (packet.head.type) {
+        when (packet.header.type) {
             HEARTBEAT_RESPONSE -> {
                 val popular = buildPacket { writeFully(packet.body) }.readUInt()
                 logger.debug { "Decoded popular value: $popular" }

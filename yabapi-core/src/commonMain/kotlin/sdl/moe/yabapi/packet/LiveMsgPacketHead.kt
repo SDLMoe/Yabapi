@@ -7,14 +7,6 @@ import io.ktor.utils.io.core.readUShort
 import io.ktor.utils.io.core.writeFully
 import io.ktor.utils.io.core.writeUInt
 import io.ktor.utils.io.core.writeUShort
-import kotlinx.atomicfu.AtomicLong
-import kotlinx.atomicfu.atomic
-import kotlin.jvm.JvmInline
-
-@JvmInline
-public value class Sequence(
-    public val value: AtomicLong = atomic(0L),
-)
 
 public data class LiveMsgPacketHead(
     val size: UInt,
@@ -56,12 +48,13 @@ public data class LiveMsgPacketHead(
         internal const val HEAD_SIZE: UShort = 0x10u
     }
 
-    @OptIn(ExperimentalUnsignedTypes::class)
-    public fun encode(): ByteArray = buildPacket {
-        this.writeUInt(this@LiveMsgPacketHead.size)
-        this.writeUShort(headSize)
-        this.writeUShort(protocol.code)
-        this.writeUInt(type.code)
-        this.writeUInt(sequence)
-    }.readBytes()
+    public fun encode(): ByteArray {
+        return buildPacket {
+            this.writeUInt(this@LiveMsgPacketHead.size)
+            this.writeUShort(headSize)
+            this.writeUShort(protocol.code)
+            this.writeUInt(type.code)
+            this.writeUInt(sequence)
+        }.readBytes()
+    }
 }
