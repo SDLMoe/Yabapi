@@ -126,6 +126,16 @@ internal const val COIN_GET_URL = "$ACCOUNT/site/getCoin"
 
 internal const val USER_SPACE_GET_URL = "$MAIN/x/space/acc/info"
 
+internal const val PINNED_VIDEO_GET_URL = "$MAIN/x/space/top/arc"
+
+internal const val MASTERPIECE_VIDEO_GET_URL = "$MAIN/x/space/masterpiece"
+
+internal const val USER_TAGS_GET_URL = "$MAIN/x/space/acc/tags"
+
+internal const val USER_SPACE_ANNOUNCEMENT_GET_URL = "$MAIN/x/space/notice"
+
+internal const val USER_SPACE_SETTING_GET_URL = "http://space.bilibili.com/ajax/settings/getSettings"
+
 internal const val USER_CARD_GET_URL = "$MAIN/x/web-interface/card"
 
 internal const val MY_SPACE_GET_URL = "$MAIN/x/space/myinfo"

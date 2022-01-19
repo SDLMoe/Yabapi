@@ -17,7 +17,7 @@ import sdl.moe.yabapi.data.danmaku.DanmakuResponse
 import sdl.moe.yabapi.enums.danmaku.DanmakuType
 import sdl.moe.yabapi.enums.danmaku.DanmakuType.VIDEO
 import sdl.moe.yabapi.util.Logger
-import sdl.moe.yabapi.util.avInt
+import sdl.moe.yabapi.util.encoding.avInt
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 

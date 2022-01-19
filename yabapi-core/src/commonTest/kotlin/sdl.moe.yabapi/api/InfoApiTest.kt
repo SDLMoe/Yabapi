@@ -6,11 +6,12 @@ import sdl.moe.yabapi.runTest
 import sdl.moe.yabapi.util.KermitLogger
 import sdl.moe.yabapi.util.yabapiLogLevel
 import kotlin.native.concurrent.SharedImmutable
+import kotlin.test.Test
 
 @SharedImmutable
 private val logger = KermitLogger("InfoApiTest")
 
-internal object InfoApiTest {
+internal class InfoApiTest {
 
     init {
         yabapiLogLevel = DEBUG
@@ -35,12 +36,14 @@ internal object InfoApiTest {
         }
     }
 
+    @Test
     fun getAccountInfoTest() {
         runTest {
             client.getAccountInfo()
         }
     }
 
+    @Test
     fun getExpTest() {
         runTest {
             val expData = client.getExpReward().data
@@ -51,36 +54,42 @@ internal object InfoApiTest {
         }
     }
 
+    @Test
     fun getVipStatTest() {
         runTest {
             client.getVipStat()
         }
     }
 
+    @Test
     fun getSecureInfoTest() {
         runTest {
             client.getSecureInfo()
         }
     }
 
+    @Test
     fun getRealNameInfoTest() {
         runTest {
             client.getRealNameInfo()
         }
     }
 
+    @Test
     fun getRealNameDetailedTest() {
         runTest {
             client.getRealNameDetailed()
         }
     }
 
+    @Test
     fun getCoinLogTest() {
         runTest {
             client.getCoinLog()
         }
     }
 
+    @Test
     fun getUserSpaceTest() {
         runTest {
             listOf(2, 264155183, 699766742, 399308420, 1887658, 2648514, 2746732, 546195, 63231)
@@ -90,6 +99,7 @@ internal object InfoApiTest {
         }
     }
 
+    @Test
     fun getUserCardTest() {
         runTest {
             val random = listOf(true, false)
@@ -105,12 +115,42 @@ internal object InfoApiTest {
         }
     }
 
+    @Test
+    fun getPinnedVideoTest() = runTest {
+        client.getPinnedVideo(client.getBasicInfo().data.mid!!)
+    }
+
+    @Test
+    fun getMasterpieceVideoTest() = runTest {
+        client.getMasterpieceVideo(client.getBasicInfo().data.mid!!)
+    }
+
+    @Test
+    fun getUserTagsTest() = runTest {
+        client.getUserTags(2)
+    }
+
+    @Test
+    fun getSpaceAnnouncementTest() = runTest {
+        client.getSpaceAnnouncement(2)
+    }
+
+    @Test
+    fun getSpaceSettingTest() = runTest {
+        client.getSpaceSetting(2).let {
+            it.dataWhenFalse
+            it.dataWhenTrue
+        }
+    }
+
+    @Test
     fun getMySpaceTest() {
         runTest {
             client.getMySpace()
         }
     }
 
+    @Test
     fun nickCheckTest() {
         runTest {
             // lol 星黛*露b*ot 是敏感詞
@@ -119,25 +159,4 @@ internal object InfoApiTest {
             }
         }
     }
-}
-
-fun main() {
-    InfoApiTest.nickCheckTest()
-}
-
-fun testAll() {
-    InfoApiTest.getBasicInfoTest()
-    InfoApiTest.getStatTest()
-    InfoApiTest.getCoinTest()
-    InfoApiTest.getAccountInfoTest()
-    InfoApiTest.getExpTest()
-    InfoApiTest.getVipStatTest()
-    InfoApiTest.getSecureInfoTest()
-    InfoApiTest.getRealNameInfoTest()
-    InfoApiTest.getRealNameDetailedTest()
-    InfoApiTest.getCoinLogTest()
-    InfoApiTest.getUserSpaceTest()
-    InfoApiTest.getUserCardTest()
-    InfoApiTest.getMySpaceTest()
-    InfoApiTest.nickCheckTest()
 }

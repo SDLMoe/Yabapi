@@ -44,7 +44,7 @@ import sdl.moe.yabapi.packet.LiveMsgPacketType.COMMAND
 import sdl.moe.yabapi.packet.LiveMsgPacketType.HEARTBEAT
 import sdl.moe.yabapi.packet.LiveMsgPacketType.HEARTBEAT_RESPONSE
 import sdl.moe.yabapi.util.Logger
-import sdl.moe.yabapi.util.findJson
+import sdl.moe.yabapi.util.string.findJson
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
 import kotlin.coroutines.CoroutineContext

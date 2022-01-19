@@ -1,5 +1,7 @@
 package sdl.moe.yabapi.util
 
+import sdl.moe.yabapi.util.encoding.av
+import sdl.moe.yabapi.util.encoding.bv
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

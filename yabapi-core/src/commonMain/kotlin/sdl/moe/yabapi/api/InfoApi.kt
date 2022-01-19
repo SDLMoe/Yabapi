@@ -10,14 +10,19 @@ import sdl.moe.yabapi.consts.internal.COIN_EXP_GET_URL
 import sdl.moe.yabapi.consts.internal.COIN_GET_URL
 import sdl.moe.yabapi.consts.internal.COIN_LOG_GET_URL
 import sdl.moe.yabapi.consts.internal.EXP_REWARD_GET_URL
+import sdl.moe.yabapi.consts.internal.MASTERPIECE_VIDEO_GET_URL
 import sdl.moe.yabapi.consts.internal.MY_SPACE_GET_URL
 import sdl.moe.yabapi.consts.internal.NICK_CHECK_URL
+import sdl.moe.yabapi.consts.internal.PINNED_VIDEO_GET_URL
 import sdl.moe.yabapi.consts.internal.REAL_NAME_DETAILED_GET_URL
 import sdl.moe.yabapi.consts.internal.REAL_NAME_INFO_GET_URL
 import sdl.moe.yabapi.consts.internal.SECURE_INFO_GET_URL
 import sdl.moe.yabapi.consts.internal.STAT_GET_URL
 import sdl.moe.yabapi.consts.internal.USER_CARD_GET_URL
+import sdl.moe.yabapi.consts.internal.USER_SPACE_ANNOUNCEMENT_GET_URL
 import sdl.moe.yabapi.consts.internal.USER_SPACE_GET_URL
+import sdl.moe.yabapi.consts.internal.USER_SPACE_SETTING_GET_URL
+import sdl.moe.yabapi.consts.internal.USER_TAGS_GET_URL
 import sdl.moe.yabapi.consts.internal.VIP_STAT_GET_URL
 import sdl.moe.yabapi.data.info.AccountInfoGetResponse
 import sdl.moe.yabapi.data.info.BasicInfoGetResponse
@@ -34,6 +39,11 @@ import sdl.moe.yabapi.data.info.StatGetResponse
 import sdl.moe.yabapi.data.info.UserCardGetResponse
 import sdl.moe.yabapi.data.info.UserSpaceGetResponse
 import sdl.moe.yabapi.data.info.VipStatGetResponse
+import sdl.moe.yabapi.data.space.MasterpieceGetResponse
+import sdl.moe.yabapi.data.space.PinnedVideoGetResponse
+import sdl.moe.yabapi.data.space.SpaceAnnouncementGetResponse
+import sdl.moe.yabapi.data.space.SpaceSettingResponse
+import sdl.moe.yabapi.data.space.UserTagsGetResponse
 import sdl.moe.yabapi.util.Logger
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
@@ -201,7 +211,7 @@ public suspend fun BiliClient.getMySpace(
 
 // endregion
 
-// region ============= Other =================
+// region ============= Target =================
 
 /**
  * 获取目标用户空间信息
@@ -231,18 +241,102 @@ public suspend fun BiliClient.getUserCard(
     mid: Int,
     requestBanner: Boolean,
     context: CoroutineContext = this.context,
-): UserCardGetResponse =
-    withContext(context) {
-        logger.debug { "Getting User Card Info..." }
-        client.get<UserCardGetResponse>(USER_CARD_GET_URL) {
-            parameter("mid", mid.toString())
-            parameter("photo", requestBanner.toString())
-        }.also {
-            logger.debug { "Got User $mid Card Info: $it" }
-        }
+): UserCardGetResponse = withContext(context) {
+    logger.debug { "Getting User Card Info..." }
+    client.get<UserCardGetResponse>(USER_CARD_GET_URL) {
+        parameter("mid", mid.toString())
+        parameter("photo", requestBanner.toString())
+    }.also {
+        logger.debug { "Got User $mid Card Info: $it" }
     }
+}
+
+/**
+ * 获取目标用户置顶视频
+ * @param mid 用戶 uid
+ * @return [PinnedVideoGetResponse]
+ */
+public suspend fun BiliClient.getPinnedVideo(
+    mid: Int,
+    context: CoroutineContext = this.context,
+): PinnedVideoGetResponse = withContext(context) {
+    logger.debug { "Getting pinned video for mid$mid..." }
+    client.get<PinnedVideoGetResponse>(PINNED_VIDEO_GET_URL) {
+        parameter("vmid", mid)
+    }.also {
+        logger.debug { "Got pinned video for mid$mid: $it" }
+    }
+}
+
+/**
+ * 获取用户代表作
+ * @param mid 用戶 uid
+ * @return [MasterpieceGetResponse]
+ */
+public suspend fun BiliClient.getMasterpieceVideo(
+    mid: Int,
+    context: CoroutineContext = this.context,
+): MasterpieceGetResponse = withContext(context) {
+    logger.debug { "Getting masterpiece video for mid$mid..." }
+    client.get<MasterpieceGetResponse>(MASTERPIECE_VIDEO_GET_URL) {
+        parameter("vmid", mid)
+    }.also {
+        logger.debug { "Got masterpiece video for mid$mid: $it" }
+    }
+}
+
+/**
+ * 获取用户 tags
+ * @param mid 目标用户mid
+ * @return [UserTagsGetResponse]
+ */
+public suspend fun BiliClient.getUserTags(
+    mid: Int,
+    context: CoroutineContext = this.context,
+): UserTagsGetResponse = withContext(context) {
+    logger.debug { "Getting user tags for mid$mid..." }
+    client.get<UserTagsGetResponse>(USER_TAGS_GET_URL) {
+        parameter("mid", mid)
+    }.also {
+        logger.debug { "Got user tags for mid $mid: $it" }
+    }
+}
+
+/**
+ * 获取用户空间公告
+ * @param mid 目标用户 mid
+ */
+public suspend fun BiliClient.getSpaceAnnouncement(
+    mid: Int,
+    context: CoroutineContext = this.context,
+): SpaceAnnouncementGetResponse = withContext(context) {
+    logger.debug { "Getting Space Announcement for mid$mid..." }
+    client.get<SpaceAnnouncementGetResponse>(USER_SPACE_ANNOUNCEMENT_GET_URL) {
+        parameter("mid", mid)
+    }.also {
+        logger.debug { "Got Space Announcent for mid$mid: $it" }
+    }
+}
+
+/**
+ * 获取目标用户空间设置
+ * @param mid 目标用户mid
+ */
+public suspend fun BiliClient.getSpaceSetting(
+    mid: Int,
+    context: CoroutineContext = this.context,
+): SpaceSettingResponse = withContext(context) {
+    logger.debug { "Getting Space Setting for mid$mid..." }
+    client.get<SpaceSettingResponse>(USER_SPACE_SETTING_GET_URL) {
+        parameter("mid", mid)
+    }.also {
+        logger.debug { "Got Space Setting for mid$mid: $it" }
+    }
+}
 
 // endregion
+
+// region ============= Nick =================
 
 /**
  * 检查名称是否可用
@@ -260,3 +354,5 @@ public suspend fun BiliClient.checkNick(
         logger.debug { "Nick \"$nick\" status: $it" }
     }
 }
+
+// endregion

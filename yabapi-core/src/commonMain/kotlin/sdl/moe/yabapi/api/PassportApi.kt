@@ -40,11 +40,11 @@ import sdl.moe.yabapi.data.login.RsaGetResponse
 import sdl.moe.yabapi.data.login.SendSMSResponse
 import sdl.moe.yabapi.data.login.SendSMSResponseCode
 import sdl.moe.yabapi.util.Logger
-import sdl.moe.yabapi.util.cookieFromHeader
 import sdl.moe.yabapi.util.encoding.RSAProvider
 import sdl.moe.yabapi.util.encoding.trimPem
 import sdl.moe.yabapi.util.requireCmdInputNumber
 import sdl.moe.yabapi.util.requireCmdInputString
+import sdl.moe.yabapi.util.string.cookieFromHeader
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 

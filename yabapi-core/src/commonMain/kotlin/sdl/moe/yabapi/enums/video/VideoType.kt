@@ -18,6 +18,8 @@ public sealed class VideoType(
 ) {
     public fun getUrl(): String = "$WWW$route"
 
+    override fun toString(): String  = "$tid($name)"
+
     public companion object {
         // Long list, register video type, can replace with Annotation Processor, but KSP in experimental.
         public fun getAllTypes(): List<VideoType> = listOf(

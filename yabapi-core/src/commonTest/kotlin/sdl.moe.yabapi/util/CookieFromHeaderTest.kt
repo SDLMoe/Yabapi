@@ -1,6 +1,7 @@
 package sdl.moe.yabapi.util
 
 import io.ktor.http.Url
+import sdl.moe.yabapi.util.string.cookieFromHeader
 import kotlin.test.Test
 
 class CookieFromHeaderTest {

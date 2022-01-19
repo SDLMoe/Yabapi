@@ -14,6 +14,16 @@ import kotlin.native.concurrent.ThreadLocal
 @ThreadLocal
 public var yabapiLogLevel: LogLevel = INFO
 
+public var log: (tag: String, level: LogLevel, throwable: Throwable?, message: () -> String) -> Unit =
+    { tag: String, level: LogLevel, throwable: Throwable?, message: () -> String ->
+
+        if (level >= yabapiLogLevel) {
+            val str = "${nowLocalString()} [${level.name}] $tag ${message().replace("\n", "\\n")}"
+            println(str)
+            throwable?.printStackTrace()
+        }
+    }
+
 internal typealias Logger = StdOutLogger
 
 internal class StdOutLogger(tag: String) : ILogger {
@@ -21,10 +31,7 @@ internal class StdOutLogger(tag: String) : ILogger {
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun log(level: LogLevel, throwable: Throwable?, noinline message: () -> String) {
-        if (level >= yabapiLogLevel) {
-            println("${nowLocalString()} [${level.name}] $tag ${message()}")
-            throwable?.printStackTrace()
-        }
+        log(tag, level, throwable, message)
     }
 
     override fun verbose(throwable: Throwable?, message: () -> String) = log(VERBOSE, throwable, message)
