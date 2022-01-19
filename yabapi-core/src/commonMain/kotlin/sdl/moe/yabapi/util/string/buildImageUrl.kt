@@ -1,4 +1,4 @@
-package sdl.moe.yabapi.util
+package sdl.moe.yabapi.util.string
 
 import sdl.moe.yabapi.enums.ImageFormat
 

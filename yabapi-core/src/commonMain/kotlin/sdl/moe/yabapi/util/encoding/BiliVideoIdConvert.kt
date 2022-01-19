@@ -1,6 +1,6 @@
 @file:Suppress("MagicNumber")
 
-package sdl.moe.yabapi.util
+package sdl.moe.yabapi.util.encoding
 
 private const val TABLE = "fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF"
 private const val XOR_VALUE = 177451812L

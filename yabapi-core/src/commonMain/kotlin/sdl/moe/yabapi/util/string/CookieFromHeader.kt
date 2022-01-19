@@ -1,4 +1,4 @@
-package sdl.moe.yabapi.util
+package sdl.moe.yabapi.util.string
 
 import io.ktor.http.Cookie
 import io.ktor.http.CookieEncoding
