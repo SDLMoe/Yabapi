@@ -78,6 +78,7 @@ public data class VideoInfo(
     @SerialName("label") val label: VideoLabel? = null,
     @SerialName("ugc_season") val ugcSeason: UgcSeason? = null,
     @SerialName("staff") val staff: List<VideoStaff>? = null,
+    @SerialName("is_season_display") val isSeasonDisplay: Boolean? = null,
     @SerialName("user_garb") val userGrab: UserGarb? = null,
     @SerialName("honor_reply") val honor: VideoHonorData? = null,
 ) {

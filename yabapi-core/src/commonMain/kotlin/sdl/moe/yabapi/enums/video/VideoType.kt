@@ -23,6 +23,7 @@ public sealed class VideoType(
     public companion object {
         // Long list, register video type, can replace with Annotation Processor, but KSP in experimental.
         public fun getAllTypes(): List<VideoType> = listOf(
+            All, Unknown,
             Douga, Douga.MAD, Douga.MMD, Douga.Voice, Douga.Other, Douga.GarageKit, Douga.Tokusatsu,
             Anime, Anime.Serial, Anime.Finish, Anime.Information, Anime.Official,
             Guochuang, Guochuang.Donghua, Guochuang.Original, Guochuang.Puppetry, Guochuang.MotionComic, Guochuang.MotionComic, Guochuang.Information,
@@ -56,6 +57,8 @@ public sealed class VideoType(
             getAllTypes().firstOrNull { it.code == string.lowercase() } ?: Unknown
     }
 }
+
+public object All : VideoType("全部", "all", 0, "")
 
 public object Unknown : VideoType("未知", "unknown", -1, "")
 
