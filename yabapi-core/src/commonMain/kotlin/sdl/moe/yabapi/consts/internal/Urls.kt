@@ -203,6 +203,12 @@ internal const val CHANGE_BIO_URL: String = "$MAIN/x/member/web/sign/update"
 
 // endregion
 
+// region ================ Album ========================================
+
+internal const val ALBUM_INFO_GET_URL = "$VC_API/link_draw/v1/doc/detail"
+
+// endregion
+
 // region ================ Live ========================================
 
 internal const val LIVE_INIT_INFO_GET_URL = "$LIVE/room/v1/Room/room_init"
