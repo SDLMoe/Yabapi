@@ -12,6 +12,9 @@ internal const val MAIN: String = "https://api.bilibili.com"
 /** 手机端API */
 internal const val APP: String = "https://app.bilibili.com"
 
+/** SPACE */
+internal const val SPACE: String = "https://space.bilibili.com"
+
 /** 消息中心 */
 internal const val MESSAGE: String = "https://message.bilibili.com"
 
@@ -134,7 +137,13 @@ internal const val USER_TAGS_GET_URL = "$MAIN/x/space/acc/tags"
 
 internal const val USER_SPACE_ANNOUNCEMENT_GET_URL = "$MAIN/x/space/notice"
 
-internal const val USER_SPACE_SETTING_GET_URL = "http://space.bilibili.com/ajax/settings/getSettings"
+internal const val USER_SPACE_SETTING_GET_URL = "$SPACE/ajax/settings/getSettings"
+
+internal const val USER_RECENT_PLAYED_GAME_GET_URL = "$MAIN/x/space/lastplaygame"
+
+internal const val USER_RECENT_COINED_VIDEO_GET_URL = "$MAIN/x/space/coin/video"
+
+internal const val SPACE_VIDEO_GET_URL = "$MAIN/x/space/arc/search"
 
 internal const val USER_CARD_GET_URL = "$MAIN/x/web-interface/card"
 

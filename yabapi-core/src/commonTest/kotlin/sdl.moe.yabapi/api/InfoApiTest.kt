@@ -1,7 +1,10 @@
 package sdl.moe.yabapi.api
 
+import com.soywiz.korio.async.launch
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
+import sdl.moe.yabapi.enums.video.Kichiku
+import sdl.moe.yabapi.enums.video.VideoSort.COLLECT
 import sdl.moe.yabapi.runTest
 import sdl.moe.yabapi.util.KermitLogger
 import sdl.moe.yabapi.util.yabapiLogLevel
@@ -141,6 +144,24 @@ internal class InfoApiTest {
             it.dataWhenFalse
             it.dataWhenTrue
         }
+    }
+
+    @Test
+    fun getRecentPlayedGameTest() = runTest {
+        client.getRecentPlayedGame(2)
+    }
+
+    @Test
+    fun getRecentCoinedVideoTest() = runTest {
+        client.getRecentCoinedVideo(client.getBasicInfo().data.mid!!)
+    }
+
+    @Test
+    fun getSpaceVideoTest() = runTest {
+        launch { client.getSpaceVideo(2) }
+        launch { client.getSpaceVideo(2, type = Kichiku) }
+        launch { client.getSpaceVideo(2, 2, 30, COLLECT) }
+        launch { client.getSpaceVideo(2, keyword = "asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfas") }
     }
 
     @Test

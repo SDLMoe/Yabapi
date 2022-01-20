@@ -17,8 +17,11 @@ import sdl.moe.yabapi.consts.internal.PINNED_VIDEO_GET_URL
 import sdl.moe.yabapi.consts.internal.REAL_NAME_DETAILED_GET_URL
 import sdl.moe.yabapi.consts.internal.REAL_NAME_INFO_GET_URL
 import sdl.moe.yabapi.consts.internal.SECURE_INFO_GET_URL
+import sdl.moe.yabapi.consts.internal.SPACE_VIDEO_GET_URL
 import sdl.moe.yabapi.consts.internal.STAT_GET_URL
 import sdl.moe.yabapi.consts.internal.USER_CARD_GET_URL
+import sdl.moe.yabapi.consts.internal.USER_RECENT_COINED_VIDEO_GET_URL
+import sdl.moe.yabapi.consts.internal.USER_RECENT_PLAYED_GAME_GET_URL
 import sdl.moe.yabapi.consts.internal.USER_SPACE_ANNOUNCEMENT_GET_URL
 import sdl.moe.yabapi.consts.internal.USER_SPACE_GET_URL
 import sdl.moe.yabapi.consts.internal.USER_SPACE_SETTING_GET_URL
@@ -41,9 +44,16 @@ import sdl.moe.yabapi.data.info.UserSpaceGetResponse
 import sdl.moe.yabapi.data.info.VipStatGetResponse
 import sdl.moe.yabapi.data.space.MasterpieceGetResponse
 import sdl.moe.yabapi.data.space.PinnedVideoGetResponse
+import sdl.moe.yabapi.data.space.PlayedGameGetResponse
+import sdl.moe.yabapi.data.space.RecentCoinedVideoResponse
 import sdl.moe.yabapi.data.space.SpaceAnnouncementGetResponse
 import sdl.moe.yabapi.data.space.SpaceSettingResponse
+import sdl.moe.yabapi.data.space.SpaceVideoResponse
 import sdl.moe.yabapi.data.space.UserTagsGetResponse
+import sdl.moe.yabapi.enums.video.All
+import sdl.moe.yabapi.enums.video.VideoSort
+import sdl.moe.yabapi.enums.video.VideoSort.TIME
+import sdl.moe.yabapi.enums.video.VideoType
 import sdl.moe.yabapi.util.Logger
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
@@ -114,7 +124,7 @@ public suspend fun BiliClient.getExpReward(
 ): ExpRewardGetResponse = withContext(context) {
     logger.debug { "Getting Exp Reward..." }
     client.get<ExpRewardGetResponse>(EXP_REWARD_GET_URL).also {
-        logger.debug { "Got Exp Reward Reponse: $it" }
+        logger.debug { "Got Exp Reward Response: $it" }
     }
 }
 
@@ -331,6 +341,70 @@ public suspend fun BiliClient.getSpaceSetting(
         parameter("mid", mid)
     }.also {
         logger.debug { "Got Space Setting for mid$mid: $it" }
+    }
+}
+
+/**
+ * 查詢用戶最近玩過的遊戲
+ * @param mid 目標用戶 mid
+ */
+public suspend fun BiliClient.getRecentPlayedGame(
+    mid: Int,
+    context: CoroutineContext = this.context,
+): PlayedGameGetResponse = withContext(context) {
+    logger.debug { "Getting recent played game for mid $mid..." }
+    client.get<PlayedGameGetResponse>(USER_RECENT_PLAYED_GAME_GET_URL) {
+        parameter("mid", mid)
+    }.also {
+        logger.debug { "Got recent played game for mid $mid: $it" }
+    }
+}
+
+/**
+ * 獲取目標用戶最近投幣的視頻
+ * @param mid 目標用戶 mid
+ * @return [RecentCoinedVideoResponse]
+ */
+public suspend fun BiliClient.getRecentCoinedVideo(
+    mid: Int,
+    context: CoroutineContext = this.context,
+): RecentCoinedVideoResponse = withContext(context) {
+    logger.debug { "Getting Recent Coined Video for mid $mid" }
+    client.get<RecentCoinedVideoResponse>(USER_RECENT_COINED_VIDEO_GET_URL) {
+        parameter("vmid", mid)
+    }.also {
+        logger.debug { "Got Recent Coined Video for mid $mid: $it" }
+    }
+}
+
+/**
+ * 獲取目標用戶的空間視頻
+ * @param mid 目標用戶 mid
+ * @param page 頁碼
+ * @param pageSize 每頁視頻數量
+ * @param sort 排序方式, 默認按時間排序 [VideoSort]
+ * @param type 視頻分區, 默認全部
+ * @param keyword 搜索關鍵詞
+ */
+public suspend fun BiliClient.getSpaceVideo(
+    mid: Int,
+    page: Int = 1,
+    pageSize: Int = 20,
+    sort: VideoSort = TIME,
+    type: VideoType = All,
+    keyword: String? = null,
+    context: CoroutineContext = this.context,
+): SpaceVideoResponse = withContext(context) {
+    logger.debug { "Getting Space Video - mid$mid|$sort|page$page|tid$type..." }
+    client.get<SpaceVideoResponse>(SPACE_VIDEO_GET_URL) {
+        parameter("mid", mid)
+        parameter("order", sort.code)
+        parameter("pn", page)
+        parameter("ps", pageSize)
+        parameter("tid", type.tid)
+        keyword?.let { parameter("keyword", it) }
+    }.also {
+        logger.debug { "Got Space Video - mid$mid|$sort|page$page|tid$type: $it" }
     }
 }
 
