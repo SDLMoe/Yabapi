@@ -1,11 +1,7 @@
-
-
-# Yabapi 😱
+<img src="imgs/yabapi-banner.png" alt="yabapi logo">
 
 [![License: CC0](https://img.shields.io/badge/License-CC0-lightgrey?style=for-the-badge)](https://creativecommons.org/publicdomain/zero/1.0/legalcode)
 [![Maven-Central Yabapi Version](https://img.shields.io/maven-central/v/moe.sdl.yabapi/yabapi-core-jvm?style=for-the-badge)](https://repo1.maven.org/maven2/moe/sdl/yabapi/)
-
-<img src="./imgs/yabapi-logo.svg" height="350" alt="yabapi logo">
 
 > 🔧 WIP 并没有进入稳定版本, API 可能会发生变动
 
@@ -18,7 +14,7 @@
 本项目代码基于 [CC0](https://github.com/SDLMoe/Yabapi/blob/kotlin-mt/LICENSE) 分发, 释放于公有领域, 如果你乐意, 可以在使用时附上我的名字(这并不强制).
 
 [本项目 Logo](./imgs/yabapi-logo.svg) 基于 [CC BY ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/) 分发, 
-若需要使用 Logo, 务必附上本项目地址, 并且不得更改其内容.
+若需要使用 Logo, 务必附上本项目地址, 并且不得更改其内容. Banner 使用了[思源等宽](https://github.com/adobe-fonts/source-han-mono).
 
 # 特性
 
