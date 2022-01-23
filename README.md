@@ -18,6 +18,10 @@
 
 # 特性
 
+## 多平台
+
+现在支持 JVM 和 Native 两大平台，绝大多数功能都提供多平台支持。
+
 ## 高性能
 
 基于 [Kotlin 协程](https://github.com/Kotlin/kotlinx.coroutines) 的支持，开发者可以轻松写出高性能的代码。
@@ -117,15 +121,14 @@ Yabapi 基于此，力求类型安全，避免空指针，减少运行时错误�
 
 # Setup
 
-## JVM
-
 ```kotlin
-dependencies {
-  implementation("sdl.moe.yabapi:yabapi-core-jvm:$version")
-}
+// Common
+implementation("sdl.moe.yabapi:yabapi-core:$version")
+// JVM
+implementation("sdl.moe.yabapi:yabapi-core-jvm:$version")
+// Native
+implementation("sdl.moe.yabapi:yabapi-core-native:$version")
 ```
-
-其他平台可能会在以后支持.
 
 # Thanks
 
