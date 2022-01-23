@@ -2,24 +2,24 @@ package sdl.moe.yabapi.api
 
 import com.soywiz.korio.async.launch
 import sdl.moe.yabapi.client
-import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.enums.video.Kichiku
 import sdl.moe.yabapi.enums.video.VideoSort.COLLECT
+import sdl.moe.yabapi.initTest
 import sdl.moe.yabapi.runTest
-import sdl.moe.yabapi.util.KermitLogger
-import sdl.moe.yabapi.util.yabapiLogLevel
+import sdl.moe.yabapi.util.Logger
 import kotlin.native.concurrent.SharedImmutable
 import kotlin.test.Test
 
 @SharedImmutable
-private val logger = KermitLogger("InfoApiTest")
+private val logger by lazy { Logger("InfoApiTest") }
 
 internal class InfoApiTest {
 
     init {
-        yabapiLogLevel = DEBUG
+        initTest()
     }
 
+    @Test
     fun getBasicInfoTest() {
         runTest {
             // client.loginWebQRCodeInteractive()
@@ -27,12 +27,14 @@ internal class InfoApiTest {
         }
     }
 
+    @Test
     fun getStatTest() {
         runTest {
             client.getStat()
         }
     }
 
+    @Test
     fun getCoinTest() {
         runTest {
             client.getCoinInfo()

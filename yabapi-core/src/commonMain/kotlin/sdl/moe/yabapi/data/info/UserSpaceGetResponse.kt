@@ -50,6 +50,7 @@ public data class UserSpace(
     @SerialName("profession") val profession: UserProfession,
     @SerialName("tags") val tags: List<String> = emptyList(),
     @SerialName("series") val upgradeStatus: UserUpgradeStatus,
+    @SerialName("is_senior_member") val isSeniorMember: Boolean,
 )
 
 @Serializable

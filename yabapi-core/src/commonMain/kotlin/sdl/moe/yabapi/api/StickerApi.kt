@@ -12,7 +12,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger = Logger("StickerApi")
+private val logger by lazy { Logger("StickerApi") }
 
 /**
  * 表情包相关 API
@@ -28,9 +28,9 @@ public suspend fun BiliClient.getAllStickers(
     context: CoroutineContext = this.context,
 ): AllStickersGetResponse = withContext(context) {
     logger.debug { "Getting all stickers for business: $business" }
-    client.get<AllStickersGetResponse>(GET_ALL_STICKERS_URL) {
+    client.get<String>(GET_ALL_STICKERS_URL) {
         parameter("business", business.toString())
-    }.also {
+    }.deserializeJson<AllStickersGetResponse>().also {
         logger.debug { "Got all stickers response: $it" }
     }
 }

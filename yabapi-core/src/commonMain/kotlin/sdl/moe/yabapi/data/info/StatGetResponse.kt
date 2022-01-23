@@ -16,8 +16,8 @@ import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
 public data class StatGetResponse(
     @SerialName("code") val code: GeneralCode = UNKNOWN,
     @SerialName("message") val message: String? = null,
-    @SerialName("ttl") val ttl: Int,
-    @SerialName("data") val data: StatGetData,
+    @SerialName("ttl") val ttl: Int? = null,
+    @SerialName("data") val data: StatGetData? = null,
 )
 
 /**

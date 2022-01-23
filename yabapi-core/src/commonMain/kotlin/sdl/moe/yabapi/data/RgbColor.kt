@@ -1,8 +1,10 @@
 package sdl.moe.yabapi.data
 
 import kotlinx.serialization.Serializable
+import kotlin.native.concurrent.SharedImmutable
 
-private val colorRange = 0..255
+@SharedImmutable
+private val colorRange by lazy { 0..255 }
 
 private val hexRegex: Regex = Regex("""^#([0-9a-fA-F]{6,8})$""")
 

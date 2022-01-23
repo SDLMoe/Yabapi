@@ -14,7 +14,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger = Logger("BangumiApi")
+private val logger by lazy { Logger("BangumiApi") }
 
 /**
  * 獲取番劇系列基本信息
@@ -26,9 +26,9 @@ public suspend fun BiliClient.getBangumiInfo(
     context: CoroutineContext = this.context,
 ): BangumiInfoGetResponse = withContext(context) {
     logger.debug { "Getting bangumi info for media id $mediaId" }
-    client.get<BangumiInfoGetResponse>(BANGUMI_INFO_GET_URL) {
+    client.get<String>(BANGUMI_INFO_GET_URL) {
         parameter("media_id", mediaId)
-    }.also {
+    }.deserializeJson<BangumiInfoGetResponse>().also {
         logger.debug { "Got bangumi info for media id $mediaId： $it" }
     }
 }
@@ -41,10 +41,12 @@ private suspend inline fun BiliClient.getBangumiDetailed(
     requireLeastAndOnlyOne(seasonId, epId)
     val showId = if (seasonId != null) "ss$seasonId" else "ep$epId"
     logger.debug { "Getting bangumi detailed info for $showId..." }
-    client.get<BangumiDetailedResponse>(BANGUMI_DETAILED_GET_URL) {
+    client.get<String>(BANGUMI_DETAILED_GET_URL) {
         seasonId?.let { parameter("season_id", it) }
         seasonId?.let { parameter("ep_id", it) }
-    }.also { logger.debug { "Got bangumi detailed info for $showId: $it" } }
+    }.deserializeJson<BangumiDetailedResponse>().also {
+        logger.debug { "Got bangumi detailed info for $showId: $it" }
+    }
 }
 
 /**

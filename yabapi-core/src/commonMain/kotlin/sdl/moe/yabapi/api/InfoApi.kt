@@ -59,7 +59,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger = Logger("InfoApi")
+private val logger by lazy { Logger("InfoApi") }
 
 // region ============= Self =================
 
@@ -71,9 +71,9 @@ public suspend fun BiliClient.getBasicInfo(
     context: CoroutineContext = this.context,
 ): BasicInfoGetResponse = withContext(context) {
     logger.debug { "Getting basic info..." }
-    client.get<BasicInfoGetResponse>(BASIC_INFO_GET_URL).also {
+    client.get<String>(BASIC_INFO_GET_URL).also {
         logger.debug { "Basic info response: $it" }
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -84,9 +84,9 @@ public suspend fun BiliClient.getStat(
     context: CoroutineContext = this.context,
 ): StatGetResponse = withContext(context) {
     logger.debug { "Getting stat info..." }
-    client.get<StatGetResponse>(STAT_GET_URL).also {
-        logger.debug { "Got stat info response: $it" }
-    }
+    client.get<String>(STAT_GET_URL)
+        .deserializeJson<StatGetResponse>()
+        .also { logger.debug { "Got stat info response: $it" } }
 }
 
 /**
@@ -97,9 +97,9 @@ public suspend fun BiliClient.getCoinInfo(
     context: CoroutineContext = this.context,
 ): CoinGetResponse = withContext(context) {
     logger.debug { "Getting coin number..." }
-    client.get<CoinGetResponse>(COIN_GET_URL).also {
-        logger.debug { "Got Coin info response: $it" }
-    }
+    client.get<String>(COIN_GET_URL)
+        .deserializeJson<CoinGetResponse>()
+        .also { logger.debug { "Got Coin info response: $it" } }
 }
 
 /**
@@ -110,9 +110,9 @@ public suspend fun BiliClient.getAccountInfo(
     context: CoroutineContext = this.context,
 ): AccountInfoGetResponse = withContext(context) {
     logger.debug { "Getting Account Info..." }
-    client.get<AccountInfoGetResponse>(ACCOUNT_INFO_GET_URL).also {
-        logger.debug { "Got Account Info Response: $it" }
-    }
+    client.get<String>(ACCOUNT_INFO_GET_URL)
+        .deserializeJson<AccountInfoGetResponse>()
+        .also { logger.debug { "Got Account Info Response: $it" } }
 }
 
 /**
@@ -123,9 +123,9 @@ public suspend fun BiliClient.getExpReward(
     context: CoroutineContext = this.context,
 ): ExpRewardGetResponse = withContext(context) {
     logger.debug { "Getting Exp Reward..." }
-    client.get<ExpRewardGetResponse>(EXP_REWARD_GET_URL).also {
-        logger.debug { "Got Exp Reward Response: $it" }
-    }
+    client.get<String>(EXP_REWARD_GET_URL)
+        .deserializeJson<ExpRewardGetResponse>()
+        .also { logger.debug { "Got Exp Reward Response: $it" } }
 }
 
 /**
@@ -136,9 +136,9 @@ public suspend fun BiliClient.getCoinExp(
     context: CoroutineContext = this.context,
 ): CoinExpGetResponse = withContext(context) {
     logger.debug { "Getting Coin Exp..." }
-    client.get<CoinExpGetResponse>(COIN_EXP_GET_URL).also {
-        logger.debug { "Got Coin Exp Response: $it" }
-    }
+    client.get<String>(COIN_EXP_GET_URL)
+        .deserializeJson<CoinExpGetResponse>()
+        .also { logger.debug { "Got Coin Exp Response: $it" } }
 }
 
 /**
@@ -149,9 +149,9 @@ public suspend fun BiliClient.getVipStat(
     context: CoroutineContext = this.context,
 ): VipStatGetResponse = withContext(context) {
     logger.debug { "Getting Vip Stat..." }
-    client.get<VipStatGetResponse>(VIP_STAT_GET_URL).also {
-        logger.debug { "Got Vip Stat Response: $it" }
-    }
+    client.get<String>(VIP_STAT_GET_URL)
+        .deserializeJson<VipStatGetResponse>()
+        .also { logger.debug { "Got Vip Stat Response: $it" } }
 }
 
 /**
@@ -162,9 +162,9 @@ public suspend fun BiliClient.getSecureInfo(
     context: CoroutineContext = this.context,
 ): SecureInfoGetResponse = with(context) {
     logger.debug { "Getting Secure Info..." }
-    client.get<SecureInfoGetResponse>(SECURE_INFO_GET_URL).also {
-        logger.debug { "Got Secure Info: $it" }
-    }
+    client.get<String>(SECURE_INFO_GET_URL)
+        .deserializeJson<SecureInfoGetResponse>()
+        .also { logger.debug { "Got Secure Info: $it" } }
 }
 
 /**
@@ -175,9 +175,9 @@ public suspend fun BiliClient.getRealNameInfo(
     context: CoroutineContext = this.context,
 ): RealNameInfoGetResponse = withContext(context) {
     logger.debug { "Getting Real Name Info..." }
-    client.get<RealNameInfoGetResponse>(REAL_NAME_INFO_GET_URL).also {
-        logger.debug { "Got Real Name Info: $it" }
-    }
+    client.get<String>(REAL_NAME_INFO_GET_URL)
+        .deserializeJson<RealNameInfoGetResponse>()
+        .also { logger.debug { "Got Real Name Info: $it" } }
 }
 
 /**
@@ -189,9 +189,9 @@ public suspend fun BiliClient.getRealNameDetailed(
 ): RealNameDetailedGetResponse =
     withContext(context) {
         logger.debug { "Getting Real Name Detailed..." }
-        client.get<RealNameDetailedGetResponse>(REAL_NAME_DETAILED_GET_URL).also {
-            logger.debug { "Got Real Name Detailed: $it" }
-        }
+        client.get<String>(REAL_NAME_DETAILED_GET_URL)
+            .deserializeJson<RealNameDetailedGetResponse>()
+            .also { logger.debug { "Got Real Name Detailed: $it" } }
     }
 
 /**
@@ -202,9 +202,9 @@ public suspend fun BiliClient.getCoinLog(
     context: CoroutineContext = this.context,
 ): CoinLogGetResponse = withContext(context) {
     logger.debug { "Getting Coin Log..." }
-    client.get<CoinLogGetResponse>(COIN_LOG_GET_URL).also {
-        logger.debug { "Got Coin Log: $it" }
-    }
+    client.get<String>(COIN_LOG_GET_URL)
+        .deserializeJson<CoinLogGetResponse>()
+        .also { logger.debug { "Got Coin Log: $it" } }
 }
 
 /**
@@ -214,9 +214,9 @@ public suspend fun BiliClient.getMySpace(
     context: CoroutineContext = this.context,
 ): MySpaceGetResponse = withContext(context) {
     logger.debug { "Getting Current User Space Info:" }
-    client.get<MySpaceGetResponse>(MY_SPACE_GET_URL).also {
-        logger.debug { "Got Current User Space Info: $it" }
-    }
+    client.get<String>(MY_SPACE_GET_URL)
+        .deserializeJson<MySpaceGetResponse>()
+        .also { logger.debug { "Got Current User Space Info: $it" } }
 }
 
 // endregion
@@ -234,9 +234,9 @@ public suspend fun BiliClient.getUserSpace(
     context: CoroutineContext = this.context,
 ): UserSpaceGetResponse = withContext(context) {
     logger.debug { "Getting User Space Info..." }
-    client.get<UserSpaceGetResponse>(USER_SPACE_GET_URL) {
+    client.get<String>(USER_SPACE_GET_URL) {
         parameter("mid", mid.toString())
-    }.also {
+    }.deserializeJson<UserSpaceGetResponse>().also {
         logger.debug { "Got User $mid Space Info: $it" }
     }
 }
@@ -253,10 +253,10 @@ public suspend fun BiliClient.getUserCard(
     context: CoroutineContext = this.context,
 ): UserCardGetResponse = withContext(context) {
     logger.debug { "Getting User Card Info..." }
-    client.get<UserCardGetResponse>(USER_CARD_GET_URL) {
+    client.get<String>(USER_CARD_GET_URL) {
         parameter("mid", mid.toString())
         parameter("photo", requestBanner.toString())
-    }.also {
+    }.deserializeJson<UserCardGetResponse>().also {
         logger.debug { "Got User $mid Card Info: $it" }
     }
 }
@@ -271,9 +271,9 @@ public suspend fun BiliClient.getPinnedVideo(
     context: CoroutineContext = this.context,
 ): PinnedVideoGetResponse = withContext(context) {
     logger.debug { "Getting pinned video for mid$mid..." }
-    client.get<PinnedVideoGetResponse>(PINNED_VIDEO_GET_URL) {
+    client.get<String>(PINNED_VIDEO_GET_URL) {
         parameter("vmid", mid)
-    }.also {
+    }.deserializeJson<PinnedVideoGetResponse>().also {
         logger.debug { "Got pinned video for mid$mid: $it" }
     }
 }
@@ -288,9 +288,9 @@ public suspend fun BiliClient.getMasterpieceVideo(
     context: CoroutineContext = this.context,
 ): MasterpieceGetResponse = withContext(context) {
     logger.debug { "Getting masterpiece video for mid$mid..." }
-    client.get<MasterpieceGetResponse>(MASTERPIECE_VIDEO_GET_URL) {
+    client.get<String>(MASTERPIECE_VIDEO_GET_URL) {
         parameter("vmid", mid)
-    }.also {
+    }.deserializeJson<MasterpieceGetResponse>().also {
         logger.debug { "Got masterpiece video for mid$mid: $it" }
     }
 }
@@ -305,9 +305,9 @@ public suspend fun BiliClient.getUserTags(
     context: CoroutineContext = this.context,
 ): UserTagsGetResponse = withContext(context) {
     logger.debug { "Getting user tags for mid$mid..." }
-    client.get<UserTagsGetResponse>(USER_TAGS_GET_URL) {
+    client.get<String>(USER_TAGS_GET_URL) {
         parameter("mid", mid)
-    }.also {
+    }.deserializeJson<UserTagsGetResponse>().also {
         logger.debug { "Got user tags for mid $mid: $it" }
     }
 }
@@ -321,9 +321,9 @@ public suspend fun BiliClient.getSpaceAnnouncement(
     context: CoroutineContext = this.context,
 ): SpaceAnnouncementGetResponse = withContext(context) {
     logger.debug { "Getting Space Announcement for mid$mid..." }
-    client.get<SpaceAnnouncementGetResponse>(USER_SPACE_ANNOUNCEMENT_GET_URL) {
+    client.get<String>(USER_SPACE_ANNOUNCEMENT_GET_URL) {
         parameter("mid", mid)
-    }.also {
+    }.deserializeJson<SpaceAnnouncementGetResponse>().also {
         logger.debug { "Got Space Announcent for mid$mid: $it" }
     }
 }
@@ -337,9 +337,9 @@ public suspend fun BiliClient.getSpaceSetting(
     context: CoroutineContext = this.context,
 ): SpaceSettingResponse = withContext(context) {
     logger.debug { "Getting Space Setting for mid$mid..." }
-    client.get<SpaceSettingResponse>(USER_SPACE_SETTING_GET_URL) {
+    client.get<String>(USER_SPACE_SETTING_GET_URL) {
         parameter("mid", mid)
-    }.also {
+    }.deserializeJson<SpaceSettingResponse>().also {
         logger.debug { "Got Space Setting for mid$mid: $it" }
     }
 }
@@ -353,9 +353,9 @@ public suspend fun BiliClient.getRecentPlayedGame(
     context: CoroutineContext = this.context,
 ): PlayedGameGetResponse = withContext(context) {
     logger.debug { "Getting recent played game for mid $mid..." }
-    client.get<PlayedGameGetResponse>(USER_RECENT_PLAYED_GAME_GET_URL) {
+    client.get<String>(USER_RECENT_PLAYED_GAME_GET_URL) {
         parameter("mid", mid)
-    }.also {
+    }.deserializeJson<PlayedGameGetResponse>().also {
         logger.debug { "Got recent played game for mid $mid: $it" }
     }
 }
@@ -370,9 +370,9 @@ public suspend fun BiliClient.getRecentCoinedVideo(
     context: CoroutineContext = this.context,
 ): RecentCoinedVideoResponse = withContext(context) {
     logger.debug { "Getting Recent Coined Video for mid $mid" }
-    client.get<RecentCoinedVideoResponse>(USER_RECENT_COINED_VIDEO_GET_URL) {
+    client.get<String>(USER_RECENT_COINED_VIDEO_GET_URL) {
         parameter("vmid", mid)
-    }.also {
+    }.deserializeJson<RecentCoinedVideoResponse>().also {
         logger.debug { "Got Recent Coined Video for mid $mid: $it" }
     }
 }
@@ -396,14 +396,14 @@ public suspend fun BiliClient.getSpaceVideo(
     context: CoroutineContext = this.context,
 ): SpaceVideoResponse = withContext(context) {
     logger.debug { "Getting Space Video - mid$mid|$sort|page$page|tid$type..." }
-    client.get<SpaceVideoResponse>(SPACE_VIDEO_GET_URL) {
+    client.get<String>(SPACE_VIDEO_GET_URL) {
         parameter("mid", mid)
         parameter("order", sort.code)
         parameter("pn", page)
         parameter("ps", pageSize)
         parameter("tid", type.tid)
         keyword?.let { parameter("keyword", it) }
-    }.also {
+    }.deserializeJson<SpaceVideoResponse>().also {
         logger.debug { "Got Space Video - mid$mid|$sort|page$page|tid$type: $it" }
     }
 }
@@ -422,9 +422,9 @@ public suspend fun BiliClient.checkNick(
     context: CoroutineContext = this.context,
 ): CheckNickResponse = withContext(context) {
     logger.debug { "Checking Nick Status..." }
-    client.get<CheckNickResponse>(NICK_CHECK_URL) {
+    client.get<String>(NICK_CHECK_URL) {
         parameter("nickName", nick)
-    }.also {
+    }.deserializeJson<CheckNickResponse>().also {
         logger.debug { "Nick \"$nick\" status: $it" }
     }
 }

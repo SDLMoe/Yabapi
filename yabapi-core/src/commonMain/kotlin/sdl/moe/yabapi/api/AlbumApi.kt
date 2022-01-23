@@ -12,7 +12,6 @@ import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import io.ktor.utils.io.core.Input
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.consts.internal.ALBUM_INFO_GET_URL
 import sdl.moe.yabapi.consts.internal.ALBUM_UPLOAD_URL
@@ -28,7 +27,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger = Logger("AlbumApi")
+private val logger by lazy { Logger("AlbumApi") }
 
 /**
  * 獲取相簿信息
@@ -41,9 +40,9 @@ public suspend fun BiliClient.getVcAlbumInfo(
     context: CoroutineContext = this.context,
 ): AlbumInfoResponse = withContext(context) {
     logger.debug { "Getting Album Info $id..." }
-    client.get<AlbumInfoResponse>(ALBUM_INFO_GET_URL) {
+    client.get<String>(ALBUM_INFO_GET_URL) {
         parameter("doc_id", id)
-    }.also {
+    }.deserializeJson<AlbumInfoResponse>().also {
         logger.debug { "Got Album Info $id: $it" }
     }
 }
@@ -55,7 +54,7 @@ public suspend fun BiliClient.uploadImage(
     inputProvider: () -> Input,
 ): AlbumUploadResponse = withContext(context) {
     logger.debug { "Trying to upload " }
-    val response: String = client.post(ALBUM_UPLOAD_URL) {
+    client.post<String>(ALBUM_UPLOAD_URL) {
         headers {
             header(HttpHeaders.Origin, "https://t.bilibili.com")
             header(HttpHeaders.Referrer, "https://t.bilibili.com")
@@ -69,8 +68,7 @@ public suspend fun BiliClient.uploadImage(
                 append("category", category.code)
             }
         )
-    }
-    json.decodeFromString<AlbumUploadResponse>(response).also {
+    }.deserializeJson<AlbumUploadResponse>().also {
         if (it.code == SUCCESS) logger.debug { "Successfully upload img: $it" }
         else logger.debug { "Failed to upload img: $it" }
     }

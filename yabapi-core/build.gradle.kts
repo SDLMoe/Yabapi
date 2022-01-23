@@ -97,7 +97,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:atomicfu:0.17.0")
                 // Ktor
                 implementation("io.ktor:ktor-client-core:${Versions.ktor}")
-                implementation("io.ktor:ktor-client-serialization:${Versions.ktor}")
+                // implementation("io.ktor:ktor-client-serialization:${Versions.ktor}")
                 implementation("io.ktor:ktor-client-websockets:${Versions.ktor}")
                 implementation("io.ktor:ktor-client-encoding:${Versions.ktor}")
                 // Encoding
@@ -107,6 +107,7 @@ kotlin {
                 implementation("co.touchlab:kermit:1.0.0")
                 // File
                 implementation("com.soywiz.korlibs.korio:korio:2.2.1")
+                implementation("com.squareup.okio:okio:3.0.0")
             }
 
         }

@@ -70,6 +70,7 @@ public data class UserCard(
     @SerialName("official_verify") val officialVerify: OfficialCertify,
     @SerialName("vip") val vip: UserCardVip,
     @SerialName("space") val space: SpaceBanner? = null,
+    @SerialName("is_senior_member") val isSeniorMember: Boolean,
 )
 
 /**
@@ -94,7 +95,7 @@ public data class UserCardVip(
 /**
  * @param small 小圖
  * @param large 大圖
- * @see [sdl.moe.yabapi.util.buildImageUrl]
+ * @see [sdl.moe.yabapi.util.string.buildImageUrl]
  */
 @Serializable
 public data class SpaceBanner(

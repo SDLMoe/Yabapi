@@ -1,7 +1,6 @@
 package sdl.moe.yabapi.api
 
 import sdl.moe.yabapi.client
-import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.enums.relation.FollowingOrder.MOST_FREQUENT
 import sdl.moe.yabapi.enums.relation.RelationAction.ADD_BLACKLIST
 import sdl.moe.yabapi.enums.relation.RelationAction.REMOVE_BLACKLIST
@@ -12,13 +11,13 @@ import sdl.moe.yabapi.enums.relation.RelationAction.UNSUB
 import sdl.moe.yabapi.enums.relation.RelationAction.UNSUB_QUIETLY
 import sdl.moe.yabapi.enums.relation.SubscribeSource.ACTIVITY
 import sdl.moe.yabapi.enums.relation.SubscribeSource.VIDEO
+import sdl.moe.yabapi.initTest
 import sdl.moe.yabapi.runTest
-import sdl.moe.yabapi.util.yabapiLogLevel
 import kotlin.test.Test
 
 internal class RelationApiTest {
     init {
-        yabapiLogLevel = DEBUG
+        initTest()
     }
 
     @Test
@@ -100,18 +99,5 @@ internal class RelationApiTest {
             client.queryRelationMutually(2)
             client.querySpecialFollowing()
         }
-    }
-
-    @Test
-    fun testAll() {
-        getFansTest()
-        getFollowingTest()
-        searchFollowingTest()
-        getCoFollowingTest()
-        getQuietlyFollowingTest()
-        getBlacklistTest()
-        modifyTest()
-        modifyBatchTest()
-        queryRelationTest()
     }
 }

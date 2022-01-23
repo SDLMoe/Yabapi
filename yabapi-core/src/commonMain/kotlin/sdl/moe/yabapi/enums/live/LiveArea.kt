@@ -19,5 +19,7 @@ public sealed class LiveArea(public val id: Int, public val name: String) {
 
     public object Study : LiveArea(id = 11, name = "学习")
 
+    public object Event : LiveArea(id = 12, name = "大事件")
+
     public object Match : LiveArea(id = 13, name = "赛事")
 }

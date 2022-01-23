@@ -4,9 +4,7 @@ import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
-import io.ktor.http.CookieEncoding.RAW
 import io.ktor.http.Parameters
-import io.ktor.http.formUrlEncode
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
@@ -44,31 +42,15 @@ import sdl.moe.yabapi.util.encoding.RSAProvider
 import sdl.moe.yabapi.util.encoding.trimPem
 import sdl.moe.yabapi.util.requireCmdInputNumber
 import sdl.moe.yabapi.util.requireCmdInputString
-import sdl.moe.yabapi.util.string.cookieFromHeader
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger = Logger("PassportApi")
+private val logger by lazy { Logger("PassportApi") }
 
 /**
  *  登录, 认证相关 API
  */
-
-/**
- * 使用 Cookies 登录, 可从浏览器 Header 处获取
- */
-public suspend fun BiliClient.loginCookie(cookies: String) {
-    logger.debug { "login with cookies: $cookies" }
-    cookieFromHeader(cookies, encoding = RAW).forEach {
-        this.addCookie(it)
-    }
-    this.getBasicInfo().also {
-        if (it.data.isLogin) {
-            logger.info { "Logged in successful!" }
-        } else logger.warn { "Failed to log in" }
-    }
-}
 
 /**
  * 获取人机验证码, 需要手动验证
@@ -78,9 +60,9 @@ public suspend fun BiliClient.loginCookie(cookies: String) {
  */
 public suspend fun BiliClient.getCaptcha(): GetCaptchaResponse = withContext(context) {
     logger.info { "Querying Login Captcha" }
-    client.get<GetCaptchaResponse>(QUERY_CAPTCHA_URL).also {
-        logger.debug { "Query Captcha Response: $it" }
-    }
+    client.get<String>(QUERY_CAPTCHA_URL)
+        .deserializeJson<GetCaptchaResponse>()
+        .also { logger.debug { "Query Captcha Response: $it" } }
 }
 
 /**
@@ -89,9 +71,9 @@ public suspend fun BiliClient.getCaptcha(): GetCaptchaResponse = withContext(con
  */
 public suspend fun BiliClient.getRsaKeyWeb(): RsaGetResponse = withContext(context) {
     logger.info { "Getting RSA Key by Web method" }
-    client.get<RsaGetResponse>(RSA_GET_WEB_URL) {
+    client.get<String>(RSA_GET_WEB_URL) {
         parameter("act", "getkey")
-    }.also {
+    }.deserializeJson<RsaGetResponse>().also {
         logger.debug { "RSA Get Web Response: $it" }
     }
 }
@@ -116,7 +98,7 @@ public suspend fun BiliClient.loginWeb(
 ): LoginWebResponse = withContext(context) {
     noNeedLogin()
     logger.info { "Logging in by Web method" }
-    client.post<LoginWebResponse>(LOGIN_WEB_URL) {
+    client.post<String>(LOGIN_WEB_URL) {
         val params = Parameters.build {
             append("captchaType", "6")
             append("username", userName)
@@ -128,7 +110,7 @@ public suspend fun BiliClient.loginWeb(
             append("seccode", seccode)
         }
         body = FormDataContent(params)
-    }.also {
+    }.deserializeJson<LoginWebResponse>().also {
         logger.debug { "Login Web Response: $it" }
         if (it.code != LoginWebResponseCode.SUCCESS) {
             logger.warn { "Login failed error code ${it.code}, with message: ${it.message}" }
@@ -164,10 +146,12 @@ public suspend fun BiliClient.getWebQRCode(
     context: CoroutineContext = this.context,
 ): QRCodeWebGetResponse = withContext(context) {
     logger.info { "Getting Web QRCode" }
-    client.get<QRCodeWebGetResponse>(LOGIN_QRCODE_GET_WEB_URL).also {
-        logger.debug { "QRCode Web Get Response: $it" }
-        if (it.code != GeneralCode.SUCCESS) logger.warn { "QRCode Web Get failed, error code: ${it.code}" }
-    }
+    client.get<String>(LOGIN_QRCODE_GET_WEB_URL)
+        .deserializeJson<QRCodeWebGetResponse>()
+        .also {
+            logger.debug { "QRCode Web Get Response: $it" }
+            if (it.code != GeneralCode.SUCCESS) logger.warn { "QRCode Web Get failed, error code: ${it.code}" }
+        }
 }
 
 public suspend fun BiliClient.loginWebQRCode(
@@ -176,12 +160,12 @@ public suspend fun BiliClient.loginWebQRCode(
 ): LoginWebQRCodeResponse = withContext(context) {
     noNeedLogin()
     logger.debug { "Starting Logging in via Web QR Code" }
-    client.post<LoginWebQRCodeResponse>(LOGIN_WEB_QRCODE_URL) {
+    client.post<String>(LOGIN_WEB_QRCODE_URL) {
         val params = Parameters.build {
             append("oauthKey", qrResponse.data.oauthKey)
         }
         body = FormDataContent(params)
-    }.also {
+    }.deserializeJson<LoginWebQRCodeResponse>().also {
         logger.debug { "Login Web QR Code Response: $it" }
         if (it.code != GeneralCode.SUCCESS) logger.debug { "Login Web via QR Code failed, error code: ${it.code}" }
     }
@@ -235,10 +219,12 @@ public suspend fun BiliClient.getCallingCode(
     context: CoroutineContext = this.context,
 ): CallingCodeGetResponse = withContext(context) {
     logger.info { "Getting Calling Code" }
-    client.get<CallingCodeGetResponse>(GET_CALLING_CODE_URL).also {
-        logger.debug { "Calling Code Get Response: $it" }
-        if (it.code != GeneralCode.SUCCESS) logger.warn { "Calling Code Get failed, error code: ${it.code}" }
-    }
+    client.get<String>(GET_CALLING_CODE_URL)
+        .deserializeJson<CallingCodeGetResponse>()
+        .also {
+            logger.debug { "Calling Code Get Response: $it" }
+            if (it.code != GeneralCode.SUCCESS) logger.warn { "Calling Code Get failed, error code: ${it.code}" }
+        }
 }
 
 /**
@@ -258,7 +244,7 @@ public suspend fun BiliClient.requestSMSCode(
     context: CoroutineContext = this.context,
 ): SendSMSResponse = withContext(context) {
     logger.info { "Requesting SMS Code" }
-    client.post<SendSMSResponse>(SEND_SMS_URL) {
+    client.post<String>(SEND_SMS_URL) {
         val params = Parameters.build {
             append("tel", phone.toString())
             append("cid", cid.toString())
@@ -267,9 +253,8 @@ public suspend fun BiliClient.requestSMSCode(
             append("validate", validate)
             append("seccode", seccode)
         }
-        params.formUrlEncode()
         body = FormDataContent(params)
-    }.also {
+    }.deserializeJson<SendSMSResponse>().also {
         logger.debug { "SMS Code Request Response: $it" }
         if (it.code != SendSMSResponseCode.SUCCESS) {
             logger.warn { "SMS Code Request failed, error code: ${it.code}" }
@@ -292,7 +277,7 @@ public suspend fun BiliClient.loginWebSMS(
     context: CoroutineContext = this.context,
 ): LoginWebSMSResponse = withContext(context) {
     logger.info { "Logging in via Web SMS" }
-    client.post<LoginWebSMSResponse>(LOGIN_WEB_SMS_URL) {
+    client.post<String>(LOGIN_WEB_SMS_URL) {
         val smsCaptchaKey = sendSMSResponse.captchaKey ?: throw IllegalArgumentException("Captcha key is null")
         val params = Parameters.build {
             append("tel", phone.toString())
@@ -301,14 +286,14 @@ public suspend fun BiliClient.loginWebSMS(
             append("captcha_key", smsCaptchaKey)
         }
         body = FormDataContent(params)
-    }.also {
+    }.deserializeJson<LoginWebSMSResponse>().also {
         logger.debug { "Login Web SMS Response: $it" }
         if (it.code != LoginWebSMSResponseCode.SUCCESS) logger.warn { "Login Web SMS failed, error code: ${it.code}" }
     }
 }
 
 /**
- * 命令行交互式短信驗證登錄, 阻塞方法
+ * 命令行交互式短信驗證登錄
  * @param needsCallingCode 是否需要國際區碼, 默認 +86
  */
 public suspend fun BiliClient.loginWebSMSConsole(
@@ -353,12 +338,12 @@ public suspend fun BiliClient.logOut(
 ): LogOutResponse = withContext(context) {
     logger.info { "Logging out" }
     needLogin()
-    client.post<LogOutResponse>(LOG_OUT_URL) {
+    client.post<String>(LOG_OUT_URL) {
         val params = Parameters.build {
             putCsrf("biliCSRF")
         }
         body = FormDataContent(params)
-    }.also {
+    }.deserializeJson<LogOutResponse>().also {
         logger.debug { "Log Out Response: $it" }
         if (it.code != GeneralCode.SUCCESS) logger.warn { "Log Out failed, error code: ${it.code}" }
     }

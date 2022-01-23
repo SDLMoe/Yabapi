@@ -34,30 +34,25 @@ public data class LoginWebQRCodeResponse(
     @SerialName("status") val status: Boolean,
     @SerialName("data") private val rawData: JsonElement,
 ) {
-    public var dataWhenSuccess: LoginWebQRCodeResponseData? = null
-        get() {
-            if (field == null && code == GeneralCode.SUCCESS) {
-                val url = rawData.jsonObject["url"]?.jsonPrimitive?.content
-                if (url != null) {
-                    dataWhenSuccess = LoginWebQRCodeResponseData(url)
-                }
+    public val dataWhenSuccess: LoginWebQRCodeResponseData? by lazy {
+        if (code == GeneralCode.SUCCESS) {
+            val url = rawData.jsonObject["url"]?.jsonPrimitive?.content
+            if (url != null) {
+                LoginWebQRCodeResponseData(url)
+            } else null
+        } else null
+    }
+
+    public val dataWhenFailed: LoginWebQRCodeResponseCode? by lazy {
+        if (code != GeneralCode.SUCCESS) {
+            try {
+                val serializer = serializer<LoginWebQRCodeResponseCode>()
+                defaultJsonParser.decodeFromJsonElement(serializer, rawData)
+            } catch (_: IllegalArgumentException) {
+                UNKNOWN
             }
-            return field
-        }
-        private set
-    public var dataWhenFailed: LoginWebQRCodeResponseCode? = null
-        get() {
-            if (field == null && code != GeneralCode.SUCCESS) {
-                try {
-                    val serializer = serializer<LoginWebQRCodeResponseCode>()
-                    dataWhenFailed = defaultJsonParser.decodeFromJsonElement(serializer, rawData)
-                } catch (_: IllegalArgumentException) {
-                    field = UNKNOWN
-                }
-            }
-            return field
-        }
-        private set
+        } else null
+    }
 }
 
 /**

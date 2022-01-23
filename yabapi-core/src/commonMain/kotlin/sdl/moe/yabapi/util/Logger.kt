@@ -1,6 +1,8 @@
 package sdl.moe.yabapi.util
 
 import co.touchlab.kermit.Logger
+import kotlinx.atomicfu.AtomicRef
+import kotlinx.atomicfu.atomic
 import sdl.moe.yabapi.enums.LogLevel
 import sdl.moe.yabapi.enums.LogLevel.ASSERT
 import sdl.moe.yabapi.enums.LogLevel.DEBUG
@@ -9,15 +11,17 @@ import sdl.moe.yabapi.enums.LogLevel.INFO
 import sdl.moe.yabapi.enums.LogLevel.VERBOSE
 import sdl.moe.yabapi.enums.LogLevel.WARN
 import sdl.moe.yabapi.enums.toKermitSeverity
+import kotlin.native.concurrent.SharedImmutable
 import kotlin.native.concurrent.ThreadLocal
 
-@ThreadLocal
-public var yabapiLogLevel: LogLevel = INFO
+@SharedImmutable
+public val yabapiLogLevel: AtomicRef<LogLevel> = atomic(INFO)
 
+@ThreadLocal
 public var log: (tag: String, level: LogLevel, throwable: Throwable?, message: () -> String) -> Unit =
     { tag: String, level: LogLevel, throwable: Throwable?, message: () -> String ->
 
-        if (level >= yabapiLogLevel) {
+        if (level >= yabapiLogLevel.value) {
             val str = "${nowLocalString()} [${level.name}] $tag ${message().replace("\n", "\\n")}"
             println(str)
             throwable?.printStackTrace()
@@ -66,7 +70,7 @@ internal class KermitLogger(tag: String? = null) : ILogger {
         tag?.also {
             logger.setTag("Yabapi > $it")
         } ?: logger.setTag("Yabapi")
-        logger.setMinSeverity(yabapiLogLevel.toKermitSeverity())
+        logger.setMinSeverity(yabapiLogLevel.value.toKermitSeverity())
         logger
     }
 

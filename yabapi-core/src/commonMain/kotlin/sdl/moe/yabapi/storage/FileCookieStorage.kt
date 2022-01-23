@@ -1,8 +1,6 @@
 package sdl.moe.yabapi.storage
 
-import com.soywiz.klock.DateTime
 import com.soywiz.korio.async.runBlockingNoJs
-import com.soywiz.korio.file.VfsFile
 import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.CookiesStorage
 import io.ktor.http.Cookie
@@ -10,6 +8,7 @@ import io.ktor.http.Url
 import io.ktor.http.hostIsIp
 import io.ktor.http.isSecure
 import kotlinx.atomicfu.AtomicLong
+import kotlinx.atomicfu.AtomicRef
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -18,6 +17,8 @@ import kotlinx.datetime.Clock
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import okio.FileSystem
+import okio.Path
 import sdl.moe.yabapi.Platform
 import sdl.moe.yabapi.data.CookieWrapper
 import sdl.moe.yabapi.data.toCookies
@@ -28,36 +29,35 @@ import kotlin.math.min
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger = Logger("FileCookieStorage")
+private val logger by lazy { Logger("FileCookieStorage") }
 
 /**
  * Modified base on ktor [AcceptAllCookiesStorage]
- *
- * Platform Differences:
- * - JVM 带有 Shutdown Hook 在 crash 时会保存
- * - Js 无法使用 runBlocking, 仅能实时保存, saveInTime 参数无效
- *
- * @param file [VfsFile]
- *
- * @param saveInTime 是否即时保存, 默认为 false, 只在程序退出时保存
  */
 public class FileCookieStorage(
-    private val file: VfsFile,
-    private val saveInTime: Boolean = false,
+    private val fileSystem: FileSystem,
+    private val path: Path,
     private val context: CoroutineContext = Platform.ioDispatcher,
+    config: Config.() -> Unit = {},
 ) : CookiesStorage {
+    public class Config {
+        public var saveInTime: Boolean = false
+    }
+
+    private val config = Config().apply(config)
+
     private val fileMutex = Mutex()
 
     private val mutex = Mutex()
 
-    private val container: MutableList<Cookie> = mutableListOf()
+    private val container: AtomicRef<List<Cookie>> = atomic(emptyList())
 
     private val wrappers
-        get() = CookieWrapper.fromCookies(container)
+        get() = CookieWrapper.fromCookies(container.value)
 
     private val oldestCookie: AtomicLong = atomic(0L)
 
-    private var isInitiated = false
+    private var isInitiated = atomic(false)
 
     override suspend fun get(requestUrl: Url): List<Cookie> = mutex.withLock {
         init()
@@ -65,7 +65,7 @@ public class FileCookieStorage(
         val now = Clock.System.now().epochSeconds
         if (now >= oldestCookie.value) cleanup(now)
 
-        return@withLock container.filter { it.matches(requestUrl) }.also {
+        return@withLock container.value.filter { it.matches(requestUrl) }.also {
             logger.debug { "Found ${it.size} cookies for ${requestUrl.host}" }
             logger.verbose { "Cookies: $it" }
         }
@@ -77,33 +77,41 @@ public class FileCookieStorage(
         with(cookie) {
             if (name.isBlank()) return@withLock
         }
-
-        container.removeAll { it.name == cookie.name && it.matches(requestUrl) }
-        container.add(cookie.fillDefaults(requestUrl))
+        container.getAndSet(
+            container.value.toMutableList().apply {
+                removeAll { it.name == cookie.name && it.matches(requestUrl) }
+                add(cookie.fillDefaults(requestUrl))
+            }
+        )
         logger.debug { "Added cookie $cookie for ${requestUrl.host}" }
         cookie.expires?.timestamp?.let { expires ->
             if (oldestCookie.value > expires) {
                 oldestCookie.value = expires
             }
         }
-        if (Platform.isJs() || saveInTime) {
+        if (Platform.isJs() || config.saveInTime) {
             save()
         }
     }
 
     override fun close() {
-        if (!Platform.isJs()) runBlockingNoJs {
+        logger.debug { "Closing FileCookiesStorage path: $path" }
+        runBlockingNoJs {
             save()
         }
     }
 
     private fun cleanup(timestamp: Long) {
-        container.removeAll { cookie ->
-            val expires = cookie.expires?.timestamp ?: return@removeAll false
-            expires < timestamp
-        }
+        container.getAndSet(
+            container.value.toMutableList().apply {
+                removeAll { cookie ->
+                    val expires = cookie.expires?.timestamp ?: return@removeAll false
+                    expires < timestamp
+                }
+            }
+        )
 
-        val newOldest = container.fold(Long.MAX_VALUE) { acc, cookie ->
+        val newOldest = container.value.fold(Long.MAX_VALUE) { acc, cookie ->
             cookie.expires?.timestamp?.let { min(acc, it) } ?: acc
         }
 
@@ -111,37 +119,46 @@ public class FileCookieStorage(
     }
 
     private suspend fun init() {
-        if (!isInitiated) {
+        if (!isInitiated.value) {
             addShutdownHook()
             logger.debug { "Initializing FileCookieStorage" }
-            if (file.exists()) {
+            if (fileSystem.exists(path)) {
                 load()
             } else {
-                logger.debug { "File does not exist, creating new file ${file.absolutePath}" }
+                logger.debug { "File does not exist, creating new file $path" }
                 fileMutex.withLock {
-                    file.touch(DateTime.now())
+                    path.parent?.let { fileSystem.createDirectories(it) }
+                    fileSystem.write(path, true) {}
                 }
             }
-            isInitiated = true
+            isInitiated.getAndSet(true)
         }
     }
 
     public suspend fun save(): Unit = withContext(context) {
-        logger.debug { "Saving FileCookieStorage to ${file.absolutePath}" }
+        logger.debug { "Saving FileCookieStorage to $path" }
         init()
         fileMutex.withLock {
-            file.writeString(Json.encodeToString(wrappers))
+            fileSystem.write(path) {
+                writeUtf8(Json.encodeToString(wrappers))
+            }
         }
     }
 
     private suspend fun load() {
-        logger.debug { "Loading FileCookieStorage from ${file.absolutePath}" }
-        val text = fileMutex.withLock { file.readString() }
+        logger.debug { "Loading FileCookieStorage from $path" }
+        val text = fileMutex.withLock {
+            fileSystem.read(path) {
+                readUtf8()
+            }
+        }
         val wrappers: List<CookieWrapper> =
             if (text.isNotBlank()) {
                 Json.decodeFromString(text)
             } else listOf()
-        container += wrappers.toCookies()
+        container.getAndSet(
+            container.value + wrappers.toCookies()
+        )
         logger.debug { "Loaded FileCookieStorage: $container" }
     }
 }

@@ -10,7 +10,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger = Logger("TimeApi")
+private val logger by lazy { Logger("TimeApi") }
 
 // 时间相关 API
 
@@ -22,7 +22,7 @@ public suspend fun BiliClient.getTimestamp(
     context: CoroutineContext = this.context,
 ): TimestampGetResponse = withContext(context) {
     logger.debug { "Getting timestamp" }
-    client.get<TimestampGetResponse>(GET_TIMESTAMP_URL).also {
-        logger.debug { "Timestamp Get Response: $it" }
-    }
+    client.get<String>(GET_TIMESTAMP_URL)
+        .deserializeJson<TimestampGetResponse>()
+        .also { logger.debug { "Timestamp Get Response: $it" } }
 }

@@ -51,7 +51,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger = Logger("LiveMessageConnection")
+private val logger by lazy { Logger("LiveMessageConnection") }
 
 private typealias Wss = DefaultClientWebSocketSession
 

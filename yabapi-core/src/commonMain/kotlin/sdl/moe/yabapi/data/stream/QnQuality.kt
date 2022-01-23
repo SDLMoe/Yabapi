@@ -6,7 +6,7 @@ import sdl.moe.yabapi.util.Logger
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger = Logger("QnQuality")
+private val logger by lazy { Logger("QnQuality") }
 
 @Serializable(QnQualitySerializer::class)
 public enum class QnQuality(public val code: Int) {

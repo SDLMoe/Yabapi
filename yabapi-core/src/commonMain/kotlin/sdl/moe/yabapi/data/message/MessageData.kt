@@ -5,6 +5,7 @@ import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlin.native.concurrent.SharedImmutable
 
 @Serializable
 public data class MessageData(
@@ -15,6 +16,7 @@ public data class MessageData(
     val devId: String = generateFakeUUID(),
     val timestamp: Long = Clock.System.now().epochSeconds,
 )
+
 public fun MessageData.put(
     builder: ParametersBuilder,
     json: Json = Json,
@@ -30,7 +32,8 @@ public fun MessageData.put(
 
 private const val uuidTemplate = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 
-private val randomRange = 0..15
+@SharedImmutable
+private val randomRange by lazy { 0..15 }
 
 private fun generateFakeUUID(): String = uuidTemplate.fold("") { acc, char ->
     acc + when (char) {

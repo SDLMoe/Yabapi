@@ -2,15 +2,14 @@ package sdl.moe.yabapi.api
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import sdl.moe.yabapi.client
-import sdl.moe.yabapi.enums.LogLevel.DEBUG
+import sdl.moe.yabapi.initTest
 import sdl.moe.yabapi.runTest
-import sdl.moe.yabapi.util.yabapiLogLevel
 import kotlin.test.Test
 
 internal class DanmakuApiTest {
 
     init {
-        yabapiLogLevel = DEBUG
+        initTest()
     }
 
     @ExperimentalSerializationApi
@@ -20,7 +19,7 @@ internal class DanmakuApiTest {
             val aid = 810872
             client.getVideoParts(aid).data.forEach { part ->
                 client.getDanmaku(part.cid).danmakus.forEach {
-                    println(it.color)
+                    // println(it.color)
                 }
             }
         }

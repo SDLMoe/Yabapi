@@ -45,6 +45,7 @@ public data class PinnedVideo(
     @SerialName("desc") val description: String,
     @SerialName("state") val state: Int,
     @SerialName("duration") val duration: Int, // s
+    @SerialName("mission_id") val missionId: Int? = null,
     @SerialName("rights") val rights: VideoRights,
     @SerialName("owner") val owner: VideoOwner,
     @SerialName("stat") val stat: VideoStat,

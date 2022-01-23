@@ -22,7 +22,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger = Logger("DanmakuApi")
+private val logger by lazy { Logger("DanmakuApi") }
 
 /**
  * 获取视频弹幕
@@ -102,11 +102,11 @@ public suspend fun BiliClient.getDanmakuCalendar(
 ): DanmakuCalendarResponse = withContext(context) {
     val date = "$year-${month.toString().padStart(2, '0')}"
     logger.debug { "Getting calendar for cid$cid in $date" }
-    client.get<DanmakuCalendarResponse>(VIDEO_DANMAKU_CALENDAR_URL) {
+    client.get<String>(VIDEO_DANMAKU_CALENDAR_URL) {
         parameter("type", type.code)
         parameter("oid", cid)
         parameter("month", date)
-    }.also {
+    }.deserializeJson<DanmakuCalendarResponse>().also {
         logger.debug { "Got calendar for cid$cid in $date: $it" }
     }
 }

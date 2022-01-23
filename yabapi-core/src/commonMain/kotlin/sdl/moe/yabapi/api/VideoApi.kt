@@ -60,7 +60,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger = Logger("VideoApi")
+private val logger by lazy { Logger("VideoApi") }
 
 // region ==================== Util ====================
 
@@ -97,9 +97,9 @@ private suspend inline fun BiliClient.getVideoInfo(
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoInfoGetResponse = withContext(context) {
-    client.get(VIDEO_INFO_GET_URL) {
+    client.get<String>(VIDEO_INFO_GET_URL) {
         putVideoId(aid, bid)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -137,9 +137,9 @@ private suspend inline fun BiliClient.getVideoParts(
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoPartsGetResponse = withContext(context) {
-    client.get(VIDEO_PARTS_GET_URL) {
+    client.get<String>(VIDEO_PARTS_GET_URL) {
         putVideoId(aid, bid)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -177,9 +177,9 @@ private suspend inline fun BiliClient.getVideoDescription(
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoDescriptionGetResponse = withContext(context) {
-    client.get(VIDEO_DESCRIPTION_GET_URL) {
+    client.get<String>(VIDEO_DESCRIPTION_GET_URL) {
         putVideoId(aid, bid)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -217,9 +217,9 @@ private suspend inline fun BiliClient.getVideoTags(
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoTagsGetResponse = withContext(context) {
-    client.get(VIDEO_TAG_GET_URL) {
+    client.get<String>(VIDEO_TAG_GET_URL) {
         putVideoId(aid, bid)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -262,14 +262,14 @@ private suspend inline fun BiliClient.likeVideo(
     action: LikeAction = LIKE,
     context: CoroutineContext = this.context,
 ): VideoLikeResponse = withContext(context) {
-    client.post(VIDEO_LIKE_URL) {
+    client.post<String>(VIDEO_LIKE_URL) {
         val params = Parameters.build {
             putVideoId(aid, bid)
             append("like", action.code.toString())
             putCsrf()
         }
         body = FormDataContent(params)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -311,9 +311,9 @@ private suspend inline fun BiliClient.checkVideoLike(
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): HasLikedResponse = withContext(context) {
-    client.get(VIDEO_HAS_LIKE_URL) {
+    client.get<String>(VIDEO_HAS_LIKE_URL) {
         putVideoId(aid, bid)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -353,7 +353,7 @@ private suspend inline fun BiliClient.coinVideo(
     withLike: Boolean = false,
     context: CoroutineContext = this.context,
 ): CoinVideoResponse = withContext(context) {
-    client.post(VIDEO_COIN_URL) {
+    client.post<String>(VIDEO_COIN_URL) {
         val params = Parameters.build {
             putVideoId(aid, bid)
             val actualCount = if (count >= 2) "2" else "1"
@@ -362,7 +362,7 @@ private suspend inline fun BiliClient.coinVideo(
             putCsrf()
         }
         body = FormDataContent(params)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -408,9 +408,9 @@ private suspend inline fun BiliClient.checkVideoCoin(
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoCoinCheckResponse = withContext(context) {
-    client.get(VIDEO_COIN_CHECK_URL) {
+    client.get<String>(VIDEO_COIN_CHECK_URL) {
         putVideoId(aid, bid)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -452,7 +452,7 @@ private suspend inline fun BiliClient.collectVideo(
     folderList: Collection<Int>,
     context: CoroutineContext = this.context,
 ): VideoCollectResponse = withContext(context) {
-    client.post(VIDEO_COLLECT_ACTION_URL) {
+    client.post<String>(VIDEO_COLLECT_ACTION_URL) {
         headers {
             header(HttpHeaders.Referrer, "https://www.bilibili.com/")
         }
@@ -469,7 +469,7 @@ private suspend inline fun BiliClient.collectVideo(
             putCsrf()
         }
         body = FormDataContent(params)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -513,9 +513,9 @@ private suspend inline fun BiliClient.checkVideoCollect(
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoCollectCheck = withContext(context) {
-    client.get(VIDEO_COLLECT_CHECK_URL) {
+    client.get<String>(VIDEO_COLLECT_CHECK_URL) {
         parameter("aid", getActualId(aid, bid))
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -549,13 +549,13 @@ private suspend fun BiliClient.comboLike(
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoComboLikeResponse = withContext(context) {
-    client.post(VIDEO_COMBO_LIKE_URL) {
+    client.post<String>(VIDEO_COMBO_LIKE_URL) {
         val params = Parameters.build {
             putVideoId(aid, bid)
             putCsrf()
         }
         body = FormDataContent(params)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -589,13 +589,13 @@ private suspend inline fun BiliClient.shareVideo(
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): ShareVideoResponse = withContext(context) {
-    client.post(VIDEO_SHARE_URL) {
+    client.post<String>(VIDEO_SHARE_URL) {
         val params = Parameters.build {
             putVideoId(aid, bid)
             putCsrf()
         }
         body = FormDataContent(params)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -605,9 +605,9 @@ private suspend inline fun BiliClient.shareVideo(
 public suspend fun BiliClient.shareVideo(
     aid: Int,
     context: CoroutineContext = this.context,
-): ShareVideoResponse = run {
+): ShareVideoResponse {
     logger.debug { "Sharing video av$aid..." }
-    shareVideo(aid, null, context).also {
+    return shareVideo(aid, null, context).also {
         logger.debug { "Shared video av$aid: $it" }
     }
 }
@@ -636,17 +636,16 @@ private suspend inline fun BiliClient.fetchVideoStream(
     cid: Int,
     request: StreamRequest,
     context: CoroutineContext = this.context,
-): VideoStreamResponse =
-    withContext(context) {
-        client.get(VIDEO_STREAM_FETCH_URL) {
-            putVideoId(aid, bid)
-            parameter("cid", cid)
-            if (request.fnvalFormat.format != DASH) parameter("qn", request.qnQuality.code)
-            parameter("fnval", request.fnvalFormat.toBinary())
-            parameter("fnver", "0")
-            parameter("fourk", request.fourk)
-        }
-    }
+): VideoStreamResponse = withContext(context) {
+    client.get<String>(VIDEO_STREAM_FETCH_URL) {
+        putVideoId(aid, bid)
+        parameter("cid", cid)
+        if (request.fnvalFormat.format != DASH) parameter("qn", request.qnQuality.code)
+        parameter("fnval", request.fnvalFormat.toBinary())
+        parameter("fnver", "0")
+        parameter("fourk", request.fourk)
+    }.deserializeJson()
+}
 
 /**
  * 获取视频流
@@ -701,10 +700,10 @@ private suspend inline fun BiliClient.getTimelineHot(
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): TimelineHotResponse = withContext(context) {
-    client.get(VIDEO_TIMELINE_HOT_URL) {
+    client.get<String>(VIDEO_TIMELINE_HOT_URL) {
         parameter("cid", cid)
         if (aid != null || bid != null) putVideoId(aid, bid)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -715,9 +714,9 @@ private suspend inline fun BiliClient.getTimelineHot(
 public suspend fun BiliClient.getTimelineHot(
     cid: Int,
     context: CoroutineContext = this.context,
-): TimelineHotResponse = run {
+): TimelineHotResponse {
     logger.debug { "Getting Timeline Hot for cid $cid..." }
-    getTimelineHot(cid, null, null, context).also {
+    return getTimelineHot(cid, null, null, context).also {
         logger.debug { "Got timeline hot for cid $cid: $it" }
     }
 }
@@ -762,10 +761,10 @@ private suspend inline fun BiliClient.getVideoOnline(
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoOnlineGetResponse = withContext(context) {
-    client.get(VIDEO_ONLINE_GET_URL) {
+    client.get<String>(VIDEO_ONLINE_GET_URL) {
         putVideoId(aid, bid)
         parameter("cid", cid)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -811,9 +810,9 @@ private suspend inline fun BiliClient.getVideoRelated(
     bid: String?,
     context: CoroutineContext = this.context,
 ): VideoRelatedGetResponse = withContext(context) {
-    client.get(VIDEO_RELATED_GET_URL) {
+    client.get<String>(VIDEO_RELATED_GET_URL) {
         putVideoId(aid, bid)
-    }
+    }.deserializeJson()
 }
 
 /**
@@ -859,14 +858,14 @@ public suspend fun BiliClient.reportVideoProgress(
     context: CoroutineContext = this.context,
 ): ReportWatchResponse = withContext(context) {
     logger.debug { "Reporting Video Watch Progress for av$aid, cid$cid." }
-    client.post<ReportWatchResponse>(VIDEO_REPORT_PROGRESS_URL) {
+    client.post<String>(VIDEO_REPORT_PROGRESS_URL) {
         body = FormDataContent(Parameters.build {
             append("aid", aid.toString())
             append("cid", cid.toString())
             append("progress", progress.toString())
             putCsrf()
         })
-    }.also {
+    }.deserializeJson<ReportWatchResponse>().also {
         logger.debug { "Reported Video Watch Progress for av$aid, cid$cid: $it" }
     }
 }

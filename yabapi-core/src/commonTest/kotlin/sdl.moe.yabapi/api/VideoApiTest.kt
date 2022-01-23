@@ -4,20 +4,19 @@ import sdl.moe.yabapi.client
 import sdl.moe.yabapi.data.stream.QnQuality.V8K
 import sdl.moe.yabapi.data.stream.StreamRequest
 import sdl.moe.yabapi.data.stream.VideoFnvalFormat
-import sdl.moe.yabapi.enums.LogLevel.DEBUG
 import sdl.moe.yabapi.enums.video.CollectAction.ADD
 import sdl.moe.yabapi.enums.video.CollectAction.REMOVE
 import sdl.moe.yabapi.enums.video.LikeAction.LIKE
 import sdl.moe.yabapi.enums.video.LikeAction.UNLIKE
 import sdl.moe.yabapi.enums.video.VideoFormat.DASH
+import sdl.moe.yabapi.initTest
 import sdl.moe.yabapi.runTest
-import sdl.moe.yabapi.util.yabapiLogLevel
 import kotlin.test.Test
 
 internal class VideoApiTest {
 
     init {
-        yabapiLogLevel = DEBUG
+        initTest()
     }
 
     @Test

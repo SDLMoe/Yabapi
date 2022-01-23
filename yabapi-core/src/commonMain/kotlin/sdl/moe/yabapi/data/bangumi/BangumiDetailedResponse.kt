@@ -168,6 +168,7 @@ public data class BangumiRights(
     @SerialName("can_watch") val canWatch: Boolean? = null,
     @SerialName("copyright") val copyright: String? = null,
     @SerialName("forbid_pre") val forbidPre: Int? = null,
+    @SerialName("freya_white") val freyaWhite: Boolean? = null,
     @SerialName("is_cover_show") val isShowCover: Boolean? = null,
     @SerialName("is_preview") val isPreview: Boolean? = null, // PV
     @SerialName("only_vip_download") val isOnlyVipDownload: Boolean? = null,
@@ -249,7 +250,7 @@ public data class BangumiOwner(
 
 @Serializable
 public data class BangumiUserStatus(
-    @SerialName("area_limit") val areaLimit: Boolean,
+    @SerialName("area_limit") val areaLimit: Int,
     @SerialName("ban_area_show") val banAreaShow: Boolean,
     @SerialName("follow") val isFollow: Boolean,
     @SerialName("follow_status") val followStatus: Int,

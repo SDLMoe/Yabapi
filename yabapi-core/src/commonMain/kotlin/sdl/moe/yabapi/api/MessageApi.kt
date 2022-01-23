@@ -21,7 +21,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger = Logger("MessageApi")
+private val logger by lazy { Logger("MessageApi") }
 
 /**
  * 获取总共未读消息数量
@@ -30,9 +30,9 @@ public suspend fun BiliClient.getUnreadMsgCount(
     context: CoroutineContext = this.context,
 ): UnreadMsgCountGetResponse = withContext(context) {
     logger.debug { "Getting unread message count..." }
-    client.get<UnreadMsgCountGetResponse>(UNREAD_MESSAGE_COUNT_GET_URL).also {
-        logger.debug { "Got unread message count: $it" }
-    }
+    client.get<String>(UNREAD_MESSAGE_COUNT_GET_URL)
+        .deserializeJson<UnreadMsgCountGetResponse>()
+        .also { logger.debug { "Got unread message count: $it" } }
 }
 
 /**
@@ -43,9 +43,9 @@ public suspend fun BiliClient.getUnreadWhisperCount(
 ): UnreadWhisperCountGetResponse =
     withContext(context) {
         logger.debug { "Getting unread whisper count..." }
-        client.get<UnreadWhisperCountGetResponse>(UNREAD_WHISPER_COUNT_GET_URL).also {
-            logger.debug { "Got unread whisper count: $it" }
-        }
+        client.get<String>(UNREAD_WHISPER_COUNT_GET_URL)
+            .deserializeJson<UnreadWhisperCountGetResponse>()
+            .also { logger.debug { "Got unread whisper count: $it" } }
     }
 
 /**
@@ -58,13 +58,13 @@ public suspend fun BiliClient.sendMessage(
     context: CoroutineContext = this.context,
 ): MessageSendResponse = withContext(context) {
     logger.debug { "try to send message: $message" }
-    client.post<MessageSendResponse>(SEND_MESSAGE_URL) {
+    client.post<String>(SEND_MESSAGE_URL) {
         val params = Parameters.build {
             message.put(this, json)
             putCsrf()
         }
         body = FormDataContent(params)
-    }.also {
+    }.deserializeJson<MessageSendResponse>().also {
         logger.debug { "Sent message, response: $it" }
     }
 }

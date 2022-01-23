@@ -7,7 +7,7 @@ import sdl.moe.yabapi.util.Logger
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger = Logger("VideoType")
+private val logger by lazy { Logger("VideoType") }
 
 @Serializable(VideoTypeSerializer::class)
 public sealed class VideoType(
