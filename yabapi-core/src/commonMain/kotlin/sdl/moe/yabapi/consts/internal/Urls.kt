@@ -211,6 +211,12 @@ internal const val ALBUM_UPLOAD_URL = "$VC_API/api/v1/drawImage/upload"
 
 // endregion
 
+// region ================ Feed ========================================
+
+internal const val FEED_CONTENT_GET_URL = "$VC_API/dynamic_svr/v1/dynamic_svr/get_dynamic_detail"
+
+// endregion
+
 // region ================ Live ========================================
 
 internal const val LIVE_INIT_INFO_GET_URL = "$LIVE/room/v1/Room/room_init"
@@ -222,6 +228,8 @@ internal const val LIVE_UID_TO_ROOM_ID = "$LIVE/room/v2/Room/room_id_by_uid"
 internal const val LIVER_INFO_GET_URL = "$LIVE/live_user/v1/Master/info"
 
 internal const val LIVE_SHOW_LIST_GET = "$LIVE/room/v1/Index/getShowList"
+
+internal const val LIVE_CHECK_PWD_URL = "$LIVE/room/v1/Room/verify_room_pwd"
 
 internal const val LIVE_HOVER_GET_URL = "$LIVE/room/v2/Index/getHoverInfo"
 

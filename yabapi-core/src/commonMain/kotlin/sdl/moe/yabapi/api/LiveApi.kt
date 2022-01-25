@@ -9,6 +9,7 @@ import sdl.moe.yabapi.connect.LiveDanmakuConnectConfig
 import sdl.moe.yabapi.connect.LiveMessageConnection
 import sdl.moe.yabapi.consts.internal.LIVER_INFO_GET_URL
 import sdl.moe.yabapi.consts.internal.LIVE_AREA_URL
+import sdl.moe.yabapi.consts.internal.LIVE_CHECK_PWD_URL
 import sdl.moe.yabapi.consts.internal.LIVE_DANMAKU_INFO_URL
 import sdl.moe.yabapi.consts.internal.LIVE_HOVER_GET_URL
 import sdl.moe.yabapi.consts.internal.LIVE_INIT_INFO_GET_URL
@@ -28,6 +29,7 @@ import sdl.moe.yabapi.data.live.LiveHoverGetResponse
 import sdl.moe.yabapi.data.live.LiveInitGetResponse
 import sdl.moe.yabapi.data.live.LiveRankMedalResponse
 import sdl.moe.yabapi.data.live.LiveRankResponse
+import sdl.moe.yabapi.data.live.LiveRoomPwdResponse
 import sdl.moe.yabapi.data.live.LiveSignInfoGetResponse
 import sdl.moe.yabapi.data.live.LiveSignLastMonthResponse
 import sdl.moe.yabapi.data.live.LiveSignResponse
@@ -114,6 +116,23 @@ public suspend fun BiliClient.getLiveIndexList(
     client.get<String>(LIVE_SHOW_LIST_GET)
         .deserializeJson<LiveIndexList>()
         .also { logger.debug { "Got live index list: $it" } }
+}
+
+/**
+ * 驗證房間密碼
+ */
+public suspend fun BiliClient.checkLivePwd(
+    id: Int,
+    pwd: String,
+    context: CoroutineContext = this.context
+): LiveRoomPwdResponse = withContext(context) {
+    logger.debug { "Checking Live Pwd for id$id" }
+    client.get<String>(LIVE_CHECK_PWD_URL) {
+        parameter("room_id", id)
+        parameter("pwd", pwd)
+    }.deserializeJson<LiveRoomPwdResponse>().also {
+        logger.debug { "Checked Live Pwd for id$id: $it" }
+    }
 }
 
 /**
