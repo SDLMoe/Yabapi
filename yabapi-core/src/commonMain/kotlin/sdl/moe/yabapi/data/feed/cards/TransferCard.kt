@@ -11,7 +11,7 @@ import kotlin.native.concurrent.ThreadLocal
 
 @Serializable
 public data class TransferCard(
-    @SerialName("user") val user: User,
+    @SerialName("user") val user: SimpleFeedCardUser,
     @SerialName("item") val item: Item,
     @SerialName("origin") private val _origin: String,
     @SerialName("origin_extension") val originExtension: JsonObject,
@@ -20,13 +20,6 @@ public data class TransferCard(
 ) : FeedCard {
     public fun getOrigin(json: Json = defaultJsonParser): FeedCard? =
         FeedCardFactory.map[item.originType]?.decode(json, _origin)
-
-    @Serializable
-    public data class User(
-        @SerialName("uid") val uid: Int,
-        @SerialName("uname") val username: String,
-        @SerialName("face") val face: String,
-    )
 
     @Serializable
     public data class Item(

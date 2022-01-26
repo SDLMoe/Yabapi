@@ -12,7 +12,11 @@ public abstract class FeedCardFactory {
     @ThreadLocal
     public companion object {
         private val factories by lazy {
-            mutableListOf<FeedCardFactory>()
+            listOf(
+                ImageCard,
+                TextCard,
+                TransferCard,
+            )
         }
 
         public val map: Map<Int, FeedCardFactory> by lazy {
