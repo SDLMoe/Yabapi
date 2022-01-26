@@ -202,7 +202,7 @@ private val allowedBatchAction by lazy { listOf(RelationAction.SUB, ADD_BLACKLIS
  * @param source 關注來源 [SubscribeSource]
  */
 public suspend fun BiliClient.modifyRelation(
-    mids: List<Int>,
+    mids: IntArray,
     action: RelationAction,
     source: SubscribeSource = SPACE,
     context: CoroutineContext = this.context,

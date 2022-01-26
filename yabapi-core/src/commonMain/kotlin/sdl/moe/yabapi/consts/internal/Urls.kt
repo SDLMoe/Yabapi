@@ -215,6 +215,8 @@ internal const val ALBUM_UPLOAD_URL = "$VC_API/api/v1/drawImage/upload"
 
 internal const val FEED_CONTENT_GET_URL = "$VC_API/dynamic_svr/v1/dynamic_svr/get_dynamic_detail"
 
+internal const val FEED_NEW_GET_URL = "$VC_API/dynamic_svr/v1/dynamic_svr/dynamic_new" // ?uid=25554216&type_list=4
+
 // endregion
 
 // region ================ Live ========================================

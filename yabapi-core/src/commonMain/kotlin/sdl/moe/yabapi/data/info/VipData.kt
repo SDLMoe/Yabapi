@@ -5,10 +5,12 @@ package sdl.moe.yabapi.data.info
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
+import sdl.moe.yabapi.data.RgbColor
 import sdl.moe.yabapi.data.info.VipStatus.IP_CHANGE_FREQUENT
 import sdl.moe.yabapi.data.info.VipStatus.NORMAL
 import sdl.moe.yabapi.data.info.VipStatus.RISK_LOCKED
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
+import sdl.moe.yabapi.serializer.data.RgbColorStringSerializer
 
 /**
  * 大会员数据类
@@ -30,7 +32,8 @@ public data class Vip(
     @SerialName("theme_type") val themeType: Int? = null,
     @SerialName("label") val label: VipLabel? = null,
     @SerialName("avatar_subscript") val isShowSubscript: Boolean? = null,
-    @SerialName("nickname_color") val nicknameColor: String? = null,
+    @Serializable(RgbColorStringSerializer::class)
+    @SerialName("nickname_color") val nicknameColor: RgbColor? = null,
     @SerialName("role") val role: Int? = null,
     @SerialName("avatar_subscript_url") val avatarSubscriptUrl: String? = null,
 )

@@ -21,12 +21,12 @@ public data class Official(
 )
 
 @Serializable(with = OfficialRoleSerializer::class)
-public enum class OfficialRole(public val valueList: List<Int>) {
-    UNKNOWN(emptyList()),
+public enum class OfficialRole(public val codes: IntArray) {
+    UNKNOWN(intArrayOf()),
 
-    NONE(listOf(0)),
+    NONE(intArrayOf(0)),
 
-    PERSONAL(listOf(1, 2, 7)),
+    PERSONAL(intArrayOf(1, 2, 7)),
 
-    ORGANIZATION(listOf(3, 4, 5, 6))
+    ORGANIZATION(intArrayOf(3, 4, 5, 6))
 }

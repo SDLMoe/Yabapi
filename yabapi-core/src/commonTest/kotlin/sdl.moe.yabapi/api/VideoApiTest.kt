@@ -164,7 +164,8 @@ internal class VideoApiTest {
                         needHDR = true,
                         need4K = true,
                         need8K = true,
-                        needDolby = true)
+                        needDolby = true
+                    )
                 )
             )
         }

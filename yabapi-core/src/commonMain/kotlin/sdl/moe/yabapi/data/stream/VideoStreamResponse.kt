@@ -111,4 +111,5 @@ public data class SupportFormat(
     @SerialName("new_description") val newDescription: String,
     @SerialName("display_desc") val description: String,
     @SerialName("superscript") val superscript: String,
+    @SerialName("codecs") val codecs: List<String>,
 )

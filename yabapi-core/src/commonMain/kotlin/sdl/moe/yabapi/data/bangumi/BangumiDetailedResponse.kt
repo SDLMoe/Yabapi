@@ -63,7 +63,7 @@ public data class BangumiDetailed(
     @SerialName("title") val title: String,
     @SerialName("subtitle") val subtitle: String,
     @SerialName("total") val total: Int, // if not finished, -1
-    @SerialName("type") val type: Int,
+    @SerialName("type") val type: BangumiType = BangumiType.UNKNOWN,
     @SerialName("up_info") val owner: BangumiOwner,
     @SerialName("user_status") val userStatus: BangumiUserStatus, // BangumiUserStatus
     @SerialName("freya") val freya: BangumiBubble,
@@ -198,7 +198,7 @@ public data class BangumiSection(
     @SerialName("episodes") val episodes: List<BangumiEpisode> = emptyList(),
     @SerialName("id") val id: Int,
     @SerialName("title") val title: String,
-    @SerialName("type") val type: Int,
+    @SerialName("type") val type: BangumiType = BangumiType.UNKNOWN,
 )
 
 @Serializable

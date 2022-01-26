@@ -1,6 +1,5 @@
 package sdl.moe.yabapi.data.live.commands
 
-import kotlinx.atomicfu.atomic
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
@@ -9,6 +8,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import sdl.moe.yabapi.BiliClient
+import sdl.moe.yabapi.consts.defaultJsonParser
 import kotlin.native.concurrent.ThreadLocal
 
 @Serializable
@@ -25,7 +25,7 @@ public data class RawLiveCommand(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun getData(json: Json = Json): LiveCommand? = LiveCommandFactory.map[operation]?.decode(json, value)
+    public inline fun getData(json: Json = defaultJsonParser): LiveCommand? = LiveCommandFactory.map[operation]?.decode(json, value)
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun BiliClient.getData(): LiveCommand? = getData(this.json)
@@ -45,47 +45,40 @@ public sealed class LiveCommandFactory {
 
     @ThreadLocal
     public companion object {
-        private var isInitialized = atomic(false)
-
-        internal fun init() {
-            if (!isInitialized.value) {
-
-                isInitialized.getAndSet(true)
-            }
+        private val factories: List<LiveCommandFactory> by lazy {
+            listOf(
+                ComboSendCmd,
+                DanmakuMsgCmd,
+                EntryEffectCmd,
+                GuardBuyCmd,
+                HotRankChangeCmd,
+                HotRankChangeV2Cmd,
+                HotRankSettlementCmd,
+                HotRankSettlementV2Cmd,
+                HotRoomNotifyCmd,
+                InteractWordCmd,
+                LiveInteractGameCmd,
+                LotAwardCmd,
+                LotCheckStatusCmd,
+                LotEndCmd,
+                LotStartCmd,
+                MatchRoomConfCmd,
+                NoticeMsgCmd,
+                OnlineRankCountCmd,
+                OnlineRankTopCmd,
+                OnlineRankV2Cmd,
+                RoomChangeCmd,
+                RoomUpdateCmd,
+                SendGiftCmd,
+                StopRoomListCmd,
+                SuperChatDeleteCmd,
+                SuperChatEntranceCmd,
+                SuperChatMsgCmd,
+                SuperChatMsgJpnCmd,
+                UserToastMsgCmd,
+                WidgetBannerCmd
+            )
         }
-
-        private val factories: List<LiveCommandFactory> = listOf(
-            ComboSendCmd,
-            DanmakuMsgCmd,
-            EntryEffectCmd,
-            GuardBuyCmd,
-            HotRankChangeCmd,
-            HotRankChangeV2Cmd,
-            HotRankSettlementCmd,
-            HotRankSettlementV2Cmd,
-            HotRoomNotifyCmd,
-            InteractWordCmd,
-            LiveInteractGameCmd,
-            LotAwardCmd,
-            LotCheckStatusCmd,
-            LotEndCmd,
-            LotStartCmd,
-            MatchRoomConfCmd,
-            NoticeMsgCmd,
-            OnlineRankCountCmd,
-            OnlineRankTopCmd,
-            OnlineRankV2Cmd,
-            RoomChangeCmd,
-            RoomUpdateCmd,
-            SendGiftCmd,
-            StopRoomListCmd,
-            SuperChatDeleteCmd,
-            SuperChatEntranceCmd,
-            SuperChatMsgCmd,
-            SuperChatMsgJpnCmd,
-            UserToastMsgCmd,
-            WidgetBannerCmd
-        )
 
         public val map: Map<String, LiveCommandFactory> by lazy {
             factories.associateBy { it.operation }

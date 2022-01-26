@@ -14,12 +14,12 @@ import kotlin.jvm.JvmInline
 @Serializable
 public data class LevelInfo(
     @SerialName("current_level") val currentLevel: Int,
-    @SerialName("current_min") val currentMin: Int,
-    @SerialName("current_exp") val currentExp: Int,
-    @SerialName("next_exp") val nextExp: NextExp,
+    @SerialName("current_min") val currentMin: Int? = null,
+    @SerialName("current_exp") val currentExp: Int? = null,
+    @SerialName("next_exp") val nextExp: NextExp? = null,
 ) {
     public fun toReadString(): String =
-        "lv.$currentLevel $currentExp/${nextExp.toReadString()}"
+        "lv.$currentLevel $currentExp/${nextExp?.toReadString()}"
 }
 
 /**
