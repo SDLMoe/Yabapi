@@ -13,6 +13,7 @@ public abstract class FeedCardFactory {
     public companion object {
         private val factories by lazy {
             listOf(
+                ArticleCard,
                 ImageCard,
                 RepostCard,
                 TextCard,
