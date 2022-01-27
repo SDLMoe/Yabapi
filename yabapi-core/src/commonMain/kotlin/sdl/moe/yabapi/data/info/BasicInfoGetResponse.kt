@@ -52,7 +52,7 @@ public data class BasicInfoData(
     @SerialName("vip_label") val vipLabel: VipLabel? = null,
     @SerialName("vip_avatar_subscript") val isShowSubscript: Boolean? = null,
     @SerialName("vip_nickname_color") val vipNicknameColor: String? = null,
-    @SerialName("vip") val vip: Vip? = null,
+    @SerialName("vip") val vip: UserVip? = null,
     @SerialName("wallet") val wallet: Wallet? = null,
     @SerialName("has_shop") val hasShop: Boolean? = null,
     @SerialName("shop_url") val shopUrl: String? = null,

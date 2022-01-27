@@ -285,3 +285,13 @@ internal const val UNREAD_WHISPER_COUNT_GET_URL = "$VC_API/session_svr/v1/sessio
 internal const val SEND_MESSAGE_URL = "$VC_API/web_im/v1/web_im/send_msg"
 
 // endregion
+
+// region ================ Article ========================================
+
+internal const val ARTICLE_PAGE_URL = "$WWW/read"
+
+internal const val ARTICLE_BASIC_INFO_GET_URL = "$MAIN/x/article/viewinfo"
+
+internal const val ARTICLE_COLLECTION_INFO_GET_URL = "$MAIN/x/article/list/web/articles"
+
+// endregion

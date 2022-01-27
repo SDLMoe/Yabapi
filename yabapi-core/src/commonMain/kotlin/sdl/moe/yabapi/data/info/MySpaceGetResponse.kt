@@ -31,7 +31,7 @@ public data class MySpace(
     @SerialName("email_status") val hasEmailBind: Boolean,
     @SerialName("tel_status") val hasTelBind: Boolean,
     @SerialName("identification") val identification: Int,
-    @SerialName("vip") val vip: Vip,
+    @SerialName("vip") val vip: UserVip,
     @SerialName("pendant") val pendant: Pendant,
     @SerialName("nameplate") val nameplate: UserNameplateData,
     @SerialName("official") val official: Official,

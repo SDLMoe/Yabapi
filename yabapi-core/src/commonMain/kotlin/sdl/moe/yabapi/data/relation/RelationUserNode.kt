@@ -41,7 +41,7 @@ public data class RelationUserNode(
 )
 
 /**
- * @see [sdl.moe.yabapi.data.info.Vip]
+ * @see [sdl.moe.yabapi.data.info.UserVip]
  */
 @Serializable
 public data class RelationVipInfo(

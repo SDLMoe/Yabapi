@@ -36,7 +36,7 @@ public data class UserSpace(
     @SerialName("fans_badge") val hasFansBadge: Boolean,
     @SerialName("fans_medal") val fansMedal: UserFansMedal,
     @SerialName("official") val official: Official,
-    @SerialName("vip") val vip: Vip,
+    @SerialName("vip") val vip: UserVip,
     @SerialName("pendant") val pendant: Pendant,
     @SerialName("nameplate") val nameplate: UserNameplateData,
     @SerialName("user_honour_info") val userHonourInfo: UserHonourInfo,

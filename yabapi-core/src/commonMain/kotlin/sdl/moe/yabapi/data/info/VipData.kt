@@ -24,7 +24,7 @@ import sdl.moe.yabapi.serializer.data.RgbColorStringSerializerNullable
  * @param avatarSubscriptUrl 頭像下標, 如黃色閃電, 大會員
  */
 @Serializable
-public data class Vip(
+public data class UserVip(
     @SerialName("type") val type: VipType = VipType.UNKNOWN,
     @SerialName("status") val status: VipStatus = VipStatus.UNKNOWN,
     @SerialName("due_date") val dueDate: Long? = null,

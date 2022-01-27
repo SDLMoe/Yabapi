@@ -9,7 +9,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
-import sdl.moe.yabapi.data.info.Vip
+import sdl.moe.yabapi.data.info.UserVip
 import sdl.moe.yabapi.enums.feed.FeedType
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
@@ -47,7 +47,7 @@ public data class ImageCard(
         @SerialName("head_url") val headUrl: String,
         @SerialName("name") val name: String,
         @SerialName("uid") val uid: Int,
-        @SerialName("vip") val vip: Vip,
+        @SerialName("vip") val vip: UserVip,
     )
 
     public companion object : FeedCardFactory() {

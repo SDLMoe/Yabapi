@@ -137,7 +137,6 @@ kotlin {
     }
 }
 
-
 publishing {
     // Configure maven central repository
     repositories {
