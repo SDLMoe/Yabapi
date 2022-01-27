@@ -48,15 +48,12 @@ public data class VideoAttribute(
     }
 }
 
-private fun List<Pair<Boolean, Int>>.booleansToInt(): Int {
-    var result = 0
-    forEach { (key, value) ->
-        if (key) {
-            result = result or (1 shl value)
+private fun List<Pair<Boolean, Int>>.booleansToInt(): Int =
+    asSequence()
+        .filter { it.first }
+        .fold(0) { acc, (_, bit) ->
+            acc or (1 shl bit)
         }
-    }
-    return result
-}
 
 private fun Int.intToBooleans(): BooleanArray {
     val result = BooleanArray(32)
