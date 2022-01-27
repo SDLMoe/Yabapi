@@ -31,6 +31,8 @@ public suspend fun BiliClient.getFeedContent(
 public suspend fun BiliClient.getNewFeed(
     currentUid: Int,
     types: IntArray,
+    from: String = "weball",
+    platform: String = "web",
     context: CoroutineContext = this.context,
 ): NewFeedResponse = withContext(context) {
     val typesStr = types.joinToString(",")
@@ -38,6 +40,8 @@ public suspend fun BiliClient.getNewFeed(
     client.get<String>(FEED_NEW_GET_URL) {
         parameter("uid", currentUid)
         parameter("type_list", typesStr)
+        parameter("from", from)
+        parameter("platform", platform)
     }.deserializeJson<NewFeedResponse>().also {
         logger.debug { "Got new feed for uid $currentUid|types[$typesStr]: $it" }
     }

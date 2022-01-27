@@ -8,6 +8,11 @@ import kotlinx.serialization.json.JsonObject
 import sdl.moe.yabapi.Yabapi.defaultJson
 import sdl.moe.yabapi.data.feed.cards.FeedCard
 import sdl.moe.yabapi.data.feed.cards.FeedCardFactory
+import sdl.moe.yabapi.util.Logger
+import kotlin.native.concurrent.SharedImmutable
+
+@SharedImmutable
+private val logger by lazy { Logger("FeedCardNode") }
 
 @Serializable
 public data class FeedCardNode(
@@ -22,7 +27,10 @@ public data class FeedCardNode(
 ) {
     public fun getCard(json: Json = defaultJson.value): FeedCard? =
         _card?.let {
-            FeedCardFactory.map[description?.type]?.decode(json, _card)
+            FeedCardFactory.map[description?.type]?.decode(json, _card) ?: run {
+                logger.warn { "Failed to decode feed card type ${description?.type}, raw: $_card" }
+                null
+            }
         }
 
     public fun getExtendJson(json: Json = defaultJson.value): JsonObject? =

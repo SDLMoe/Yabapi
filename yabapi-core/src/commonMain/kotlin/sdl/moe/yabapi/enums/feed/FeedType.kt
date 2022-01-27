@@ -12,5 +12,11 @@ public enum class FeedType(public val code: Int) {
     VIDEO(8),
 
     ARTICLE(64),
+
+    BANGUMI(512),
+
+    LIVE(4308),
+
+    ALL(268435455),
     ;
 }

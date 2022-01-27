@@ -14,7 +14,9 @@ public abstract class FeedCardFactory {
         private val factories by lazy {
             listOf(
                 ArticleCard,
+                BangumiCard,
                 ImageCard,
+                LiveCard,
                 RepostCard,
                 TextCard,
                 VideoCard,

@@ -29,6 +29,7 @@ public data class NewFeedData(
     @SerialName("attentions") val subs: FeedSubscribes,
     @SerialName("max_dynamic_id") val maxFeedId: ULong,
     @SerialName("history_offset") val historyOffset: ULong,
+    @SerialName("rcmd_cards") val rcmdCards: JsonArray? = null,
     @SerialName("_gt_") val gt: Int? = null,
 ) {
     @Serializable

@@ -39,6 +39,7 @@ public data class FeedDescription(
     @SerialName("rid_str") val ridStr: String,
     @SerialName("bvid") val bvId: String? = null,
     @SerialName("origin") val origin: FeedDescription? = null,
+    @SerialName("previous") val previous: FeedDescription? = null,
 )
 
 @Serializable
