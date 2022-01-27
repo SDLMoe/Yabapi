@@ -1,5 +1,6 @@
 package sdl.moe.yabapi.api
 
+import kotlinx.coroutines.delay
 import sdl.moe.yabapi.client
 import sdl.moe.yabapi.enums.feed.FeedType
 import sdl.moe.yabapi.initTest
@@ -10,6 +11,7 @@ internal class FeedApiTest {
     init {
         initTest()
     }
+
     @Test
     fun getFeedContentTest() = runTest {
         client.getFeedContent(619969539813998819uL)
@@ -25,4 +27,25 @@ internal class FeedApiTest {
         }
     }
 
+    @Test
+    fun getHistoryFeedTest() = runTest {
+        client.apply {
+            val currentUid = getBasicInfo().data.mid!!
+            val types = intArrayOf(FeedType.ALL.code)
+            var hasNext = true
+            var offset = null ?: getNewFeed(currentUid, types).data!!.historyOffset
+            while (hasNext) {
+                getHistoryFeed(currentUid, types, offset!!).data.also { feeds ->
+                    feeds?.cards?.forEach {
+                        println(it.getCard())
+                    }
+                }.also {
+                    hasNext = it?.hasMore!!
+                    offset = it.nextOffset!!
+                    println("=============Now Offset $offset=============")
+                }
+                delay(2500)
+            }
+        }
+    }
 }

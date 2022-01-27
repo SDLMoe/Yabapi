@@ -19,7 +19,9 @@ import sdl.moe.yabapi.enums.video.VideoType
 public data class VideoCard(
     @SerialName("aid") val aid: Int,
     @SerialName("attribute") val attribute: VideoAttribute,
+    @SerialName("attribute_v2") val attributeV2: Int? = null,
     @SerialName("cid") val cid: Int,
+    @SerialName("comment_jump_url") val commentJumpUrl: String? = null,
     @SerialName("copyright") val copyright: VideoCopyright,
     @SerialName("ctime") val createdTime: Long,
     @SerialName("desc") val desc: String,
@@ -35,6 +37,7 @@ public data class VideoCard(
     @SerialName("pubdate") val releaseDate: Long,
     @SerialName("redirect_url") val redirectUrl: String? = null,
     @SerialName("rights") val rights: VideoRights,
+    @SerialName("share_subtitle") val shareSubtitle: String? = null,
     @SerialName("season_id") val seasonId: Int? = null,
     @SerialName("short_link") val shortLink: String,
     @SerialName("short_link_v2") val shortLinkV2: String,

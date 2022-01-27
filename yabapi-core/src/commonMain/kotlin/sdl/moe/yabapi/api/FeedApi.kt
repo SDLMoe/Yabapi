@@ -5,8 +5,10 @@ import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.consts.internal.FEED_CONTENT_GET_URL
+import sdl.moe.yabapi.consts.internal.FEED_HISTORY_GET_URL
 import sdl.moe.yabapi.consts.internal.FEED_NEW_GET_URL
 import sdl.moe.yabapi.data.feed.FeedContentResponse
+import sdl.moe.yabapi.data.feed.FeedHistoryResponse
 import sdl.moe.yabapi.data.feed.NewFeedResponse
 import sdl.moe.yabapi.deserializeJson
 import sdl.moe.yabapi.util.Logger
@@ -44,5 +46,26 @@ public suspend fun BiliClient.getNewFeed(
         parameter("platform", platform)
     }.deserializeJson<NewFeedResponse>().also {
         logger.debug { "Got new feed for uid $currentUid|types[$typesStr]: $it" }
+    }
+}
+
+public suspend fun BiliClient.getHistoryFeed(
+    currentUid: Int,
+    types: IntArray,
+    offset: ULong,
+    from: String = "weball",
+    platform: String = "web",
+    context: CoroutineContext = this.context,
+): FeedHistoryResponse = withContext(context) {
+    val typesStr = types.joinToString(",")
+    logger.debug { "Getting new feed for uid $currentUid|types[$typesStr]|offset$offset..." }
+    client.get<String>(FEED_HISTORY_GET_URL) {
+        parameter("uid", currentUid)
+        parameter("offset_dynamic_id", offset)
+        parameter("type", typesStr)
+        parameter("from", from)
+        parameter("platform", platform)
+    }.deserializeJson<FeedHistoryResponse>().also {
+        logger.debug { "Got new feed for uid $currentUid|types[$typesStr]|offset$offset: $it" }
     }
 }

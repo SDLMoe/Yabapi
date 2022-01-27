@@ -10,7 +10,7 @@ import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
-public data class NewFeedResponse(
+public data class FeedHistoryResponse(
     @SerialName("code") val code: GeneralCode = UNKNOWN,
     @SerialName("msg") val msg: String? = null,
     @SerialName("message") val message: String? = null,

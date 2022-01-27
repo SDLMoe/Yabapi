@@ -32,7 +32,7 @@ public data class FeedDescription(
     @SerialName("stype") val sType: Int? = null,
     @SerialName("r_type") val rType: Int? = null,
     @SerialName("inner_id") val innerId: Int? = null,
-    @SerialName("status") val status: Int,
+    @SerialName("status") val status: Int? = null,
     @SerialName("dynamic_id_str") val feedIdStr: String,
     @SerialName("pre_dy_id_str") val preFeedIdStr: String,
     @SerialName("orig_dy_id_str") val originFeedIdStr: String,
@@ -45,9 +45,9 @@ public data class FeedDescription(
 @Serializable
 public data class UserInfo(
     @SerialName("uid") val uid: Int,
-    @SerialName("uname") val uname: String,
-    @SerialName("face") val face: String,
-    @SerialName("face_nft") val faceNft: Boolean,
+    @SerialName("uname") val uname: String? = null,
+    @SerialName("face") val face: String? = null,
+    @SerialName("face_nft") val faceNft: Boolean? = null,
 )
 
 @Serializable

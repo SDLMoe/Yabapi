@@ -217,6 +217,8 @@ internal const val FEED_CONTENT_GET_URL = "$VC_API/dynamic_svr/v1/dynamic_svr/ge
 
 internal const val FEED_NEW_GET_URL = "$VC_API/dynamic_svr/v1/dynamic_svr/dynamic_new" // ?uid=$uid&type_list=$list
 
+internal const val FEED_HISTORY_GET_URL = "$VC_API/dynamic_svr/v1/dynamic_svr/dynamic_history"
+
 // endregion
 
 // region ================ Live ========================================

@@ -16,10 +16,11 @@ public data class TextCard(
         @SerialName("rp_id") val rpId: ULong,
         @SerialName("uid") val uid: Int,
         @SerialName("content") val content: String,
-        @SerialName("ctrl") val ctrl: String,
-        @SerialName("orig_dy_id") val originFeedId: Int,
-        @SerialName("pre_dy_id") val preFeedId: Int,
+        @SerialName("ctrl") val ctrl: String? = null,
+        @SerialName("orig_dy_id") val originFeedId: Int? = null,
+        @SerialName("pre_dy_id") val preFeedId: Int? = null,
         @SerialName("timestamp") val timestamp: Long,
+        @SerialName("at_uids") val atUids: List<Int> = emptyList(),
         @SerialName("reply") val reply: Int,
     )
 
