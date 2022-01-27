@@ -1,8 +1,9 @@
 package sdl.moe.yabapi.data.video
 
 import kotlinx.serialization.Serializable
+import sdl.moe.yabapi.serializer.data.video.VideoAttributeSerializer
 
-@Serializable
+@Serializable(VideoAttributeSerializer::class)
 public data class VideoAttribute(
     val noRanking: Boolean = false,
     val noFeed: Boolean = false,
@@ -29,21 +30,19 @@ public data class VideoAttribute(
     ).booleansToInt()
 
     public companion object {
-        public fun decode(data: Int): VideoAttribute {
-            data.intToBooleans().let {
-                return VideoAttribute(
-                    noRanking = it[0],
-                    noFeed = it[1],
-                    noWeb = it[2],
-                    noApp = it[3],
-                    noSearch = it[4],
-                    noRecommend = it[6],
-                    isPgc = it[9],
-                    notReportedAd = it[12],
-                    isAreaLimited = it[13],
-                    blockAddTags = it[14],
-                )
-            }
+        public fun decode(data: Int): VideoAttribute = data.intToBooleans().let {
+            VideoAttribute(
+                noRanking = it[0],
+                noFeed = it[1],
+                noWeb = it[2],
+                noApp = it[3],
+                noSearch = it[4],
+                noRecommend = it[6],
+                isPgc = it[9],
+                notReportedAd = it[12],
+                isAreaLimited = it[13],
+                blockAddTags = it[14],
+            )
         }
     }
 }

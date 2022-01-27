@@ -4,6 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import sdl.moe.yabapi.enums.feed.FeedType
 
 @Serializable
 public data class TextCard(
@@ -16,14 +17,14 @@ public data class TextCard(
         @SerialName("uid") val uid: Int,
         @SerialName("content") val content: String,
         @SerialName("ctrl") val ctrl: String,
-        @SerialName("orig_by_id") val originFeedId: Int,
-        @SerialName("pre_dynamic_id") val preFeedId: Int,
+        @SerialName("orig_dy_id") val originFeedId: Int,
+        @SerialName("pre_dy_id") val preFeedId: Int,
         @SerialName("timestamp") val timestamp: Long,
         @SerialName("reply") val reply: Int,
     )
 
     public companion object: FeedCardFactory() {
-        override val code: Int = 4
+        override val code: Int = FeedType.TEXT.code
 
         override fun decode(json: Json, data: String): TextCard = json.decodeFromString(data)
     }

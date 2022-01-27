@@ -11,7 +11,7 @@ import sdl.moe.yabapi.data.feed.cards.FeedCardFactory
 
 @Serializable
 public data class FeedCardNode(
-    @SerialName("activity_infos") val activityInfos: JsonObject? = null,
+    @SerialName("activity_infos") val activityInfos: FeedActivity? = null,
     @SerialName("desc") val description: FeedDescription? = null,
     @SerialName("card") private val _card: String? = null,
     @SerialName("extension") val extension: JsonObject? = null,

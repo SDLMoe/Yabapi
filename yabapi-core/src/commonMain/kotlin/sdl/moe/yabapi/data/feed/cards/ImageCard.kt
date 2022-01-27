@@ -10,6 +10,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import sdl.moe.yabapi.data.info.Vip
+import sdl.moe.yabapi.enums.feed.FeedType
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
@@ -50,7 +51,7 @@ public data class ImageCard(
     )
 
     public companion object : FeedCardFactory() {
-        override val code: Int = 2
+        override val code: Int = FeedType.IMAGE.code
         override fun decode(json: Json, data: String): ImageCard = json.decodeFromString(data)
     }
 }

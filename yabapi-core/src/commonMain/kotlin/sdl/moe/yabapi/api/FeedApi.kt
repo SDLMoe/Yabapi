@@ -31,15 +31,13 @@ public suspend fun BiliClient.getNewFeed(
     currentUid: Int,
     types: IntArray,
     context: CoroutineContext = this.context,
-): NewFeedResponse {
+): NewFeedResponse = withContext(context) {
     val typesStr = types.joinToString(",")
-    return withContext(context) {
-        logger.debug { "Getting new feed for uid $currentUid|types[$typesStr]..." }
-        client.get<String>(FEED_NEW_GET_URL) {
-            parameter("uid", currentUid)
-            parameter("type_list", typesStr)
-        }.deserializeJson<NewFeedResponse>().also {
-            logger.debug { "Got new feed for uid $currentUid|types[$typesStr]: $it" }
-        }
+    logger.debug { "Getting new feed for uid $currentUid|types[$typesStr]..." }
+    client.get<String>(FEED_NEW_GET_URL) {
+        parameter("uid", currentUid)
+        parameter("type_list", typesStr)
+    }.deserializeJson<NewFeedResponse>().also {
+        logger.debug { "Got new feed for uid $currentUid|types[$typesStr]: $it" }
     }
 }
