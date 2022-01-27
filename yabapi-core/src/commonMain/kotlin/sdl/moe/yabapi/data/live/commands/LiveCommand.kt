@@ -20,14 +20,8 @@ public data class RawLiveCommand(
     }
 
     public val data: LiveCommand? by lazy {
-        getData()
+        LiveCommandFactory.map[operation]?.decode(defaultJson.value, value)
     }
-
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun getData(json: Json = defaultJson.value): LiveCommand? = LiveCommandFactory.map[operation]?.decode(json, value)
-
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun getData(): LiveCommand? = getData(defaultJson.value)
 }
 
 public sealed interface LiveCommand {
