@@ -7,6 +7,7 @@ import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.consts.internal.FEED_CONTENT_GET_URL
 import sdl.moe.yabapi.consts.internal.FEED_NEW_GET_URL
 import sdl.moe.yabapi.data.feed.FeedContentResponse
+import sdl.moe.yabapi.data.feed.NewFeedResponse
 import sdl.moe.yabapi.util.Logger
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
@@ -27,18 +28,18 @@ public suspend fun BiliClient.getFeedContent(
 }
 
 public suspend fun BiliClient.getNewFeed(
-    uid: Int,
+    currentUid: Int,
     types: IntArray,
     context: CoroutineContext = this.context,
-): String {
+): NewFeedResponse {
     val typesStr = types.joinToString(",")
     return withContext(context) {
-        logger.debug { "Getting new feed for uid $uid|types[$typesStr]..." }
+        logger.debug { "Getting new feed for uid $currentUid|types[$typesStr]..." }
         client.get<String>(FEED_NEW_GET_URL) {
-            parameter("uid", uid)
+            parameter("uid", currentUid)
             parameter("type_list", typesStr)
-        }.also {
-            logger.debug { "Got new feed for uid $uid|types[$typesStr]: $it" }
+        }.deserializeJson<NewFeedResponse>().also {
+            logger.debug { "Got new feed for uid $currentUid|types[$typesStr]: $it" }
         }
     }
 }

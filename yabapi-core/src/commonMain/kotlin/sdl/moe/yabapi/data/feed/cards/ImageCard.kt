@@ -19,6 +19,7 @@ public data class ImageCard(
 ): FeedCard {
     @Serializable
     public data class Item(
+        @SerialName("at_control") val atControl: String? = null,
         @SerialName("category") val category: String,
         @SerialName("description") val description: String, // 內容
         @SerialName("id") val id: Int,
@@ -56,7 +57,7 @@ public data class ImageCard(
 
 @Serializable
 public data class CardPicture(
-    @SerialName("image_height") val imageHeight: Int,
+    @SerialName("img_height") val imgHeight: Int,
     @SerialName("img_size") val imgSize: Double,
     @SerialName("img_src") val imgSrc: String,
     @SerialName("img_tags") val imgTags: JsonElement? = null,

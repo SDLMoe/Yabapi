@@ -9,7 +9,7 @@ import kotlinx.serialization.json.Json
 public data class TextCard(
     @SerialName("user") val user: SimpleFeedCardUser,
     @SerialName("item") val item: Item,
-) {
+): FeedCard {
     @Serializable
     public data class Item(
         @SerialName("rp_id") val rpId: ULong,
@@ -25,6 +25,6 @@ public data class TextCard(
     public companion object: FeedCardFactory() {
         override val code: Int = 4
 
-        override fun decode(json: Json, data: String): FeedCard = json.decodeFromString(data)
+        override fun decode(json: Json, data: String): TextCard = json.decodeFromString(data)
     }
 }

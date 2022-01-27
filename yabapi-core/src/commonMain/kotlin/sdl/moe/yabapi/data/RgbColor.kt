@@ -11,7 +11,7 @@ private val hexRegex: Regex = Regex("""^#([0-9a-fA-F]{6,8})$""")
 internal fun trimColor(input: String): String {
     val deblanked = input.replace(Regex("""\s+"""), "")
     val result = hexRegex.find(deblanked)?.groupValues?.getOrNull(1)
-    requireNotNull(result) { "Input must be matched by ${hexRegex.pattern}, input: $input" }
+    requireNotNull(result) { "Input must be matched by ${hexRegex.pattern}, input: \"$input\"" }
     return result
 }
 

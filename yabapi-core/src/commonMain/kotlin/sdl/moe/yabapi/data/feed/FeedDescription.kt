@@ -1,39 +1,43 @@
+@file:UseSerializers(BooleanJsSerializer::class)
+
 package sdl.moe.yabapi.data.feed
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import sdl.moe.yabapi.data.info.OfficialCertify
 import sdl.moe.yabapi.data.info.OfficialRole
 import sdl.moe.yabapi.data.info.VipLabel
 import sdl.moe.yabapi.data.info.VipType
+import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
 public data class FeedDescription(
     @SerialName("uid") val uid: Int,
     @SerialName("type") val type: Int,
-    @SerialName("rid") val rid: Int,
+    @SerialName("rid") val rid: ULong,
     @SerialName("acl") val acl: Int? = null,
-    @SerialName("view") val view: Int,
-    @SerialName("repost") val repost: Int,
+    @SerialName("view") val view: Int? = null,
+    @SerialName("repost") val repost: Int? = null,
     @SerialName("comment") val comment: Int? = null,
-    @SerialName("like") val like: Int,
-    @SerialName("is_liked") val isLiked: Boolean,
+    @SerialName("like") val like: Int? = null,
+    @SerialName("is_liked") val isLiked: Boolean? = null,
     @SerialName("dynamic_id") val dynamic_id: ULong,
     @SerialName("timestamp") val timestamp: Long,
     @SerialName("pre_dy_id") val preFeedId: ULong? = null,
     @SerialName("orig_dy_id") val originFeedId: ULong? = null,
-    @SerialName("orig_type") val originType: Int,
-    @SerialName("user_profile") val userProfile: FeedUserProfile,
-    @SerialName("uid_type") val uidType: Int,
+    @SerialName("orig_type") val originType: Int? = null,
+    @SerialName("user_profile") val userProfile: FeedUserProfile? = null,
+    @SerialName("uid_type") val uidType: Int? = null,
     @SerialName("stype") val sType: Int? = null,
-    @SerialName("r_type") val rType: Int,
+    @SerialName("r_type") val rType: Int? = null,
     @SerialName("inner_id") val innerId: Int? = null,
     @SerialName("status") val status: Int,
     @SerialName("dynamic_id_str") val feedIdStr: String,
     @SerialName("pre_dy_id_str") val preFeedIdStr: String,
     @SerialName("orig_dy_id_str") val originFeedIdStr: String,
     @SerialName("rid_str") val ridStr: String,
-    @SerialName("bvid") val bvId: String,
+    @SerialName("bvid") val bvId: String? = null,
     @SerialName("origin") val origin: FeedDescription? = null,
 )
 

@@ -10,7 +10,7 @@ import sdl.moe.yabapi.data.info.VipStatus.IP_CHANGE_FREQUENT
 import sdl.moe.yabapi.data.info.VipStatus.NORMAL
 import sdl.moe.yabapi.data.info.VipStatus.RISK_LOCKED
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
-import sdl.moe.yabapi.serializer.data.RgbColorStringSerializer
+import sdl.moe.yabapi.serializer.data.RgbColorStringSerializerNullable
 
 /**
  * 大会员数据类
@@ -32,7 +32,7 @@ public data class Vip(
     @SerialName("theme_type") val themeType: Int? = null,
     @SerialName("label") val label: VipLabel? = null,
     @SerialName("avatar_subscript") val isShowSubscript: Boolean? = null,
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("nickname_color") val nicknameColor: RgbColor? = null,
     @SerialName("role") val role: Int? = null,
     @SerialName("avatar_subscript_url") val avatarSubscriptUrl: String? = null,

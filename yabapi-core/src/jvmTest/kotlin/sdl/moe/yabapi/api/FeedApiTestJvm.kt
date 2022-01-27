@@ -6,8 +6,12 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.serialization.encodeToString
 import org.junit.jupiter.api.Test
 import sdl.moe.yabapi.client
+import sdl.moe.yabapi.consts.defaultJsonParser
+import sdl.moe.yabapi.data.GeneralCode.SUCCESS
+import sdl.moe.yabapi.data.feed.NewFeedResponse
 import sdl.moe.yabapi.runTest
 import java.io.File
 
@@ -51,16 +55,16 @@ internal class FeedApiTestJvm {
                     file.parentFile?.mkdirs()
                     if (!file.exists()) file.createNewFile()
                     println("Downloading feed type $type")
-                    suspend fun tryToGet(): String {
+                    suspend fun tryToGet(): NewFeedResponse {
                         val feed = getNewFeed(mid, intArrayOf(type))
-                        return if (feed.contains("\"msg\":\"操作太频繁了，请稍后重试\"")) {
+                        return if (feed.code != SUCCESS) {
                             delay(5000L)
                             println("Retry to get feed type $type")
                             tryToGet()
                         } else feed
                     }
                     tryToGet().let {
-                        file.writeText(it)
+                        file.writeText(defaultJsonParser.encodeToString(it))
                     }
                     delay(1000L)
                 }.flowOn(Dispatchers.IO)

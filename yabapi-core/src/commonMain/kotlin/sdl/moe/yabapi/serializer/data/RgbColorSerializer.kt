@@ -1,6 +1,9 @@
 package sdl.moe.yabapi.serializer.data
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.builtins.nullable
+import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveKind.STRING
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -16,6 +19,24 @@ public object RgbColorStringSerializer : KSerializer<RgbColor> {
 
     override fun serialize(encoder: Encoder, value: RgbColor): Unit = encoder.encodeString(value.hex)
     override fun deserialize(decoder: Decoder): RgbColor = RgbColor.fromHex(decoder.decodeString())
+}
+
+public object RgbColorStringSerializerNullable : KSerializer<RgbColor?> {
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("RgbColorString", STRING)
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override fun serialize(encoder: Encoder, value: RgbColor?): Unit = value?.hex?.let {
+        encoder.encodeString(it)
+    } ?: encoder.encodeNull()
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override fun deserialize(decoder: Decoder): RgbColor? {
+        val decoded = decoder.decodeNullableSerializableValue(String.serializer().nullable)
+        return if (decoded.isNullOrBlank()) {
+            return null
+        } else RgbColor.fromHex(decoded)
+    }
 }
 
 public object RgbColorIntSerializer : KSerializer<RgbColor> {

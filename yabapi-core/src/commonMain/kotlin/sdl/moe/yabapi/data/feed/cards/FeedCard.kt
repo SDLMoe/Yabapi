@@ -15,7 +15,7 @@ public abstract class FeedCardFactory {
             listOf(
                 ImageCard,
                 TextCard,
-                TransferCard,
+                RepostCard,
             )
         }
 
