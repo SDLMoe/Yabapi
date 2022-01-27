@@ -7,6 +7,7 @@ import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.consts.internal.FEED_CONTENT_GET_URL
 import sdl.moe.yabapi.consts.internal.FEED_HISTORY_GET_URL
 import sdl.moe.yabapi.consts.internal.FEED_NEW_GET_URL
+import sdl.moe.yabapi.consts.internal.FEED_SPACE_GET_URL
 import sdl.moe.yabapi.data.feed.FeedContentResponse
 import sdl.moe.yabapi.data.feed.FeedHistoryResponse
 import sdl.moe.yabapi.data.feed.NewFeedResponse
@@ -67,5 +68,25 @@ public suspend fun BiliClient.getHistoryFeed(
         parameter("platform", platform)
     }.deserializeJson<FeedHistoryResponse>().also {
         logger.debug { "Got new feed for uid $currentUid|types[$typesStr]|offset$offset: $it" }
+    }
+}
+
+public suspend fun BiliClient.getFeedByUid(
+    currentUid: Int,
+    targetUid: Int,
+    offset: ULong = 0uL,
+    platform: String = "web",
+    needTop: Boolean = true,
+    context: CoroutineContext = this.context,
+): FeedHistoryResponse = withContext(context) {
+    logger.debug { "Getting new feed by uid $targetUid|offset$offset..." }
+    client.get<String>(FEED_SPACE_GET_URL) {
+        parameter("visitor_uid", currentUid)
+        parameter("host_uid", targetUid)
+        parameter("offset_dynamic_id", offset)
+        parameter("need_top", if (needTop) "1" else "0")
+        parameter("platform", platform)
+    }.deserializeJson<FeedHistoryResponse>().also {
+        logger.debug { "Got new feed by uid $targetUid|offset$offset: $it" }
     }
 }

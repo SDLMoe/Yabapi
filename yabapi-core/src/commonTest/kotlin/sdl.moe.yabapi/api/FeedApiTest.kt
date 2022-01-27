@@ -48,4 +48,9 @@ internal class FeedApiTest {
             }
         }
     }
+
+    @Test
+    fun getFeedByUidTest() = runTest {
+        client.apply { getFeedByUid(getBasicInfo().data.mid!!, 2) }
+    }
 }
