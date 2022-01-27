@@ -26,6 +26,7 @@ import sdl.moe.yabapi.data.relation.RelationQueryBatchResponse
 import sdl.moe.yabapi.data.relation.RelationQueryMutuallyResponse
 import sdl.moe.yabapi.data.relation.RelationQueryResponse
 import sdl.moe.yabapi.data.relation.SpecialFollowingQueryResponse
+import sdl.moe.yabapi.deserializeJson
 import sdl.moe.yabapi.enums.relation.FollowingOrder
 import sdl.moe.yabapi.enums.relation.FollowingOrder.TIME
 import sdl.moe.yabapi.enums.relation.RelationAction

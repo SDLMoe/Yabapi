@@ -9,5 +9,8 @@ public enum class FeedType(public val code: Int) {
 
     TEXT(4),
 
-    VIDEO(8)
+    VIDEO(8),
+
+    ARTICLE(64),
+    ;
 }

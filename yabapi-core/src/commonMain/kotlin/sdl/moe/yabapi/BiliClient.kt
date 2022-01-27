@@ -6,17 +6,9 @@ import io.ktor.client.features.cookies.cookies
 import io.ktor.http.Cookie
 import io.ktor.http.ParametersBuilder
 import kotlinx.coroutines.CoroutineName
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import sdl.moe.yabapi.api.getBasicInfo
-import sdl.moe.yabapi.consts.defaultJsonParser
 import sdl.moe.yabapi.consts.getDefaultHttpClient
-import sdl.moe.yabapi.util.Logger
 import kotlin.coroutines.CoroutineContext
-import kotlin.native.concurrent.SharedImmutable
-
-@SharedImmutable
-private val logger by lazy { Logger("BiliClient") }
 
 /**
  * API入口
@@ -29,16 +21,10 @@ private val logger by lazy { Logger("BiliClient") }
 public class BiliClient(
     public var client: HttpClient,
     public val context: CoroutineContext = Platform.ioDispatcher + CoroutineName("yabapi"),
-    public val json: Json = defaultJsonParser,
 ) {
-    public suspend fun getBiliCookies(): List<Cookie> = client.cookies("https://.bilibili.com")
+    private suspend fun getBiliCookies(): List<Cookie> = client.cookies("https://.bilibili.com")
 
-    public suspend fun getCsrfToken(): Cookie? = getBiliCookies().firstOrNull { it.name == "bili_jct" }
-
-    internal inline fun <reified T> String.deserializeJson(): T {
-        logger.debug { "Received Source String: $this" }
-        return json.decodeFromString(this)
-    }
+    private suspend fun getCsrfToken(): Cookie? = getBiliCookies().firstOrNull { it.name == "bili_jct" }
 
     internal suspend fun ParametersBuilder.putCsrf(key: String = "csrf") {
         val csrf = getCsrfToken()?.value

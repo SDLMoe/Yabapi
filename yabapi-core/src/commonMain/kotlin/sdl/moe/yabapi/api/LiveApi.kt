@@ -5,6 +5,7 @@ import io.ktor.client.request.parameter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
+import sdl.moe.yabapi.Yabapi
 import sdl.moe.yabapi.connect.LiveDanmakuConnectConfig
 import sdl.moe.yabapi.connect.LiveMessageConnection
 import sdl.moe.yabapi.consts.internal.LIVER_INFO_GET_URL
@@ -38,6 +39,7 @@ import sdl.moe.yabapi.data.live.RoomIdByUserResponse
 import sdl.moe.yabapi.data.stream.LiveStreamRequest
 import sdl.moe.yabapi.data.stream.LiveStreamResponse
 import sdl.moe.yabapi.data.stream.putLiveStreamRequest
+import sdl.moe.yabapi.deserializeJson
 import sdl.moe.yabapi.enums.live.LiveArea
 import sdl.moe.yabapi.enums.live.LiveRankType
 import sdl.moe.yabapi.enums.live.LiveRankType.LIVER_VITALITY
@@ -198,7 +200,7 @@ public suspend fun BiliClient.createLiveDanmakuConnection(
         token,
         host,
         bClient.client,
-        bClient.json,
+        Yabapi.defaultJson.value,
         bClient.context,
         config
     ).start()

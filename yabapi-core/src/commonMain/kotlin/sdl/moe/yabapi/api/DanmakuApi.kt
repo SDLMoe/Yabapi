@@ -7,13 +7,14 @@ import kotlinx.datetime.LocalDate
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromByteArray
 import sdl.moe.yabapi.BiliClient
+import sdl.moe.yabapi.Yabapi.protoBuf
 import sdl.moe.yabapi.consts.internal.VIDEO_DANMAKU_CALENDAR_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_DANMAKU_WEB_URL
 import sdl.moe.yabapi.consts.internal.VIDEO_HISTORY_DANMAKU_GET_URL
-import sdl.moe.yabapi.consts.protoBuf
 import sdl.moe.yabapi.data.danmaku.DanmakuCalendarResponse
 import sdl.moe.yabapi.data.danmaku.DanmakuMetadataResponse
 import sdl.moe.yabapi.data.danmaku.DanmakuResponse
+import sdl.moe.yabapi.deserializeJson
 import sdl.moe.yabapi.enums.danmaku.DanmakuType
 import sdl.moe.yabapi.enums.danmaku.DanmakuType.VIDEO
 import sdl.moe.yabapi.util.Logger
@@ -48,7 +49,7 @@ public suspend fun BiliClient.getDanmaku(
         aid?.let { parameter("pid", aid) }
         parameter("segment_index", part)
     }
-    protoBuf.decodeFromByteArray<DanmakuResponse>(bytes).also {
+    protoBuf.value.decodeFromByteArray<DanmakuResponse>(bytes).also {
         logger.debug { "Got danmaku for cid $cid$showAid part $part, count: ${it.danmakus.count()}" }
         logger.verbose { "Danmakus: $it" }
     }
@@ -74,7 +75,7 @@ public suspend fun BiliClient.getDanmakuMetadata(
         parameter("oid", cid)
         aid?.let { parameter("pid", aid) }
     }
-    protoBuf.decodeFromByteArray<DanmakuMetadataResponse>(bytes).also {
+    protoBuf.value.decodeFromByteArray<DanmakuMetadataResponse>(bytes).also {
         logger.debug { "Got danmaku metadata for cid $cid$showAid: $it}" }
     }
 }
@@ -132,7 +133,7 @@ public suspend fun BiliClient.getHistoryDanmaku(
             parameter("oid", cid)
             parameter("date", date)
         }.let<ByteArray, DanmakuResponse> {
-            protoBuf.decodeFromByteArray(it)
+            protoBuf.value.decodeFromByteArray(it)
         }.also {
             logger.debug { "Got History Danmaku for cid$cid on $date: danmaku count ${it.danmakus.count()}" }
             logger.verbose { "$it" }

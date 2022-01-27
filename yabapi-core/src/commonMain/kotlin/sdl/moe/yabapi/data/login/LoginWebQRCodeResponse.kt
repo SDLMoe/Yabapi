@@ -10,7 +10,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.serializer
-import sdl.moe.yabapi.consts.defaultJsonParser
+import sdl.moe.yabapi.Yabapi.defaultJson
 import sdl.moe.yabapi.data.GeneralCode
 import sdl.moe.yabapi.data.login.LoginWebQRCodeResponseCode.UNKNOWN
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
@@ -47,7 +47,7 @@ public data class LoginWebQRCodeResponse(
         if (code != GeneralCode.SUCCESS) {
             try {
                 val serializer = serializer<LoginWebQRCodeResponseCode>()
-                defaultJsonParser.decodeFromJsonElement(serializer, rawData)
+                defaultJson.value.decodeFromJsonElement(serializer, rawData)
             } catch (_: IllegalArgumentException) {
                 UNKNOWN
             }

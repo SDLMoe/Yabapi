@@ -50,6 +50,7 @@ import sdl.moe.yabapi.data.space.SpaceAnnouncementGetResponse
 import sdl.moe.yabapi.data.space.SpaceSettingResponse
 import sdl.moe.yabapi.data.space.SpaceVideoResponse
 import sdl.moe.yabapi.data.space.UserTagsGetResponse
+import sdl.moe.yabapi.deserializeJson
 import sdl.moe.yabapi.enums.video.All
 import sdl.moe.yabapi.enums.video.VideoSort
 import sdl.moe.yabapi.enums.video.VideoSort.TIME

@@ -4,6 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import sdl.moe.yabapi.Yabapi.defaultJson
 import sdl.moe.yabapi.data.danmaku.DanmakuExtraSubType.UNKNOWN
 
 // @Serializable
@@ -54,7 +55,7 @@ public data class CommandDanmaku(
     @SerialName("extra") private val _extra: String? = null,
     @SerialName("idStr") val idStr: String? = null,
 ) {
-    public fun getExtra(json: Json = sdl.moe.yabapi.consts.defaultJsonParser): CommandDanmakuExtra = when (command) {
+    public fun getExtra(json: Json = defaultJson.value): CommandDanmakuExtra = when (command) {
         "#UP#" -> _extra?.let { json.decodeFromString<CommandDanmakuExtraUp>(it) } ?: Unknown
         "#LINK#" -> _extra?.let { json.decodeFromString<CommandDanmakuExtraLink>(it) } ?: Unknown
         "ATTENTION" -> _extra?.let { json.decodeFromString<CommandDanmakuExtraSub>(it) } ?: Unknown

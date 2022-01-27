@@ -6,7 +6,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
-import sdl.moe.yabapi.consts.defaultJsonParser
+import sdl.moe.yabapi.Yabapi.defaultJson
 import sdl.moe.yabapi.data.GeneralCode
 import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
 import sdl.moe.yabapi.data.live.LiveRoomStatus
@@ -47,7 +47,8 @@ public data class LivePlayInfo(
 ) {
     public val confJson: LiveStreamConfigInfo by lazy { getConfJson() }
 
-    public fun getConfJson(json: Json = defaultJsonParser): LiveStreamConfigInfo = json.decodeFromString(_confJson)
+    public fun getConfJson(json: Json = defaultJson.value): LiveStreamConfigInfo =
+        json.decodeFromString(_confJson)
 }
 
 @Serializable

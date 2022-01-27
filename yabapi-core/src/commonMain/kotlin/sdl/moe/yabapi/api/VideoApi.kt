@@ -47,6 +47,7 @@ import sdl.moe.yabapi.data.video.VideoOnlineGetResponse
 import sdl.moe.yabapi.data.video.VideoPartsGetResponse
 import sdl.moe.yabapi.data.video.VideoRelatedGetResponse
 import sdl.moe.yabapi.data.video.VideoTagsGetResponse
+import sdl.moe.yabapi.deserializeJson
 import sdl.moe.yabapi.enums.video.CollectAction
 import sdl.moe.yabapi.enums.video.CollectAction.ADD
 import sdl.moe.yabapi.enums.video.CollectAction.REMOVE

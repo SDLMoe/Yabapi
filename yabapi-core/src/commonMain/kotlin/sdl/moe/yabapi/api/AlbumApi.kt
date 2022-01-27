@@ -20,6 +20,7 @@ import sdl.moe.yabapi.data.album.AlbumCategory.DAILY
 import sdl.moe.yabapi.data.album.AlbumInfoResponse
 import sdl.moe.yabapi.data.album.AlbumUploadResponse
 import sdl.moe.yabapi.data.album.AlbumUploadResponseCode.SUCCESS
+import sdl.moe.yabapi.deserializeJson
 import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.quoteList
 import sdl.moe.yabapi.util.string.toHeaderValue

@@ -8,6 +8,7 @@ import sdl.moe.yabapi.consts.internal.BANGUMI_DETAILED_GET_URL
 import sdl.moe.yabapi.consts.internal.BANGUMI_INFO_GET_URL
 import sdl.moe.yabapi.data.bangumi.BangumiDetailedResponse
 import sdl.moe.yabapi.data.bangumi.BangumiInfoGetResponse
+import sdl.moe.yabapi.deserializeJson
 import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.requireLeastAndOnlyOne
 import kotlin.coroutines.CoroutineContext

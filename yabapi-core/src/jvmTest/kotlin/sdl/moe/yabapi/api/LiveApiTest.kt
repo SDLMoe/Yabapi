@@ -12,9 +12,9 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
 import sdl.moe.yabapi.connect.onRawCommandResponse
-import sdl.moe.yabapi.consts.defaultJsonParser
 import sdl.moe.yabapi.initTest
 import java.io.File
 
@@ -33,7 +33,7 @@ internal class LiveApiJvmTest {
                     LiveApiTest().createConnection(id) {
                         onRawCommandResponse { command ->
                             command.collect {
-                                val encoded = defaultJsonParser.encodeToString(it)
+                                val encoded = Json.encodeToString(it)
                                 withContext(Dispatchers.IO) {
                                     val file = File("./tmp/commands/${it.operation}/${
                                         System.now().toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime().toLocalDate()

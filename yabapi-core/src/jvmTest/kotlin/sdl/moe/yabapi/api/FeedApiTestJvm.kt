@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
 import sdl.moe.yabapi.client
-import sdl.moe.yabapi.consts.defaultJsonParser
 import sdl.moe.yabapi.data.GeneralCode.SUCCESS
 import sdl.moe.yabapi.data.feed.NewFeedResponse
 import sdl.moe.yabapi.runTest
@@ -64,7 +64,7 @@ internal class FeedApiTestJvm {
                         } else feed
                     }
                     tryToGet().let {
-                        file.writeText(defaultJsonParser.encodeToString(it))
+                        file.writeText(Json.encodeToString(it))
                     }
                     delay(1000L)
                 }.flowOn(Dispatchers.IO)

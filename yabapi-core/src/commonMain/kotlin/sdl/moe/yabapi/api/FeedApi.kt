@@ -8,6 +8,7 @@ import sdl.moe.yabapi.consts.internal.FEED_CONTENT_GET_URL
 import sdl.moe.yabapi.consts.internal.FEED_NEW_GET_URL
 import sdl.moe.yabapi.data.feed.FeedContentResponse
 import sdl.moe.yabapi.data.feed.NewFeedResponse
+import sdl.moe.yabapi.deserializeJson
 import sdl.moe.yabapi.util.Logger
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable

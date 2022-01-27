@@ -9,7 +9,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.jsonPrimitive
-import sdl.moe.yabapi.consts.defaultJsonParser
+import sdl.moe.yabapi.Yabapi.defaultJson
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 /**
@@ -21,7 +21,7 @@ public data class SpaceSettingResponse(
     @SerialName("data") private val _data: JsonElement? = null,
 ) {
     val dataWhenTrue: SpaceSetting? by lazy {
-        if (status) _data?.let { defaultJsonParser.decodeFromJsonElement(it) } else null
+        if (status) _data?.let { defaultJson.value.decodeFromJsonElement(it) } else null
     }
 
     val dataWhenFalse: String? by lazy {

@@ -37,6 +37,7 @@ import sdl.moe.yabapi.data.login.QRCodeWebGetResponse
 import sdl.moe.yabapi.data.login.RsaGetResponse
 import sdl.moe.yabapi.data.login.SendSMSResponse
 import sdl.moe.yabapi.data.login.SendSMSResponseCode
+import sdl.moe.yabapi.deserializeJson
 import sdl.moe.yabapi.util.Logger
 import sdl.moe.yabapi.util.encoding.RSAProvider
 import sdl.moe.yabapi.util.encoding.trimPem

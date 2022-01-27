@@ -7,6 +7,7 @@ import io.ktor.http.Parameters
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
+import sdl.moe.yabapi.Yabapi
 import sdl.moe.yabapi.consts.internal.SEND_MESSAGE_URL
 import sdl.moe.yabapi.consts.internal.UNREAD_MESSAGE_COUNT_GET_URL
 import sdl.moe.yabapi.consts.internal.UNREAD_WHISPER_COUNT_GET_URL
@@ -16,6 +17,7 @@ import sdl.moe.yabapi.data.message.MessageSendResponse
 import sdl.moe.yabapi.data.message.UnreadMsgCountGetResponse
 import sdl.moe.yabapi.data.message.UnreadWhisperCountGetResponse
 import sdl.moe.yabapi.data.message.put
+import sdl.moe.yabapi.deserializeJson
 import sdl.moe.yabapi.util.Logger
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
@@ -60,7 +62,7 @@ public suspend fun BiliClient.sendMessage(
     logger.debug { "try to send message: $message" }
     client.post<String>(SEND_MESSAGE_URL) {
         val params = Parameters.build {
-            message.put(this, json)
+            message.put(this, Yabapi.defaultJson.value)
             putCsrf()
         }
         body = FormDataContent(params)

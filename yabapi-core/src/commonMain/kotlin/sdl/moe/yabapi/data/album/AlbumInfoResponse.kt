@@ -9,7 +9,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
-import sdl.moe.yabapi.consts.defaultJsonParser
+import sdl.moe.yabapi.Yabapi.defaultJson
 import sdl.moe.yabapi.data.album.AlbumResponseCode.SUCCESS
 import sdl.moe.yabapi.data.album.AlbumResponseCode.UNKNOWN
 import sdl.moe.yabapi.data.info.VipType
@@ -22,7 +22,7 @@ public data class AlbumInfoResponse(
     @SerialName("message") val message: String? = null,
     @SerialName("data") private val _data: JsonObject? = null,
 ) {
-    public fun getData(json: Json = defaultJsonParser): AlbumInfoData? {
+    public fun getData(json: Json = defaultJson.value): AlbumInfoData? {
         if (code != SUCCESS) return null
         return _data?.let { json.decodeFromJsonElement(_data) }
     }

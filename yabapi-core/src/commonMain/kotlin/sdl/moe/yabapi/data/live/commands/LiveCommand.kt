@@ -7,8 +7,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import sdl.moe.yabapi.BiliClient
-import sdl.moe.yabapi.consts.defaultJsonParser
+import sdl.moe.yabapi.Yabapi.defaultJson
 import kotlin.native.concurrent.ThreadLocal
 
 @Serializable
@@ -25,10 +24,10 @@ public data class RawLiveCommand(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun getData(json: Json = defaultJsonParser): LiveCommand? = LiveCommandFactory.map[operation]?.decode(json, value)
+    public inline fun getData(json: Json = defaultJson.value): LiveCommand? = LiveCommandFactory.map[operation]?.decode(json, value)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun BiliClient.getData(): LiveCommand? = getData(this.json)
+    public inline fun getData(): LiveCommand? = getData(defaultJson.value)
 }
 
 public sealed interface LiveCommand {

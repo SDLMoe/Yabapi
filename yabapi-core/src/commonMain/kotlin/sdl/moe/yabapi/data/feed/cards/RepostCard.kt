@@ -8,7 +8,7 @@ import kotlinx.serialization.UseSerializers
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import sdl.moe.yabapi.consts.defaultJsonParser
+import sdl.moe.yabapi.Yabapi.defaultJson
 import sdl.moe.yabapi.data.feed.FeedActivity
 import sdl.moe.yabapi.data.feed.FeedUserProfile
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
@@ -24,7 +24,7 @@ public data class RepostCard(
     @SerialName("origin_user") val originUser: FeedUserProfile? = null,
     @SerialName("activity_infos") val activityInfos: FeedActivity? = null,
 ) : FeedCard {
-    public fun getOrigin(json: Json = defaultJsonParser): FeedCard? =
+    public fun getOrigin(json: Json = defaultJson.value): FeedCard? =
         _origin?.let { FeedCardFactory.map[item.originType]?.decode(json, it) }
 
     @Serializable

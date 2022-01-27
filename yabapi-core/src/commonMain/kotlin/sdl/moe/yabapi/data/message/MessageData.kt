@@ -5,6 +5,7 @@ import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import sdl.moe.yabapi.Yabapi.defaultJson
 import kotlin.native.concurrent.SharedImmutable
 
 @Serializable
@@ -19,7 +20,7 @@ public data class MessageData(
 
 public fun MessageData.put(
     builder: ParametersBuilder,
-    json: Json = Json,
+    json: Json = defaultJson.value,
 ): ParametersBuilder = builder.apply {
     append("msg[sender_uid]", senderUid.toString())
     append("msg[receiver_id]", receiverId.toString())

@@ -11,10 +11,6 @@ import io.ktor.client.features.defaultRequest
 import io.ktor.client.features.websocket.WebSockets
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.protobuf.ProtoBuf
-import kotlin.native.concurrent.SharedImmutable
 
 public expect fun getDefaultEngine(): HttpClientEngineFactory<*>
 
@@ -46,17 +42,6 @@ public fun getDefaultHttpClient(
             header(HttpHeaders.AcceptCharset, "UTF-8")
         }
     }
-
-@SharedImmutable
-public val defaultJsonParser: Json = Json {
-    prettyPrint = true
-    isLenient = true
-    coerceInputValues = true
-}
-
-@ExperimentalSerializationApi
-@SharedImmutable
-public val protoBuf: ProtoBuf = ProtoBuf
 
 // Safari + MacOS User Agent
 internal const val WEB_USER_AGENT: String =
