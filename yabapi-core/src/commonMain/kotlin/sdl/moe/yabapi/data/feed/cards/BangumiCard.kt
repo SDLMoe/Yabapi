@@ -9,6 +9,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import sdl.moe.yabapi.data.bangumi.BangumiType
 import sdl.moe.yabapi.data.bangumi.BangumiType.UNKNOWN
+import sdl.moe.yabapi.enums.feed.FeedType
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
@@ -39,7 +40,7 @@ public data class BangumiCard(
     )
 
     public companion object : FeedCardFactory() {
-        override val code: Int = 512
+        override val code: Int = FeedType.ARTICLE.code
 
         override fun decode(json: Json, data: String): BangumiCard = json.decodeFromString(data)
     }

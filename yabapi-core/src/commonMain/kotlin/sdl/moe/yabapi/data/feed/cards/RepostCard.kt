@@ -11,6 +11,7 @@ import kotlinx.serialization.json.JsonObject
 import sdl.moe.yabapi.Yabapi.defaultJson
 import sdl.moe.yabapi.data.feed.FeedActivity
 import sdl.moe.yabapi.data.feed.FeedUserProfile
+import sdl.moe.yabapi.enums.feed.FeedType
 import sdl.moe.yabapi.serializer.BooleanJsSerializer
 import kotlin.native.concurrent.ThreadLocal
 
@@ -45,7 +46,7 @@ public data class RepostCard(
 
     @ThreadLocal
     public companion object : FeedCardFactory() {
-        override val code: Int = 1
+        override val code: Int = FeedType.REPOST.code
         override fun decode(json: Json, data: String): RepostCard = json.decodeFromString(data)
     }
 }

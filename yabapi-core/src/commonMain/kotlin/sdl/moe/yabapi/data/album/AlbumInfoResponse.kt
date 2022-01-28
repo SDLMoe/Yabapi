@@ -122,7 +122,7 @@ public data class AlbumPicture(
 
 @Serializable
 public data class AlbumSetting(
-    @SerialName("copy_forbidden") val copyright: AlbumCopyright,
+    @SerialName("copy_forbidden") val copyright: AlbumCopyright = AlbumCopyright.UNKNOWN,
 )
 
 @Serializable

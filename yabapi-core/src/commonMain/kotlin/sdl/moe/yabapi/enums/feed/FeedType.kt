@@ -17,6 +17,8 @@ public enum class FeedType(public val code: Int) {
 
     LIVE(4308),
 
+    COLLECTION(4310),
+
     ALL(268435455),
     ;
 }

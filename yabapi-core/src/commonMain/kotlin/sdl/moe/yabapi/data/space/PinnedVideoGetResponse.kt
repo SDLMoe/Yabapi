@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
 import sdl.moe.yabapi.data.GeneralCode
 import sdl.moe.yabapi.data.GeneralCode.UNKNOWN
+import sdl.moe.yabapi.data.video.VideoCopyright
 import sdl.moe.yabapi.data.video.VideoDimension
 import sdl.moe.yabapi.data.video.VideoOwner
 import sdl.moe.yabapi.data.video.VideoRights
@@ -37,7 +38,7 @@ public data class PinnedVideo(
     @SerialName("videos") val videos: Int,
     @SerialName("tid") val tid: VideoType = Unknown,
     @SerialName("tname") val typeName: String,
-    @SerialName("copyright") val copyright: Boolean,
+    @SerialName("copyright") val copyright: VideoCopyright = VideoCopyright.UNKNOWN,
     @SerialName("pic") val pic: String,
     @SerialName("title") val title: String,
     @SerialName("pubdate") val releaseDate: Long,
