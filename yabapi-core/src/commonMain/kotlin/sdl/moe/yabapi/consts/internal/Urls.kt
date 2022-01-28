@@ -2,7 +2,7 @@
 
 package sdl.moe.yabapi.consts.internal
 
-// region ================ Base ========================================
+// region =================== Base ========================
 
 internal const val WWW: String = "https://www.bilibili.com"
 
@@ -41,7 +41,7 @@ internal const val INTERFACE = "https://interface.bilibili.com"
 
 // endregion
 
-// region ================ Bangumi ========================================
+// region =================== Bangumi ========================
 
 internal const val BANGUMI_INFO_GET_URL = "$MAIN/pgc/review/user"
 
@@ -49,7 +49,7 @@ internal const val BANGUMI_DETAILED_GET_URL = "$MAIN/pgc/view/web/season"
 
 // endregion
 
-// region ================ Video ========================================
+// region =================== Video ========================
 
 internal const val VIDEO_INFO_GET_URL = "$MAIN/x/web-interface/view"
 
@@ -95,7 +95,7 @@ internal const val VIDEO_REPORT_PROGRESS_URL = "$MAIN/x/v2/history/report"
 
 // endregion
 
-// region ================ Ranking ========================================
+// region =================== Ranking ========================
 
 internal const val RANKING_GET_URL = "$MAIN/x/web-interface/ranking/region"
 
@@ -103,13 +103,13 @@ internal const val LATEST_VIDEO_GET_URL = "$MAIN/x/web-interface/dynamic/region"
 
 // endregion
 
-// region ================ Time ========================================
+// region =================== Time ========================
 
 internal const val GET_TIMESTAMP_URL = "$MAIN/x/report/click/now"
 
 // endregion
 
-// region ================ Sticker ========================================
+// region =================== Sticker ========================
 
 internal const val GET_MY_STICKERS_LIST = "$MAIN/x/emote/user/panel/web"
 
@@ -119,7 +119,7 @@ internal const val GET_ALL_STICKERS_URL = "$MAIN/x/emote/setting/panel"
 
 // endregion
 
-// region ================ Info ========================================
+// region =================== Info ========================
 
 internal const val BASIC_INFO_GET_URL = "$MAIN/x/web-interface/nav"
 
@@ -153,7 +153,7 @@ internal const val NICK_CHECK_URL = "$PASSPORT/web/generic/check/nickname"
 
 internal const val FANS_GET_URL = "$MAIN/x/relation/followers"
 
-// region ## ================ Relation ========================================
+// region ## =================== Relation ========================
 
 internal const val FOLLOWING_GET_URL = "$MAIN/x/relation/followings"
 
@@ -179,7 +179,7 @@ internal const val RELATION_QUERY_SPECIAL = "$MAIN/x/relation/tag/special"
 
 // endregion
 
-// region ## ================ Personal Centre ========================================
+// region ## =================== Centre ========================
 
 internal const val ACCOUNT_INFO_GET_URL: String = "$MAIN/x/member/web/account"
 
@@ -203,7 +203,7 @@ internal const val CHANGE_BIO_URL: String = "$MAIN/x/member/web/sign/update"
 
 // endregion
 
-// region ================ Album ========================================
+// region =================== Album ========================
 
 internal const val ALBUM_INFO_GET_URL = "$VC_API/link_draw/v1/doc/detail"
 
@@ -211,7 +211,7 @@ internal const val ALBUM_UPLOAD_URL = "$VC_API/api/v1/drawImage/upload"
 
 // endregion
 
-// region ================ Feed ========================================
+// region =================== Feed ========================
 
 internal const val FEED_CONTENT_GET_URL = "$VC_API/dynamic_svr/v1/dynamic_svr/get_dynamic_detail"
 
@@ -223,7 +223,7 @@ internal const val FEED_SPACE_GET_URL = "$VC_API/dynamic_svr/v1/dynamic_svr/spac
 
 // endregion
 
-// region ================ Live ========================================
+// region =================== Live ========================
 
 internal const val LIVE_INIT_INFO_GET_URL = "$LIVE/room/v1/Room/room_init"
 
@@ -255,7 +255,7 @@ internal const val LIVE_MEDAL_RANK_GET_URL = "$LIVE/xlive/general-interface/v1/R
 
 // endregion
 
-// region ================ Passport ========================================
+// region =================== Passport ========================
 
 internal const val QUERY_CAPTCHA_URL: String = "$PASSPORT/web/captcha/combine?plat=6"
 
@@ -280,7 +280,7 @@ internal const val LOG_OUT_URL = "$PASSPORT/login/exit/v2"
 
 // endregion
 
-// region ================ Message ========================================
+// region =================== Message ========================
 
 internal const val UNREAD_MESSAGE_COUNT_GET_URL = "$MAIN/x/msgfeed/unread"
 
@@ -290,12 +290,26 @@ internal const val SEND_MESSAGE_URL = "$VC_API/web_im/v1/web_im/send_msg"
 
 // endregion
 
-// region ================ Article ========================================
+// region =================== Article ========================
 
 internal const val ARTICLE_PAGE_URL = "$WWW/read"
 
 internal const val ARTICLE_BASIC_INFO_GET_URL = "$MAIN/x/article/viewinfo"
 
 internal const val ARTICLE_COLLECTION_INFO_GET_URL = "$MAIN/x/article/list/web/articles"
+
+// endregion
+
+// region =================== Info ========================
+
+internal const val HISTORY_GET_URL = "$MAIN/x/web-interface/history/cursor"
+
+internal const val HISTORY_DELETE_URL = "$MAIN/x/v2/history/delete"
+
+internal const val HISTORY_CLEAR_URL = "$MAIN/x/v2/history/clear"
+
+internal const val HISTORY_STOP_URL = "$MAIN/x/v2/history/shadow/set"
+
+internal const val HISTORY_STATUS_QUERY_URL = "$MAIN/x/v2/history/shadow"
 
 // endregion
