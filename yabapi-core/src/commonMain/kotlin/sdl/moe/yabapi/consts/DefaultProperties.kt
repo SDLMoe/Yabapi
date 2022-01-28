@@ -45,4 +45,4 @@ public fun getDefaultHttpClient(
 
 // Safari + MacOS User Agent
 internal const val WEB_USER_AGENT: String =
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15"
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_2) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Safari/605.1.15"
