@@ -32,12 +32,13 @@ internal const val PASSPORT: String = "https://passport.bilibili.com"
 
 internal const val ACCOUNT: String = "https://account.bilibili.com"
 
-/** 短视频 */
 internal const val VC: String = "https://vc.bilibili.com"
 
 internal const val VC_API: String = "https://api.vc.bilibili.com"
 
 internal const val INTERFACE = "https://interface.bilibili.com"
+
+internal const val FEED_DOMAIN = "https://t.bilibili.com"
 
 // endregion
 
@@ -311,5 +312,15 @@ internal const val HISTORY_CLEAR_URL = "$MAIN/x/v2/history/clear"
 internal const val HISTORY_STOP_URL = "$MAIN/x/v2/history/shadow/set"
 
 internal const val HISTORY_STATUS_QUERY_URL = "$MAIN/x/v2/history/shadow"
+
+internal const val LATER_WATCH_ADD_URL = "$MAIN/x/v2/history/toview/add"
+
+internal const val LATER_WATCH_ADD_CHANNEL_URL = "$SPACE/ajax/channel/addAllToView"
+
+internal const val LATER_WATCH_GET_URL = "$MAIN/x/v2/history/toview"
+
+internal const val LATER_WATCH_DELETE_URL = "$MAIN/x/v2/history/toview/del"
+
+internal const val LATER_WATCH_CLEAR_URL = "$MAIN/x/v2/history/toview/clear"
 
 // endregion

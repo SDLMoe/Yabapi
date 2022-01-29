@@ -39,4 +39,32 @@ internal class HistoryApiTest {
     fun clearHistoryTest() = runTest {
         client.clearHistory()
     }
+
+    @Test
+    fun getLaterWatchTest() = runTest {
+        client.getLaterWatch()
+    }
+
+    @Test
+    fun addLaterWatchTest() = runTest {
+        client.addLaterWatch(170001)
+        client.addLaterWatch("BV1au411m76q")
+    }
+
+    @Test
+    fun addChannelToLaterWatchTest() = runTest {
+        client.addChannelToLaterWatch(72, 63231)
+    }
+
+    @Test
+    fun deleteLaterWatchTest() = runTest {
+        client.deleteLaterWatch(170001)
+        client.deleteViewedLaterWatch()
+        client.deleteLaterWatch("BV1Gs411C7Pt")
+    }
+
+    @Test
+    fun clearLaterWatchTest() = runTest {
+        client.clearLaterWatch()
+    }
 }

@@ -70,13 +70,13 @@ private fun checkVideoId(aid: Int?, bid: String?) {
     if (bid != null) require(bid.startsWith(prefix = "bv", ignoreCase = true))
 }
 
-private fun HttpRequestBuilder.putVideoId(aid: Int?, bid: String?) {
+internal fun HttpRequestBuilder.putVideoId(aid: Int?, bid: String?) {
     checkVideoId(aid, bid)
     aid?.let { parameter("aid", aid) }
     bid?.let { parameter("bvid", bid) }
 }
 
-private fun ParametersBuilder.putVideoId(aid: Int?, bid: String?) {
+internal fun ParametersBuilder.putVideoId(aid: Int?, bid: String?) {
     checkVideoId(aid, bid)
     aid?.let { append("aid", aid.toString()) }
     bid?.let { append("bvid", bid.toString()) }

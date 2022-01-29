@@ -15,6 +15,7 @@ import kotlinx.coroutines.withContext
 import sdl.moe.yabapi.BiliClient
 import sdl.moe.yabapi.consts.internal.ALBUM_INFO_GET_URL
 import sdl.moe.yabapi.consts.internal.ALBUM_UPLOAD_URL
+import sdl.moe.yabapi.consts.internal.FEED_DOMAIN
 import sdl.moe.yabapi.data.album.AlbumCategory
 import sdl.moe.yabapi.data.album.AlbumCategory.DAILY
 import sdl.moe.yabapi.data.album.AlbumInfoResponse
@@ -57,8 +58,8 @@ public suspend fun BiliClient.uploadImage(
     logger.debug { "Trying to upload " }
     client.post<String>(ALBUM_UPLOAD_URL) {
         headers {
-            header(HttpHeaders.Origin, "https://t.bilibili.com")
-            header(HttpHeaders.Referrer, "https://t.bilibili.com")
+            header(HttpHeaders.Origin, FEED_DOMAIN)
+            header(HttpHeaders.Referrer, FEED_DOMAIN)
         }
         body = MultiPartFormDataContent(
             formData {

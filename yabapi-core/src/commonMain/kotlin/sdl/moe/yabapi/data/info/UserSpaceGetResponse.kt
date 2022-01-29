@@ -25,7 +25,7 @@ public data class UserSpace(
     @SerialName("name") val name: String,
     @SerialName("sex") val sex: String,
     @SerialName("face") val avatar: String,
-    @SerialName("face_nft") val faceNft: String,
+    @SerialName("face_nft") val avatarNft: String,
     @SerialName("sign") val bio: String,
     @SerialName("rank") val rank: Int,
     @SerialName("level") val level: Int,

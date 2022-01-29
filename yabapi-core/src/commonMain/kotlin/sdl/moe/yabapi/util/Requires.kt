@@ -17,7 +17,5 @@ internal fun requireLeastAndOnlyOne(
 internal fun requireXnorNullable(
     a: Any?,
     b: Any?,
-    message: String = "Parameter [${a?.qualifiedOrSimpleName}, ${b?.qualifiedOrSimpleName}] need both are null or both are not null (XNOR nullable)"
-) {
-    require((a == null) xnor (b == null)) { message }
-}
+    message: String = "Parameter [${a?.qualifiedOrSimpleName}, ${b?.qualifiedOrSimpleName}] need both are null or both are not null (XNOR nullable)",
+): Unit = require((a == null) xnor (b == null)) { message }

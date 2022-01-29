@@ -22,7 +22,7 @@ public data class FeedDescription(
     @SerialName("comment") val comment: Int? = null,
     @SerialName("like") val like: Int? = null,
     @SerialName("is_liked") val isLiked: Boolean? = null,
-    @SerialName("dynamic_id") val dynamic_id: ULong,
+    @SerialName("dynamic_id") val dynamicId: ULong,
     @SerialName("timestamp") val timestamp: Long,
     @SerialName("pre_dy_id") val preFeedId: ULong? = null,
     @SerialName("orig_dy_id") val originFeedId: ULong? = null,
@@ -47,7 +47,7 @@ public data class UserInfo(
     @SerialName("uid") val uid: Int,
     @SerialName("uname") val uname: String? = null,
     @SerialName("face") val face: String? = null,
-    @SerialName("face_nft") val faceNft: Boolean? = null,
+    @SerialName("face_nft") val avatarNft: Boolean? = null,
 )
 
 @Serializable
