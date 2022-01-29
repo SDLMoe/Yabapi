@@ -197,7 +197,12 @@ internal class InfoApiTest {
     fun getFavCollectionListTest() = runTest {
         client.getFavCollectionList(63231)
     }
-    
+
+    @Test
+    fun getSubscribedBangumiTest() = runTest {
+        client.getSubscribedBangumi(25554216)
+    }
+
     @Test
     fun getMySpaceTest() {
         runTest {

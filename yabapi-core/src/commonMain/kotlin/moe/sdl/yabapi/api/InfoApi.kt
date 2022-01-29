@@ -23,6 +23,7 @@ import moe.sdl.yabapi.consts.internal.SPACE_CHANNEL_ARCHIVES_URL
 import moe.sdl.yabapi.consts.internal.SPACE_CHANNEL_LIST_URL
 import moe.sdl.yabapi.consts.internal.SPACE_COLLECTION_LIST_GET_URL
 import moe.sdl.yabapi.consts.internal.SPACE_FAV_COLLECTION_LIST_GET_URL
+import moe.sdl.yabapi.consts.internal.SPACE_SUB_GET_URL
 import moe.sdl.yabapi.consts.internal.SPACE_VIDEO_GET_URL
 import moe.sdl.yabapi.consts.internal.STAT_GET_URL
 import moe.sdl.yabapi.consts.internal.USER_CARD_GET_URL
@@ -61,8 +62,11 @@ import moe.sdl.yabapi.data.space.SpaceChannelArchivesResponse
 import moe.sdl.yabapi.data.space.SpaceChannelResponse
 import moe.sdl.yabapi.data.space.SpaceSettingResponse
 import moe.sdl.yabapi.data.space.SpaceVideoResponse
+import moe.sdl.yabapi.data.space.SubscribedBangumiGetResponse
 import moe.sdl.yabapi.data.space.UserTagsGetResponse
 import moe.sdl.yabapi.deserializeJson
+import moe.sdl.yabapi.enums.space.SubscribedBangumiType
+import moe.sdl.yabapi.enums.space.SubscribedBangumiType.ANIME
 import moe.sdl.yabapi.enums.video.All
 import moe.sdl.yabapi.enums.video.VideoSort
 import moe.sdl.yabapi.enums.video.VideoSort.TIME
@@ -489,7 +493,7 @@ public suspend fun BiliClient.getCollectionList(
     context: CoroutineContext = this.context,
 ): CollectionGetResponse = withContext(context) {
     logger.debug { "Getting Collection List for mid $targetMid..." }
-    client.get<String>(SPACE_COLLECTION_LIST_GET_URL){
+    client.get<String>(SPACE_COLLECTION_LIST_GET_URL) {
         parameter("up_mid", targetMid)
     }.deserializeJson<CollectionGetResponse>().also {
         logger.debug { "Got Collection List for mid $targetMid" }
@@ -511,7 +515,7 @@ public suspend fun BiliClient.getFavCollectionList(
     context: CoroutineContext = this.context,
 ): CollectionFavGetResponse = withContext(context) {
     logger.debug { "Getting FavCollection List for mid $targetMid..." }
-    client.get<String>(SPACE_FAV_COLLECTION_LIST_GET_URL){
+    client.get<String>(SPACE_FAV_COLLECTION_LIST_GET_URL) {
         parameter("up_mid", targetMid)
         parameter("pn", page)
         parameter("ps", pageSize)
@@ -521,6 +525,20 @@ public suspend fun BiliClient.getFavCollectionList(
     }
 }
 
+public suspend fun BiliClient.getSubscribedBangumi(
+    targetMid: Int,
+    page: Int = 1,
+    pageSize: Int = 15,
+    type: SubscribedBangumiType = ANIME,
+    context: CoroutineContext = this.context,
+): SubscribedBangumiGetResponse = withContext(context) {
+    client.get<String>(SPACE_SUB_GET_URL) {
+        parameter("vmid", targetMid)
+        parameter("pn", page)
+        parameter("ps", pageSize)
+        parameter("type", type.code)
+    }.deserializeJson<SubscribedBangumiGetResponse>()
+}
 
 // endregion
 

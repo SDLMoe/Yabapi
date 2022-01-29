@@ -158,6 +158,8 @@ internal const val SPACE_COLLECTION_LIST_GET_URL = "$MAIN/x/v3/fav/folder/create
 
 internal const val SPACE_FAV_COLLECTION_LIST_GET_URL = "$MAIN/x/v3/fav/folder/collected/list"
 
+internal const val SPACE_SUB_GET_URL = "$MAIN/x/space/bangumi/follow/list"
+
 internal const val USER_CARD_GET_URL = "$MAIN/x/web-interface/card"
 
 internal const val MY_SPACE_GET_URL = "$MAIN/x/space/myinfo"

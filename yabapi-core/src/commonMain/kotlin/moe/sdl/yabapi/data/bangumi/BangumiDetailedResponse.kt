@@ -58,7 +58,7 @@ public data class BangumiDetailed(
     @SerialName("share_url") val shareUrl: String,
     @SerialName("show") val show: BangumiShow,
     @SerialName("square_cover") val squareCover: String,
-    @SerialName("stat") val stat: BanugmiStat,
+    @SerialName("stat") val stat: BangumiStat,
     @SerialName("status") val status: Int,
     @SerialName("title") val title: String,
     @SerialName("subtitle") val subtitle: String,
@@ -102,7 +102,7 @@ public data class BangumiEpisode(
     @SerialName("share_copy") val shareCopy: String,
     @SerialName("share_url") val shareUrl: String,
     @SerialName("short_link") val shortLink: String,
-    @SerialName("stat") val stat: BanugmiStat? = null,
+    @SerialName("stat") val stat: BangumiStat? = null,
     @SerialName("status") val status: Int,
     @SerialName("subtitle") val subtitle: String,
     @SerialName("title") val title: String, // 标题
@@ -147,12 +147,14 @@ public data class BangumiPositive(
 
 @Serializable
 public data class BangumiPublish(
-    @SerialName("is_finish") val isFinished: Boolean,
-    @SerialName("is_started") val isReleased: Boolean,
+    @SerialName("is_finish") val isFinished: Boolean? = null,
+    @SerialName("is_started") val isReleased: Boolean? = null,
     @SerialName("pub_time") val releaseTime: String,
     @SerialName("pub_time_show") val releaseTimeShow: String,
-    @SerialName("unknow_pub_date") val unknownReleaseDate: Int, // lol bilibili dev makes a typo
-    @SerialName("weekday") val weekday: Int,
+    @SerialName("release_date") val releaseDate: String? = null,
+    @SerialName("release_date_show") val releaseDateShow: String? = null,
+    @SerialName("unknow_pub_date") val unknownReleaseDate: Int? = null, // lol bilibili dev makes a typo
+    @SerialName("weekday") val weekday: Int? = null,
 )
 
 @Serializable
@@ -189,7 +191,7 @@ public data class BangumiSeason(
     @SerialName("season_id") val seasonId: Int,
     @SerialName("season_title") val seasonTitle: String,
     @SerialName("season_type") val seasonType: String,
-    @SerialName("stat") val stat: BanugmiStat,
+    @SerialName("stat") val stat: BangumiStat,
 )
 
 @Serializable
@@ -205,6 +207,9 @@ public data class BangumiSection(
 public data class BangumiSeries(
     @SerialName("series_id") val seriesId: Int,
     @SerialName("series_title") val seriesTitle: String,
+    @SerialName("season_count") val seasonCount: Int? = null,
+    @SerialName("new_season_id") val newSeasonId: Int? = null,
+    @SerialName("series_ord") val seriesOrd: Int? = null,
 )
 
 @Serializable
@@ -213,24 +218,29 @@ public data class BangumiShow(
 )
 
 @Serializable
-public data class BanugmiStat(
+public data class BangumiStat(
     @SerialName("coin") private val _coin: Int? = null,
     @SerialName("coins") private val _coins: Int? = null,
     @SerialName("danmakus") val danmakus: Int? = null,
     @SerialName("favorite") private val _favorite: Int? = null,
     @SerialName("favorites") private val _favorites: Int? = null,
     @SerialName("series_follow") val seriesFollow: Int? = null,
+    @SerialName("series_view") val seriesView: Int? = null,
     @SerialName("likes") val likes: Int? = null,
     @SerialName("reply") val reply: Int? = null,
     @SerialName("share") val share: Int? = null,
     @SerialName("play") val play: Int? = null,
-    @SerialName("views") val views: Int? = null,
+    @SerialName("view") private val _view: Int? = null,
+    @SerialName("views") private val _views: Int? = null,
 ) {
     @Transient
     public val coins: Int? = _coins ?: _coin
 
     @Transient
     public val collects: Int? = _favorites ?: _favorite
+
+    @Transient
+    public val views: Int? = _views ?: _view
 }
 
 @Serializable
