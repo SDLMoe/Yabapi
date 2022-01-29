@@ -21,6 +21,8 @@ import moe.sdl.yabapi.consts.internal.SPACE_ALBUM_INDEX_URL
 import moe.sdl.yabapi.consts.internal.SPACE_ALBUM_LIST_URL
 import moe.sdl.yabapi.consts.internal.SPACE_CHANNEL_ARCHIVES_URL
 import moe.sdl.yabapi.consts.internal.SPACE_CHANNEL_LIST_URL
+import moe.sdl.yabapi.consts.internal.SPACE_COLLECTION_LIST_GET_URL
+import moe.sdl.yabapi.consts.internal.SPACE_FAV_COLLECTION_LIST_GET_URL
 import moe.sdl.yabapi.consts.internal.SPACE_VIDEO_GET_URL
 import moe.sdl.yabapi.consts.internal.STAT_GET_URL
 import moe.sdl.yabapi.consts.internal.USER_CARD_GET_URL
@@ -46,6 +48,8 @@ import moe.sdl.yabapi.data.info.StatGetResponse
 import moe.sdl.yabapi.data.info.UserCardGetResponse
 import moe.sdl.yabapi.data.info.UserSpaceGetResponse
 import moe.sdl.yabapi.data.info.VipStatGetResponse
+import moe.sdl.yabapi.data.space.CollectionFavGetResponse
+import moe.sdl.yabapi.data.space.CollectionGetResponse
 import moe.sdl.yabapi.data.space.MasterpieceGetResponse
 import moe.sdl.yabapi.data.space.PinnedVideoGetResponse
 import moe.sdl.yabapi.data.space.PlayedGameGetResponse
@@ -458,7 +462,7 @@ public suspend fun BiliClient.getSpaceChannel(
     }
 }
 
-public suspend fun BiliClient.getSpaceChannelArchives(
+public suspend fun BiliClient.getChannelArchives(
     targetMid: Int,
     targetCid: Int,
     page: Int = 1,
@@ -476,6 +480,47 @@ public suspend fun BiliClient.getSpaceChannelArchives(
         logger.debug { "Got Space Channel Archives for $logParameter: $it" }
     }
 }
+
+/**
+ * 獲取目標自己創建的收藏夾
+ */
+public suspend fun BiliClient.getCollectionList(
+    targetMid: Int,
+    context: CoroutineContext = this.context,
+): CollectionGetResponse = withContext(context) {
+    logger.debug { "Getting Collection List for mid $targetMid..." }
+    client.get<String>(SPACE_COLLECTION_LIST_GET_URL){
+        parameter("up_mid", targetMid)
+    }.deserializeJson<CollectionGetResponse>().also {
+        logger.debug { "Got Collection List for mid $targetMid" }
+    }
+}
+
+/**
+ * 目標獲取收藏他人的收藏夾
+ * Fav means Favorite
+ * @param targetMid 目標 mid
+ * @param page 頁碼
+ * @param pageSize 單頁大小
+ */
+public suspend fun BiliClient.getFavCollectionList(
+    targetMid: Int,
+    page: Int = 1,
+    pageSize: Int = 20,
+    platform: String = "web",
+    context: CoroutineContext = this.context,
+): CollectionFavGetResponse = withContext(context) {
+    logger.debug { "Getting FavCollection List for mid $targetMid..." }
+    client.get<String>(SPACE_FAV_COLLECTION_LIST_GET_URL){
+        parameter("up_mid", targetMid)
+        parameter("pn", page)
+        parameter("ps", pageSize)
+        parameter("platform", platform)
+    }.deserializeJson<CollectionFavGetResponse>().also {
+        logger.debug { "Got FavCollection List for mid $targetMid" }
+    }
+}
+
 
 // endregion
 

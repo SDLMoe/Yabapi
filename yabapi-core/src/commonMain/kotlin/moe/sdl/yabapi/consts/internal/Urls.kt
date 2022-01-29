@@ -154,6 +154,10 @@ internal const val SPACE_CHANNEL_LIST_URL = "$MAIN/x/space/channel/list"
 
 internal const val SPACE_CHANNEL_ARCHIVES_URL = "$MAIN/x/space/channel/video"
 
+internal const val SPACE_COLLECTION_LIST_GET_URL = "$MAIN/x/v3/fav/folder/created/list-all"
+
+internal const val SPACE_FAV_COLLECTION_LIST_GET_URL = "$MAIN/x/v3/fav/folder/collected/list"
+
 internal const val USER_CARD_GET_URL = "$MAIN/x/web-interface/card"
 
 internal const val MY_SPACE_GET_URL = "$MAIN/x/space/myinfo"

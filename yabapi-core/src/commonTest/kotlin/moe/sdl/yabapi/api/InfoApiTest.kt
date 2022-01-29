@@ -183,9 +183,20 @@ internal class InfoApiTest {
 
     @Test
     fun getSpaceChannelArchivesTest() = runTest {
-        client.getSpaceChannelArchives(63231, 139535)
+        client.getChannelArchives(63231, 139535)
     }
-    
+
+    @Test
+    fun getCollectionListTest() = runTest {
+        client.apply {
+            getCollectionList(getBasicInfo().data.mid!!)
+        }
+    }
+
+    @Test
+    fun getFavCollectionListTest() = runTest {
+        client.getFavCollectionList(63231)
+    }
     
     @Test
     fun getMySpaceTest() {
