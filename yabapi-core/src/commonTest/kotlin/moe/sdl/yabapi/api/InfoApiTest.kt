@@ -200,7 +200,17 @@ internal class InfoApiTest {
 
     @Test
     fun getSubscribedBangumiTest() = runTest {
-        client.getSubscribedBangumi(25554216)
+        client.getSubscribedBangumi(63231)
+    }
+
+    @Test
+    fun getSubscribedTagsTest() = runTest {
+        client.apply {
+            getSubscribedTags(getBasicInfo().data.mid!!).also {
+                println(it.data)
+                println(it.failedMsg)
+            }
+        }
     }
 
     @Test

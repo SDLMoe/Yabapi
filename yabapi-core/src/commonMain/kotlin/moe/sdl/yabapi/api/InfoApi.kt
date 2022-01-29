@@ -24,6 +24,7 @@ import moe.sdl.yabapi.consts.internal.SPACE_CHANNEL_LIST_URL
 import moe.sdl.yabapi.consts.internal.SPACE_COLLECTION_LIST_GET_URL
 import moe.sdl.yabapi.consts.internal.SPACE_FAV_COLLECTION_LIST_GET_URL
 import moe.sdl.yabapi.consts.internal.SPACE_SUB_GET_URL
+import moe.sdl.yabapi.consts.internal.SPACE_SUB_TAGS_GET_URL
 import moe.sdl.yabapi.consts.internal.SPACE_VIDEO_GET_URL
 import moe.sdl.yabapi.consts.internal.STAT_GET_URL
 import moe.sdl.yabapi.consts.internal.USER_CARD_GET_URL
@@ -63,6 +64,7 @@ import moe.sdl.yabapi.data.space.SpaceChannelResponse
 import moe.sdl.yabapi.data.space.SpaceSettingResponse
 import moe.sdl.yabapi.data.space.SpaceVideoResponse
 import moe.sdl.yabapi.data.space.SubscribedBangumiGetResponse
+import moe.sdl.yabapi.data.space.SubscribedTagsResponse
 import moe.sdl.yabapi.data.space.UserTagsGetResponse
 import moe.sdl.yabapi.deserializeJson
 import moe.sdl.yabapi.enums.space.SubscribedBangumiType
@@ -532,12 +534,27 @@ public suspend fun BiliClient.getSubscribedBangumi(
     type: SubscribedBangumiType = ANIME,
     context: CoroutineContext = this.context,
 ): SubscribedBangumiGetResponse = withContext(context) {
+    logger.debug { "Getting subscribed bangumi for $targetMid" }
     client.get<String>(SPACE_SUB_GET_URL) {
         parameter("vmid", targetMid)
         parameter("pn", page)
         parameter("ps", pageSize)
         parameter("type", type.code)
-    }.deserializeJson<SubscribedBangumiGetResponse>()
+    }.deserializeJson<SubscribedBangumiGetResponse>().also {
+        logger.debug { "Got SubscribedBangumi: $it" }
+    }
+}
+
+public suspend fun BiliClient.getSubscribedTags(
+    targetMid: Int,
+    context: CoroutineContext = this.context
+): SubscribedTagsResponse = withContext(context) {
+    logger.debug { "Getting Subscribed Tags for $targetMid" }
+    client.get<String>(SPACE_SUB_TAGS_GET_URL) {
+        parameter("mid", targetMid)
+    }.deserializeJson<SubscribedTagsResponse>().also {
+        logger.debug { "Got Subscribed Tags for $targetMid" }
+    }
 }
 
 // endregion
