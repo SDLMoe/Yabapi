@@ -167,6 +167,16 @@ internal class InfoApiTest {
     }
 
     @Test
+    fun getSpaceAlbumIndexTest() = runTest {
+        client.getSpaceAlbumIndex(63231, 20)
+    }
+
+    @Test
+    fun getSpaceAlbumListTest() = runTest {
+        client.getSpaceAlbumList(63231)
+    }
+
+    @Test
     fun getMySpaceTest() {
         runTest {
             client.getMySpace()

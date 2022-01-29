@@ -17,6 +17,8 @@ import sdl.moe.yabapi.consts.internal.PINNED_VIDEO_GET_URL
 import sdl.moe.yabapi.consts.internal.REAL_NAME_DETAILED_GET_URL
 import sdl.moe.yabapi.consts.internal.REAL_NAME_INFO_GET_URL
 import sdl.moe.yabapi.consts.internal.SECURE_INFO_GET_URL
+import sdl.moe.yabapi.consts.internal.SPACE_ALBUM_INDEX_URL
+import sdl.moe.yabapi.consts.internal.SPACE_ALBUM_LIST_URL
 import sdl.moe.yabapi.consts.internal.SPACE_VIDEO_GET_URL
 import sdl.moe.yabapi.consts.internal.STAT_GET_URL
 import sdl.moe.yabapi.consts.internal.USER_CARD_GET_URL
@@ -46,6 +48,8 @@ import sdl.moe.yabapi.data.space.MasterpieceGetResponse
 import sdl.moe.yabapi.data.space.PinnedVideoGetResponse
 import sdl.moe.yabapi.data.space.PlayedGameGetResponse
 import sdl.moe.yabapi.data.space.RecentCoinedVideoResponse
+import sdl.moe.yabapi.data.space.SpaceAlbumListResponse
+import sdl.moe.yabapi.data.space.SpaceAlbumResponse
 import sdl.moe.yabapi.data.space.SpaceAnnouncementGetResponse
 import sdl.moe.yabapi.data.space.SpaceSettingResponse
 import sdl.moe.yabapi.data.space.SpaceVideoResponse
@@ -406,6 +410,35 @@ public suspend fun BiliClient.getSpaceVideo(
         keyword?.let { parameter("keyword", it) }
     }.deserializeJson<SpaceVideoResponse>().also {
         logger.debug { "Got Space Video - mid$mid|$sort|page$page|tid$type: $it" }
+    }
+}
+
+public suspend fun BiliClient.getSpaceAlbumIndex(
+    targetMid: Int,
+    count: Int = 8,
+    context: CoroutineContext = this.context,
+): SpaceAlbumResponse = withContext(context) {
+    logger.debug { "Getting Space Album Index..." }
+    client.get<String>(SPACE_ALBUM_INDEX_URL) {
+        parameter("mid", targetMid)
+        parameter("ps", count)
+    }.deserializeJson<SpaceAlbumResponse>().also {
+        logger.debug { "Got Space Album Index: $it" }
+    }
+}
+
+public suspend fun BiliClient.getSpaceAlbumList(
+    targetMid: Int,
+    page: Int = 1,
+    pageSize: Int = 20,
+) {
+    logger.debug { "Got Space Album for mid $targetMid $page[$pageSize]..." }
+    client.get<String>(SPACE_ALBUM_LIST_URL) {
+        parameter("uid", targetMid)
+        parameter("page_num", page)
+        parameter("page_size", pageSize)
+    }.deserializeJson<SpaceAlbumListResponse>().also {
+        logger.debug { "Got Space Album: $it" }
     }
 }
 

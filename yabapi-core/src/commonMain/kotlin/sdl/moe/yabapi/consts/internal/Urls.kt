@@ -146,6 +146,10 @@ internal const val USER_RECENT_COINED_VIDEO_GET_URL = "$MAIN/x/space/coin/video"
 
 internal const val SPACE_VIDEO_GET_URL = "$MAIN/x/space/arc/search"
 
+internal const val SPACE_ALBUM_INDEX_URL = "$MAIN/x/space/album/index"
+
+internal const val SPACE_ALBUM_LIST_URL = "$VC_API/link_draw/v1/doc/doc_list"
+
 internal const val USER_CARD_GET_URL = "$MAIN/x/web-interface/card"
 
 internal const val MY_SPACE_GET_URL = "$MAIN/x/space/myinfo"
