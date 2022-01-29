@@ -150,6 +150,10 @@ internal const val SPACE_ALBUM_INDEX_URL = "$MAIN/x/space/album/index"
 
 internal const val SPACE_ALBUM_LIST_URL = "$VC_API/link_draw/v1/doc/doc_list"
 
+internal const val SPACE_CHANNEL_LIST_URL = "$MAIN/x/space/channel/list"
+
+internal const val SPACE_CHANNEL_ARCHIVES_URL = "$MAIN/x/space/channel/video"
+
 internal const val USER_CARD_GET_URL = "$MAIN/x/web-interface/card"
 
 internal const val MY_SPACE_GET_URL = "$MAIN/x/space/myinfo"

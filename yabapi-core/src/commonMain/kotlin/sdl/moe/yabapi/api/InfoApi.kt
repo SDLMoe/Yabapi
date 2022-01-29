@@ -19,6 +19,8 @@ import sdl.moe.yabapi.consts.internal.REAL_NAME_INFO_GET_URL
 import sdl.moe.yabapi.consts.internal.SECURE_INFO_GET_URL
 import sdl.moe.yabapi.consts.internal.SPACE_ALBUM_INDEX_URL
 import sdl.moe.yabapi.consts.internal.SPACE_ALBUM_LIST_URL
+import sdl.moe.yabapi.consts.internal.SPACE_CHANNEL_ARCHIVES_URL
+import sdl.moe.yabapi.consts.internal.SPACE_CHANNEL_LIST_URL
 import sdl.moe.yabapi.consts.internal.SPACE_VIDEO_GET_URL
 import sdl.moe.yabapi.consts.internal.STAT_GET_URL
 import sdl.moe.yabapi.consts.internal.USER_CARD_GET_URL
@@ -51,6 +53,8 @@ import sdl.moe.yabapi.data.space.RecentCoinedVideoResponse
 import sdl.moe.yabapi.data.space.SpaceAlbumListResponse
 import sdl.moe.yabapi.data.space.SpaceAlbumResponse
 import sdl.moe.yabapi.data.space.SpaceAnnouncementGetResponse
+import sdl.moe.yabapi.data.space.SpaceChannelArchivesResponse
+import sdl.moe.yabapi.data.space.SpaceChannelResponse
 import sdl.moe.yabapi.data.space.SpaceSettingResponse
 import sdl.moe.yabapi.data.space.SpaceVideoResponse
 import sdl.moe.yabapi.data.space.UserTagsGetResponse
@@ -439,6 +443,37 @@ public suspend fun BiliClient.getSpaceAlbumList(
         parameter("page_size", pageSize)
     }.deserializeJson<SpaceAlbumListResponse>().also {
         logger.debug { "Got Space Album: $it" }
+    }
+}
+
+public suspend fun BiliClient.getSpaceChannel(
+    targetMid: Int,
+    context: CoroutineContext = this.context,
+): SpaceChannelResponse = withContext(context) {
+    logger.debug { "Getting Space Channel for mid $targetMid..." }
+    client.get<String>(SPACE_CHANNEL_LIST_URL) {
+        parameter("mid", targetMid)
+    }.deserializeJson<SpaceChannelResponse>().also {
+        logger.debug { "Got Space Channel for mid $targetMid: $it" }
+    }
+}
+
+public suspend fun BiliClient.getSpaceChannelArchives(
+    targetMid: Int,
+    targetCid: Int,
+    page: Int = 1,
+    pageSize: Int = 20,
+    context: CoroutineContext = this.context,
+): SpaceChannelArchivesResponse = withContext(context) {
+    val logParameter = "cid $targetCid(mid $targetMid) - page $page[$pageSize]"
+    logger.debug { "Getting Space Channel Archives for $logParameter" }
+    client.get<String>(SPACE_CHANNEL_ARCHIVES_URL) {
+        parameter("mid", targetMid)
+        parameter("cid", targetCid)
+        parameter("pn", page)
+        parameter("ps", pageSize)
+    }.deserializeJson<SpaceChannelArchivesResponse>().also {
+        logger.debug { "Got Space Channel Archives for $logParameter: $it" }
     }
 }
 

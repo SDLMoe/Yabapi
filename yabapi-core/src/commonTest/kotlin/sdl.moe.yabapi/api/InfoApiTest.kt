@@ -177,6 +177,17 @@ internal class InfoApiTest {
     }
 
     @Test
+    fun getSpaceChannelTest() = runTest {
+        client.getSpaceChannel(63231)
+    }
+
+    @Test
+    fun getSpaceChannelArchivesTest() = runTest {
+        client.getSpaceChannelArchives(63231, 139535)
+    }
+    
+    
+    @Test
     fun getMySpaceTest() {
         runTest {
             client.getMySpace()

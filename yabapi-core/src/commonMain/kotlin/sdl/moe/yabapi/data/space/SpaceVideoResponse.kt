@@ -69,9 +69,3 @@ public data class SpaceVideoPage(
     @SerialName("pn") val current: Int,
     @SerialName("ps") val pageSize: Int,
 )
-
-@Serializable
-public data class SpaceVideoButton(
-    @SerialName("text") val text: String,
-    @SerialName("uri") val playUri: String, // like: //www.bilibili.com/medialist/play/$mid?from=space
-)
