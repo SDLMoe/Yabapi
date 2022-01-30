@@ -6,7 +6,6 @@ import io.ktor.client.features.cookies.cookies
 import io.ktor.http.Cookie
 import io.ktor.http.ParametersBuilder
 import kotlinx.coroutines.CoroutineName
-import moe.sdl.yabapi.api.getBasicInfo
 import moe.sdl.yabapi.consts.getDefaultHttpClient
 import kotlin.coroutines.CoroutineContext
 
@@ -19,7 +18,7 @@ import kotlin.coroutines.CoroutineContext
  * @see CookiesStorage
  */
 public class BiliClient(
-    public var client: HttpClient,
+    public var client: HttpClient = getDefaultHttpClient(),
     public val context: CoroutineContext = Platform.ioDispatcher + CoroutineName("yabapi"),
 ) {
     private suspend fun getBiliCookies(): List<Cookie> = client.cookies("https://.bilibili.com")
@@ -30,15 +29,5 @@ public class BiliClient(
         val csrf = getCsrfToken()?.value
         requireNotNull(csrf)
         append(key, csrf)
-    }
-
-    public suspend fun isLogin(): Boolean = getBasicInfo().data.isLogin
-
-    internal suspend fun needLogin() {
-        if (!isLogin()) throw IllegalStateException("You need login first!")
-    }
-
-    internal suspend fun noNeedLogin() {
-        if (isLogin()) throw IllegalStateException("You are already logged in!")
     }
 }

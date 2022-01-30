@@ -49,9 +49,16 @@ import kotlin.native.concurrent.SharedImmutable
 @SharedImmutable
 private val logger by lazy { Logger("PassportApi") }
 
-/**
- *  登录, 认证相关 API
- */
+
+private suspend fun BiliClient.isLogin(): Boolean = getBasicInfo().data.isLogin
+
+private suspend fun BiliClient.needLogin() {
+    if (!isLogin()) throw IllegalStateException("You need login first!")
+}
+
+private suspend fun BiliClient.noNeedLogin() {
+    if (isLogin()) throw IllegalStateException("You are already logged in!")
+}
 
 /**
  * 获取人机验证码, 需要手动验证
