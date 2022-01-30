@@ -340,3 +340,9 @@ internal const val LATER_WATCH_DELETE_URL = "$MAIN/x/v2/history/toview/del"
 internal const val LATER_WATCH_CLEAR_URL = "$MAIN/x/v2/history/toview/clear"
 
 // endregion
+
+// region =================== Search ========================
+
+internal const val SEARCH_ALL_URL = "$MAIN/x/web-interface/search/all/v2"
+
+// endregion
