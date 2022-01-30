@@ -1,5 +1,8 @@
 package moe.sdl.yabapi.util
 
+import kotlin.native.concurrent.SharedImmutable
+
+@SharedImmutable
 public val quoteList: List<String> by lazy {
     listOf(
         "叔叔我啊，真的要生气了", "你所热爱的，就是你的生活", "你妈什么时候死啊?", "我没改变B站",

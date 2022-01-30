@@ -6,7 +6,8 @@ import kotlin.native.concurrent.SharedImmutable
 @SharedImmutable
 private val colorRange by lazy { 0..255 }
 
-private val hexRegex: Regex = Regex("""^#([0-9a-fA-F]{6,8})$""")
+@SharedImmutable
+private val hexRegex: Regex by lazy { Regex("""^#([0-9a-fA-F]{6,8})$""") }
 
 internal fun trimColor(input: String): String {
     val deblanked = input.replace(Regex("""\s+"""), "")

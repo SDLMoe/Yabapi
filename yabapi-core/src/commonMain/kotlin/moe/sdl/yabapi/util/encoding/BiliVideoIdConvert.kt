@@ -2,12 +2,16 @@
 
 package moe.sdl.yabapi.util.encoding
 
+import kotlin.native.concurrent.SharedImmutable
+
 private const val TABLE = "fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF"
 private const val XOR_VALUE = 177451812L
 private const val ADD_VALUE = 8728348608L
 
+@SharedImmutable
 private val ss by lazy { intArrayOf(11, 10, 3, 8, 4, 6, 2, 9, 5, 7) }
 
+@SharedImmutable
 private val mp: HashMap<String, Int> by lazy {
     val map = HashMap<String, Int>()
     for (i in 0..57) {
@@ -15,6 +19,8 @@ private val mp: HashMap<String, Int> by lazy {
     }
     map
 }
+
+@SharedImmutable
 private val mp2: HashMap<Int, String> by lazy {
     val map = HashMap<Int, String>()
     for (i in 0..57) {

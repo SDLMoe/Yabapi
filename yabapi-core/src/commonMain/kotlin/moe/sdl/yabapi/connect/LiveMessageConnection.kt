@@ -79,7 +79,7 @@ internal class LiveMessageConnection(
                 val isSuccess = sendCertificatePacket()
                 if (isSuccess) {
                     launch {
-                        launchHeartbeatJob()
+                        doHeartbeatJob()
                     }
                     handleIncoming()
                 }
@@ -94,10 +94,7 @@ internal class LiveMessageConnection(
         outgoing.trySend(Frame.byType(true, BINARY, packet.encode())).also {
             logger.debug { "Try to send ${packet.header.type} packet." }
         }.onFailure {
-            if (it is CancellationException) {
-                logger.info { "Send Job Cancelled" }
-                return@onFailure
-            }
+            if (it is CancellationException) throw it
             logger.debug { "Failed to send ${packet.header.type} packet: $packet" }
             logger.verbose(it) { "stacktrace:" }
         }.onSuccess {
@@ -106,6 +103,7 @@ internal class LiveMessageConnection(
             logger.verbose { "Now Sequence: $sequence" }
             isSuccess = true
         }.onClosed {
+            if (it is CancellationException) throw it
             logger.debug { "Outgoing Channel closed" }
             cancel("Remote closed", it)
         }
@@ -133,53 +131,48 @@ internal class LiveMessageConnection(
 
     private suspend inline fun Wss.handleBinaryPacket(
         packet: LiveMsgPacket,
-    ) {
-        when (packet.header.type) {
-            HEARTBEAT_RESPONSE -> {
-                val popular = buildPacket { writeFully(packet.body) }.readUInt()
-                logger.debug { "Decoded popular value: $popular" }
-                configInstance.onHeartbeatResponse(this, channelFlow {
-                    this.send(popular)
-                })
-            }
-            CERTIFICATE_RESPONSE -> {
-                val data: CertificatePacketResponse =
-                    jsonParser.decodeFromString(packet.body.decodeToString())
-                logger.debug { "Decoded Certificate Response: $data" }
-                configInstance.onCertificateResponse(this, channelFlow {
-                    this.send(data)
-                })
-            }
-            COMMAND -> {
-                val flow = packet.body.decodeToString().also {
-                    logger.verbose { "Raw Received body decoded to string: $it" }
-                }.findJson().asFlow()
-                flow.map { parsed -> // String -> RawLiveCommand
-                    logger.verbose { "Decoded weired json string: $parsed" }
-                    RawLiveCommand(jsonParser.decodeFromString(parsed))
-                }.collect { raw -> // Send Raw to downstream
-                    logger.debug { "Decoded RawLiveCommand $raw" }
-                    configInstance.onRawCommandResponse(this, channelFlow { send(raw) })
-
-                    val data = try {
-                        raw.data
-                    } catch (e: SerializationException) {
-                        logger.warn(e) {
-                            "Unexpected Serialization Exception, raw decoded: $raw"
-                        }
-                        null
-                    }
-                    logger.debug { "Decoded LiveCommand $data" }
-                    configInstance.onCommandResponse(this, channelFlow {
-                        data?.let { this.send(it) }
-                    })
-                }
-            }
-            else -> error("Decoded Unexpected Incoming Packet: $packet")
+    ) = when (packet.header.type) {
+        HEARTBEAT_RESPONSE -> {
+            val popular = buildPacket { writeFully(packet.body) }.readUInt()
+            logger.debug { "Decoded popular value: $popular" }
+            configInstance.onHeartbeatResponse(this, channelFlow {
+                this.send(popular)
+            })
         }
+        CERTIFICATE_RESPONSE -> {
+            val data: CertificatePacketResponse =
+                jsonParser.decodeFromString(packet.body.decodeToString())
+            logger.debug { "Decoded Certificate Response: $data" }
+            configInstance.onCertificateResponse(this, channelFlow {
+                this.send(data)
+            })
+        }
+        COMMAND -> {
+            val flow = packet.body.decodeToString().also {
+                logger.verbose { "Raw Received body decoded to string: $it" }
+            }.findJson().asFlow()
+            flow.map { parsed -> // String -> RawLiveCommand
+                logger.verbose { "Decoded weired json string: $parsed" }
+                RawLiveCommand(jsonParser.decodeFromString(parsed))
+            }.collect { raw -> // Send Raw to downstream
+                logger.debug { "Decoded RawLiveCommand $raw" }
+                configInstance.onRawCommandResponse(this, channelFlow { send(raw) })
+                val data = try {
+                    raw.data
+                } catch (e: SerializationException) {
+                    logger.warn(e) { "Unexpected Serialization Exception, raw decoded: $raw" }
+                    null
+                }
+                logger.debug { "Decoded LiveCommand $data" }
+                configInstance.onCommandResponse(this, channelFlow {
+                    data?.let { this.send(it) }
+                })
+            }
+        }
+        else -> error("Decoded Unexpected Incoming Packet: $packet")
     }
 
-    private suspend inline fun Wss.launchHeartbeatJob() {
+    private suspend inline fun Wss.doHeartbeatJob() {
         while (isActive) {
             sendHeartbeatPacket()
             delay(30_000)

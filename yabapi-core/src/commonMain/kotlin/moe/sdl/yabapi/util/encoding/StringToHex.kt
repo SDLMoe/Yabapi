@@ -1,5 +1,8 @@
 package moe.sdl.yabapi.util.encoding
 
+import kotlin.native.concurrent.SharedImmutable
+
+@SharedImmutable
 private val hexChars by lazy { "0123456789abcdef".toCharArray() }
 
 @Suppress("MagicNumber")

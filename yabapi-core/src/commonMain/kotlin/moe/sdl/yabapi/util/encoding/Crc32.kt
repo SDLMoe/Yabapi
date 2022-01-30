@@ -3,12 +3,14 @@ package moe.sdl.yabapi.util.encoding
 import kotlinx.coroutines.withContext
 import moe.sdl.yabapi.Platform
 import kotlin.coroutines.CoroutineContext
+import kotlin.native.concurrent.SharedImmutable
 
 private const val POLY = 0xEDB88320u
 private const val INIT = 0xFFFFFFFFu
 
 private const val TABLE_LENGTH = 256
 
+@SharedImmutable
 private val table: UIntArray by lazy {
     val table = UIntArray(TABLE_LENGTH)
     var fwd: UInt // forward

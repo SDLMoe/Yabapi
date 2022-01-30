@@ -194,6 +194,7 @@ public suspend fun BiliClient.modifyRelation(
     }
 }
 
+@SharedImmutable
 private val allowedBatchAction by lazy { listOf(RelationAction.SUB, ADD_BLACKLIST) }
 
 /**

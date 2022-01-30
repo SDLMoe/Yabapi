@@ -1,7 +1,9 @@
 package moe.sdl.yabapi.util.string
 
 import moe.sdl.yabapi.enums.ImageFormat
+import kotlin.native.concurrent.SharedImmutable
 
+@SharedImmutable
 private val regexPattern by lazy {
     Regex(
         /**                $1    $2                   $3          $4       $5  */
