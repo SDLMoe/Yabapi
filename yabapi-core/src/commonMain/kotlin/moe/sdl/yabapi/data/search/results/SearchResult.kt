@@ -13,9 +13,13 @@ public sealed class ResultFactory {
         private val factories by lazy {
             listOf(
                 ActivityResult,
+                ArticleResult,
                 BangumiResult,
                 GameResult,
+                LiveRoomResult,
+                LiveUserResult,
                 PgcResultFactory,
+                TopicResult,
                 UserResult,
                 VideoResult,
             )

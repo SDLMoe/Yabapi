@@ -345,4 +345,6 @@ internal const val LATER_WATCH_CLEAR_URL = "$MAIN/x/v2/history/toview/clear"
 
 internal const val SEARCH_ALL_URL = "$MAIN/x/web-interface/search/all/v2"
 
+internal const val SEARCH_BY_TYPE_URL = "$MAIN/x/web-interface/search/type"
+
 // endregion

@@ -17,7 +17,7 @@ public data class UserResult(
     @SerialName("type") val type: String,
     @SerialName("mid") val mid: Int,
     @SerialName("uname") val uname: String,
-    @SerialName("usign") val usign: String,
+    @SerialName("usign") val bio: String,
     @SerialName("fans") val fans: Int,
     @SerialName("videos") val videoNum: Int,
     @SerialName("upic") val avatar: String,
@@ -31,7 +31,7 @@ public data class UserResult(
     @SerialName("res") val videos: List<UserVideo>,
     @SerialName("official_verify") val officialCertify: OfficialCertify,
     @SerialName("hit_columns") val hitColumns: JsonArray? = null,
-    @SerialName("expand") val expand: UserExpandInfo,
+    @SerialName("expand") val expand: UserExpandInfo? = null,
 ) : SearchResult {
     public companion object : ResultFactory() {
         override val code: String = "bili_user"
