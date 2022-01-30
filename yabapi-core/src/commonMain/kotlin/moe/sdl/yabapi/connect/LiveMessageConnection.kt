@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package moe.sdl.yabapi.connect
 
 import com.soywiz.korio.lang.toByteArray
@@ -45,8 +47,6 @@ import moe.sdl.yabapi.packet.LiveMsgPacketType.HEARTBEAT
 import moe.sdl.yabapi.packet.LiveMsgPacketType.HEARTBEAT_RESPONSE
 import moe.sdl.yabapi.util.Logger
 import moe.sdl.yabapi.util.string.findJson
-import kotlin.contracts.InvocationKind.EXACTLY_ONCE
-import kotlin.contracts.contract
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
@@ -221,31 +221,27 @@ private typealias Config = LiveDanmakuConnectConfig
  * @see Flow
  */
 public class LiveDanmakuConnectConfig {
-    internal var onHeartbeatResponse: suspend Wss.(popular: Flow<UInt>) -> Unit = {}
+    public var onHeartbeatResponse: suspend Wss.(popular: Flow<UInt>) -> Unit = {}
 
-    internal var onCertificateResponse: suspend Wss.(response: Flow<CertificatePacketResponse>) -> Unit = {}
+    public var onCertificateResponse: suspend Wss.(response: Flow<CertificatePacketResponse>) -> Unit = {}
 
-    internal var onCommandResponse: suspend Wss.(command: Flow<LiveCommand>) -> Unit = {}
+    public var onCommandResponse: suspend Wss.(command: Flow<LiveCommand>) -> Unit = {}
 
-    internal var onRawCommandResponse: suspend Wss.(command: Flow<RawLiveCommand>) -> Unit = {}
+    public var onRawCommandResponse: suspend Wss.(command: Flow<RawLiveCommand>) -> Unit = {}
 }
 
-public fun Config.onHeartbeatResponse(block: suspend Wss.(popular: Flow<UInt>) -> Unit) {
-    contract { callsInPlace(block, EXACTLY_ONCE) }
+public inline fun Config.onHeartbeatResponse(noinline block: suspend Wss.(popular: Flow<UInt>) -> Unit) {
     onHeartbeatResponse = block
 }
 
-public fun Config.onCertificateResponse(block: suspend Wss.(response: Flow<CertificatePacketResponse>) -> Unit) {
-    contract { callsInPlace(block, EXACTLY_ONCE) }
+public inline fun Config.onCertificateResponse(noinline block: suspend Wss.(response: Flow<CertificatePacketResponse>) -> Unit) {
     onCertificateResponse = block
 }
 
-public fun Config.onCommandResponse(block: suspend Wss.(command: Flow<LiveCommand>) -> Unit) {
-    contract { callsInPlace(block, EXACTLY_ONCE) }
+public inline fun Config.onCommandResponse(noinline block: suspend Wss.(command: Flow<LiveCommand>) -> Unit) {
     onCommandResponse = block
 }
 
-public fun Config.onRawCommandResponse(block: suspend Wss.(command: Flow<RawLiveCommand>) -> Unit) {
-    contract { callsInPlace(block, EXACTLY_ONCE) }
+public inline fun Config.onRawCommandResponse(noinline block: suspend Wss.(command: Flow<RawLiveCommand>) -> Unit) {
     onRawCommandResponse = block
 }
