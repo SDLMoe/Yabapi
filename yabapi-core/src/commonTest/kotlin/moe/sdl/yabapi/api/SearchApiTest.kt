@@ -9,6 +9,8 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import moe.sdl.yabapi.client
+import moe.sdl.yabapi.data.search.LiveSearchOption
+import moe.sdl.yabapi.data.search.SearchOption
 import moe.sdl.yabapi.enums.search.SearchType
 import moe.sdl.yabapi.enums.search.SearchType.LIVE
 import moe.sdl.yabapi.enums.search.SearchType.LIVE_USER
@@ -53,13 +55,13 @@ internal class SearchApiTest {
         SearchType.values().filter {
             it != LIVE && it != LIVE_USER
         }.forEach {
-            client.searchByType("bilibili", it).result
+            client.searchByType("bilibili", SearchOption(type = it)).result
         }
     }
 
     @Test
     fun searchLiveTest() = runTest {
-        client.searchLive("bilibili", LIVE).data?.result.apply {
+        client.searchLive("bilibili", LiveSearchOption()).data?.result.apply {
             this?.liveRoom.also(::println)
             this?.liveUser.also(::println)
         }

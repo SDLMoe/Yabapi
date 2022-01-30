@@ -6,9 +6,11 @@ import kotlinx.coroutines.withContext
 import moe.sdl.yabapi.BiliClient
 import moe.sdl.yabapi.consts.internal.SEARCH_ALL_URL
 import moe.sdl.yabapi.consts.internal.SEARCH_BY_TYPE_URL
+import moe.sdl.yabapi.data.search.LiveSearchOptionBase
 import moe.sdl.yabapi.data.search.SearchAllResponse
 import moe.sdl.yabapi.data.search.SearchLiveResponse
 import moe.sdl.yabapi.data.search.SearchNormalResponse
+import moe.sdl.yabapi.data.search.SearchOption
 import moe.sdl.yabapi.deserializeJson
 import moe.sdl.yabapi.enums.search.SearchType
 import moe.sdl.yabapi.util.Logger
@@ -37,14 +39,15 @@ public suspend fun BiliClient.searchAll(
  */
 public suspend fun BiliClient.searchByType(
     keyword: String,
-    type: SearchType,
+    option: SearchOption,
     context: CoroutineContext = this.context,
 ): SearchNormalResponse = withContext(context) {
-    logger.debug { "Searching '$keyword' by type $type..." }
+    val type = option.type
+    logger.debug { "Searching '$keyword' by type $type, option: $option..." }
     require(type != SearchType.LIVE || type != SearchType.LIVE_USER) { "For live related search, use [BiliClient.searchLive] instead." }
     client.get<String>(SEARCH_BY_TYPE_URL) {
-        parameter("search_type", type.code)
         parameter("keyword", keyword)
+        option.putToQuery(this)
     }.deserializeJson<SearchNormalResponse>().also {
         logger.debug { "Search '$keyword' by type $type Response: $it" }
     }
@@ -52,13 +55,13 @@ public suspend fun BiliClient.searchByType(
 
 public suspend fun BiliClient.searchLive(
     keyword: String,
-    type: SearchType,
+    option: LiveSearchOptionBase,
     context: CoroutineContext = this.context,
 ): SearchLiveResponse = withContext(context) {
-    logger.debug { "Searching '$keyword' by type $type..." }
+    val type = option.type
+    logger.debug { "Searching '$keyword' by type $type, option: $option..." }
     require(type == SearchType.LIVE || type == SearchType.LIVE_USER) { "For non-live search, use [BiliClient.searchByType] instead" }
     client.get<String>(SEARCH_BY_TYPE_URL) {
-        parameter("search_type", type.code)
         parameter("keyword", keyword)
     }.deserializeJson<SearchLiveResponse>().also {
         logger.debug { "Search '$keyword' by type $type Response: $it" }
