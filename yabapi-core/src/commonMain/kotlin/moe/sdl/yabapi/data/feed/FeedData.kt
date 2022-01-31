@@ -26,7 +26,7 @@ public data class FeedData(
 ) {
     @Serializable
     public data class FoldManager(
-        @SerialName("fold_type") val foldType: Int,
-        @SerialName("folds") val folds: JsonArray,
+        @SerialName("fold_type") val foldType: Int? = null,
+        @SerialName("folds") val folds: JsonArray? = null,
     )
 }

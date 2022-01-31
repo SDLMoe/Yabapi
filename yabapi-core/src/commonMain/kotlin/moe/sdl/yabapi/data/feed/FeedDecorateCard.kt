@@ -11,27 +11,27 @@ import moe.sdl.yabapi.serializer.data.RgbColorStringSerializerNullable
 
 @Serializable
 public data class FeedDecorateCard(
-    @SerialName("mid") val mid: Int,
-    @SerialName("id") val id: Int,
-    @SerialName("card_url") val cardUrl: String,
-    @SerialName("card_type") val cardType: Int,
-    @SerialName("name") val name: String,
-    @SerialName("expire_time") val expireTime: Long,
-    @SerialName("card_type_name") val cardTypeName: String,
-    @SerialName("uid") val uid: Int,
-    @SerialName("item_id") val itemId: Int,
-    @SerialName("item_type") val itemType: Int,
-    @SerialName("big_card_url") val bigCardUrl: String,
-    @SerialName("jump_url") val jumpUrl: String,
-    @SerialName("fan") val fan: Fan,
-    @SerialName("image_enhance") val imageEnhance: String,
+    @SerialName("mid") val mid: Int? = null,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("card_url") val cardUrl: String? = null,
+    @SerialName("card_type") val cardType: Int? = null,
+    @SerialName("name") val name: String? = null,
+    @SerialName("expire_time") val expireTime: Long? = null,
+    @SerialName("card_type_name") val cardTypeName: String? = null,
+    @SerialName("uid") val uid: Int? = null,
+    @SerialName("item_id") val itemId: Int? = null,
+    @SerialName("item_type") val itemType: Int? = null,
+    @SerialName("big_card_url") val bigCardUrl: String? = null,
+    @SerialName("jump_url") val jumpUrl: String? = null,
+    @SerialName("fan") val fan: Fan? = null,
+    @SerialName("image_enhance") val imageEnhance: String? = null,
 ) {
     @Serializable
     public data class Fan(
-        @SerialName("is_fan") val isFan: Boolean,
-        @SerialName("number") val number: Int,
+        @SerialName("is_fan") val isFan: Boolean? = null,
+        @SerialName("number") val number: Int? = null,
         @Serializable(RgbColorStringSerializerNullable::class)
         @SerialName("color") val color: RgbColor? = null,
-        @SerialName("num_desc") val numDesc: String,
+        @SerialName("num_desc") val numDesc: String? = null,
     )
 }

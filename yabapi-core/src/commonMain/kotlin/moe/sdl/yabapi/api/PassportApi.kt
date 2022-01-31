@@ -112,7 +112,7 @@ public suspend fun BiliClient.loginWeb(
             append("username", userName)
             append("password", pwdEncrypted)
             append("keep", "true")
-            append("key", getCaptchaResponse.data.result.loginKey)
+            append("key", getCaptchaResponse.data?.result?.loginKey ?: error("Failed to get LoginKey"))
             append("challenge", getCaptchaResponse.data.result.captchaKey)
             append("validate", validate)
             append("seccode", seccode)
@@ -143,7 +143,7 @@ public suspend fun BiliClient.loginWebConsole(
     val pwd = requireCmdInputString("Please Input Bilibili Password:")
     val captchaResponse = getCaptcha()
     println("Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :")
-    println("gt=${captchaResponse.data.result.id}, challenge=${captchaResponse.data.result.captchaKey}")
+    println("gt=${captchaResponse.data?.result?.id}, challenge=${captchaResponse.data?.result?.captchaKey}")
     val validate = requireCmdInputString("input the result, validate=")
     val seccode = "$validate|jordan"
     val encryptPwd = encryptFunc(pwd, this@loginWebConsole.getRsaKeyWeb())
@@ -170,7 +170,7 @@ public suspend fun BiliClient.loginWebQRCode(
     logger.debug { "Starting Logging in via Web QR Code" }
     client.post<String>(LOGIN_WEB_QRCODE_URL) {
         val params = Parameters.build {
-            append("oauthKey", qrResponse.data.oauthKey)
+            append("oauthKey", qrResponse.data?.oauthKey ?: error("Failed to get oauthKey"))
         }
         body = FormDataContent(params)
     }.deserializeJson<LoginWebQRCodeResponse>().also {
@@ -190,7 +190,7 @@ public suspend fun BiliClient.loginWebQRCodeInteractive(
         logger.debug { "Starting Interactive Login via Web QR Code" }
         val getQrResponse = getWebQRCode()
         println("打开网站，通过Bilibili手机客户端扫描二维码。")
-        println("https://qrcode.jp/qr?q=${getQrResponse.data.url}&s=10")
+        println("https://qrcode.jp/qr?q=${getQrResponse.data?.url}&s=10")
         val loop = atomic(true)
         val responseList = mutableListOf<LoginWebQRCodeResponse>()
 
@@ -256,8 +256,8 @@ public suspend fun BiliClient.requestSMSCode(
         val params = Parameters.build {
             append("tel", phone.toString())
             append("cid", cid.toString())
-            append("token", captchaResponse.result.loginKey)
-            append("challenge", captchaResponse.result.captchaKey)
+            append("token", captchaResponse.result?.loginKey ?: error("failed to get loginKey"))
+            append("challenge", captchaResponse.result?.captchaKey ?: error("failed to get captchaKey"))
             append("validate", validate)
             append("seccode", seccode)
         }
@@ -314,8 +314,8 @@ public suspend fun BiliClient.loginWebSMSConsole(
 
     if (needsCallingCode) callingCode = requireCmdInputNumber("Please Input Calling Code (e.g. 86, 1):")
     val cid = async(context) {
-        val cidList = getCallingCode().data.all
-        cidList.first { it.callingCode == callingCode.toString() }.id.toInt()
+        val cidList = getCallingCode().data?.all ?: error("failed to getCallingCodeNode")
+        cidList.first { it.callingCode == callingCode.toString() }.id?.toInt() ?: error("failed to get calling code")
     }
 
     val phone: Long = requireCmdInputNumber("Please Input Phone Number (e.g. 13800138000):")
@@ -325,7 +325,7 @@ public suspend fun BiliClient.loginWebSMSConsole(
     while (smsSent) {
         val captchaResponse = getCaptcha()
         println("Please do the captcha via https://kuresaru.github.io/geetest-validator/ :")
-        println("gt=${captchaResponse.result.id}, challenge=${captchaResponse.result.captchaKey}")
+        println("gt=${captchaResponse.result?.id}, challenge=${captchaResponse.result?.captchaKey}")
         val validate = requireCmdInputString("validate=")
         sendSMSResponse = requestSMSCode(phone, cid.await(), captchaResponse, validate, "$validate|jordan")
         if (sendSMSResponse.code == SendSMSResponseCode.SUCCESS) {

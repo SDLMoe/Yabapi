@@ -18,7 +18,7 @@ internal class StickerApiTest {
     @Test
     fun getAllSticker() = runTest {
         client.getAllStickers(REPLY).data!!.all
-            .first { it.name.contains("小黄脸") }
+            .first { it.name!!.contains("小黄脸") }
             .stickerList.asSequence()
             .map { it.text!!.substringAfter('[').substringBefore(']') to it.url }
             .asFlow().collect { (name, url) ->

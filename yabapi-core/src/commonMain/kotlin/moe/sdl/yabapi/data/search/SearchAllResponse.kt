@@ -20,31 +20,31 @@ public data class SearchAllResponse(
 
 @Serializable
 public data class SearchAllData(
-    @SerialName("seid") override val seid: String,
-    @SerialName("page") override val page: Int,
-    @SerialName("pagesize") override val pageSize: Int,
-    @SerialName("numResults") override val numResults: Int,
-    @SerialName("numPages") override val numPages: Int,
-    @SerialName("suggest_keyword") override val suggestKeyword: String,
-    @SerialName("rqt_type") override val rqtType: String,
-    @SerialName("cost_time") override val costTime: Map<String, String>,
-    @SerialName("exp_list") override val expList: Map<String, String>,
-    @SerialName("egg_hit") override val eggHit: Boolean,
-    @SerialName("pageinfo") override val pageInfo: Map<String, SearchNumInfo>,
-    @SerialName("top_tlist") val typeList: Map<String, Int>,
-    @SerialName("show_column") override val showColumn: Int,
-    @SerialName("show_module_list") val moduleList: List<String>,
-    @SerialName("result") override val result: SearchAllResultData,
+    @SerialName("seid") override val seid: String? = null,
+    @SerialName("page") override val page: Int? = null,
+    @SerialName("pagesize") override val pageSize: Int? = null,
+    @SerialName("numResults") override val numResults: Int? = null,
+    @SerialName("numPages") override val numPages: Int? = null,
+    @SerialName("suggest_keyword") override val suggestKeyword: String? = null,
+    @SerialName("rqt_type") override val rqtType: String? = null,
+    @SerialName("cost_time") override val costTime: Map<String, String> = mapOf(),
+    @SerialName("exp_list") override val expList: Map<String, String> = mapOf(),
+    @SerialName("egg_hit") override val eggHit: Boolean? = null,
+    @SerialName("pageinfo") override val pageInfo: Map<String, SearchNumInfo> = mapOf(),
+    @SerialName("top_tlist") val typeList: Map<String, Int> = mapOf(),
+    @SerialName("show_column") override val showColumn: Int? = null,
+    @SerialName("show_module_list") val moduleList: List<String> = emptyList(),
+    @SerialName("result") override val result: SearchAllResultData? = null,
 ) : SearchData() {
     public val resultFlatted: List<SearchResult> by lazy {
-        result.value.flatMap { it.data.orEmpty() }
+        result?.value?.flatMap { it.data.orEmpty() } ?: emptyList()
     }
 }
 
 @Serializable
 public data class SearchNumInfo(
     @SerialName("numPages") val numPages: Int? = null,
-    @SerialName("numResults") val numResults: Int,
-    @SerialName("total") val total: Int,
-    @SerialName("pages") val pages: Int,
+    @SerialName("numResults") val numResults: Int? = null,
+    @SerialName("total") val total: Int? = null,
+    @SerialName("pages") val pages: Int? = null,
 )

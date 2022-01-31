@@ -15,24 +15,24 @@ public data class LiveAreasGetResponse(
 
 @Serializable
 public data class LiveArea(
-    @SerialName("id") val id: Int,
-    @SerialName("name") val name: String,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("name") val name: String? = null,
     @SerialName("list") val list: List<LiveSubArea>,
 )
 
 @Serializable
 public data class LiveSubArea(
-    @SerialName("id") val id: Int,
-    @SerialName("parent_id") val parentId: Int,
-    @SerialName("old_area_id") val oldAreaId: Int,
-    @SerialName("name") val name: String,
-    @SerialName("act_id") val actId: String,
-    @SerialName("pk_status") val pkStatus: String,
-    @SerialName("hot_status") val hotStatus: Int,
-    @SerialName("lock_status") val lockStatus: String,
-    @SerialName("pic") val pic: String,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("parent_id") val parentId: Int? = null,
+    @SerialName("old_area_id") val oldAreaId: Int? = null,
+    @SerialName("name") val name: String? = null,
+    @SerialName("act_id") val actId: String? = null,
+    @SerialName("pk_status") val pkStatus: String? = null,
+    @SerialName("hot_status") val hotStatus: Int? = null,
+    @SerialName("lock_status") val lockStatus: String? = null,
+    @SerialName("pic") val pic: String? = null,
     @SerialName("cate_id") val cateId: String? = null,
-    @SerialName("complex_area_name") val complexAreaName: String,
-    @SerialName("parent_name") val parentName: String,
-    @SerialName("area_type") val areaType: Int,
+    @SerialName("complex_area_name") val complexAreaName: String? = null,
+    @SerialName("parent_name") val parentName: String? = null,
+    @SerialName("area_type") val areaType: Int? = null,
 )

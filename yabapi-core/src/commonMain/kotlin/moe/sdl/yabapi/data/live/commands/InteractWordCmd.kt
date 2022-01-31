@@ -17,7 +17,7 @@ import moe.sdl.yabapi.serializer.data.RgbColorIntSerializer
 @Serializable
 public data class InteractWordCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: InteractWordData,
+    @SerialName("data") val data: InteractWordData? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "INTERACT_WORD"
@@ -27,46 +27,46 @@ public data class InteractWordCmd(
 
 @Serializable
 public data class InteractWordData(
-    @SerialName("contribution") val contribution: Contribution,
-    @SerialName("dmscore") val danmakuScore: Int,
+    @SerialName("contribution") val contribution: Contribution? = null,
+    @SerialName("dmscore") val danmakuScore: Int? = null,
     @SerialName("fans_medal") val fansMedal: LiveMedal? = null,
     @SerialName("identities") val identities: List<Int> = emptyList(),
-    @SerialName("is_spread") val isSpread: Boolean,
-    @SerialName("msg_type") val msgType: Int,
-    @SerialName("roomid") val roomId: Int,
-    @SerialName("score") val score: Long,
-    @SerialName("spread_desc") val spreadDesc: String,
-    @SerialName("spread_info") val spreadInfo: String,
-    @SerialName("tail_icon") val tailIcon: Int,
-    @SerialName("timestamp") val timestamp: Long,
-    @SerialName("trigger_time") val triggerTime: Long,
-    @SerialName("uid") val uid: Int,
-    @SerialName("uname") val userName: String,
-    @SerialName("uname_color") val userNameColor: String,
+    @SerialName("is_spread") val isSpread: Boolean? = null,
+    @SerialName("msg_type") val msgType: Int? = null,
+    @SerialName("roomid") val roomId: Int? = null,
+    @SerialName("score") val score: Long? = null,
+    @SerialName("spread_desc") val spreadDesc: String? = null,
+    @SerialName("spread_info") val spreadInfo: String? = null,
+    @SerialName("tail_icon") val tailIcon: Int? = null,
+    @SerialName("timestamp") val timestamp: Long? = null,
+    @SerialName("trigger_time") val triggerTime: Long? = null,
+    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uname") val userName: String? = null,
+    @SerialName("uname_color") val userNameColor: String? = null,
 ) {
     @Serializable
     public data class Contribution(
-        @SerialName("grade") val grade: Int,
+        @SerialName("grade") val grade: Int? = null,
     )
 
     @Serializable
     public data class LiveMedal(
-        @SerialName("anchor_roomid") val roomId: Int, // 房间id
+        @SerialName("anchor_roomid") val roomId: Int? = null, // 房间id
         @SerialName("guard_level") val guardLevel: GuardLevel = UNKNOWN, // 等级
-        @SerialName("icon_id") val iconId: Int, // icon id
-        @SerialName("is_lighted") val isLighted: Boolean, // 是否点亮
+        @SerialName("icon_id") val iconId: Int? = null, // icon id
+        @SerialName("is_lighted") val isLighted: Boolean? = null, // 是否点亮
         @Serializable(RgbColorIntSerializer::class)
-        @SerialName("medal_color") val medalColor: RgbColor,
+        @SerialName("medal_color") val medalColor: RgbColor? = null,
         @Serializable(RgbColorIntSerializer::class)
-        @SerialName("medal_color_border") val medalColorBorder: RgbColor,
+        @SerialName("medal_color_border") val medalColorBorder: RgbColor? = null,
         @Serializable(RgbColorIntSerializer::class)
-        @SerialName("medal_color_end") val medalColorEnd: RgbColor,
+        @SerialName("medal_color_end") val medalColorEnd: RgbColor? = null,
         @Serializable(RgbColorIntSerializer::class)
-        @SerialName("medal_color_start") val medalColorStart: RgbColor,
-        @SerialName("medal_level") val level: Int,
-        @SerialName("medal_name") val name: String,
-        @SerialName("score") val score: Int,
-        @SerialName("special") val special: String,
-        @SerialName("target_id") val targetId: Int, // 主播 mid
+        @SerialName("medal_color_start") val medalColorStart: RgbColor? = null,
+        @SerialName("medal_level") val level: Int? = null,
+        @SerialName("medal_name") val name: String? = null,
+        @SerialName("score") val score: Int? = null,
+        @SerialName("special") val special: String? = null,
+        @SerialName("target_id") val targetId: Int? = null, // 主播 mid
     )
 }

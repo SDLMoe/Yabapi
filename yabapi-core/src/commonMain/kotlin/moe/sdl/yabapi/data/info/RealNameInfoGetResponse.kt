@@ -28,5 +28,5 @@ public data class RealNameInfoGetResponse(
  */
 @Serializable
 public data class RealNameStat(
-    @SerialName("status") val status: Boolean,
+    @SerialName("status") val status: Boolean? = null,
 )

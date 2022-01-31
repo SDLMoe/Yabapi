@@ -13,7 +13,7 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 @Serializable
 public data class HotRoomNotifyCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: HotRoomNotify,
+    @SerialName("data") val data: HotRoomNotify? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "HOT_ROOM_NOTIFY"
@@ -23,14 +23,14 @@ public data class HotRoomNotifyCmd(
 
 @Serializable
 public data class HotRoomNotify(
-    @SerialName("threshold") val threshold: Int,
-    @SerialName("ttl") val ttl: Int,
-    @SerialName("exit_no_refresh") val exitNoRefresh: Boolean,
+    @SerialName("threshold") val threshold: Int? = null,
+    @SerialName("ttl") val ttl: Int? = null,
+    @SerialName("exit_no_refresh") val exitNoRefresh: Boolean? = null,
     @SerialName("random_delay_req_v2") val randomDelayReqV2: List<RequestNode>,
 ) {
     @Serializable
     public data class RequestNode(
-        @SerialName("path") val path: String,
-        @SerialName("delay") val delay: Int,
+        @SerialName("path") val path: String? = null,
+        @SerialName("delay") val delay: Int? = null,
     )
 }

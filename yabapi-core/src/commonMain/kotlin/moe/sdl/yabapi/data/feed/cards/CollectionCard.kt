@@ -18,34 +18,34 @@ import moe.sdl.yabapi.enums.video.VideoType
 
 @Serializable
 public data class CollectionCard(
-    @SerialName("aid") val aid: String,
-    @SerialName("attribute") val attribute: VideoAttribute,
-    @SerialName("attribute_v2") val attributeV2: VideoAttribute,
-    @SerialName("cid") val cid: Int,
-    @SerialName("collection") val collection: CollectionInfo,
+    @SerialName("aid") val aid: String? = null,
+    @SerialName("attribute") val attribute: VideoAttribute? = null,
+    @SerialName("attribute_v2") val attributeV2: VideoAttribute? = null,
+    @SerialName("cid") val cid: Int? = null,
+    @SerialName("collection") val collection: CollectionInfo? = null,
     @SerialName("copyright") val copyright: VideoCopyright = UNKNOWN,
-    @SerialName("ctime") val createdTime: Long,
-    @SerialName("desc") val description: String,
-    @SerialName("dimension") val dimension: VideoDimension,
-    @SerialName("duration") val duration: Long,
-    @SerialName("dynamic") val dynamic: String,
-    @SerialName("first_frame") val firstFrame: String,
-    @SerialName("jump_url") val jumpUrl: String,
-    @SerialName("owner") val owner: VideoOwner,
-    @SerialName("pic") val pic: String,
-    @SerialName("pubdate") val releaseDate: Long,
-    @SerialName("rights") val rights: VideoRights,
-    @SerialName("season_id") val seasonId: Int,
-    @SerialName("season_theme") val seasonTheme: SeasonTheme,
-    @SerialName("share_subtitle") val shareSubtitle: String,
-    @SerialName("short_link") val shortLink: String,
-    @SerialName("short_link_v2") val shortLinkV2: String,
-    @SerialName("stat") val stat: VideoStat,
+    @SerialName("ctime") val createdTime: Long? = null,
+    @SerialName("desc") val description: String? = null,
+    @SerialName("dimension") val dimension: VideoDimension? = null,
+    @SerialName("duration") val duration: Long? = null,
+    @SerialName("dynamic") val dynamic: String? = null,
+    @SerialName("first_frame") val firstFrame: String? = null,
+    @SerialName("jump_url") val jumpUrl: String? = null,
+    @SerialName("owner") val owner: VideoOwner? = null,
+    @SerialName("pic") val pic: String? = null,
+    @SerialName("pubdate") val releaseDate: Long? = null,
+    @SerialName("rights") val rights: VideoRights? = null,
+    @SerialName("season_id") val seasonId: Int? = null,
+    @SerialName("season_theme") val seasonTheme: SeasonTheme? = null,
+    @SerialName("share_subtitle") val shareSubtitle: String? = null,
+    @SerialName("short_link") val shortLink: String? = null,
+    @SerialName("short_link_v2") val shortLinkV2: String? = null,
+    @SerialName("stat") val stat: VideoStat? = null,
     @SerialName("state") val state: VideoState = VideoState.UNKNOWN,
-    @SerialName("tid") val type: VideoType,
-    @SerialName("title") val title: String,
-    @SerialName("tname") val typeName: String,
-    @SerialName("videos") val videos: Int,
+    @SerialName("tid") val type: VideoType? = null,
+    @SerialName("title") val title: String? = null,
+    @SerialName("tname") val typeName: String? = null,
+    @SerialName("videos") val videos: Int? = null,
 ) : FeedCard {
     public companion object : FeedCardFactory() {
         override val code: Int = FeedType.COLLECTION.code
@@ -55,23 +55,23 @@ public data class CollectionCard(
 
 @Serializable
 public data class CollectionInfo(
-    @SerialName("cover") val cover: String,
-    @SerialName("id") val id: Int,
-    @SerialName("mid") val mid: Int,
-    @SerialName("name") val name: String,
-    @SerialName("title") val title: String,
+    @SerialName("cover") val cover: String? = null,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("mid") val mid: Int? = null,
+    @SerialName("name") val name: String? = null,
+    @SerialName("title") val title: String? = null,
 )
 
 @Serializable
 public data class SeasonTheme(
-    @SerialName("bg_color") private val _bgColor: String,
-    @SerialName("selected_bg_color") private val _selectedBgColor: String,
-    @SerialName("text_color") private val _textColor: String,
+    @SerialName("bg_color") private val _bgColor: String? = null,
+    @SerialName("selected_bg_color") private val _selectedBgColor: String? = null,
+    @SerialName("text_color") private val _textColor: String? = null,
 ) {
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun String.toRgb() = RgbColor.fromHex("#$this")
+    private inline fun String.toRgb() = if (this.isNotBlank()) RgbColor.fromHex("#$this") else null
 
-    val backgroundColor: RgbColor by lazy { _bgColor.toRgb() }
-    val selectedBackgroundColor: RgbColor by lazy { _selectedBgColor.toRgb() }
-    val textColor: RgbColor by lazy { _textColor.toRgb() }
+    val backgroundColor: RgbColor? by lazy { _bgColor?.toRgb() }
+    val selectedBackgroundColor: RgbColor? by lazy { _selectedBgColor?.toRgb() }
+    val textColor: RgbColor? by lazy { _textColor?.toRgb() }
 }

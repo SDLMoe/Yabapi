@@ -9,7 +9,7 @@ import kotlinx.serialization.json.decodeFromJsonElement
 @Serializable
 public data class HotRankSettlementV2Cmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: HotRankSettlementV2Data,
+    @SerialName("data") val data: HotRankSettlementV2Data? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "HOT_RANK_SETTLEMENT_V2"
@@ -19,13 +19,13 @@ public data class HotRankSettlementV2Cmd(
 
 @Serializable
 public data class HotRankSettlementV2Data(
-    @SerialName("rank") val rank: Int,
-    @SerialName("uname") val username: String,
-    @SerialName("face") val avatar: String,
-    @SerialName("timestamp") val timestamp: Long,
-    @SerialName("icon") val icon: String,
-    @SerialName("area_name") val areaName: String,
-    @SerialName("url") val url: String,
-    @SerialName("cache_key") val cacheKey: String,
-    @SerialName("dm_msg") val dmMsg: String, //恭喜主播 <% Username %> 荣登限时热门榜主机游戏榜榜首! 即将获得热门流量推荐哦！
+    @SerialName("rank") val rank: Int? = null,
+    @SerialName("uname") val username: String? = null,
+    @SerialName("face") val avatar: String? = null,
+    @SerialName("timestamp") val timestamp: Long? = null,
+    @SerialName("icon") val icon: String? = null,
+    @SerialName("area_name") val areaName: String? = null,
+    @SerialName("url") val url: String? = null,
+    @SerialName("cache_key") val cacheKey: String? = null,
+    @SerialName("dm_msg") val dmMsg: String? = null, //恭喜主播 <% Username %> 荣登限时热门榜主机游戏榜榜首! 即将获得热门流量推荐哦！
 )

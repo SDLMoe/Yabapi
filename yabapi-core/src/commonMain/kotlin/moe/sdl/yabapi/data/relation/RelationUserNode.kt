@@ -6,6 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
 import moe.sdl.yabapi.data.info.OfficialCertify
+import moe.sdl.yabapi.data.info.UserVip
 import moe.sdl.yabapi.data.info.VipLabel
 import moe.sdl.yabapi.data.info.VipStatus
 import moe.sdl.yabapi.data.info.VipType
@@ -27,7 +28,7 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
  */
 @Serializable
 public data class RelationUserNode(
-    @SerialName("mid") val mid: Int,
+    @SerialName("mid") val mid: Int? = null,
     @SerialName("attribute") val attribute: RelationAttribute = RelationAttribute.UNKNOWN,
     @SerialName("mtime") val mtime: Int? = null,
     @SerialName("tag") val tag: List<Int>? = null,
@@ -41,22 +42,22 @@ public data class RelationUserNode(
 )
 
 /**
- * @see [moe.sdl.yabapi.data.info.UserVip]
+ * @see [UserVip]
  */
 @Serializable
 public data class RelationVipInfo(
     @SerialName("vipType") val type: VipType = VipType.UNKNOWN,
-    @SerialName("vipDueDate") val dueDate: Long,
-    @SerialName("dueRemark") val dueRemark: String,
-    @SerialName("accessStatus") val accessStatus: Int,
+    @SerialName("vipDueDate") val dueDate: Long? = null,
+    @SerialName("dueRemark") val dueRemark: String? = null,
+    @SerialName("accessStatus") val accessStatus: Int? = null,
     @SerialName("vipStatus") val status: VipStatus = VipStatus.UNKNOWN,
-    @SerialName("vipStatusWarn") val statusWarn: String,
-    @SerialName("themeType") val themeType: Int,
-    @SerialName("label") val label: VipLabel,
-    @SerialName("avatar_subscript") val isShowSubscript: Boolean,
-    @SerialName("nickname_color") val nicknameColor: String,
-    // @SerialName("role") val role: Int,
-    @SerialName("avatar_subscript_url") val avatarSubscriptUrl: String,
+    @SerialName("vipStatusWarn") val statusWarn: String? = null,
+    @SerialName("themeType") val themeType: Int? = null,
+    @SerialName("label") val label: VipLabel? = null,
+    @SerialName("avatar_subscript") val isShowSubscript: Boolean? = null,
+    @SerialName("nickname_color") val nicknameColor: String? = null,
+    // @SerialName("role") val role: Int? = null,
+    @SerialName("avatar_subscript_url") val avatarSubscriptUrl: String? = null,
 )
 
 /**
@@ -64,8 +65,8 @@ public data class RelationVipInfo(
  */
 @Serializable
 public data class ContractInfo(
-    @SerialName("is_contractor") val isContractor: Boolean,
-    @SerialName("ts") val timestamp: Long,
-    @SerialName("is_contract") val isContract: Boolean,
-    @SerialName("user_attr") val userAttribute: Int,
+    @SerialName("is_contractor") val isContractor: Boolean? = null,
+    @SerialName("ts") val timestamp: Long? = null,
+    @SerialName("is_contract") val isContract: Boolean? = null,
+    @SerialName("user_attr") val userAttribute: Int? = null,
 )

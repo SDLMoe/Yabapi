@@ -25,8 +25,8 @@ internal class ArticleApiTest {
     @Test
     fun getCollectionInfoTest() = runTest {
         client.apply {
-            val rlId = getArticleDetailed(15018651)!!.readInfo.collection!!.id
-            getCollectionInfo(rlId)
+            val rlId = getArticleDetailed(15018651)!!.readInfo!!.collection!!.id
+            getCollectionInfo(rlId!!)
         }
     }
 }

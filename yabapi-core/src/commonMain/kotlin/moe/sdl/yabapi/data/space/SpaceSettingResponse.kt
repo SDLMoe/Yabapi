@@ -17,65 +17,65 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
  */
 @Serializable
 public data class SpaceSettingResponse(
-    @SerialName("status") val status: Boolean,
+    @SerialName("status") val status: Boolean? = null,
     @SerialName("data") private val _data: JsonElement? = null,
 ) {
     val dataWhenTrue: SpaceSetting? by lazy {
-        if (status) _data?.let { defaultJson.value.decodeFromJsonElement(it) } else null
+        if (status == true) _data?.let { defaultJson.value.decodeFromJsonElement(it) } else null
     }
 
     val dataWhenFalse: String? by lazy {
-        if (!status) _data?.jsonPrimitive?.contentOrNull else null
+        if (status == false) _data?.jsonPrimitive?.contentOrNull else null
     }
 }
 
 @Serializable
 public data class SpaceSetting(
-    @SerialName("privacy") val privacy: SpacePrivacy,
-    @SerialName("show_nft_switch") val showNftSwitch: Boolean,
+    @SerialName("privacy") val privacy: SpacePrivacy? = null,
+    @SerialName("show_nft_switch") val showNftSwitch: Boolean? = null,
     @SerialName("index_order") val indexOrder: List<SpacePosNode> = emptyList(),
-    @SerialName("theme") val theme: String,
-    @SerialName("theme_preview_img_path") val themePreviewImgPath: String,
-    @SerialName("toutu") val banner: SpaceBanner,
+    @SerialName("theme") val theme: String? = null,
+    @SerialName("theme_preview_img_path") val themePreviewImgPath: String? = null,
+    @SerialName("toutu") val banner: SpaceBanner? = null,
 )
 
 @Serializable
 public data class SpacePrivacy(
-    @SerialName("bangumi") val bangumi: Boolean,
-    @SerialName("bbq") val bbq: Boolean,
-    @SerialName("channel") val channel: Boolean,
-    @SerialName("close_space_medal") val closeSpaceMedal: Boolean,
-    @SerialName("coins_video") val coinsVideo: Boolean,
-    @SerialName("comic") val comic: Boolean,
-    @SerialName("disable_following") val disableFollowing: Boolean,
+    @SerialName("bangumi") val bangumi: Boolean? = null,
+    @SerialName("bbq") val bbq: Boolean? = null,
+    @SerialName("channel") val channel: Boolean? = null,
+    @SerialName("close_space_medal") val closeSpaceMedal: Boolean? = null,
+    @SerialName("coins_video") val coinsVideo: Boolean? = null,
+    @SerialName("comic") val comic: Boolean? = null,
+    @SerialName("disable_following") val disableFollowing: Boolean? = null,
     @SerialName("disable_show_nft") val disableShowNft: Boolean? = null,
-    @SerialName("disable_show_school") val disableShowSchool: Boolean,
-    @SerialName("dress_up") val dressUp: Boolean,
-    @SerialName("fav_video") val favVideo: Boolean,
-    @SerialName("groups") val groups: Boolean,
-    @SerialName("likes_video") val likeVideo: Boolean,
-    @SerialName("live_playback") val livePlayback: Boolean,
-    @SerialName("only_show_wearing") val onlyShowWearing: Boolean,
-    @SerialName("played_game") val playedGame: Boolean,
-    @SerialName("tags") val tags: Boolean,
-    @SerialName("user_info") val userInfo: Boolean,
+    @SerialName("disable_show_school") val disableShowSchool: Boolean? = null,
+    @SerialName("dress_up") val dressUp: Boolean? = null,
+    @SerialName("fav_video") val favVideo: Boolean? = null,
+    @SerialName("groups") val groups: Boolean? = null,
+    @SerialName("likes_video") val likeVideo: Boolean? = null,
+    @SerialName("live_playback") val livePlayback: Boolean? = null,
+    @SerialName("only_show_wearing") val onlyShowWearing: Boolean? = null,
+    @SerialName("played_game") val playedGame: Boolean? = null,
+    @SerialName("tags") val tags: Boolean? = null,
+    @SerialName("user_info") val userInfo: Boolean? = null,
 )
 
 @Serializable
 public data class SpacePosNode(
-    @SerialName("id") val id: Int,
-    @SerialName("name") val name: String,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("name") val name: String? = null,
 )
 
 @Serializable
 public data class SpaceBanner(
-    @SerialName("sid") val sid: Int,
-    @SerialName("expire") val expire: Long,
-    @SerialName("s_img") val smallImg: String,
-    @SerialName("l_img") val largeImg: String,
-    @SerialName("android_img") val androidImg: String,
-    @SerialName("iphone_img") val iPhoneImg: String,
-    @SerialName("ipad_img") val iPadImg: String,
-    @SerialName("thumbnail_img") val thumbnailImg: String,
-    @SerialName("platform") val platform: Int,
+    @SerialName("sid") val sid: Int? = null,
+    @SerialName("expire") val expire: Long? = null,
+    @SerialName("s_img") val smallImg: String? = null,
+    @SerialName("l_img") val largeImg: String? = null,
+    @SerialName("android_img") val androidImg: String? = null,
+    @SerialName("iphone_img") val iPhoneImg: String? = null,
+    @SerialName("ipad_img") val iPadImg: String? = null,
+    @SerialName("thumbnail_img") val thumbnailImg: String? = null,
+    @SerialName("platform") val platform: Int? = null,
 )

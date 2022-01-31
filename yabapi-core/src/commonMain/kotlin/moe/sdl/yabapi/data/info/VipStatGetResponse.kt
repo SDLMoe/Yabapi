@@ -32,15 +32,15 @@ public data class VipStatGetResponse(
  */
 @Serializable
 public data class VipStatGetData(
-    @SerialName("mid") val mid: Int,
-    @SerialName("vip_type") val vipType: VipType,
+    @SerialName("mid") val mid: Int? = null,
+    @SerialName("vip_type") val vipType: VipType? = null,
     @SerialName("vip_status") val vipStatus: VipStatus? = null,
-    @SerialName("vip_due_date") val vipDueDate: Long,
-    @SerialName("vip_pay_type") val isPaid: Boolean,
-    @SerialName("theme_type") val themeType: Int,
+    @SerialName("vip_due_date") val vipDueDate: Long? = null,
+    @SerialName("vip_pay_type") val isPaid: Boolean? = null,
+    @SerialName("theme_type") val themeType: Int? = null,
     @SerialName("label") val label: VipLabel? = null,
-    @SerialName("avatar_subscript") val isShowSubscript: Boolean,
-    @SerialName("avatar_subscript_url") val avatarSubscriptUrl: String,
-    @SerialName("nickname_color") val nicknameColor: String,
-    @SerialName("is_new_user") val isNewUser: Boolean,
+    @SerialName("avatar_subscript") val isShowSubscript: Boolean? = null,
+    @SerialName("avatar_subscript_url") val avatarSubscriptUrl: String? = null,
+    @SerialName("nickname_color") val nicknameColor: String? = null,
+    @SerialName("is_new_user") val isNewUser: Boolean? = null,
 )

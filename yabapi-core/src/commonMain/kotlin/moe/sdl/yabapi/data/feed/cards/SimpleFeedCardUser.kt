@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class SimpleFeedCardUser(
-    @SerialName("uid") val uid: Int,
-    @SerialName("uname") val username: String,
-    @SerialName("face") val face: String,
+    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uname") val username: String? = null,
+    @SerialName("face") val face: String? = null,
 )

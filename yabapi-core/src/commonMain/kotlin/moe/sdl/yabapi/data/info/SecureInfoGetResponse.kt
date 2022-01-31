@@ -8,6 +8,7 @@ import kotlinx.serialization.UseSerializers
 import moe.sdl.yabapi.data.GeneralCode
 import moe.sdl.yabapi.data.info.PwdLevel.MEDIUM
 import moe.sdl.yabapi.data.info.PwdLevel.STRONG
+import moe.sdl.yabapi.data.info.PwdLevel.UNKNOWN
 import moe.sdl.yabapi.data.info.PwdLevel.WEAK
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
 
@@ -23,7 +24,7 @@ public data class SecureInfoGetResponse(
     @SerialName("code") val code: GeneralCode = GeneralCode.UNKNOWN,
     @SerialName("message") val message: String? = null,
     @SerialName("ttl") val ttl: Int? = null,
-    @SerialName("data") val data: SecureInfoData,
+    @SerialName("data") val data: SecureInfoData? = null,
 )
 
 /**
@@ -35,10 +36,10 @@ public data class SecureInfoGetResponse(
  */
 @Serializable
 public data class SecureInfoData(
-    @SerialName("account_info") val bindInfo: SecureBindInfo,
-    @SerialName("account_safe") val pwdInfo: SecurePwdInfo,
-    @SerialName("account_sns") val snsInfo: SecureSnsInfo,
-    @SerialName("account_other") val other: SecureOtherInfo,
+    @SerialName("account_info") val bindInfo: SecureBindInfo? = null,
+    @SerialName("account_safe") val pwdInfo: SecurePwdInfo? = null,
+    @SerialName("account_sns") val snsInfo: SecureSnsInfo? = null,
+    @SerialName("account_other") val other: SecureOtherInfo? = null,
 )
 
 /**
@@ -53,14 +54,14 @@ public data class SecureInfoData(
  */
 @Serializable
 public data class SecureBindInfo(
-    @SerialName("hide_tel") val phoneCensored: String,
-    @SerialName("hide_mail") val mailCensored: String,
-    @SerialName("bind_tel") val hasPhoneBind: Boolean,
-    @SerialName("bind_mail") val hasMailBind: Boolean,
-    @SerialName("tel_verify") val isPhoneVerified: Boolean,
-    @SerialName("mail_verify") val isMailVerified: Boolean,
-    @SerialName("unneeded_check") val notSetPwd: Boolean,
-    @SerialName("realname_certified") val isRealNamed: Boolean,
+    @SerialName("hide_tel") val phoneCensored: String? = null,
+    @SerialName("hide_mail") val mailCensored: String? = null,
+    @SerialName("bind_tel") val hasPhoneBind: Boolean? = null,
+    @SerialName("bind_mail") val hasMailBind: Boolean? = null,
+    @SerialName("tel_verify") val isPhoneVerified: Boolean? = null,
+    @SerialName("mail_verify") val isMailVerified: Boolean? = null,
+    @SerialName("unneeded_check") val notSetPwd: Boolean? = null,
+    @SerialName("realname_certified") val isRealNamed: Boolean? = null,
 )
 
 /**
@@ -71,10 +72,10 @@ public data class SecureBindInfo(
  */
 @Serializable
 public data class SecurePwdInfo(
-    @SerialName("Score") val score: Int,
-    @SerialName("score_new") val newScore: Int,
-    @SerialName("pwd_level") val pwdLevel: PwdLevel = PwdLevel.UNKNOWN,
-    @SerialName("security") val isSecure: Boolean,
+    @SerialName("Score") val score: Int? = null,
+    @SerialName("score_new") val newScore: Int? = null,
+    @SerialName("pwd_level") val pwdLevel: PwdLevel = UNKNOWN,
+    @SerialName("security") val isSecure: Boolean? = null,
 )
 
 /**
@@ -101,9 +102,9 @@ public enum class PwdLevel {
  */
 @Serializable
 public data class SecureSnsInfo(
-    @SerialName("weibo_bind") val hasWeiboBind: Boolean,
-    @SerialName("qq_bind") val hasQQBind: Boolean,
-    @SerialName("wechat_bind") val hasWechatBind: Boolean,
+    @SerialName("weibo_bind") val hasWeiboBind: Boolean? = null,
+    @SerialName("qq_bind") val hasQQBind: Boolean? = null,
+    @SerialName("wechat_bind") val hasWechatBind: Boolean? = null,
 )
 
 /**
@@ -111,5 +112,5 @@ public data class SecureSnsInfo(
  */
 @Serializable
 public data class SecureOtherInfo(
-    @SerialName("skipVerify") val canSkipVerify: Boolean,
+    @SerialName("skipVerify") val canSkipVerify: Boolean? = null,
 )

@@ -11,8 +11,8 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public data class Wallet(
-    @SerialName("mid") val mid: Int,
-    @SerialName("bcoin_balance") val bcoinBalance: Int,
-    @SerialName("coupon_balance") val couponBalance: Int,
-    @SerialName("coupon_due_time") val couponDueTime: Long,
+    @SerialName("mid") val mid: Int? = null,
+    @SerialName("bcoin_balance") val bcoinBalance: Int? = null,
+    @SerialName("coupon_balance") val couponBalance: Int? = null,
+    @SerialName("coupon_due_time") val couponDueTime: Long? = null,
 )

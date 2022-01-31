@@ -12,78 +12,78 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
 public data class ArticleDetailedData(
-    @SerialName("cvid") val cvId: Int,
-    @SerialName("readInfo") val readInfo: ArticleReadInfo,
-    @SerialName("readViewInfo") val readViewInfo: ArticleViewInfo,
-    @SerialName("upInfo") val upInfo: ArticleAuthorInfo,
+    @SerialName("cvid") val cvId: Int? = null,
+    @SerialName("readInfo") val readInfo: ArticleReadInfo? = null,
+    @SerialName("readViewInfo") val readViewInfo: ArticleViewInfo? = null,
+    @SerialName("upInfo") val upInfo: ArticleAuthorInfo? = null,
     @SerialName("catalogList") val catalogList: JsonArray?,
-    @SerialName("stats") val stats: JsonObject,
-    @SerialName("actInfo") val actInfo: JsonObject,
+    @SerialName("stats") val stats: JsonObject? = null,
+    @SerialName("actInfo") val actInfo: JsonObject? = null,
     @SerialName("recommendInfoList") val recommendInfoList: List<ArticleReadInfo>,
 )
 
 @Serializable
 public data class ArticleReadInfo(
-    @SerialName("id") val id: Int,
-    @SerialName("category") val category: ArticleCategory,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("category") val category: ArticleCategory? = null,
     @SerialName("categories") val categories: List<ArticleCategory>,
-    @SerialName("title") val title: String,
-    @SerialName("summary") val summary: String,
-    @SerialName("banner_url") val bannerUrl: String,
-    @SerialName("template_id") val templateId: Int,
-    @SerialName("state") val state: Int,
-    @SerialName("author") val author: ArticleAuthor,
-    @SerialName("reprint") val notOrigin: Boolean,
+    @SerialName("title") val title: String? = null,
+    @SerialName("summary") val summary: String? = null,
+    @SerialName("banner_url") val bannerUrl: String? = null,
+    @SerialName("template_id") val templateId: Int? = null,
+    @SerialName("state") val state: Int? = null,
+    @SerialName("author") val author: ArticleAuthor? = null,
+    @SerialName("reprint") val notOrigin: Boolean? = null,
     @SerialName("image_urls") val imageUrls: List<String>,
-    @SerialName("publish_time") val releaseTime: Long,
-    @SerialName("ctime") val createdTime: Long,
-    @SerialName("stats") val stats: ArticleStats,
+    @SerialName("publish_time") val releaseTime: Long? = null,
+    @SerialName("ctime") val createdTime: Long? = null,
+    @SerialName("stats") val stats: ArticleStats? = null,
     @SerialName("tags") val tags: List<ArticleTag> = emptyList(),
     @SerialName("attributes") val attributes: Int? = null, // 限流相關, 二進制位
-    @SerialName("words") val words: Int,
+    @SerialName("words") val words: Int? = null,
     @SerialName("origin_image_urls") val originImageUrls: List<String>,
     @SerialName("list") val collection: ArticleCollection? = null,
-    @SerialName("is_like") val isLiked: Boolean,
-    @SerialName("media") val media: ArticleMedia,
-    @SerialName("apply_time") val applyTime: String,
-    @SerialName("check_time") val checkTime: String,
-    @SerialName("original") val isOriginal: Boolean,
-    @SerialName("act_id") val actId: Int,
+    @SerialName("is_like") val isLiked: Boolean? = null,
+    @SerialName("media") val media: ArticleMedia? = null,
+    @SerialName("apply_time") val applyTime: String? = null,
+    @SerialName("check_time") val checkTime: String? = null,
+    @SerialName("original") val isOriginal: Boolean? = null,
+    @SerialName("act_id") val actId: Int? = null,
     @SerialName("dispute") val dispute: ArticleDispute? = null,
     @SerialName("authenMark") val authenMark: JsonElement? = null,
-    @SerialName("cover_avid") val coverAvid: Int,
+    @SerialName("cover_avid") val coverAvid: Int? = null,
     @SerialName("top_video_info") val topVideoInfo: JsonElement? = null,
-    @SerialName("type") val type: Int,
+    @SerialName("type") val type: Int? = null,
     @SerialName("content") val content: String? = null,
     @SerialName("keywords") val keywords: String? = null,
 )
 
 @Serializable
 public data class ArticleCategory(
-    @SerialName("id") val id: Int,
-    @SerialName("parent_id") val parentId: Int,
-    @SerialName("name") val name: String,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("parent_id") val parentId: Int? = null,
+    @SerialName("name") val name: String? = null,
 )
 
 @Serializable
 public data class ArticleTag(
-    @SerialName("tid") val tid: Int,
-    @SerialName("name") val name: String,
+    @SerialName("tid") val tid: Int? = null,
+    @SerialName("name") val name: String? = null,
 )
 
 @Serializable
 public data class ArticleDispute(
-    @SerialName("dispute") val dispute: String,
-    @SerialName("dispute_url") val disputeUrl: String,
+    @SerialName("dispute") val dispute: String? = null,
+    @SerialName("dispute_url") val disputeUrl: String? = null,
 )
 
 @Serializable
 public data class ArticleViewInfo(
-    @SerialName("total") val total: Int,
+    @SerialName("total") val total: Int? = null,
 )
 
 @Serializable
 public data class ArticleAuthorInfo(
-    @SerialName("fans") val fans: Int,
-    @SerialName("readCount") val readCount: Int,
+    @SerialName("fans") val fans: Int? = null,
+    @SerialName("readCount") val readCount: Int? = null,
 )

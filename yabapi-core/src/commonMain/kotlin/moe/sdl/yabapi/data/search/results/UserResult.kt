@@ -15,21 +15,21 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 @Serializable
 public data class UserResult(
     @SerialName("type") val type: String,
-    @SerialName("mid") val mid: Int,
-    @SerialName("uname") val uname: String,
-    @SerialName("usign") val bio: String,
-    @SerialName("fans") val fans: Int,
-    @SerialName("videos") val videoNum: Int,
-    @SerialName("upic") val avatar: String,
-    @SerialName("face_nft") val faceNft: Int,
-    @SerialName("verify_info") val verifyInfo: String,
-    @SerialName("level") val level: Int,
-    @SerialName("gender") val gender: Int,
-    @SerialName("is_upuser") val isUploader: Boolean,
-    @SerialName("is_live") val isLive: Boolean,
-    @SerialName("room_id") val roomId: Int,
+    @SerialName("mid") val mid: Int? = null,
+    @SerialName("uname") val uname: String? = null,
+    @SerialName("usign") val bio: String? = null,
+    @SerialName("fans") val fans: Int? = null,
+    @SerialName("videos") val videoNum: Int? = null,
+    @SerialName("upic") val avatar: String? = null,
+    @SerialName("face_nft") val faceNft: Int? = null,
+    @SerialName("verify_info") val verifyInfo: String? = null,
+    @SerialName("level") val level: Int? = null,
+    @SerialName("gender") val gender: Int? = null,
+    @SerialName("is_upuser") val isUploader: Boolean? = null,
+    @SerialName("is_live") val isLive: Boolean? = null,
+    @SerialName("room_id") val roomId: Int? = null,
     @SerialName("res") val videos: List<UserVideo>,
-    @SerialName("official_verify") val officialCertify: OfficialCertify,
+    @SerialName("official_verify") val officialCertify: OfficialCertify? = null,
     @SerialName("hit_columns") val hitColumns: JsonArray? = null,
     @SerialName("expand") val expand: UserExpandInfo? = null,
 ) : SearchResult {
@@ -41,24 +41,24 @@ public data class UserResult(
 
 @Serializable
 public data class UserVideo(
-    @SerialName("aid") val aid: Int,
-    @SerialName("bvid") val bvid: String,
-    @SerialName("title") val title: String,
-    @SerialName("pubdate") val pubdate: Long,
-    @SerialName("arcurl") val avUrl: String,
-    @SerialName("pic") val pic: String,
-    @SerialName("play") val play: String,
-    @SerialName("dm") val danmaku: Int,
-    @SerialName("coin") val coin: Int,
-    @SerialName("fav") val collect: Int,
-    @SerialName("desc") val desc: String,
-    @SerialName("duration") val duration: String,
-    @SerialName("is_pay") val isPay: Boolean,
-    @SerialName("is_union_video") val isUnionVideo: Boolean,
+    @SerialName("aid") val aid: Int? = null,
+    @SerialName("bvid") val bvid: String? = null,
+    @SerialName("title") val title: String? = null,
+    @SerialName("pubdate") val pubdate: Long? = null,
+    @SerialName("arcurl") val avUrl: String? = null,
+    @SerialName("pic") val pic: String? = null,
+    @SerialName("play") val play: String? = null,
+    @SerialName("dm") val danmaku: Int? = null,
+    @SerialName("coin") val coin: Int? = null,
+    @SerialName("fav") val collect: Int? = null,
+    @SerialName("desc") val desc: String? = null,
+    @SerialName("duration") val duration: String? = null,
+    @SerialName("is_pay") val isPay: Boolean? = null,
+    @SerialName("is_union_video") val isUnionVideo: Boolean? = null,
 )
 
 @Serializable
 public data class UserExpandInfo(
-    @SerialName("is_power_up") val isPowerUp: Boolean, // 是否百大
+    @SerialName("is_power_up") val isPowerUp: Boolean? = null, // 是否百大
     @SerialName("system_notice") val systemNotice: String? = null,
 )

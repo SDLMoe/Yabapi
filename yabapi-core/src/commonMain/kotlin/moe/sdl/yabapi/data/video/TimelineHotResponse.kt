@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class TimelineHotResponse(
-    @SerialName("step_sec") val step: Int,
-    @SerialName("tagstr") val tag: String,
-    @SerialName("events") val events: TimelineEvents,
-    @SerialName("debug") val debug: String,
+    @SerialName("step_sec") val step: Int? = null,
+    @SerialName("tagstr") val tag: String? = null,
+    @SerialName("events") val events: TimelineEvents? = null,
+    @SerialName("debug") val debug: String? = null,
 )
 
 @Serializable

@@ -12,7 +12,7 @@ import moe.sdl.yabapi.serializer.data.RgbColorIntSerializer
 @Serializable
 public data class LotAwardCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: LotAwardData,
+    @SerialName("data") val data: LotAwardData? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "ANCHOR_LOT_AWARD"
@@ -22,22 +22,22 @@ public data class LotAwardCmd(
 
 @Serializable
 public data class LotAwardData(
-    @SerialName("award_image") val image: String,
-    @SerialName("award_name") val name: String,
-    @SerialName("award_num") val count: Int, // 應該是獎品個數
+    @SerialName("award_image") val image: String? = null,
+    @SerialName("award_name") val name: String? = null,
+    @SerialName("award_num") val count: Int? = null, // 應該是獎品個數
     @SerialName("award_users") val users: List<LotAwardUser>,
-    @SerialName("id") val id: Int,
+    @SerialName("id") val id: Int? = null,
     @SerialName("lot_status") val status: LotStatus = UNKNOWN,
-    @SerialName("url") val url: String,
-    @SerialName("web_url") val webUrl: String,
+    @SerialName("url") val url: String? = null,
+    @SerialName("web_url") val webUrl: String? = null,
 )
 
 @Serializable
 public data class LotAwardUser(
-    @SerialName("uid") val uid: Int,
-    @SerialName("uname") val uname: String,
-    @SerialName("face") val avatar: String,
-    @SerialName("level") val level: Int,
+    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uname") val uname: String? = null,
+    @SerialName("face") val avatar: String? = null,
+    @SerialName("level") val level: Int? = null,
     @Serializable(RgbColorIntSerializer::class)
-    @SerialName("color") val color: RgbColor,
+    @SerialName("color") val color: RgbColor? = null,
 )

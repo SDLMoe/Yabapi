@@ -8,15 +8,15 @@ import moe.sdl.yabapi.data.GeneralCode.UNKNOWN
 @Serializable
 public data class RoomIdByUserResponse(
     @SerialName("code") val code: GeneralCode = UNKNOWN,
-    @SerialName("msg") val msg: String,
-    @SerialName("message") val message: String,
-    @SerialName("data") val data: RoomId,
+    @SerialName("msg") val msg: String? = null,
+    @SerialName("message") val message: String? = null,
+    @SerialName("data") val data: RoomId? = null,
 ) {
     // shortcut
-    inline val roomId: Int
-        get() = data.roomId
+    inline val roomId: Int?
+        get() = data?.roomId
     @Serializable
     public data class RoomId(
-        @SerialName("room_id") val roomId: Int,
+        @SerialName("room_id") val roomId: Int? = null,
     )
 }

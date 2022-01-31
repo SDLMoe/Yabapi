@@ -11,58 +11,58 @@ import moe.sdl.yabapi.serializer.data.RgbaColorStringSerializer
 @Serializable
 public data class NoticeMsgCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("id") val id: Int,
-    @SerialName("name") val name: String,
-    @SerialName("full") val full: Full,
-    @SerialName("room_id") val roomId: Int,
-    @SerialName("real_roomid") val realRoomid: Int,
-    @SerialName("msg_common") val msgCommon: String,
-    @SerialName("msg_self") val msgSelf: String,
-    @SerialName("link_url") val linkUrl: String,
-    @SerialName("msg_type") val msgType: Int,
-    @SerialName("shield_uid") val shieldUid: Int,
-    @SerialName("business_id") val businessId: String,
-    @SerialName("scatter") val scatter: LiveScatter,
-    @SerialName("marquee_id") val marqueeId: String,
-    @SerialName("notice_type") val noticeType: String,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("name") val name: String? = null,
+    @SerialName("full") val full: Full? = null,
+    @SerialName("room_id") val roomId: Int? = null,
+    @SerialName("real_roomid") val realRoomid: Int? = null,
+    @SerialName("msg_common") val msgCommon: String? = null,
+    @SerialName("msg_self") val msgSelf: String? = null,
+    @SerialName("link_url") val linkUrl: String? = null,
+    @SerialName("msg_type") val msgType: Int? = null,
+    @SerialName("shield_uid") val shieldUid: Int? = null,
+    @SerialName("business_id") val businessId: String? = null,
+    @SerialName("scatter") val scatter: LiveScatter? = null,
+    @SerialName("marquee_id") val marqueeId: String? = null,
+    @SerialName("notice_type") val noticeType: String? = null,
 ) : LiveCommand {
     @Serializable
     public data class Full(
-        @SerialName("head_icon") val headIcon: String,
-        @SerialName("tail_icon") val tailIcon: String,
-        @SerialName("head_icon_fa") val headIconFa: String,
-        @SerialName("tail_icon_fa") val tailIconFa: String,
-        @SerialName("head_icon_fan") val headIconFan: Int,
-        @SerialName("tail_icon_fan") val tailIconFan: Int,
+        @SerialName("head_icon") val headIcon: String? = null,
+        @SerialName("tail_icon") val tailIcon: String? = null,
+        @SerialName("head_icon_fa") val headIconFa: String? = null,
+        @SerialName("tail_icon_fa") val tailIconFa: String? = null,
+        @SerialName("head_icon_fan") val headIconFan: Int? = null,
+        @SerialName("tail_icon_fan") val tailIconFan: Int? = null,
         @Serializable(RgbaColorStringSerializer::class)
-        @SerialName("background") val background: RgbaColor,
+        @SerialName("background") val background: RgbaColor? = null,
         @Serializable(RgbaColorStringSerializer::class)
-        @SerialName("color") val color: RgbaColor,
+        @SerialName("color") val color: RgbaColor? = null,
         @Serializable(RgbaColorStringSerializer::class)
-        @SerialName("highlight") val highlight: RgbaColor,
-        @SerialName("time") val time: Int,
+        @SerialName("highlight") val highlight: RgbaColor? = null,
+        @SerialName("time") val time: Int? = null,
     )
 
     @Serializable
     public data class Half(
-        @SerialName("head_icon") val headIcon: String,
-        @SerialName("tail_icon") val tailIcon: String,
+        @SerialName("head_icon") val headIcon: String? = null,
+        @SerialName("tail_icon") val tailIcon: String? = null,
         @Serializable(RgbaColorStringSerializer::class)
-        @SerialName("background") val background: RgbaColor,
+        @SerialName("background") val background: RgbaColor? = null,
         @Serializable(RgbaColorStringSerializer::class)
-        @SerialName("color") val color: RgbaColor,
+        @SerialName("color") val color: RgbaColor? = null,
         @Serializable(RgbaColorStringSerializer::class)
-        @SerialName("highlight") val highlight: RgbaColor,
-        @SerialName("time") val time: Int,
+        @SerialName("highlight") val highlight: RgbaColor? = null,
+        @SerialName("time") val time: Int? = null,
     )
 
     @Serializable
     public data class Side(
-        @SerialName("head_icon") val headIcon: String,
-        @SerialName("background") val background: String,
-        @SerialName("color") val color: String,
-        @SerialName("highlight") val highlight: String,
-        @SerialName("border") val border: String,
+        @SerialName("head_icon") val headIcon: String? = null,
+        @SerialName("background") val background: String? = null,
+        @SerialName("color") val color: String? = null,
+        @SerialName("highlight") val highlight: String? = null,
+        @SerialName("border") val border: String? = null,
     )
 
     public companion object : LiveCommandFactory() {

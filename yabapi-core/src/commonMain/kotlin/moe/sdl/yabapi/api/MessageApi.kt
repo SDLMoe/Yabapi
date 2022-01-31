@@ -84,10 +84,12 @@ public suspend fun BiliClient.sendMessageTo(
     selfMid: Int? = null,
     context: CoroutineContext = this.context,
 ): MessageSendResponse = withContext(context) {
-    val loginMid = async { selfMid ?: getBasicInfo().data.mid }
+    val loginMid = async {
+        selfMid ?: getBasicInfo().data.mid ?: error("failed to get current mid, may not login or network unstable")
+    }
     sendMessage(
         MessageData(
-            loginMid.await() ?: error("Not login or network unstable"),
+            loginMid.await(),
             targetMid,
             messageContent
         )

@@ -20,60 +20,60 @@ public data class HistoryGetResponse(
 
 @Serializable
 public data class HistoryData(
-    @SerialName("cursor") val cursor: HistoryCursor,
+    @SerialName("cursor") val cursor: HistoryCursor? = null,
     @SerialName("tab") val tab: List<HistoryTab> = emptyList(),
     @SerialName("list") val list: List<HistoryNode> = emptyList(),
 )
 
 @Serializable
 public data class HistoryCursor(
-    @SerialName("max") val max: Int,
-    @SerialName("view_at") val viewAt: Long,
-    @SerialName("business") val business: String,
-    @SerialName("ps") val ps: Int,
+    @SerialName("max") val max: Int? = null,
+    @SerialName("view_at") val viewAt: Long? = null,
+    @SerialName("business") val business: String? = null,
+    @SerialName("ps") val ps: Int? = null,
 )
 
 @Serializable
 public data class HistoryTab(
-    @SerialName("type") val type: String,
-    @SerialName("name") val name: String,
+    @SerialName("type") val type: String? = null,
+    @SerialName("name") val name: String? = null,
 )
 
 @Serializable
 public data class HistoryNode(
-    @SerialName("title") val title: String,
-    @SerialName("long_title") val longTitle: String,
-    @SerialName("cover") val cover: String,
+    @SerialName("title") val title: String? = null,
+    @SerialName("long_title") val longTitle: String? = null,
+    @SerialName("cover") val cover: String? = null,
     @SerialName("covers") val covers: List<String> = emptyList(),
-    @SerialName("uri") val uri: String,
-    @SerialName("history") val ids: HistoryIds,
-    @SerialName("videos") val videos: Int,
-    @SerialName("author_name") val authorName: String,
-    @SerialName("author_face") val authorAvatar: String,
-    @SerialName("author_mid") val authorMid: Int,
-    @SerialName("view_at") val viewAt: Long,
-    @SerialName("progress") val progress: Int,
-    @SerialName("badge") val badge: String,
-    @SerialName("show_title") val showTitle: String,
-    @SerialName("duration") val duration: Long,
-    @SerialName("current") val current: String,
-    @SerialName("total") val total: Int,
-    @SerialName("new_desc") val newDesc: String,
-    @SerialName("is_finish") val isFinish: Boolean,
-    @SerialName("is_fav") val isCollected: Boolean,
-    @SerialName("kid") val keyId: Int,
-    @SerialName("tag_name") val tagName: String,
-    @SerialName("live_status") val liveStatus: LiveRoomStatus,
+    @SerialName("uri") val uri: String? = null,
+    @SerialName("history") val ids: HistoryIds? = null,
+    @SerialName("videos") val videos: Int? = null,
+    @SerialName("author_name") val authorName: String? = null,
+    @SerialName("author_face") val authorAvatar: String? = null,
+    @SerialName("author_mid") val authorMid: Int? = null,
+    @SerialName("view_at") val viewAt: Long? = null,
+    @SerialName("progress") val progress: Int? = null,
+    @SerialName("badge") val badge: String? = null,
+    @SerialName("show_title") val showTitle: String? = null,
+    @SerialName("duration") val duration: Long? = null,
+    @SerialName("current") val current: String? = null,
+    @SerialName("total") val total: Int? = null,
+    @SerialName("new_desc") val newDesc: String? = null,
+    @SerialName("is_finish") val isFinish: Boolean? = null,
+    @SerialName("is_fav") val isCollected: Boolean? = null,
+    @SerialName("kid") val keyId: Int? = null,
+    @SerialName("tag_name") val tagName: String? = null,
+    @SerialName("live_status") val liveStatus: LiveRoomStatus? = null,
 )
 
 @Serializable
 public data class HistoryIds(
-    @SerialName("oid") val oid: Int,
-    @SerialName("epid") val ep: Int,
-    @SerialName("bvid") val bv: String,
-    @SerialName("page") val page: Int,
-    @SerialName("cid") val cid: Int,
-    @SerialName("part") val part: String,
-    @SerialName("business") val business: String,
-    @SerialName("dt") val platform: HistoryPlatform,
+    @SerialName("oid") val oid: Int? = null,
+    @SerialName("epid") val ep: Int? = null,
+    @SerialName("bvid") val bv: String? = null,
+    @SerialName("page") val page: Int? = null,
+    @SerialName("cid") val cid: Int? = null,
+    @SerialName("part") val part: String? = null,
+    @SerialName("business") val business: String? = null,
+    @SerialName("dt") val platform: HistoryPlatform? = null,
 )

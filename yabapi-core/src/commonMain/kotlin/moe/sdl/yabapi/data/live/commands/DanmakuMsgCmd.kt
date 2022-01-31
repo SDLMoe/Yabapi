@@ -20,10 +20,10 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 @Serializable
 public data class DanmakuMsgCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("info") val _data: JsonArray,
+    @SerialName("info") val _data: JsonArray? = null,
 ) : LiveCommand {
-    val data: DanmakuMsgCmdData by lazy {
-        DanmakuMsgCmdData.decode(_data)
+    val data: DanmakuMsgCmdData? by lazy {
+        _data?.let { DanmakuMsgCmdData.decode(it) }
     }
 
     public companion object : LiveCommandFactory() {
@@ -45,8 +45,8 @@ public data class DanmakuMsgCmdData(
     val colors: Triple<String?, String?, String?>,
     val content: String?,
     val stickerData: LiveStickerData?,
-    val liveUser: LiveUser,
-    val medal: LiveFansMedal,
+    val liveUser: LiveUser?,
+    val medal: LiveFansMedal?,
 ) {
     public companion object {
         /**
@@ -148,13 +148,13 @@ public data class LiveFansMedal(
 
 @Serializable
 public data class LiveStickerData(
-    @SerialName("bulge_display") val bulgeDisplay: Boolean,
-    @SerialName("emoticon_unique") val id: String,
-    @SerialName("height") val height: Int,
-    @SerialName("in_player_area") val inPlayerArea: Boolean,
-    @SerialName("is_dynamic") val isDynamic: Boolean,
-    @SerialName("url") val url: String,
-    @SerialName("width") val width: Int,
+    @SerialName("bulge_display") val bulgeDisplay: Boolean? = null,
+    @SerialName("emoticon_unique") val id: String? = null,
+    @SerialName("height") val height: Int? = null,
+    @SerialName("in_player_area") val inPlayerArea: Boolean? = null,
+    @SerialName("is_dynamic") val isDynamic: Boolean? = null,
+    @SerialName("url") val url: String? = null,
+    @SerialName("width") val width: Int? = null,
 )
 
 @Suppress("NOTHING_TO_INLINE")

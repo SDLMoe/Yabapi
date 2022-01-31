@@ -8,19 +8,19 @@ import kotlinx.serialization.json.decodeFromJsonElement
 
 @Serializable
 public data class ActivityResult(
-    @SerialName("status") val status: Int,
-    @SerialName("author") val author: String,
-    @SerialName("url") val url: String,
-    @SerialName("title") val title: String,
-    @SerialName("cover") val cover: String,
-    @SerialName("pos") val pos: Int,
-    @SerialName("card_type") val cardType: Int,
-    @SerialName("state") val state: Int,
-    @SerialName("corner") val corner: String,
-    @SerialName("card_value") val cardValue: String,
-    @SerialName("type") val type: String,
-    @SerialName("id") val id: Int,
-    @SerialName("desc") val desc: String,
+    @SerialName("status") val status: Int? = null,
+    @SerialName("author") val author: String? = null,
+    @SerialName("url") val url: String? = null,
+    @SerialName("title") val title: String? = null,
+    @SerialName("cover") val cover: String? = null,
+    @SerialName("pos") val pos: Int? = null,
+    @SerialName("card_type") val cardType: Int? = null,
+    @SerialName("state") val state: Int? = null,
+    @SerialName("corner") val corner: String? = null,
+    @SerialName("card_value") val cardValue: String? = null,
+    @SerialName("type") val type: String? = null,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("desc") val desc: String? = null,
 ) : SearchResult {
     public companion object : ResultFactory() {
         override val code: String = "activity"

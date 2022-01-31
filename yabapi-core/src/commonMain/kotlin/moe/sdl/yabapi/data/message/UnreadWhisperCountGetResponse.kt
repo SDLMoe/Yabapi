@@ -26,9 +26,9 @@ public enum class UnreadWhisperCode {
 
 @Serializable
 public data class UnreadWhisperData(
-    @SerialName("unfollow_unread") val unfollowUnread: Int,
-    @SerialName("follow_unread") val followUnread: Int,
-    @SerialName("unfollow_push_msg") val unfollowPushMsg: String,
-    @SerialName("dustbin_push_msg") val dustbinPushMsg: Int,
-    @SerialName("dustbin_unread") val dustbinUnread: Int,
+    @SerialName("unfollow_unread") val unfollowUnread: Int? = null,
+    @SerialName("follow_unread") val followUnread: Int? = null,
+    @SerialName("unfollow_push_msg") val unfollowPushMsg: String? = null,
+    @SerialName("dustbin_push_msg") val dustbinPushMsg: Int? = null,
+    @SerialName("dustbin_unread") val dustbinUnread: Int? = null,
 )

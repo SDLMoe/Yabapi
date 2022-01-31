@@ -9,7 +9,7 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
 public data class VideoDimension(
-    @SerialName("width") val width: Int,
-    @SerialName("height") val height: Int,
-    @SerialName("rotate") val isRotate: Boolean,
+    @SerialName("width") val width: Int? = null,
+    @SerialName("height") val height: Int? = null,
+    @SerialName("rotate") val isRotate: Boolean? = null,
 )

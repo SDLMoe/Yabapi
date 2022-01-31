@@ -28,15 +28,15 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
  */
 @Serializable
 public data class LoginWebQRCodeResponse(
-    @SerialName("code") val code: GeneralCode? = null,
+    @SerialName("code") val code: GeneralCode = GeneralCode.UNKNOWN,
     @SerialName("message") val message: String? = null,
     @SerialName("ts") val timestamp: Long? = null,
-    @SerialName("status") val status: Boolean,
-    @SerialName("data") private val rawData: JsonElement,
+    @SerialName("status") val status: Boolean? = null,
+    @SerialName("data") private val rawData: JsonElement? = null,
 ) {
     public val dataWhenSuccess: LoginWebQRCodeResponseData? by lazy {
         if (code == GeneralCode.SUCCESS) {
-            val url = rawData.jsonObject["url"]?.jsonPrimitive?.content
+            val url = rawData?.jsonObject?.get("url")?.jsonPrimitive?.content
             if (url != null) {
                 LoginWebQRCodeResponseData(url)
             } else null
@@ -47,7 +47,7 @@ public data class LoginWebQRCodeResponse(
         if (code != GeneralCode.SUCCESS) {
             try {
                 val serializer = serializer<LoginWebQRCodeResponseCode>()
-                defaultJson.value.decodeFromJsonElement(serializer, rawData)
+                rawData?.let { defaultJson.value.decodeFromJsonElement(serializer, it) }
             } catch (_: IllegalArgumentException) {
                 UNKNOWN
             }

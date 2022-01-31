@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public data class DescriptionV2(
-    @SerialName("raw_text") val rawText: String,
-    @SerialName("type") val type: Int,
-    @SerialName("biz_id") val bizId: Int,
+    @SerialName("raw_text") val rawText: String? = null,
+    @SerialName("type") val type: Int? = null,
+    @SerialName("biz_id") val bizId: Int? = null,
 )

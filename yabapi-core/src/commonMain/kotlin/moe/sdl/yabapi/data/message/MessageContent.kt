@@ -17,14 +17,14 @@ public sealed class MessageContent {
 
     @Serializable
     public data class Text(
-        @SerialName("content") val content: String,
+        @SerialName("content") val content: String? = null,
     ) : MessageContent() {
         @Transient override val code: Int = 1
     }
 
     @Serializable
     public data class Image(
-        @SerialName("url") val url: String,
+        @SerialName("url") val url: String? = null,
     ) : MessageContent() {
         @Transient override val code: Int = 2
     }

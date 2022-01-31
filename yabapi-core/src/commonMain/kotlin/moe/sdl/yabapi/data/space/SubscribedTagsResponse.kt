@@ -10,30 +10,30 @@ import moe.sdl.yabapi.Yabapi
 
 @Serializable
 public data class SubscribedTagsResponse(
-    @SerialName("status") val status: Boolean,
-    @SerialName("data") private val _data: JsonElement,
+    @SerialName("status") val status: Boolean? = null,
+    @SerialName("data") private val _data: JsonElement? = null,
 ) {
     val data: SubscribedTagData? by lazy {
-        if (status) Yabapi.defaultJson.value.decodeFromJsonElement(_data) else null
+        if (status == true) _data?.let { Yabapi.defaultJson.value.decodeFromJsonElement(it) } else null
     }
 
     val failedMsg: String? by lazy {
-        if (!status) _data.jsonPrimitive.contentOrNull else null
+        if (status == false) _data?.jsonPrimitive?.contentOrNull else null
     }
 }
 
 @Serializable
 public data class SubscribedTagData(
     @SerialName("tags") val tags: List<SubscribedTag>,
-    @SerialName("count") val count: Int,
+    @SerialName("count") val count: Int? = null,
 )
 
 @Serializable
 public data class SubscribedTag(
-    @SerialName("name") val name: String,
-    @SerialName("cover") val cover: String,
-    @SerialName("tag_id") val tagId: Int,
-    @SerialName("notify") val notify: Int,
-    @SerialName("archive_count") val archiveCount: Int,
-    @SerialName("updated_ts") val updatedTimestamp: String,
+    @SerialName("name") val name: String? = null,
+    @SerialName("cover") val cover: String? = null,
+    @SerialName("tag_id") val tagId: Int? = null,
+    @SerialName("notify") val notify: Int? = null,
+    @SerialName("archive_count") val archiveCount: Int? = null,
+    @SerialName("updated_ts") val updatedTimestamp: String? = null,
 )

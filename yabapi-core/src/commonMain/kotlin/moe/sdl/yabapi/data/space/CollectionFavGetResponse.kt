@@ -15,7 +15,7 @@ public data class CollectionFavGetResponse(
 
 @Serializable
 public data class CollectionFavData(
-    @SerialName("count") val count: Int,
-    @SerialName("list") val list: List<FavCollectionItem>,
-    @SerialName("has_more") val hasMore: Boolean,
+    @SerialName("count") val count: Int? = null,
+    @SerialName("list") val list: List<FavCollectionItem> = emptyList(),
+    @SerialName("has_more") val hasMore: Boolean? = null,
 )

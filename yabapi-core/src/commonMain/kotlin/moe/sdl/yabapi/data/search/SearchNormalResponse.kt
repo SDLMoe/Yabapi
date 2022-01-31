@@ -25,24 +25,22 @@ public data class SearchNormalResponse(
 
 @Serializable
 public data class SearchNormalData(
-    @SerialName("seid") override val seid: String,
-    @SerialName("page") override val page: Int,
-    @SerialName("pagesize") override val pageSize: Int,
-    @SerialName("numResults") override val numResults: Int,
-    @SerialName("numPages") override val numPages: Int,
-    @SerialName("suggest_keyword") override val suggestKeyword: String,
-    @SerialName("rqt_type") override val rqtType: String,
+    @SerialName("seid") override val seid: String? = null,
+    @SerialName("page") override val page: Int? = null,
+    @SerialName("pagesize") override val pageSize: Int? = null,
+    @SerialName("numResults") override val numResults: Int? = null,
+    @SerialName("numPages") override val numPages: Int? = null,
+    @SerialName("suggest_keyword") override val suggestKeyword: String? = null,
+    @SerialName("rqt_type") override val rqtType: String? = null,
     @SerialName("cost_time") override val costTime: Map<String, String>,
     @SerialName("exp_list") override val expList: Map<String, String>,
-    @SerialName("egg_hit") override val eggHit: Boolean,
+    @SerialName("egg_hit") override val eggHit: Boolean? = null,
     @SerialName("pageinfo") override val pageInfo: Map<String, SearchNumInfo> = mapOf(),
-    // @SerialName("top_tlist") override val typeList: Map<String, Int>,
-    @SerialName("show_column") override val showColumn: Int,
-    // @SerialName("show_module_list") override val moduleList: List<String>,
-    @SerialName("result") override val result: SearchNormalResultData,
+    @SerialName("show_column") override val showColumn: Int? = null,
+    @SerialName("result") override val result: SearchNormalResultData? = null,
 ) : SearchData() {
     public val data: List<SearchResult>? by lazy {
-        if (result.value.isNotEmpty()) {
+        if (result?.value?.isNotEmpty() == true) {
             val type = result.value.first()["type"]?.jsonPrimitive?.contentOrNull
                 ?: error("Search Result Field [type] not available")
             result.value.toResults(type)

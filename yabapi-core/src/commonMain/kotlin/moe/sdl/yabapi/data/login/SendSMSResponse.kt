@@ -25,7 +25,7 @@ public data class SendSMSResponse(
     @SerialName("code")
     val code: SendSMSResponseCode = UNKNOWN,
     @SerialName("message")
-    val message: String,
+    val message: String? = null,
     @SerialName("ts")
     val timestamp: Long? = null,
     @SerialName("data")
@@ -81,5 +81,5 @@ public enum class SendSMSResponseCode {
  */
 @Serializable
 public data class SendSMSResponseData(
-    @SerialName("captcha_key") val captchaKey: String,
+    @SerialName("captcha_key") val captchaKey: String? = null,
 )

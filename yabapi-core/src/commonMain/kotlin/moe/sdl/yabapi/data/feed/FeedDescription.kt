@@ -13,17 +13,17 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
 public data class FeedDescription(
-    @SerialName("uid") val uid: Int,
-    @SerialName("type") val type: Int,
-    @SerialName("rid") val rid: ULong,
+    @SerialName("uid") val uid: Int? = null,
+    @SerialName("type") val type: Int? = null,
+    @SerialName("rid") val rid: ULong? = null,
     @SerialName("acl") val acl: Int? = null,
     @SerialName("view") val view: Int? = null,
     @SerialName("repost") val repost: Int? = null,
     @SerialName("comment") val comment: Int? = null,
     @SerialName("like") val like: Int? = null,
     @SerialName("is_liked") val isLiked: Boolean? = null,
-    @SerialName("dynamic_id") val dynamicId: ULong,
-    @SerialName("timestamp") val timestamp: Long,
+    @SerialName("dynamic_id") val dynamicId: ULong? = null,
+    @SerialName("timestamp") val timestamp: Long? = null,
     @SerialName("pre_dy_id") val preFeedId: ULong? = null,
     @SerialName("orig_dy_id") val originFeedId: ULong? = null,
     @SerialName("orig_type") val originType: Int? = null,
@@ -33,10 +33,10 @@ public data class FeedDescription(
     @SerialName("r_type") val rType: Int? = null,
     @SerialName("inner_id") val innerId: Int? = null,
     @SerialName("status") val status: Int? = null,
-    @SerialName("dynamic_id_str") val feedIdStr: String,
-    @SerialName("pre_dy_id_str") val preFeedIdStr: String,
-    @SerialName("orig_dy_id_str") val originFeedIdStr: String,
-    @SerialName("rid_str") val ridStr: String,
+    @SerialName("dynamic_id_str") val feedIdStr: String? = null,
+    @SerialName("pre_dy_id_str") val preFeedIdStr: String? = null,
+    @SerialName("orig_dy_id_str") val originFeedIdStr: String? = null,
+    @SerialName("rid_str") val ridStr: String? = null,
     @SerialName("bvid") val bvId: String? = null,
     @SerialName("origin") val origin: FeedDescription? = null,
     @SerialName("previous") val previous: FeedDescription? = null,
@@ -44,7 +44,7 @@ public data class FeedDescription(
 
 @Serializable
 public data class UserInfo(
-    @SerialName("uid") val uid: Int,
+    @SerialName("uid") val uid: Int? = null,
     @SerialName("uname") val uname: String? = null,
     @SerialName("face") val face: String? = null,
     @SerialName("face_nft") val avatarNft: Boolean? = null,
@@ -52,18 +52,18 @@ public data class UserInfo(
 
 @Serializable
 public data class FeedUserCard(
-    @SerialName("official_verify") val officialCertify: OfficialCertify,
+    @SerialName("official_verify") val officialCertify: OfficialCertify? = null,
 )
 
 @Serializable
 public data class FeedVip(
     @SerialName("vipType") val vipType: VipType = VipType.UNKNOWN,
-    @SerialName("vipDueDate") val vipDueDate: Long,
-    @SerialName("vipStatus") val vipStatus: Long,
-    @SerialName("themeType") val themeType: Int,
-    @SerialName("label") val label: VipLabel,
-    @SerialName("avatar_subscript") val avatarSubscript: Int,
-    @SerialName("nickname_color") val nicknameColor: String,
+    @SerialName("vipDueDate") val vipDueDate: Long? = null,
+    @SerialName("vipStatus") val vipStatus: Long? = null,
+    @SerialName("themeType") val themeType: Int? = null,
+    @SerialName("label") val label: VipLabel? = null,
+    @SerialName("avatar_subscript") val avatarSubscript: Int? = null,
+    @SerialName("nickname_color") val nicknameColor: String? = null,
     @SerialName("role") val role: OfficialRole = OfficialRole.UNKNOWN,
-    @SerialName("avatar_subscript_url") val avatarSubscriptUrl: String,
+    @SerialName("avatar_subscript_url") val avatarSubscriptUrl: String? = null,
 )

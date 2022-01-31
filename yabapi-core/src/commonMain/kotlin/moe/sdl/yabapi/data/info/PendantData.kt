@@ -14,9 +14,9 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public data class Pendant(
-    @SerialName("pid") val pid: Int,
-    @SerialName("name") val name: String,
-    @SerialName("image") val image: String,
+    @SerialName("pid") val pid: Int? = null,
+    @SerialName("name") val name: String? = null,
+    @SerialName("image") val image: String? = null,
     @SerialName("image_enhance") val imageEnhance: String? = null,
     @SerialName("image_enhance_frame") val imageEnhanceFrame: String? = null,
     @SerialName("expire") val expire: Long? = null,

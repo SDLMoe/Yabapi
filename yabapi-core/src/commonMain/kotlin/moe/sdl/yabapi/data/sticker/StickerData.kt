@@ -16,15 +16,15 @@ import moe.sdl.yabapi.data.sticker.StickerType.UNKNOWN
  */
 @Serializable
 public data class StickerData(
-    @SerialName("id") val id: Int,
-    @SerialName("package_id") val packageId: Int,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("package_id") val packageId: Int? = null,
     @SerialName("text") val text: String? = null,
     @SerialName("url") val url: String? = null,
     @SerialName("gif_url") val gifUrl: String? = null,
-    @SerialName("mtime") val createdTime: Long,
+    @SerialName("mtime") val createdTime: Long? = null,
     @SerialName("type") val type: StickerType = UNKNOWN,
-    @SerialName("attr") val attr: Int,
-    @SerialName("meta") val metadata: StickerMetadata,
+    @SerialName("attr") val attr: Int? = null,
+    @SerialName("meta") val metadata: StickerMetadata? = null,
     @SerialName("flags") val flags: StickerFlags? = null,
     @SerialName("activity") val activity: StickerActivity? = null,
 )
@@ -44,15 +44,15 @@ public data class StickerMetadata(
 
 @Serializable
 public data class StickerFlags(
-    @SerialName("unlocked") val unlocked: Boolean,
+    @SerialName("unlocked") val unlocked: Boolean? = null,
 )
 
 @Serializable
 public data class StickerActivity(
-    @SerialName("title") val title: String,
-    @SerialName("start_time") val startTime: Long,
-    @SerialName("end_time") val endTime: Long,
-    @SerialName("jump_url") val jumpUrl: String,
+    @SerialName("title") val title: String? = null,
+    @SerialName("start_time") val startTime: Long? = null,
+    @SerialName("end_time") val endTime: Long? = null,
+    @SerialName("jump_url") val jumpUrl: String? = null,
     @SerialName("unlock_descs") val unlockDescription: List<String> = listOf(),
     @SerialName("jump_btn_desc") val buttonDescription: String? = null,
 )

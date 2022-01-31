@@ -2,10 +2,11 @@ package moe.sdl.yabapi.data.video
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import moe.sdl.yabapi.data.video.VideoLikeResponseCode.UNKNOWN
 
 @Serializable
 public data class VideoLikeResponse(
-    @SerialName("code") val code: VideoLikeResponseCode,
+    @SerialName("code") val code: VideoLikeResponseCode = UNKNOWN,
     @SerialName("message") val message: String? = null,
     @SerialName("ttl") val ttl: String? = null,
 )

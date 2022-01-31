@@ -15,14 +15,14 @@ public data class SpaceChannelArchivesResponse(
 
 @Serializable
 public data class SpaceChannelArchivesData(
-    @SerialName("episodic_button") val button: SpaceVideoButton,
-    @SerialName("list") val list: SpaceChannel,
-    @SerialName("page") val page: SpaceChannelPage,
+    @SerialName("episodic_button") val button: SpaceVideoButton? = null,
+    @SerialName("list") val list: SpaceChannel? = null,
+    @SerialName("page") val page: SpaceChannelPage? = null,
 )
 
 @Serializable
 public data class SpaceChannelPage(
-    @SerialName("count") val count: Int,
-    @SerialName("num") val num: Int,
-    @SerialName("size") val size: Int,
+    @SerialName("count") val count: Int? = null,
+    @SerialName("num") val num: Int? = null,
+    @SerialName("size") val size: Int? = null,
 )

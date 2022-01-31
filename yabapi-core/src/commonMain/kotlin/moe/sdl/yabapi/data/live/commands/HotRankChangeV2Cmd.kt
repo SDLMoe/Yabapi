@@ -9,7 +9,7 @@ import kotlinx.serialization.json.decodeFromJsonElement
 @Serializable
 public data class HotRankChangeV2Cmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: HotRankChangeV2Data,
+    @SerialName("data") val data: HotRankChangeV2Data? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "HOT_RANK_CHANGED_V2"
@@ -19,16 +19,16 @@ public data class HotRankChangeV2Cmd(
 
 @Serializable
 public data class HotRankChangeV2Data(
-    @SerialName("rank") val rank: Int,
-    @SerialName("trend") val trend: Int,
-    @SerialName("countdown") val countdown: Int,
-    @SerialName("timestamp") val timestamp: Long,
-    @SerialName("web_url") val webUrl: String,
-    @SerialName("live_url") val liveUrl: String,
-    @SerialName("blink_url") val blinkUrl: String,
-    @SerialName("live_link_url") val liveLinkUrl: String,
-    @SerialName("pc_link_url") val pcLinkUrl: String,
-    @SerialName("icon") val icon: String,
-    @SerialName("area_name") val areaName: String,
-    @SerialName("rank_desc") val rankDescription: String,
+    @SerialName("rank") val rank: Int? = null,
+    @SerialName("trend") val trend: Int? = null,
+    @SerialName("countdown") val countdown: Int? = null,
+    @SerialName("timestamp") val timestamp: Long? = null,
+    @SerialName("web_url") val webUrl: String? = null,
+    @SerialName("live_url") val liveUrl: String? = null,
+    @SerialName("blink_url") val blinkUrl: String? = null,
+    @SerialName("live_link_url") val liveLinkUrl: String? = null,
+    @SerialName("pc_link_url") val pcLinkUrl: String? = null,
+    @SerialName("icon") val icon: String? = null,
+    @SerialName("area_name") val areaName: String? = null,
+    @SerialName("rank_desc") val rankDescription: String? = null,
 )

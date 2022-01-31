@@ -14,7 +14,7 @@ import moe.sdl.yabapi.data.live.GuardLevel.UNKNOWN
 @Serializable
 public data class OnlineRankV2Cmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: OnlineRankV2,
+    @SerialName("data") val data: OnlineRankV2? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "ONLINE_RANK_V2"
@@ -25,15 +25,15 @@ public data class OnlineRankV2Cmd(
 @Serializable
 public data class OnlineRankV2(
     @SerialName("list") val list: List<OnlineRankV2Node> = emptyList(),
-    @SerialName("rank_type") val rankType: String,
+    @SerialName("rank_type") val rankType: String? = null,
 ) {
     @Serializable
     public data class OnlineRankV2Node(
-        @SerialName("uid") val uid: Int,
-        @SerialName("face") val avatar: String,
-        @SerialName("score") val score: String,
-        @SerialName("uname") val uname: String,
-        @SerialName("rank") val rank: Int,
+        @SerialName("uid") val uid: Int? = null,
+        @SerialName("face") val avatar: String? = null,
+        @SerialName("score") val score: String? = null,
+        @SerialName("uname") val uname: String? = null,
+        @SerialName("rank") val rank: Int? = null,
         @SerialName("guard_level") val guardLevel: GuardLevel = UNKNOWN,
     )
 }

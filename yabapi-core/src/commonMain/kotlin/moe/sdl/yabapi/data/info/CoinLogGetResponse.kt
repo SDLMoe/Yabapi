@@ -23,8 +23,8 @@ public data class CoinLogGetResponse(
  */
 @Serializable
 public data class CoinLog(
-    @SerialName("list") val list: List<CoinLogNode> = listOf(),
-    @SerialName("count") val size: Int,
+    @SerialName("list") val list: List<CoinLogNode> = emptyList(),
+    @SerialName("count") val size: Int? = null,
 )
 
 /**
@@ -34,7 +34,7 @@ public data class CoinLog(
  */
 @Serializable
 public data class CoinLogNode(
-    @SerialName("time") val time: String,
-    @SerialName("delta") val changed: Double,
-    @SerialName("reason") val reason: String,
+    @SerialName("time") val time: String? = null,
+    @SerialName("delta") val changed: Double? = null,
+    @SerialName("reason") val reason: String? = null,
 )

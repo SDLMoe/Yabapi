@@ -10,7 +10,7 @@ import moe.sdl.yabapi.data.live.commands.LotStatus.UNKNOWN
 @Serializable
 public data class LotCheckStatusCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: LotStatusData,
+    @SerialName("data") val data: LotStatusData? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "ANCHOR_LOT_CHECKSTATUS"
@@ -20,8 +20,8 @@ public data class LotCheckStatusCmd(
 
 @Serializable
 public data class LotStatusData(
-    @SerialName("id") val id: Int,
+    @SerialName("id") val id: Int? = null,
     @SerialName("reject_reason") val rejectReason: String? = null, // 若 status 爲 REVIEW FAILED 則存在
     @SerialName("status") val status: LotStatus = UNKNOWN,
-    @SerialName("uid") val uid: Int, // 主播 Uid
+    @SerialName("uid") val uid: Int? = null, // 主播 Uid
 )

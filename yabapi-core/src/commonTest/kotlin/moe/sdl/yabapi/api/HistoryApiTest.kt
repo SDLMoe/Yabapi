@@ -16,7 +16,7 @@ internal class HistoryApiTest {
     fun getHistoryTest() = runTest {
         with(client) {
             val viewAt = getHistory().data!!.list.last().viewAt
-            getHistory(fromTime = viewAt)
+            getHistory(fromTime = viewAt!!)
         }
     }
 

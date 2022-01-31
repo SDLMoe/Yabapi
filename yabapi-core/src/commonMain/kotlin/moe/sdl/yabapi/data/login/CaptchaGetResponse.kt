@@ -15,14 +15,14 @@ import moe.sdl.yabapi.data.login.GetCaptchaResponseCode.UNKNOWN
 @Serializable
 public data class GetCaptchaResponse(
     val code: GetCaptchaResponseCode = UNKNOWN,
-    val data: GetCaptchaResponseData,
+    val data: GetCaptchaResponseData? = null,
 ) {
     /**
      * 封裝, 少寫一層
      * @return [GetCaptchaResponseResult]
      */
-    inline val result: GetCaptchaResponseResult
-        get() = data.result
+    inline val result: GetCaptchaResponseResult?
+        get() = data?.result
 }
 
 /**
@@ -43,8 +43,8 @@ public enum class GetCaptchaResponseCode {
  */
 @Serializable
 public data class GetCaptchaResponseData(
-    val result: GetCaptchaResponseResult,
-    val type: Int,
+    val result: GetCaptchaResponseResult? = null,
+    val type: Int? = null,
 )
 
 /**

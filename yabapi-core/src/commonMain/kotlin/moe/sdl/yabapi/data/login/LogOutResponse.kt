@@ -13,12 +13,12 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 public data class LogOutResponse(
     @SerialName("code") public val code: GeneralCode = UNKNOWN,
     @SerialName("status") public val status: Boolean? = null,
-    @SerialName("ts") public val timestamp: Long,
+    @SerialName("ts") public val timestamp: Long? = null,
     @SerialName("message") public val message: String? = null,
     @SerialName("data") public val data: LogOutResponseData? = null,
 )
 
 @Serializable
 public data class LogOutResponseData(
-    @SerialName("redirectUrl") val redirectUrl: String,
+    @SerialName("redirectUrl") val redirectUrl: String? = null,
 )

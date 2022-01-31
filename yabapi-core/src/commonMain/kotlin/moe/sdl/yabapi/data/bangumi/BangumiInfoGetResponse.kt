@@ -19,31 +19,31 @@ public data class BangumiInfoGetResponse(
 
 @Serializable
 public data class BangumiInfo(
-    @SerialName("media") val media: BangumiMedia,
+    @SerialName("media") val media: BangumiMedia? = null,
     @SerialName("review") val review: BangumiReview? = null,
 )
 
 @Serializable
 public data class BangumiMedia(
     @SerialName("areas") val areas: List<BangumiArea>,
-    @SerialName("cover") val cover: String,
-    @SerialName("media_id") val mediaId: Int,
-    @SerialName("new_ep") val latestEpisode: SimpleBangumiEpisode,
-    @SerialName("rating") val rating: BangumiRating,
-    @SerialName("season_id") val seasonId: Int,
-    @SerialName("share_url") val shareUrl: String,
-    @SerialName("title") val title: String,
-    @SerialName("type_name") val typeName: String,
+    @SerialName("cover") val cover: String? = null,
+    @SerialName("media_id") val mediaId: Int? = null,
+    @SerialName("new_ep") val latestEpisode: SimpleBangumiEpisode? = null,
+    @SerialName("rating") val rating: BangumiRating? = null,
+    @SerialName("season_id") val seasonId: Int? = null,
+    @SerialName("share_url") val shareUrl: String? = null,
+    @SerialName("title") val title: String? = null,
+    @SerialName("type_name") val typeName: String? = null,
 )
 
 @Serializable
 public data class BangumiArea(
-    @SerialName("id") val id: Int,
-    @SerialName("name") val name: String,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("name") val name: String? = null,
 )
 
 @Serializable
 public data class BangumiReview(
-    @SerialName("is_coin") val isCoined: Boolean,
-    @SerialName("is_open") val isOpen: Boolean,
+    @SerialName("is_coin") val isCoined: Boolean? = null,
+    @SerialName("is_open") val isOpen: Boolean? = null,
 )

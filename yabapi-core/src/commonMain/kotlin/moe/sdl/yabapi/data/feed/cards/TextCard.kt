@@ -8,20 +8,20 @@ import moe.sdl.yabapi.enums.feed.FeedType
 
 @Serializable
 public data class TextCard(
-    @SerialName("user") val user: SimpleFeedCardUser,
-    @SerialName("item") val item: Item,
+    @SerialName("user") val user: SimpleFeedCardUser? = null,
+    @SerialName("item") val item: Item? = null,
 ): FeedCard {
     @Serializable
     public data class Item(
-        @SerialName("rp_id") val rpId: ULong,
-        @SerialName("uid") val uid: Int,
-        @SerialName("content") val content: String,
+        @SerialName("rp_id") val rpId: ULong? = null,
+        @SerialName("uid") val uid: Int? = null,
+        @SerialName("content") val content: String? = null,
         @SerialName("ctrl") val ctrl: String? = null,
         @SerialName("orig_dy_id") val originFeedId: Int? = null,
         @SerialName("pre_dy_id") val preFeedId: Int? = null,
-        @SerialName("timestamp") val timestamp: Long,
+        @SerialName("timestamp") val timestamp: Long? = null,
         @SerialName("at_uids") val atUids: List<Int> = emptyList(),
-        @SerialName("reply") val reply: Int,
+        @SerialName("reply") val reply: Int? = null,
     )
 
     public companion object: FeedCardFactory() {

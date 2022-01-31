@@ -30,64 +30,64 @@ public data class AlbumInfoResponse(
 
 @Serializable
 public data class AlbumInfoData(
-    @SerialName("user") val user: AlbumUser,
-    @SerialName("item") val item: AlbumItem,
+    @SerialName("user") val user: AlbumUser? = null,
+    @SerialName("item") val item: AlbumItem? = null,
 )
 
 @Serializable
 public data class AlbumUser(
-    @SerialName("uid") val uid: Int,
-    @SerialName("head_url") val headUrl: String,
-    @SerialName("name") val name: String,
-    @SerialName("vip") val vip: AlbumVipInfo,
-    @SerialName("upload_count") val uploadCount: String,
+    @SerialName("uid") val uid: Int? = null,
+    @SerialName("head_url") val headUrl: String? = null,
+    @SerialName("name") val name: String? = null,
+    @SerialName("vip") val vip: AlbumVipInfo? = null,
+    @SerialName("upload_count") val uploadCount: String? = null,
 )
 
 @Serializable
 public data class AlbumVipInfo(
     @SerialName("vipType") val vipType: VipType = VipType.UNKNOWN,
-    @SerialName("vipDueDate") val vipDueDate: Long,
-    @SerialName("dueRemark") val dueRemark: String,
-    @SerialName("accessStatus") val accessStatus: Boolean,
-    @SerialName("vipStatus") val vipStatus: Boolean,
-    @SerialName("vipStatusWarn") val vipStatusWarn: String,
-    @SerialName("themeType") val themeType: Int,
-    @SerialName("label") val label: AlbumVipLabel,
+    @SerialName("vipDueDate") val vipDueDate: Long? = null,
+    @SerialName("dueRemark") val dueRemark: String? = null,
+    @SerialName("accessStatus") val accessStatus: Boolean? = null,
+    @SerialName("vipStatus") val vipStatus: Boolean? = null,
+    @SerialName("vipStatusWarn") val vipStatusWarn: String? = null,
+    @SerialName("themeType") val themeType: Int? = null,
+    @SerialName("label") val label: AlbumVipLabel? = null,
 )
 
 @Serializable
 public data class AlbumVipLabel(
-    @SerialName("path") val path: String,
+    @SerialName("path") val path: String? = null,
 )
 
 @Serializable
 public data class AlbumItem(
     @SerialName("biz") val type: AlbumType = AlbumType.UNKNOWN,
-    @SerialName("doc_id") val id: Int,
-    @SerialName("poster_uid") val authorMid: Int,
-    @SerialName("category") val category: String,
+    @SerialName("doc_id") val id: Int? = null,
+    @SerialName("poster_uid") val authorMid: Int? = null,
+    @SerialName("category") val category: String? = null,
     @SerialName("type") val origin: AlbumOrigin = AlbumOrigin.UNKNOWN,
-    @SerialName("title") val title: String,
+    @SerialName("title") val title: String? = null,
     @SerialName("tags") val tags: List<AlbumTag> = emptyList(),
     @SerialName("pictures") val pictures: List<AlbumPicture> = emptyList(),
     @SerialName("source") val source: JsonElement? = null,
-    @SerialName("upload_time") val uploadTime: String,
-    @SerialName("upload_timestamp") val uploadTimestamp: Long,
-    @SerialName("upload_time_text") val uploadTimeText: String,
-    @SerialName("description") val description: String,
+    @SerialName("upload_time") val uploadTime: String? = null,
+    @SerialName("upload_timestamp") val uploadTimestamp: Long? = null,
+    @SerialName("upload_time_text") val uploadTimeText: String? = null,
+    @SerialName("description") val description: String? = null,
     @SerialName("role") val role: JsonElement? = null,
-    @SerialName("settings") val settings: AlbumSetting,
-    @SerialName("already_collected") val collected: Boolean,
-    @SerialName("already_liked") val liked: Boolean,
-    @SerialName("user_status") val userStatus: Int,
-    @SerialName("at_control") val atControl: String,
-    @SerialName("view_count") val viewCount: Int,
-    @SerialName("like_count") val likeCount: Int,
-    @SerialName("collect_count") val collectCount: Int,
-    @SerialName("verify_status") val verifyStatus: Int,
-    @SerialName("already_voted") val voted: Boolean, // 是否已經點讚
-    @SerialName("vote_count") val voteCount: Int,
-    @SerialName("comment_count") val commentCount: Int,
+    @SerialName("settings") val settings: AlbumSetting? = null,
+    @SerialName("already_collected") val collected: Boolean? = null,
+    @SerialName("already_liked") val liked: Boolean? = null,
+    @SerialName("user_status") val userStatus: Int? = null,
+    @SerialName("at_control") val atControl: String? = null,
+    @SerialName("view_count") val viewCount: Int? = null,
+    @SerialName("like_count") val likeCount: Int? = null,
+    @SerialName("collect_count") val collectCount: Int? = null,
+    @SerialName("verify_status") val verifyStatus: Int? = null,
+    @SerialName("already_voted") val voted: Boolean? = null, // 是否已經點讚
+    @SerialName("vote_count") val voteCount: Int? = null,
+    @SerialName("comment_count") val commentCount: Int? = null,
 )
 
 @Serializable
@@ -104,20 +104,20 @@ public enum class AlbumOrigin {
 
 @Serializable
 public data class AlbumTag(
-    @SerialName("tag") val tag: String,
-    @SerialName("type") val type: Int,
-    @SerialName("category") val category: String,
+    @SerialName("tag") val tag: String? = null,
+    @SerialName("type") val type: Int? = null,
+    @SerialName("category") val category: String? = null,
     @SerialName("link") val link: String? = null,
-    @SerialName("text") val text: String,
-    @SerialName("name") val name: String,
+    @SerialName("text") val text: String? = null,
+    @SerialName("name") val name: String? = null,
 )
 
 @Serializable
 public data class AlbumPicture(
-    @SerialName("img_src") val url: String,
-    @SerialName("img_width") val width: Int,
-    @SerialName("img_height") val height: Int,
-    @SerialName("img_size") val size: Int, // KiB
+    @SerialName("img_src") val url: String? = null,
+    @SerialName("img_width") val width: Int? = null,
+    @SerialName("img_height") val height: Int? = null,
+    @SerialName("img_size") val size: Int? = null, // KiB
 )
 
 @Serializable

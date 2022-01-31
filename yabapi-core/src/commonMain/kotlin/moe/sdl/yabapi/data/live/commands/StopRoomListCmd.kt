@@ -9,10 +9,10 @@ import kotlinx.serialization.json.decodeFromJsonElement
 @Serializable
 public data class StopRoomListCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: StopLiveRoomData,
+    @SerialName("data") val data: StopLiveRoomData? = null,
 ) : LiveCommand {
     inline val list: List<Int> // shortcut for `data.list`
-        get() = data.list
+        get() = data?.list ?: emptyList()
 
     public companion object : LiveCommandFactory() {
         override val operation: String = "STOP_LIVE_ROOM_LIST"
@@ -22,5 +22,5 @@ public data class StopRoomListCmd(
 
 @Serializable
 public data class StopLiveRoomData(
-    @SerialName("room_id_list") val list: List<Int>,
+    @SerialName("room_id_list") val list: List<Int> = emptyList(),
 )

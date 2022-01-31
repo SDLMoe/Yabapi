@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public data class RelationResponseData(
-    @SerialName("list") val list: List<RelationUserNode>,
+    @SerialName("list") val list: List<RelationUserNode> = emptyList(),
     @SerialName("re_version") val reVersion: String? = null,
     @SerialName("total") val total: Int? = null,
 )

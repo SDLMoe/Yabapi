@@ -9,30 +9,30 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
 public data class VideoSubtitle(
-    @SerialName("allow_submit") val allowSubmit: Boolean,
-    @SerialName("list") val list: List<SubtitleTrack>,
+    @SerialName("allow_submit") val allowSubmit: Boolean? = null,
+    @SerialName("list") val list: List<SubtitleTrack> = emptyList(),
 )
 
 @Serializable
 public data class SubtitleTrack(
-    @SerialName("id") val id: Int,
-    @SerialName("lan") val language: String,
-    @SerialName("lan_doc") val languageName: String,
-    @SerialName("is_lock") val isLocked: Boolean,
-    @SerialName("author_mid") val authorMid: Int,
-    @SerialName("subtitle_url") val subtitleUrl: String,
-    @SerialName("author") val author: SubtitleAuthor,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("lan") val language: String? = null,
+    @SerialName("lan_doc") val languageName: String? = null,
+    @SerialName("is_lock") val isLocked: Boolean? = null,
+    @SerialName("author_mid") val authorMid: Int? = null,
+    @SerialName("subtitle_url") val subtitleUrl: String? = null,
+    @SerialName("author") val author: SubtitleAuthor? = null,
 )
 
 @Serializable
 public data class SubtitleAuthor(
-    @SerialName("mid") val mid: Int,
-    @SerialName("name") val name: String,
-    @SerialName("sex") val sex: String,
-    @SerialName("face") val avatar: String,
-    @SerialName("sign") val bio: String,
-    @SerialName("rank") val rank: Int,
-    @SerialName("birthday") val birthday: Int,
-    @SerialName("is_fake_account") val isFakeAccount: Boolean,
-    @SerialName("is_deleted") val isDeleted: Boolean,
+    @SerialName("mid") val mid: Int? = null,
+    @SerialName("name") val name: String? = null,
+    @SerialName("sex") val sex: String? = null,
+    @SerialName("face") val avatar: String? = null,
+    @SerialName("sign") val bio: String? = null,
+    @SerialName("rank") val rank: Int? = null,
+    @SerialName("birthday") val birthday: Int? = null,
+    @SerialName("is_fake_account") val isFakeAccount: Boolean? = null,
+    @SerialName("is_deleted") val isDeleted: Boolean? = null,
 )

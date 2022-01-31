@@ -9,14 +9,14 @@ import kotlinx.serialization.json.decodeFromJsonElement
 @Serializable
 public data class OnlineRankCountCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: OnlineRankCountData,
+    @SerialName("data") val data: OnlineRankCountData? = null,
 ) : LiveCommand {
-    inline val count: Int // shortcut for `data.count`
-        get() = data.count
+    inline val count: Int? // shortcut for `data.count`
+        get() = data?.count
 
     @Serializable
     public data class OnlineRankCountData(
-        @SerialName("count") val count: Int,
+        @SerialName("count") val count: Int? = null,
     )
 
     public companion object : LiveCommandFactory() {

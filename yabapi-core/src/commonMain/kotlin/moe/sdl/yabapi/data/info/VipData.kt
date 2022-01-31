@@ -9,6 +9,7 @@ import moe.sdl.yabapi.data.RgbColor
 import moe.sdl.yabapi.data.info.VipStatus.IP_CHANGE_FREQUENT
 import moe.sdl.yabapi.data.info.VipStatus.NORMAL
 import moe.sdl.yabapi.data.info.VipStatus.RISK_LOCKED
+import moe.sdl.yabapi.data.info.VipStatus.UNKNOWN
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
 import moe.sdl.yabapi.serializer.data.RgbColorStringSerializerNullable
 
@@ -26,7 +27,7 @@ import moe.sdl.yabapi.serializer.data.RgbColorStringSerializerNullable
 @Serializable
 public data class UserVip(
     @SerialName("type") val type: VipType = VipType.UNKNOWN,
-    @SerialName("status") val status: VipStatus = VipStatus.UNKNOWN,
+    @SerialName("status") val status: VipStatus = UNKNOWN,
     @SerialName("due_date") val dueDate: Long? = null,
     @SerialName("vip_pay_type") val isPaid: Boolean? = null,
     @SerialName("theme_type") val themeType: Int? = null,
@@ -84,9 +85,9 @@ public enum class VipStatus {
  */
 @Serializable
 public data class VipLabel(
-    @SerialName("path") val path: String,
-    @SerialName("text") val text: String,
-    @SerialName("label_theme") val label: String,
+    @SerialName("path") val path: String? = null,
+    @SerialName("text") val text: String? = null,
+    @SerialName("label_theme") val label: String? = null,
     @SerialName("text_color") val textColor: String? = null,
     @SerialName("bg_style") val backgroundStyle: Int? = null,
     @SerialName("bg_color") val backgroundColor: String? = null,

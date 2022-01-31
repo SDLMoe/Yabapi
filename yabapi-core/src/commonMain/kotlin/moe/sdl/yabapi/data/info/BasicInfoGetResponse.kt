@@ -14,8 +14,8 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 @Serializable
 public data class BasicInfoGetResponse(
     @SerialName("code") val code: GeneralCode = GeneralCode.UNKNOWN,
-    @SerialName("message") val message: String,
-    @SerialName("ttl") val ttl: Int,
+    @SerialName("message") val message: String? = null,
+    @SerialName("ttl") val ttl: Int? = null,
     @SerialName("data") val data: BasicInfoData,
 )
 

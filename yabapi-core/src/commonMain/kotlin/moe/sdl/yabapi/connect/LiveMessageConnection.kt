@@ -75,6 +75,8 @@ internal class LiveMessageConnection(
 
     suspend fun start() = coroutineScope {
         launch(context) {
+            requireNotNull(host.host)
+            requireNotNull(host.wssPort)
             client.wss(HttpMethod.Get, host = host.host, host.wssPort, "/sub") {
                 val isSuccess = sendCertificatePacket()
                 if (isSuccess) {

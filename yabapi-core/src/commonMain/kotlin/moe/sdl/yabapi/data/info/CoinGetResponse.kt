@@ -6,6 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
 import moe.sdl.yabapi.data.GeneralCode
+import moe.sdl.yabapi.data.GeneralCode.UNKNOWN
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
 
 /**
@@ -14,9 +15,9 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
  */
 @Serializable
 public data class CoinGetResponse(
-    @SerialName("code") val code: GeneralCode,
-    @SerialName("status") val status: Boolean,
-    @SerialName("data") val data: CoinData,
+    @SerialName("code") val code: GeneralCode = UNKNOWN,
+    @SerialName("status") val status: Boolean? = null,
+    @SerialName("data") val data: CoinData? = null,
 )
 
 /**

@@ -51,8 +51,8 @@ internal class LiveApiTest {
         val loginUserMid = client.getBasicInfo().data.mid ?: error("Not login")
         client.createLiveDanmakuConnection(loginUserMid,
             realId,
-            danmakuInfoData.token,
-            danmakuInfoData.hostList[0],
+            danmakuInfoData.token ?: error("Failed To Get Token"),
+            danmakuInfoData.hostList.getOrNull(0) ?: error("Failed to fetch bilibili live host"),
             Platform.ioDispatcher,
             config
         )

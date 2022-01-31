@@ -5,11 +5,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class VideoPart(
-    @SerialName("cid") val cid: Int,
-    @SerialName("page") val part: Int,
-    @SerialName("from") val from: String,
-    @SerialName("part") val name: String,
-    @SerialName("duration") val duration: Long, // s
+    @SerialName("cid") val cid: Int? = null,
+    @SerialName("page") val part: Int? = null,
+    @SerialName("from") val from: String? = null,
+    @SerialName("part") val name: String? = null,
+    @SerialName("duration") val duration: Long? = null, // s
     @SerialName("vid") val vid: String? = null,
     @SerialName("weblink") val weblink: String? = null,
     @SerialName("dimension") val dimension: VideoDimension? = null,

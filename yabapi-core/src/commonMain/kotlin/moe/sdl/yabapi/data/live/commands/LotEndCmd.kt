@@ -9,7 +9,7 @@ import kotlinx.serialization.json.decodeFromJsonElement
 @Serializable
 public data class LotEndCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: LotEndData,
+    @SerialName("data") val data: LotEndData? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "ANCHOR_LOT_END"
@@ -19,5 +19,5 @@ public data class LotEndCmd(
 
 @Serializable
 public data class LotEndData(
-    @SerialName("id") val id: Int,
+    @SerialName("id") val id: Int? = null,
 )

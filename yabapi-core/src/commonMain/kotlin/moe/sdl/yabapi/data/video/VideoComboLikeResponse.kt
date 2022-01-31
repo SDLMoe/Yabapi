@@ -14,10 +14,10 @@ public data class VideoComboLikeResponse(
 
 @Serializable
 public data class VideoComboLikeData(
-    @SerialName("like") val isLike: Boolean,
-    @SerialName("coin") val isCoined: Boolean,
-    @SerialName("fav") val isCollected: Boolean,
-    @SerialName("multiply") val coinCount: Int,
+    @SerialName("like") val isLike: Boolean? = null,
+    @SerialName("coin") val isCoined: Boolean? = null,
+    @SerialName("fav") val isCollected: Boolean? = null,
+    @SerialName("multiply") val coinCount: Int? = null,
 )
 
 @Serializable

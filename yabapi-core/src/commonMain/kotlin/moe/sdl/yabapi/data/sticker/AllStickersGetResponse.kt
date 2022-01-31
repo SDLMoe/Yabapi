@@ -3,6 +3,7 @@ package moe.sdl.yabapi.data.sticker
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import moe.sdl.yabapi.data.GeneralCode
+import moe.sdl.yabapi.data.GeneralCode.UNKNOWN
 
 /**
  * 獲取所有表情包的返回
@@ -12,9 +13,9 @@ import moe.sdl.yabapi.data.GeneralCode
  */
 @Serializable
 public data class AllStickersGetResponse(
-    @SerialName("code") val code: GeneralCode,
-    @SerialName("message") val message: String,
-    @SerialName("ttl") val ttl: Int,
+    @SerialName("code") val code: GeneralCode = UNKNOWN,
+    @SerialName("message") val message: String? = null,
+    @SerialName("ttl") val ttl: Int? = null,
     @SerialName("data") val data: AllStickersGetResponseData? = null,
 )
 
@@ -27,7 +28,7 @@ public data class AllStickersGetResponse(
 public data class AllStickersGetResponseData(
     @SerialName("user_panel_packages") val owned: List<StickerSetData>,
     @SerialName("all_packages") val all: List<StickerSetData>,
-    @SerialName("mall") val mall: StickerMallData,
+    @SerialName("mall") val mall: StickerMallData? = null,
 )
 
 /**
@@ -36,6 +37,6 @@ public data class AllStickersGetResponseData(
  */
 @Serializable
 public data class StickerMallData(
-    @SerialName("title") val title: String,
-    @SerialName("url") val url: String,
+    @SerialName("title") val title: String? = null,
+    @SerialName("url") val url: String? = null,
 )

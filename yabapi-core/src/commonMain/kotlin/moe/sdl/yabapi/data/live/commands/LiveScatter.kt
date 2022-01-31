@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class LiveScatter(
-    @SerialName("max") val max: Int,
-    @SerialName("min") val min: Int,
+    @SerialName("max") val max: Int? = null,
+    @SerialName("min") val min: Int? = null,
 )

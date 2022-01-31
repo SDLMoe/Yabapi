@@ -20,8 +20,8 @@ public data class SpaceVideoResponse(
 
 @Serializable
 public data class SpaceVideoData(
-    @SerialName("list") val list: SpaceVideoList,
-    @SerialName("page") val page: SpaceVideoPage,
+    @SerialName("list") val list: SpaceVideoList? = null,
+    @SerialName("page") val page: SpaceVideoPage? = null,
     @SerialName("episodic_button") val episodicButton: SpaceVideoButton? = null,
 )
 
@@ -33,39 +33,39 @@ public data class SpaceVideoList(
 
 @Serializable
 public data class SpaceTypeNode(
-    @SerialName("count") val count: Int,
-    @SerialName("name") val name: String,
-    @SerialName("tid") val tid: Int,
+    @SerialName("count") val count: Int? = null,
+    @SerialName("name") val name: String? = null,
+    @SerialName("tid") val tid: Int? = null,
 )
 
 @Serializable
 public data class SpaceVideoNode(
-    @SerialName("aid") val aid: Int,
-    @SerialName("author") val author: String,
-    @SerialName("bvid") val bvid: String,
-    @SerialName("comment") val comment: Int,
-    @SerialName("copyright") val copyright: String,
-    @SerialName("created") val created: Int,
-    @SerialName("description") val description: String,
-    @SerialName("hide_click") val hideClick: Boolean,
-    @SerialName("is_pay") val isPay: Boolean,
-    @SerialName("is_union_video") val isUnionVideo: Boolean,
-    @SerialName("is_steins_gate") val isInteractive: Boolean, // 互動視頻
-    @SerialName("is_live_playback") val isLivePlayback: Boolean, // 直播回放
-    @SerialName("length") val length: String, // MM:SS
-    @SerialName("mid") val mid: Int,
-    @SerialName("pic") val cover: String,
-    @SerialName("play") val play: Int,
-    @SerialName("review") val review: Int,
-    @SerialName("subtitle") val subtitle: String,
-    @SerialName("title") val title: String,
-    @SerialName("typeid") val type: VideoType,
-    @SerialName("video_review") val danmaku: Int,
+    @SerialName("aid") val aid: Int? = null,
+    @SerialName("author") val author: String? = null,
+    @SerialName("bvid") val bvid: String? = null,
+    @SerialName("comment") val comment: Int? = null,
+    @SerialName("copyright") val copyright: String? = null,
+    @SerialName("created") val created: Int? = null,
+    @SerialName("description") val description: String? = null,
+    @SerialName("hide_click") val hideClick: Boolean? = null,
+    @SerialName("is_pay") val isPay: Boolean? = null,
+    @SerialName("is_union_video") val isUnionVideo: Boolean? = null,
+    @SerialName("is_steins_gate") val isInteractive: Boolean? = null, // 互動視頻
+    @SerialName("is_live_playback") val isLivePlayback: Boolean? = null, // 直播回放
+    @SerialName("length") val length: String? = null, // MM:SS
+    @SerialName("mid") val mid: Int? = null,
+    @SerialName("pic") val cover: String? = null,
+    @SerialName("play") val play: Int? = null,
+    @SerialName("review") val review: Int? = null,
+    @SerialName("subtitle") val subtitle: String? = null,
+    @SerialName("title") val title: String? = null,
+    @SerialName("typeid") val type: VideoType? = null,
+    @SerialName("video_review") val danmaku: Int? = null,
 )
 
 @Serializable
 public data class SpaceVideoPage(
-    @SerialName("count") val total: Int,
-    @SerialName("pn") val current: Int,
-    @SerialName("ps") val pageSize: Int,
+    @SerialName("count") val total: Int? = null,
+    @SerialName("pn") val current: Int? = null,
+    @SerialName("ps") val pageSize: Int? = null,
 )

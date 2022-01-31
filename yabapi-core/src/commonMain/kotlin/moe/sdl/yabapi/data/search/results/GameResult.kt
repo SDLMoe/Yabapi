@@ -8,16 +8,16 @@ import kotlinx.serialization.json.decodeFromJsonElement
 
 @Serializable
 public data class GameResult(
-    @SerialName("game_name") val gameName: String,
-    @SerialName("game_icon") val gameIcon: String,
-    @SerialName("summary") val summary: String,
-    @SerialName("game_status") val gameStatus: Int,
-    @SerialName("game_link") val gameLink: String,
-    @SerialName("grade") val grade: Double,
-    @SerialName("book_num") val bookNum: Int,
-    @SerialName("download_num") val downloadNum: Int,
-    @SerialName("comment_num") val commentNum: Int,
-    @SerialName("platform") val platform: String,
+    @SerialName("game_name") val gameName: String? = null,
+    @SerialName("game_icon") val gameIcon: String? = null,
+    @SerialName("summary") val summary: String? = null,
+    @SerialName("game_status") val gameStatus: Int? = null,
+    @SerialName("game_link") val gameLink: String? = null,
+    @SerialName("grade") val grade: Double? = null,
+    @SerialName("book_num") val bookNum: Int? = null,
+    @SerialName("download_num") val downloadNum: Int? = null,
+    @SerialName("comment_num") val commentNum: Int? = null,
+    @SerialName("platform") val platform: String? = null,
 ) : SearchResult {
     public companion object: ResultFactory() {
         override val code: String = "web_game"

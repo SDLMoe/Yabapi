@@ -15,6 +15,6 @@ public data class UserTagsGetResponse(
 
 @Serializable
 public data class UserTagsData(
-    @SerialName("mid") val mid: Int,
+    @SerialName("mid") val mid: Int? = null,
     @SerialName("tags") val tags: List<String> = emptyList(),
 )

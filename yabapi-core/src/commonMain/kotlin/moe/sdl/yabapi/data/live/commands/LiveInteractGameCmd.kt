@@ -14,7 +14,7 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 @Serializable
 public data class LiveInteractGameCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: LiveGameData,
+    @SerialName("data") val data: LiveGameData? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "LIVE_INTERACTIVE_GAME"
@@ -24,27 +24,27 @@ public data class LiveInteractGameCmd(
 
 @Serializable
 public data class LiveGameData(
-    @SerialName("type") val type: Int,
-    @SerialName("uid") val uid: Int,
-    @SerialName("uname") val userName: String,
-    @SerialName("uface") val userAvatar: String,
-    @SerialName("gift_id") val giftId: Int,
-    @SerialName("gift_name") val giftName: String,
-    @SerialName("gift_num") val giftNum: Int,
-    @SerialName("price") val price: Int,
-    @SerialName("paid") val paid: Boolean,
-    @SerialName("msg") val msg: String,
-    @SerialName("fans_medal_level") val fansMedalLevel: Int,
-    @SerialName("guard_level") val guardLevel: GuardLevel,
-    @SerialName("timestamp") val timestamp: Long,
+    @SerialName("type") val type: Int? = null,
+    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uname") val userName: String? = null,
+    @SerialName("uface") val userAvatar: String? = null,
+    @SerialName("gift_id") val giftId: Int? = null,
+    @SerialName("gift_name") val giftName: String? = null,
+    @SerialName("gift_num") val giftNum: Int? = null,
+    @SerialName("price") val price: Int? = null,
+    @SerialName("paid") val paid: Boolean? = null,
+    @SerialName("msg") val msg: String? = null,
+    @SerialName("fans_medal_level") val fansMedalLevel: Int? = null,
+    @SerialName("guard_level") val guardLevel: GuardLevel? = null,
+    @SerialName("timestamp") val timestamp: Long? = null,
     @SerialName("anchor_lottery") val anchorLottery: JsonElement? = null,
     @SerialName("pk_info") val pkInfo: JsonElement? = null,
     @SerialName("anchor_info") val anchorInfo: AnchorInfo? = null,
 ) {
     @Serializable
     public data class AnchorInfo(
-        @SerialName("uid") val uid: Int,
-        @SerialName("uname") val userName: String,
-        @SerialName("uface") val userAvatar: String,
+        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uname") val userName: String? = null,
+        @SerialName("uface") val userAvatar: String? = null,
     )
 }

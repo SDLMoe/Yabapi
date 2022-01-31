@@ -13,7 +13,7 @@ import kotlin.jvm.JvmInline
  */
 @Serializable
 public data class LevelInfo(
-    @SerialName("current_level") val currentLevel: Int,
+    @SerialName("current_level") val currentLevel: Int? = null,
     @SerialName("current_min") val currentMin: Int? = null,
     @SerialName("current_exp") val currentExp: Int? = null,
     @SerialName("next_exp") val nextExp: NextExp? = null,

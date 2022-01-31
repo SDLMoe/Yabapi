@@ -10,19 +10,19 @@ import kotlin.jvm.JvmInline
 
 @Serializable
 public sealed class SearchData {
-    public abstract val seid: String
-    public abstract val page: Int
-    public abstract val pageSize: Int
-    public abstract val numResults: Int
-    public abstract val numPages: Int
-    public abstract val suggestKeyword: String
-    public abstract val rqtType: String
+    public abstract val seid: String?
+    public abstract val page: Int?
+    public abstract val pageSize: Int?
+    public abstract val numResults: Int?
+    public abstract val numPages: Int?
+    public abstract val suggestKeyword: String?
+    public abstract val rqtType: String?
     public abstract val costTime: Map<String, String>
     public abstract val expList: Map<String, String>
-    public abstract val eggHit: Boolean
+    public abstract val eggHit: Boolean?
     public abstract val pageInfo: Map<String, SearchNumInfo>
-    public abstract val showColumn: Int
-    public abstract val result: SearchResultData
+    public abstract val showColumn: Int?
+    public abstract val result: SearchResultData?
 }
 
 public sealed interface SearchResultData
@@ -41,10 +41,10 @@ public value class SearchAllResultData(
 
 @Serializable
 public data class SearchAllResultNode(
-    @SerialName("result_type") val resultType: String,
+    @SerialName("result_type") val resultType: String? = null,
     @SerialName("data") public val rawData: List<JsonObject> = emptyList(),
 ) {
-    public val data: List<SearchResult>? by lazy { rawData.toResults(resultType) }
+    public val data: List<SearchResult>? by lazy { resultType?.let { rawData.toResults(it) } }
 }
 
 @Serializable

@@ -17,8 +17,8 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 @Serializable
 public data class LoginWebSMSResponse(
     val code: LoginWebSMSResponseCode = UNKNOWN,
-    val message: String,
-    val data: LoginWebSMSResponseData,
+    val message: String? = null,
+    val data: LoginWebSMSResponseData? = null,
 )
 
 /**
@@ -52,7 +52,7 @@ public enum class LoginWebSMSResponseCode {
  */
 @Serializable
 public data class LoginWebSMSResponseData(
-    val isNew: Boolean,
-    val status: Int,
-    val url: String,
+    val isNew: Boolean? = null,
+    val status: Int? = null,
+    val url: String? = null,
 )

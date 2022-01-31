@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class BangumiRating(
-    @SerialName("count") val count: Int,
-    @SerialName("score") val score: Double,
+    @SerialName("count") val count: Int? = null,
+    @SerialName("score") val score: Double? = null,
 )

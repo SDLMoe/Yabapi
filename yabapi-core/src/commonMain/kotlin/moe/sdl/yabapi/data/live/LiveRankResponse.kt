@@ -20,42 +20,42 @@ public data class LiveRankResponse(
 @Serializable
 public data class LiveRank(
     @SerialName("list") val list: List<User>,
-    @SerialName("own") val self: Self,
-    @SerialName("ratioDesc") val ratioDesc: String,
+    @SerialName("own") val self: Self? = null,
+    @SerialName("ratioDesc") val ratioDesc: String? = null,
 ) {
     @Serializable
     public data class User(
-        @SerialName("uid") val uid: Int,
-        @SerialName("rank") val rank: Int,
-        @SerialName("isSelf") val isSelf: Boolean,
-        @SerialName("score") val score: Long,
-        @SerialName("uname") val username: String,
-        @SerialName("uface") val avatar: String,
-        @SerialName("isMaster") val isLiver: Boolean,
+        @SerialName("uid") val uid: Int? = null,
+        @SerialName("rank") val rank: Int? = null,
+        @SerialName("isSelf") val isSelf: Boolean? = null,
+        @SerialName("score") val score: Long? = null,
+        @SerialName("uname") val username: String? = null,
+        @SerialName("uface") val avatar: String? = null,
+        @SerialName("isMaster") val isLiver: Boolean? = null,
         @SerialName("roomid") val roomId: Int? = null,
         @SerialName("liveStatus") val status: LiveRoomStatus = LiveRoomStatus.UNKNOWN,
-        @SerialName("content") val content: RankInfo,
-        @SerialName("type") val type: String,
-        @SerialName("trend") val trend: Int,
+        @SerialName("content") val content: RankInfo? = null,
+        @SerialName("type") val type: String? = null,
+        @SerialName("trend") val trend: Int? = null,
     )
 
     @Serializable
     public data class Self(
-        @SerialName("uid") val uid: Int,
-        @SerialName("uname") val uname: String,
-        @SerialName("rank") val rank: String,
-        @SerialName("score") val score: String,
-        @SerialName("type") val type: String,
-        @SerialName("content") val content: RankInfo,
-        @SerialName("uface") val avatar: String,
-        @SerialName("isMaster") val isLiver: Boolean,
+        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uname") val uname: String? = null,
+        @SerialName("rank") val rank: String? = null,
+        @SerialName("score") val score: String? = null,
+        @SerialName("type") val type: String? = null,
+        @SerialName("content") val content: RankInfo? = null,
+        @SerialName("uface") val avatar: String? = null,
+        @SerialName("isMaster") val isLiver: Boolean? = null,
         @SerialName("roomid") val roomId: Int? = null,
         @SerialName("liveStatus") val status: LiveRoomStatus = LiveRoomStatus.UNKNOWN,
     )
 
     @Serializable
     public data class RankInfo(
-        @SerialName("type") val type: String,
+        @SerialName("type") val type: String? = null,
         @SerialName("level") val level: Int? = null,
         @SerialName("value") val value: String? = null,
     )

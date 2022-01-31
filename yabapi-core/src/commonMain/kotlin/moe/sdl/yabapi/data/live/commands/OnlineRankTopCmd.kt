@@ -12,7 +12,7 @@ import kotlinx.serialization.json.decodeFromJsonElement
 @Serializable
 public data class OnlineRankTopCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: OnlineRankTopData,
+    @SerialName("data") val data: OnlineRankTopData? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "ONLINE_RANK_TOP3"
@@ -26,7 +26,7 @@ public data class OnlineRankTopData(
 ) {
     @Serializable
     public data class OnlineRankNode(
-        @SerialName("msg") val msg: String, // 恭喜 <%username%> 成为高能榜
-        @SerialName("rank") val rank: Int, // in 1..3
+        @SerialName("msg") val msg: String? = null, // 恭喜 <%username%> 成为高能榜
+        @SerialName("rank") val rank: Int? = null, // in 1..3
     )
 }

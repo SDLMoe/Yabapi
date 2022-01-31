@@ -12,6 +12,6 @@ public data class FeedSubscribes(
 
 @Serializable
 public data class FeedBangumiSub(
-    @SerialName("season_id") val seasonId: Int,
+    @SerialName("season_id") val seasonId: Int? = null,
     @SerialName("type") val type: BangumiType? = BangumiType.UNKNOWN,
 )

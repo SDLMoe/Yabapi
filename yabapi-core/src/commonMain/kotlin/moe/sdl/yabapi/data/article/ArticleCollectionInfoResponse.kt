@@ -15,24 +15,24 @@ public data class ArticleCollectionInfoResponse(
 
 @Serializable
 public data class ArticleCollectionInfoData(
-    @SerialName("list") val info: ArticleCollection,
-    @SerialName("articles") val articles: List<SimpleArticleInfo>,
-    @SerialName("author") val author: ArticleAuthor,
-    @SerialName("last") val last: SimpleArticleInfo,
-    @SerialName("attention") val isSubscribed: Boolean,
+    @SerialName("list") val info: ArticleCollection? = null,
+    @SerialName("articles") val articles: List<SimpleArticleInfo> = emptyList(),
+    @SerialName("author") val author: ArticleAuthor? = null,
+    @SerialName("last") val last: SimpleArticleInfo? = null,
+    @SerialName("attention") val isSubscribed: Boolean? = null,
 )
 
 @Serializable
 public data class SimpleArticleInfo(
-    @SerialName("id") val id: Int,
-    @SerialName("title") val title: String,
-    @SerialName("state") val state: Int,
-    @SerialName("publish_time") val releaseTime: Long,
-    @SerialName("words") val words: Int,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("title") val title: String? = null,
+    @SerialName("state") val state: Int? = null,
+    @SerialName("publish_time") val releaseTime: Long? = null,
+    @SerialName("words") val words: Int? = null,
     @SerialName("image_urls") val imageUrls: List<String>,
-    @SerialName("category") val category: ArticleCategory,
+    @SerialName("category") val category: ArticleCategory? = null,
     @SerialName("categories") val categories: List<ArticleCategory> = emptyList(),
-    @SerialName("summary") val summary: String,
+    @SerialName("summary") val summary: String? = null,
     @SerialName("stats") val stats: ArticleStats? = null,
     @SerialName("like_state") val likeState: Int? = null,
 )

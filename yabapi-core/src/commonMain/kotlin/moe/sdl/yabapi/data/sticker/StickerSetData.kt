@@ -22,15 +22,15 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
  */
 @Serializable
 public data class StickerSetData(
-    @SerialName("id") val id: Int,
-    @SerialName("text") val name: String,
-    @SerialName("url") val iconUrl: String,
-    @SerialName("mtime") val createTime: Long,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("text") val name: String? = null,
+    @SerialName("url") val iconUrl: String? = null,
+    @SerialName("mtime") val createTime: Long? = null,
     @SerialName("type") val type: StickerType = UNKNOWN,
-    @SerialName("attr") val attr: Int,
-    @SerialName("meta") val metadata: StickerSetMetadata,
-    @SerialName("emote") val stickerList: List<StickerData>,
-    @SerialName("flags") val flags: StickerSetFlags,
+    @SerialName("attr") val attr: Int? = null,
+    @SerialName("meta") val metadata: StickerSetMetadata? = null,
+    @SerialName("emote") val stickerList: List<StickerData> = emptyList(),
+    @SerialName("flags") val flags: StickerSetFlags? = null,
 )
 
 /**
@@ -42,7 +42,7 @@ public data class StickerSetData(
 @Serializable
 public data class StickerSetMetadata(
     @SerialName("size") val size: StickerSize = StickerSize.UNKNOWN,
-    @SerialName("item_id") val itemId: Int,
+    @SerialName("item_id") val itemId: Int? = null,
     @SerialName("item_url") val itemUrl: String? = null,
     @SerialName("vip_no_access_text") val needVipText: String? = null,
 )

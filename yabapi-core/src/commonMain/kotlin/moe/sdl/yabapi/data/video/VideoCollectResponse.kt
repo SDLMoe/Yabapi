@@ -12,11 +12,11 @@ public data class VideoCollectResponse(
 )
 
 /**
- * @param isCollectByNonSubscriber 是不是收藏了但沒關注
+ * @param isCollectByNonSubscriber 應該是收藏了但沒關注
  */
 @Serializable
 public data class VideoCollectData(
-    @SerialName("prompt") val isCollectByNonSubscriber: Boolean,
+    @SerialName("prompt") val isCollectByNonSubscriber: Boolean? = null,
 )
 
 @Serializable

@@ -10,5 +10,5 @@ public data class HistoryStatusResponse(
     @SerialName("code") val code: GeneralCode = UNKNOWN,
     @SerialName("message") val message: String? = null,
     @SerialName("ttl") val ttl: Int? = null,
-    @SerialName("data") val isStopped: Boolean,
+    @SerialName("data") val isStopped: Boolean? = null,
 )

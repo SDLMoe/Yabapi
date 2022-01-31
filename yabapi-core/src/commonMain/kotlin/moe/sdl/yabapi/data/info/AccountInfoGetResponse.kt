@@ -12,8 +12,8 @@ import moe.sdl.yabapi.data.GeneralCode
 public data class AccountInfoGetResponse(
     @SerialName("code") val code: GeneralCode = GeneralCode.UNKNOWN,
     @SerialName("message") val message: String? = null,
-    @SerialName("ttl") val ttl: Int,
-    @SerialName("data") val data: AccountInfo,
+    @SerialName("ttl") val ttl: Int? = null,
+    @SerialName("data") val data: AccountInfo? = null,
 )
 
 /**
@@ -28,12 +28,12 @@ public data class AccountInfoGetResponse(
  */
 @Serializable
 public data class AccountInfo(
-    @SerialName("mid") val mid: Int,
-    @SerialName("uname") val nick: String,
-    @SerialName("userid") val userId: String,
-    @SerialName("sign") val bio: String,
-    @SerialName("birthday") val birthday: String,
-    @SerialName("sex") val sex: String,
-    @SerialName("nick_free") val hasSetNick: Boolean,
-    @SerialName("rank") val rank: String,
+    @SerialName("mid") val mid: Int? = null,
+    @SerialName("uname") val nick: String? = null,
+    @SerialName("userid") val userId: String? = null,
+    @SerialName("sign") val bio: String? = null,
+    @SerialName("birthday") val birthday: String? = null,
+    @SerialName("sex") val sex: String? = null,
+    @SerialName("nick_free") val hasSetNick: Boolean? = null,
+    @SerialName("rank") val rank: String? = null,
 )

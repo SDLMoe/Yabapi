@@ -11,7 +11,7 @@ import moe.sdl.yabapi.serializer.data.RgbColorStringSerializer
 @Serializable
 public data class MatchRoomConfCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: MatchRoomConfData,
+    @SerialName("data") val data: MatchRoomConfData? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "MATCH_ROOM_CONF"
@@ -21,38 +21,38 @@ public data class MatchRoomConfCmd(
 
 @Serializable
 public data class MatchRoomConfData(
-    @SerialName("type") val type: String,
-    @SerialName("close_button") val closeButton: String,
-    @SerialName("force_push") val forcePush: String,
-    @SerialName("button_name") val buttonName: String,
-    @SerialName("background") val background: String,
-    @SerialName("conf_id") val confId: String,
-    @SerialName("conf_name") val confName: String,
+    @SerialName("type") val type: String? = null,
+    @SerialName("close_button") val closeButton: String? = null,
+    @SerialName("force_push") val forcePush: String? = null,
+    @SerialName("button_name") val buttonName: String? = null,
+    @SerialName("background") val background: String? = null,
+    @SerialName("conf_id") val confId: String? = null,
+    @SerialName("conf_name") val confName: String? = null,
     @SerialName("rooms_info") val roomsInfo: List<LiveRoomInfo>,
     @SerialName("season_info") val seasonInfo: List<JsonElement>,
-    @SerialName("background_url") val backgroundUrl: String,
-    @SerialName("scatter") val scatter: LiveScatter,
-    @SerialName("button_link") val buttonLink: String,
-    @SerialName("rooms_color") val roomsColor: LiveRoomColor,
-    @SerialName("state") val state: Int,
+    @SerialName("background_url") val backgroundUrl: String? = null,
+    @SerialName("scatter") val scatter: LiveScatter? = null,
+    @SerialName("button_link") val buttonLink: String? = null,
+    @SerialName("rooms_color") val roomsColor: LiveRoomColor? = null,
+    @SerialName("state") val state: Int? = null,
 ) {
 
     @Serializable
     public data class LiveRoomInfo(
-        @SerialName("room_id") private val _roomId: String,
-        @SerialName("room_name") val roomName: String,
-        @SerialName("live_status") val liveStatus: Int,
+        @SerialName("room_id") private val _roomId: String? = null,
+        @SerialName("room_name") val roomName: String? = null,
+        @SerialName("live_status") val liveStatus: Int? = null,
     ) {
-        val roomId: Int? by lazy { _roomId.toIntOrNull() }
+        val roomId: Int? by lazy { _roomId?.toIntOrNull() }
     }
 
     @Serializable
     public data class LiveRoomColor(
         @Serializable(RgbColorStringSerializer::class)
-        @SerialName("font_color") val fontColor: RgbColor,
+        @SerialName("font_color") val fontColor: RgbColor? = null,
         @Serializable(RgbColorStringSerializer::class)
-        @SerialName("background_color") val backgroundColor: RgbColor,
+        @SerialName("background_color") val backgroundColor: RgbColor? = null,
         @Serializable(RgbColorStringSerializer::class)
-        @SerialName("border_color") val borderColor: RgbColor,
+        @SerialName("border_color") val borderColor: RgbColor? = null,
     )
 }

@@ -156,7 +156,7 @@ internal class VideoApiTest {
             val data = client.getVideoParts(bv).data
             client.fetchVideoStream(
                 bv,
-                data[0].cid,
+                data[0].cid!!,
                 StreamRequest(
                     qnQuality = V8K,
                     fnvalFormat = VideoFnvalFormat(
@@ -175,7 +175,7 @@ internal class VideoApiTest {
     fun getTimelineHotTest() {
         runTest {
             val cid = client.getVideoParts("BV1qM4y1w716").data[0].cid
-            client.getTimelineHot(cid)
+            client.getTimelineHot(cid!!)
         }
     }
 
@@ -183,7 +183,7 @@ internal class VideoApiTest {
     fun getVideoOnlineTest() {
         runTest {
             val cid = client.getVideoParts("BV1mM4y1F7yh").data[0].cid
-            client.getVideoOnline("BV1mM4y1F7yh", cid)
+            client.getVideoOnline("BV1mM4y1F7yh", cid!!)
         }
     }
 
@@ -206,7 +206,7 @@ internal class VideoApiTest {
         runTest {
             val avid = 170001
             val cid = client.getVideoParts(avid).data[0].cid
-            client.reportVideoProgress(avid, cid, 3 * 60)
+            client.reportVideoProgress(avid, cid!!, 3 * 60)
         }
     }
 }

@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class SpaceVideoButton(
-    @SerialName("text") val text: String,
-    @SerialName("uri") val playUri: String, // like: //www.bilibili.com/medialist/play/$mid?from=space
+    @SerialName("text") val text: String? = null,
+    @SerialName("uri") val playUri: String? = null, // like: //www.bilibili.com/medialist/play/$mid?from=space
 )

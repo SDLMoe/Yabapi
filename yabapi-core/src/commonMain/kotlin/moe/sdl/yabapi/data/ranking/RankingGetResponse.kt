@@ -25,12 +25,12 @@ public data class LatestVideoGetResponse(
 @Serializable
 public data class LatestVideoData(
     @SerialName("archives") val archives: List<VideoInfo> = emptyList(),
-    @SerialName("page") val page: LatestVideoPageInfo,
+    @SerialName("page") val page: LatestVideoPageInfo? = null,
 )
 
 @Serializable
 public data class LatestVideoPageInfo(
-    @SerialName("count") val count: Int,
-    @SerialName("num") val num: Int,
-    @SerialName("size") val size: Int,
+    @SerialName("count") val count: Int? = null,
+    @SerialName("num") val num: Int? = null,
+    @SerialName("size") val size: Int? = null,
 )

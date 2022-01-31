@@ -30,7 +30,7 @@ internal class SearchApiTest {
             .map { client.searchAll(it).data?.result?.value!! }
             .toList().flatten()
             .fold(mutableMapOf<String, MutableList<JsonObject>>()) { acc, result ->
-                acc.getOrPut(result.resultType) {
+                acc.getOrPut(result.resultType!!) {
                     mutableListOf()
                 }.addAll(result.rawData)
                 acc

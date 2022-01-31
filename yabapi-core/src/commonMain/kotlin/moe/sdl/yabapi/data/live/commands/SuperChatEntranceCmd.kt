@@ -9,7 +9,7 @@ import kotlinx.serialization.json.decodeFromJsonElement
 @Serializable
 public data class SuperChatEntranceCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: SuperChatEntranceData,
+    @SerialName("data") val data: SuperChatEntranceData? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "SUPER_CHAT_ENTRANCE"
@@ -20,7 +20,7 @@ public data class SuperChatEntranceCmd(
 
 @Serializable
 public data class SuperChatEntranceData(
-    @SerialName("icon") val icon: String,
-    @SerialName("jump_url") val jumpUrl: String,
-    @SerialName("status") val status: Int,
+    @SerialName("icon") val icon: String? = null,
+    @SerialName("jump_url") val jumpUrl: String? = null,
+    @SerialName("status") val status: Int? = null,
 )

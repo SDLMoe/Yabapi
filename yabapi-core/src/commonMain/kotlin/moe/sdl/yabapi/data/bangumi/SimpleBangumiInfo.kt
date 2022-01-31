@@ -9,7 +9,7 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
 public data class SimpleBangumiEpisode(
-    @SerialName("id") val id: Int,
+    @SerialName("id") val id: Int? = null,
     @SerialName("cover") val cover: String? = null,
     @SerialName("desc") val description: String? = null,
     @SerialName("is_new") val isNew: Boolean? = null,

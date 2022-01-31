@@ -15,7 +15,7 @@ public data class CallingCodeGetResponse(
     @SerialName("code")
     val code: GeneralCode = UNKNOWN,
     @SerialName("data")
-    val data: CallingCodeGetResponseData,
+    val data: CallingCodeGetResponseData? = null,
 )
 
 /**
@@ -27,9 +27,9 @@ public data class CallingCodeGetResponse(
 @Serializable
 public data class CallingCodeGetResponseData(
     @SerialName("common")
-    val common: List<CallingCodeNode>,
+    val common: List<CallingCodeNode> = emptyList(),
     @SerialName("others")
-    val others: List<CallingCodeNode>,
+    val others: List<CallingCodeNode> = emptyList(),
 ) {
     val all: List<CallingCodeNode> = common + others
 }
@@ -42,9 +42,9 @@ public data class CallingCodeGetResponseData(
 @Serializable
 public data class CallingCodeNode(
     @SerialName("id")
-    val id: String,
+    val id: String? = null,
     @SerialName("cname")
-    val name: String,
+    val name: String? = null,
     @SerialName("country_id")
-    val callingCode: String,
+    val callingCode: String? = null,
 )

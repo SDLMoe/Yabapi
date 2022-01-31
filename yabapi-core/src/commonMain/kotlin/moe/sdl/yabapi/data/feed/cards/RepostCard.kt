@@ -17,8 +17,8 @@ import kotlin.native.concurrent.ThreadLocal
 
 @Serializable
 public data class RepostCard(
-    @SerialName("user") val user: SimpleFeedCardUser,
-    @SerialName("item") val item: Item,
+    @SerialName("user") val user: SimpleFeedCardUser? = null,
+    @SerialName("item") val item: Item? = null,
     @SerialName("origin") private val _origin: String? = null, // 在源動態失效時可能爲空
     @SerialName("origin_extension") val originExtension: JsonObject? = null,
     @SerialName("origin_extend_json") val originExtendJson: String? = null,
@@ -26,22 +26,22 @@ public data class RepostCard(
     @SerialName("activity_infos") val activityInfos: FeedActivity? = null,
 ) : FeedCard {
     public fun getOrigin(json: Json = defaultJson.value): FeedCard? =
-        _origin?.let { FeedCardFactory.map[item.originType]?.decode(json, it) }
+        _origin?.let { FeedCardFactory.map[item?.originType]?.decode(json, it) }
 
     @Serializable
     public data class Item(
-        @SerialName("rp_id") val rpId: ULong,
-        @SerialName("uid") val uid: Int,
-        @SerialName("content") val content: String,
+        @SerialName("rp_id") val rpId: ULong? = null,
+        @SerialName("uid") val uid: Int? = null,
+        @SerialName("content") val content: String? = null,
         @SerialName("ctrl") val ctrl: String? = null,
-        @SerialName("orig_dy_id") val originFeedId: ULong,
-        @SerialName("pre_dy_id") val preDyId: ULong,
+        @SerialName("orig_dy_id") val originFeedId: ULong? = null,
+        @SerialName("pre_dy_id") val preDyId: ULong? = null,
         @SerialName("timestamp") val timestamp: Long? = null,
         @SerialName("at_uids") val atUids: List<Int> = emptyList(),
-        @SerialName("reply") val reply: Int,
+        @SerialName("reply") val reply: Int? = null,
         @SerialName("miss") val miss: Boolean? = null,
         @SerialName("tips") val tips: String? = null,
-        @SerialName("orig_type") val originType: Int,
+        @SerialName("orig_type") val originType: Int? = null,
     )
 
     @ThreadLocal

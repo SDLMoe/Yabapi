@@ -16,13 +16,13 @@ public data class SpaceAlbumResponse(
 
 @Serializable
 public data class AlbumItem(
-    @SerialName("doc_id") val docId: Int,
-    @SerialName("poster_uid") val posterUid: Int,
-    @SerialName("title") val title: String,
-    @SerialName("description") val description: String,
+    @SerialName("doc_id") val docId: Int? = null,
+    @SerialName("poster_uid") val posterUid: Int? = null,
+    @SerialName("title") val title: String? = null,
+    @SerialName("description") val description: String? = null,
     @SerialName("pictures") val pictures: List<AlbumPicture> = emptyList(),
-    @SerialName("count") val count: Int,
-    @SerialName("ctime") val createdTime: Long,
-    @SerialName("view") val view: Int,
-    @SerialName("like") val like: Int,
+    @SerialName("count") val count: Int? = null,
+    @SerialName("ctime") val createdTime: Long? = null,
+    @SerialName("view") val view: Int? = null,
+    @SerialName("like") val like: Int? = null,
 )

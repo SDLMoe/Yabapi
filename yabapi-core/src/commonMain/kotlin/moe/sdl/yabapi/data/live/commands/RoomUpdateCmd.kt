@@ -9,7 +9,7 @@ import kotlinx.serialization.json.decodeFromJsonElement
 @Serializable
 public data class RoomUpdateCmd(
     @SerialName("cmd") override val operation: String,
-    @SerialName("data") val data: RoomUpdateData,
+    @SerialName("data") val data: RoomUpdateData? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "ROOM_REAL_TIME_MESSAGE_UPDATE"
@@ -20,8 +20,8 @@ public data class RoomUpdateCmd(
 
 @Serializable
 public data class RoomUpdateData(
-    @SerialName("roomid") val roomId: Int,
-    @SerialName("fans") val fans: Int,
-    @SerialName("red_notice") val redNotice: Int,
-    @SerialName("fans_club") val fansClub: Int, // 粉丝团数量
+    @SerialName("roomid") val roomId: Int? = null,
+    @SerialName("fans") val fans: Int? = null,
+    @SerialName("red_notice") val redNotice: Int? = null,
+    @SerialName("fans_club") val fansClub: Int? = null, // 粉丝团数量
 )

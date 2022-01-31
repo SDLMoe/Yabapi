@@ -22,50 +22,50 @@ public data class LiveRankMedalResponse(
 @Serializable
 public data class LiveRankMedalData(
     @SerialName("list") val user: List<User>,
-    @SerialName("own") val self: Self,
+    @SerialName("own") val self: Self? = null,
 ) {
     @Serializable
     public data class User(
-        @SerialName("content") val content: MedalContent,
-        @SerialName("isMaster") val isLiver: Boolean,
-        @SerialName("isSelf") val isSelf: Boolean,
-        @SerialName("rank") val rank: Int,
-        @SerialName("score") val score: Long,
-        @SerialName("trend") val trend: Int,
-        @SerialName("type") val type: String,
-        @SerialName("uface") val avatar: String,
-        @SerialName("uid") val uid: Int,
-        @SerialName("uname") val userName: String,
+        @SerialName("content") val content: MedalContent? = null,
+        @SerialName("isMaster") val isLiver: Boolean? = null,
+        @SerialName("isSelf") val isSelf: Boolean? = null,
+        @SerialName("rank") val rank: Int? = null,
+        @SerialName("score") val score: Long? = null,
+        @SerialName("trend") val trend: Int? = null,
+        @SerialName("type") val type: String? = null,
+        @SerialName("uface") val avatar: String? = null,
+        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uname") val userName: String? = null,
     )
 
     @Serializable
     public data class Self(
-        @SerialName("content") val content: MedalContent,
-        @SerialName("rank") val rank: String,
-        @SerialName("score") val score: Long,
-        @SerialName("uid") val uid: Int,
-        @SerialName("uname") val username: String,
-        @SerialName("uface") val avatar: String,
-        @SerialName("isMaster") val isLiver: Boolean,
-        @SerialName("type") val type: String,
+        @SerialName("content") val content: MedalContent? = null,
+        @SerialName("rank") val rank: String? = null,
+        @SerialName("score") val score: Long? = null,
+        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uname") val username: String? = null,
+        @SerialName("uface") val avatar: String? = null,
+        @SerialName("isMaster") val isLiver: Boolean? = null,
+        @SerialName("type") val type: String? = null,
     )
 
     @Serializable
     public data class MedalContent(
-        @SerialName("level") val level: Int,
+        @SerialName("level") val level: Int? = null,
         @Serializable(RgbColorIntSerializer::class)
-        @SerialName("masterRoomId") val masterRoomId: RgbColor,
-        @SerialName("medalName") val medalName: String,
+        @SerialName("masterRoomId") val masterRoomId: RgbColor? = null,
+        @SerialName("medalName") val medalName: String? = null,
         @Serializable(RgbColorIntSerializer::class)
-        @SerialName("color") val color: RgbColor,
+        @SerialName("color") val color: RgbColor? = null,
         @Serializable(RgbColorIntSerializer::class)
-        @SerialName("medal_color_start") val medalColorStart: RgbColor,
+        @SerialName("medal_color_start") val medalColorStart: RgbColor? = null,
         @Serializable(RgbColorIntSerializer::class)
-        @SerialName("medal_color_end") val medalColorEnd: RgbColor,
+        @SerialName("medal_color_end") val medalColorEnd: RgbColor? = null,
         @Serializable(RgbColorIntSerializer::class)
-        @SerialName("medal_color_border") val medalColorBorder: RgbColor,
-        @SerialName("is_lighted") val isLighted: Boolean,
-        @SerialName("guard_level") val guardLevel: Int,
-        @SerialName("type") val type: String,
+        @SerialName("medal_color_border") val medalColorBorder: RgbColor? = null,
+        @SerialName("is_lighted") val isLighted: Boolean? = null,
+        @SerialName("guard_level") val guardLevel: Int? = null,
+        @SerialName("type") val type: String? = null,
     )
 }

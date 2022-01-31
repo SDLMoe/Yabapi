@@ -14,7 +14,7 @@ public data class CoinVideoResponse(
 
 @Serializable
 public data class CoinVideoData(
-    @SerialName("like") val isLikeSucceed: Boolean,
+    @SerialName("like") val isLikeSucceed: Boolean? = null,
 )
 
 @Serializable

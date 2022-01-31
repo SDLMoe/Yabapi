@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class VideoOwner(
-    @SerialName("mid") val mid: Int,
-    @SerialName("name") val name: String,
-    @SerialName("face") val avatar: String,
+    @SerialName("mid") val mid: Int? = null,
+    @SerialName("name") val name: String? = null,
+    @SerialName("face") val avatar: String? = null,
 )

@@ -16,6 +16,6 @@ public data class SpaceChannelResponse(
 
 @Serializable
 public data class SpaceChannelData(
-    @SerialName("count") val count: Int,
+    @SerialName("count") val count: Int? = null,
     @SerialName("list") val list: List<SpaceChannel> = emptyList(),
 )

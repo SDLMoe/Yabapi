@@ -15,5 +15,5 @@ public data class VideoCoinCheckResponse(
 
 @Serializable
 public data class CoinCheckData(
-    @SerialName("multiply") val number: Int,
+    @SerialName("multiply") val number: Int? = null,
 )

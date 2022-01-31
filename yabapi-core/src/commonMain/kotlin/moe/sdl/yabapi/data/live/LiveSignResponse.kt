@@ -13,7 +13,7 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
  */
 @Serializable
 public data class LiveSignResponse(
-    @SerialName("code") val code: GeneralCode,
+    @SerialName("code") val code: GeneralCode? = null,
     @SerialName("message") val message: String? = null,
     @SerialName("ttl") val ttl: Int? = null,
     @SerialName("data") val data: LiveSignData? = null,
@@ -29,9 +29,9 @@ public data class LiveSignResponse(
  */
 @Serializable
 public data class LiveSignData(
-    @SerialName("text") val text: String,
-    @SerialName("specialText") val specialText: String,
-    @SerialName("allDays") val allDays: Int,
-    @SerialName("hadSignDays") val hadSignDays: Int,
-    @SerialName("isBonusDay") val isBonusDay: Boolean,
+    @SerialName("text") val text: String? = null,
+    @SerialName("specialText") val specialText: String? = null,
+    @SerialName("allDays") val allDays: Int? = null,
+    @SerialName("hadSignDays") val hadSignDays: Int? = null,
+    @SerialName("isBonusDay") val isBonusDay: Boolean? = null,
 )

@@ -20,10 +20,10 @@ public data class QRCodeWebGetResponse(
     @SerialName("code")
     val code: GeneralCode = UNKNOWN,
     @SerialName("status")
-    val status: Boolean,
+    val status: Boolean? = null,
     @SerialName("ts")
-    val timestamp: Long,
-    val data: QRCodeWebGetResponseData,
+    val timestamp: Long? = null,
+    val data: QRCodeWebGetResponseData? = null,
 )
 
 /**
@@ -32,6 +32,6 @@ public data class QRCodeWebGetResponse(
  */
 @Serializable
 public data class QRCodeWebGetResponseData(
-    val url: String,
-    val oauthKey: String,
+    val url: String? = null,
+    val oauthKey: String? = null,
 )

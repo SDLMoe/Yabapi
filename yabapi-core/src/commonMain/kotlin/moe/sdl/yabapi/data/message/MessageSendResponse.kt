@@ -16,7 +16,7 @@ public data class MessageSendResponse(
 
 @Serializable
 public data class MessageSendResponseData(
-    @SerialName("msg_key") val key: Long,
+    @SerialName("msg_key") val key: Long? = null,
     @SerialName("msg_content") val content: String? = null,
     @SerialName("key_hit_infos") val infos: JsonObject? = null,
 )

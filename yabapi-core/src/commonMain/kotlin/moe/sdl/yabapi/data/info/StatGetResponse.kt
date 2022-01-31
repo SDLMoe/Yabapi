@@ -27,7 +27,7 @@ public data class StatGetResponse(
  */
 @Serializable
 public data class StatGetData(
-    @SerialName("following") val following: Int,
-    @SerialName("follower") val follower: Int,
-    @SerialName("dynamic_count") val dynamicCount: Int,
+    @SerialName("following") val following: Int? = null,
+    @SerialName("follower") val follower: Int? = null,
+    @SerialName("dynamic_count") val dynamicCount: Int? = null,
 )

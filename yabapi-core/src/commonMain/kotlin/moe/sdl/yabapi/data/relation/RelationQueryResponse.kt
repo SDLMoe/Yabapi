@@ -45,6 +45,6 @@ public data class RelationQueryMutuallyResponse(
  */
 @Serializable
 public data class RelationQueryMutuallyData(
-    @SerialName("relation") val relation: RelationUserNode,
-    @SerialName("be_relation") val beRelation: RelationUserNode,
+    @SerialName("relation") val relation: RelationUserNode? = null,
+    @SerialName("be_relation") val beRelation: RelationUserNode? = null,
 )

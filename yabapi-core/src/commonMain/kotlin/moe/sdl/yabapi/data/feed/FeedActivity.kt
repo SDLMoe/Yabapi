@@ -10,6 +10,6 @@ public data class FeedActivity(
 
 @Serializable
 public data class FeedActivityNode(
-    @SerialName("type") val type: Int,
-    @SerialName("detail") val detail: String,
+    @SerialName("type") val type: Int? = null,
+    @SerialName("detail") val detail: String? = null,
 )

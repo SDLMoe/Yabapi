@@ -7,7 +7,7 @@ import moe.sdl.yabapi.data.info.Pendant
 
 @Serializable
 public data class FeedUserProfile(
-    @SerialName("info") val info: UserInfo,
+    @SerialName("info") val info: UserInfo? = null,
     @SerialName("card") val card: FeedUserCard? = null,
     @SerialName("vip") val vip: FeedVip? = null,
     @SerialName("pendant") val pendant: Pendant? = null,
