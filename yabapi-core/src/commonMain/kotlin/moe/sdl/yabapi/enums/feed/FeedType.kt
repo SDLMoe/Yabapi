@@ -15,6 +15,8 @@ public enum class FeedType(public val code: Int) {
 
     BANGUMI(512),
 
+    SHARE(2048),
+
     LIVE(4308),
 
     COLLECTION(4310),
