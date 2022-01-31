@@ -21,6 +21,7 @@ public abstract class FeedCardFactory {
                 RepostCard,
                 TextCard,
                 VideoCard,
+                ShareCard,
             )
         }
 
