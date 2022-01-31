@@ -38,6 +38,7 @@ hs_err_pid*
 .idea/dictionaries/**/*
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+.idea/artifacts
 
 # allowed dictionaries
 !.idea/dictionaries/hbj.xml
