@@ -6,7 +6,6 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.http.Parameters
 import kotlinx.atomicfu.atomic
-import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -66,9 +65,14 @@ private suspend fun BiliClient.noNeedLogin() {
  * 可使用 [https://kuresaru.github.io/geetest-validator/]
  * @return [GetCaptchaResponse]
  */
-public suspend fun BiliClient.getCaptcha(): GetCaptchaResponse = withContext(context) {
+public suspend fun BiliClient.getCaptcha(
+    source: String = "main_web",
+    context: CoroutineContext = this.context,
+): GetCaptchaResponse = withContext(context) {
     logger.info { "Querying Login Captcha" }
-    client.get<String>(QUERY_CAPTCHA_URL)
+    client.get<String>(QUERY_CAPTCHA_URL) {
+        parameter("source", source)
+    }
         .deserializeJson<GetCaptchaResponse>()
         .also { logger.debug { "Query Captcha Response: $it" } }
 }
@@ -102,18 +106,20 @@ public suspend fun BiliClient.loginWeb(
     validate: String,
     seccode: String,
     getCaptchaResponse: GetCaptchaResponse,
+    source: String = "main_web",
     context: CoroutineContext = this.context,
 ): LoginWebResponse = withContext(context) {
     noNeedLogin()
     logger.info { "Logging in by Web method" }
     client.post<String>(LOGIN_WEB_URL) {
         val params = Parameters.build {
+            append("source", source)
             append("captchaType", "6")
             append("username", userName)
             append("password", pwdEncrypted)
             append("keep", "true")
-            append("key", getCaptchaResponse.data?.result?.loginKey ?: error("Failed to get LoginKey"))
-            append("challenge", getCaptchaResponse.data.result.captchaKey)
+            append("key", getCaptchaResponse.data?.token ?: error("Failed to get login token"))
+            append("challenge", getCaptchaResponse.data.geetest?.challenge ?: error("Failed to get geetest challenge"))
             append("validate", validate)
             append("seccode", seccode)
         }
@@ -133,7 +139,7 @@ public suspend fun BiliClient.loginWebConsole(
     encryptFunc: (String, RsaGetResponse) -> String = { pwd, response ->
         if (response.rsa != null) {
             RSAProvider.encryptWithPublicKey(trimPem(response.rsa), response.salt + pwd)
-        } else throw IllegalArgumentException("Failed to encrypt data, RSA public key is null")
+        } else error("Failed to encrypt data, RSA public key is null")
     },
     context: CoroutineContext = this.context,
 ): Unit = withContext(context) {
@@ -143,7 +149,7 @@ public suspend fun BiliClient.loginWebConsole(
     val pwd = requireCmdInputString("Please Input Bilibili Password:")
     val captchaResponse = getCaptcha()
     println("Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :")
-    println("gt=${captchaResponse.data?.result?.id}, challenge=${captchaResponse.data?.result?.captchaKey}")
+    println("gt=${captchaResponse.data?.geetest?.gt}, challenge=${captchaResponse.data?.geetest?.challenge}")
     val validate = requireCmdInputString("input the result, validate=")
     val seccode = "$validate|jordan"
     val encryptPwd = encryptFunc(pwd, this@loginWebConsole.getRsaKeyWeb())
@@ -209,7 +215,7 @@ public suspend fun BiliClient.loginWebQRCodeInteractive(
                     when (it.dataWhenFailed) {
                         NOT_SCAN -> logger.verbose { "wait for QR code scanning" }
                         NOT_CONFIRM -> logger.verbose { "wait for confirming" }
-                        KEY_EXPIRED -> cancel("QRCode timedout")
+                        KEY_EXPIRED -> cancel("QRCode Time Out")
                         else -> throw IllegalStateException("unexpected code, ${it.dataWhenFailed}")
                     }
                 }
@@ -249,6 +255,7 @@ public suspend fun BiliClient.requestSMSCode(
     captchaResponse: GetCaptchaResponse,
     validate: String,
     seccode: String,
+    source: String = "main_web",
     context: CoroutineContext = this.context,
 ): SendSMSResponse = withContext(context) {
     logger.info { "Requesting SMS Code" }
@@ -256,8 +263,9 @@ public suspend fun BiliClient.requestSMSCode(
         val params = Parameters.build {
             append("tel", phone.toString())
             append("cid", cid.toString())
-            append("token", captchaResponse.result?.loginKey ?: error("failed to get loginKey"))
-            append("challenge", captchaResponse.result?.captchaKey ?: error("failed to get captchaKey"))
+            append("source", source)
+            append("token", captchaResponse.data?.token ?: error("failed to get login token"))
+            append("challenge", captchaResponse.data.geetest?.challenge ?: error("failed to get geetest challenge"))
             append("validate", validate)
             append("seccode", seccode)
         }
@@ -282,6 +290,7 @@ public suspend fun BiliClient.loginWebSMS(
     cid: Int,
     code: Int,
     sendSMSResponse: SendSMSResponse,
+    source: String = "main_web",
     context: CoroutineContext = this.context,
 ): LoginWebSMSResponse = withContext(context) {
     logger.info { "Logging in via Web SMS" }
@@ -291,6 +300,7 @@ public suspend fun BiliClient.loginWebSMS(
             append("tel", phone.toString())
             append("cid", cid.toString())
             append("code", code.toString())
+            append("source", source)
             append("captcha_key", smsCaptchaKey)
         }
         body = FormDataContent(params)
@@ -307,27 +317,21 @@ public suspend fun BiliClient.loginWebSMS(
 public suspend fun BiliClient.loginWebSMSConsole(
     needsCallingCode: Boolean = false,
     context: CoroutineContext = this.context,
-): Unit = withContext(context) {
+): LoginWebSMSResponse = withContext(context) {
     noNeedLogin()
     logger.info { "Starting Console Interactive Bilibili Web Login" }
-    var callingCode = 86
-
-    if (needsCallingCode) callingCode = requireCmdInputNumber("Please Input Calling Code (e.g. 86, 1):")
-    val cid = async(context) {
-        val cidList = getCallingCode().data?.all ?: error("failed to getCallingCodeNode")
-        cidList.first { it.callingCode == callingCode.toString() }.id?.toInt() ?: error("failed to get calling code")
-    }
+    val countryCode = if (needsCallingCode) requireCmdInputNumber("Please Input Country Code(e.g, 86, 1)") else 86
 
     val phone: Long = requireCmdInputNumber("Please Input Phone Number (e.g. 13800138000):")
 
     var smsSent = false
     var sendSMSResponse: SendSMSResponse? = null
-    while (smsSent) {
+    while (!smsSent) {
         val captchaResponse = getCaptcha()
         println("Please do the captcha via https://kuresaru.github.io/geetest-validator/ :")
-        println("gt=${captchaResponse.result?.id}, challenge=${captchaResponse.result?.captchaKey}")
+        println("gt=${captchaResponse.data?.geetest?.gt}, challenge=${captchaResponse.data?.geetest?.challenge}")
         val validate = requireCmdInputString("validate=")
-        sendSMSResponse = requestSMSCode(phone, cid.await(), captchaResponse, validate, "$validate|jordan")
+        sendSMSResponse = requestSMSCode(phone, countryCode, captchaResponse, validate, "$validate|jordan")
         if (sendSMSResponse.code == SendSMSResponseCode.SUCCESS) {
             println("SMS Code Sent")
             smsSent = true
@@ -338,7 +342,7 @@ public suspend fun BiliClient.loginWebSMSConsole(
     }
     requireNotNull(sendSMSResponse) { "SMS Code Request Failed" }
     val code: Int = requireCmdInputNumber("Please Input SMS Code (e.g. 123456):")
-    loginWebSMS(phone, cid.await(), code, sendSMSResponse)
+    loginWebSMS(phone, countryCode, code, sendSMSResponse)
 }
 
 public suspend fun BiliClient.logOut(

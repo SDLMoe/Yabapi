@@ -22,14 +22,11 @@ import moe.sdl.yabapi.data.login.SendSMSResponseCode.UNKNOWN
  */
 @Serializable
 public data class SendSMSResponse(
-    @SerialName("code")
-    val code: SendSMSResponseCode = UNKNOWN,
-    @SerialName("message")
-    val message: String? = null,
-    @SerialName("ts")
-    val timestamp: Long? = null,
-    @SerialName("data")
-    val data: SendSMSResponseData? = null,
+    @SerialName("code") val code: SendSMSResponseCode = UNKNOWN,
+    @SerialName("message") val message: String? = null,
+    @SerialName("ts") val timestamp: Long? = null,
+    @SerialName("ttl") val ttl: Int? = null,
+    @SerialName("data") val data: SendSMSResponseData? = null,
 ) {
     public val captchaKey: String?
         get() = data?.captchaKey

@@ -1,4 +1,5 @@
 @file:UseSerializers(BooleanJsSerializer::class)
+
 package moe.sdl.yabapi.data.login
 
 import kotlinx.serialization.SerialName
@@ -16,9 +17,10 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
  */
 @Serializable
 public data class LoginWebSMSResponse(
-    val code: LoginWebSMSResponseCode = UNKNOWN,
-    val message: String? = null,
-    val data: LoginWebSMSResponseData? = null,
+    @SerialName("code") val code: LoginWebSMSResponseCode = UNKNOWN,
+    @SerialName("ttl") val ttl: Int,
+    @SerialName("message") val message: String? = null,
+    @SerialName("data") val data: LoginWebSMSResponseData? = null,
 )
 
 /**
@@ -52,7 +54,10 @@ public enum class LoginWebSMSResponseCode {
  */
 @Serializable
 public data class LoginWebSMSResponseData(
-    val isNew: Boolean? = null,
-    val status: Int? = null,
-    val url: String? = null,
+    @SerialName("is_new") val isNew: Boolean? = null,
+    @SerialName("status") val status: Int? = null,
+    @SerialName("message") val message: String? = null,
+    @SerialName("url") val url: String? = null,
+    @SerialName("hint") val hint: String? = null,
+    @SerialName("in_reg_audit") val isRegisterAudited: Boolean? = null,
 )
