@@ -8,10 +8,10 @@ import moe.sdl.yabapi.enums.feed.FeedType
 
 @Serializable
 public data class ShareCard(
-    @SerialName("rid") val rid: ULong,
-    @SerialName("user") val user: SimpleFeedCardUser,
-    @SerialName("vest") val vest: VestItem,
-    @SerialName("sketch") val sketch: SketchItem,
+    @SerialName("rid") val rid: ULong? = null,
+    @SerialName("user") val user: SimpleFeedCardUser? = null,
+    @SerialName("vest") val vest: VestItem? = null,
+    @SerialName("sketch") val sketch: SketchItem? = null,
 ): FeedCard {
     public companion object : FeedCardFactory() {
         override val code: Int = FeedType.SHARE.code
@@ -20,17 +20,17 @@ public data class ShareCard(
 
     @Serializable
     public data class VestItem(
-        @SerialName("uid") val uid: ULong,
-        @SerialName("content") val content: String?,
+        @SerialName("uid") val uid: ULong? = null,
+        @SerialName("content") val content: String? = null,
     )
 
     @Serializable
     public data class SketchItem(
-        @SerialName("title") val title: String?,
-        @SerialName("desc_text") val descriptionText: String?,
-        @SerialName("cover_url") val coverUrl: String?,
-        @SerialName("target_url") val targetUrl: String?,
-        @SerialName("sketch_id") val sketchId: ULong,
-        @SerialName("biz_type") val bizType: Int,
+        @SerialName("title") val title: String? = null,
+        @SerialName("desc_text") val descriptionText: String? = null,
+        @SerialName("cover_url") val coverUrl: String? = null,
+        @SerialName("target_url") val targetUrl: String? = null,
+        @SerialName("sketch_id") val sketchId: ULong? = null,
+        @SerialName("biz_type") val bizType: Int? = null,
     )
 }

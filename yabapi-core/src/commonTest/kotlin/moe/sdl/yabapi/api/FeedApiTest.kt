@@ -18,11 +18,15 @@ internal class FeedApiTest {
     }
 
     @Test
+    fun getShareCardTest() = runTest {
+        client.getFeedContent(618811530730428013uL).data!!.card!!.getCard()
+    }
+
+    @Test
     fun getNewFeedTest() = runTest {
         client.apply {
             getNewFeed(getBasicInfo().data.mid!!, intArrayOf(FeedType.ALL.code)).data?.cards?.forEach { node ->
-                val card = node.getCard()
-                // println(card)
+                node.getCard()
             }
         }
     }
