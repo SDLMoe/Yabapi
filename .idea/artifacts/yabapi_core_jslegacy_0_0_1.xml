@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="yabapi-core-jslegacy-0.0.1">
-    <output-path>$PROJECT_DIR$/yabapi-core/build/libs</output-path>
-    <root id="archive" name="yabapi-core-jslegacy-0.0.1.jar">
-      <element id="module-output" name="yabapi.yabapi-core.jsMain" />
-    </root>
-  </artifact>
-</component>
