@@ -20,7 +20,7 @@
 
 ## 多平台
 
-现在支持 JVM 和 Native 两大平台，绝大多数功能都提供多平台支持。
+本项目是 Kotlin Multiplatform 项目，现在支持 JVM 和 Native 两大平台，绝大多数功能都提供多平台支持。
 
 ## 高性能
 
@@ -109,6 +109,8 @@ Yabapi 基于此，力求类型安全，避免空指针，减少运行时错误�
         - [X] 番劇
         - [X] 專欄
         - [X] 合集
+        - [X] 分享
+        - [ ] ...
 - 相簿
     - [X] 上傳圖片
 
@@ -170,12 +172,16 @@ Yabapi 基于此，力求类型安全，避免空指针，减少运行时错误�
 
 ```kotlin
 // Common
-implementation("sdl.moe.yabapi:yabapi-core:$version")
+implementation("moe.sdl.yabapi:yabapi-core:$version")
 // JVM
-implementation("sdl.moe.yabapi:yabapi-core-jvm:$version")
+implementation("moe.sdl.yabapi:yabapi-core-jvm:$version")
 // Native
-implementation("sdl.moe.yabapi:yabapi-core-native:$version")
+implementation("moe.sdl.yabapi:yabapi-core-native:$version")
 ```
+
+# Change Log
+
+See: [CHANGELOG.md](CHANGELOG.md)
 
 # Thanks
 
