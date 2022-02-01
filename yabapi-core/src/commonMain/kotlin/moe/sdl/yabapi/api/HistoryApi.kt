@@ -31,6 +31,9 @@ import moe.sdl.yabapi.data.history.LaterWatchDeleteResponse
 import moe.sdl.yabapi.data.history.LaterWatchGetResponse
 import moe.sdl.yabapi.deserializeJson
 import moe.sdl.yabapi.enums.history.HistoryType
+import moe.sdl.yabapi.enums.history.HistoryType.ARTICLE
+import moe.sdl.yabapi.enums.history.HistoryType.LIVE
+import moe.sdl.yabapi.enums.history.HistoryType.VIDEO
 import moe.sdl.yabapi.util.Logger
 import moe.sdl.yabapi.util.encoding.avInt
 import moe.sdl.yabapi.util.requireXnorNullable
@@ -42,12 +45,26 @@ private val logger by lazy { Logger("HistoryApi") }
 
 /**
  * 獲取歷史記錄
- * @param fromId 特定目標id之後
+ *
+ * [filterType] 是对 **历史数据类型** 的限制,
+ * 已知可传入的有效值为 [VIDEO] | [LIVE] | [ARTICLE]
+ *
+ * [fromId] 及 [idType] 是对 **获取范围** 的限制,
+ * 两个必须同时传入或同时不传入(即 XNOR 可空性), 否则会抛出 [IllegalArgumentException]
+ *
+ * [fromTime] 也是对 **获取范围** 的限制, 获取某个时间点之后的历史记录,
+ * 需传入 UNIX 时间戳 (精确到秒)
+ *
+ * [pageCount] 为请求获取的个数
+ *
+ * @param filterType 过滤请求
+ * @param fromId 特定目標 id 之後
  * @param idType 目標 id 類型
  * @param fromTime 特定時間點之後
  * @param pageCount 每頁項數
  */
 public suspend fun BiliClient.getHistory(
+    filterType: HistoryType? = null,
     fromId: Int? = null,
     idType: HistoryType? = null,
     fromTime: Long = 0,
@@ -57,6 +74,7 @@ public suspend fun BiliClient.getHistory(
     requireXnorNullable(fromId, idType)
     logger.debug { "Getting history watched..." }
     client.get<String>(HISTORY_GET_URL) {
+        filterType?.let { parameter("type", filterType) }
         if (fromId != null && idType != null) {
             parameter("max", fromId)
             parameter("business", idType.code)
