@@ -1,9 +1,8 @@
 package moe.sdl.yabapi.util
 
 import co.touchlab.kermit.Logger
-import kotlinx.atomicfu.AtomicRef
-import kotlinx.atomicfu.atomic
 import moe.sdl.yabapi.Yabapi
+import moe.sdl.yabapi.Yabapi.yabapiLogLevel
 import moe.sdl.yabapi.enums.LogLevel
 import moe.sdl.yabapi.enums.LogLevel.ASSERT
 import moe.sdl.yabapi.enums.LogLevel.DEBUG
@@ -12,10 +11,6 @@ import moe.sdl.yabapi.enums.LogLevel.INFO
 import moe.sdl.yabapi.enums.LogLevel.VERBOSE
 import moe.sdl.yabapi.enums.LogLevel.WARN
 import moe.sdl.yabapi.enums.toKermitSeverity
-import kotlin.native.concurrent.SharedImmutable
-
-@SharedImmutable
-public val yabapiLogLevel: AtomicRef<LogLevel> = atomic(INFO)
 
 internal typealias LoggerFunc = (tag: String, level: LogLevel, throwable: Throwable?, message: () -> String) -> Unit
 

@@ -234,4 +234,14 @@ internal class InfoApiTest {
     fun getFavoritesInfoTest() = runTest {
         client.getFavoritesInfo(1052622027)
     }
+
+    @Test
+    fun getFavoritesMediaTest() = runTest {
+        client.getFavoritesMedia(1052622027)
+    }
+
+    @Test
+    fun getFavoritesTypesTest() = runTest {
+        client.getFavoritesTypes(25554216, 83867716)
+    }
 }

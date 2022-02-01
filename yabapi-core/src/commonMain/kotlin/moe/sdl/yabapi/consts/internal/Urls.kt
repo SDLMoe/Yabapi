@@ -224,7 +224,11 @@ internal const val CHANGE_BIO_URL: String = "$MAIN/x/member/web/sign/update"
 
 // region ## =================== Fav Folder ========================
 
-internal const val FAV_FOLDER_GET_URL = "http://api.bilibili.com/x/v3/fav/folder/info"
+internal const val FAVORITES_INFO_GET_URL = "$MAIN/x/v3/fav/folder/info"
+
+internal const val FAVORITES_TYPES_GET_URL = "$MAIN/x/v3/fav/resource/partition"
+
+internal const val FAVORITES_MEDIA_GET_URL = "$MAIN/x/v3/fav/resource/list"
 
 // endregion
 

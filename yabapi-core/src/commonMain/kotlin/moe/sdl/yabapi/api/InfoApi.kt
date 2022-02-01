@@ -10,7 +10,9 @@ import moe.sdl.yabapi.consts.internal.COIN_EXP_GET_URL
 import moe.sdl.yabapi.consts.internal.COIN_GET_URL
 import moe.sdl.yabapi.consts.internal.COIN_LOG_GET_URL
 import moe.sdl.yabapi.consts.internal.EXP_REWARD_GET_URL
-import moe.sdl.yabapi.consts.internal.FAV_FOLDER_GET_URL
+import moe.sdl.yabapi.consts.internal.FAVORITES_INFO_GET_URL
+import moe.sdl.yabapi.consts.internal.FAVORITES_MEDIA_GET_URL
+import moe.sdl.yabapi.consts.internal.FAVORITES_TYPES_GET_URL
 import moe.sdl.yabapi.consts.internal.MASTERPIECE_VIDEO_GET_URL
 import moe.sdl.yabapi.consts.internal.MY_SPACE_GET_URL
 import moe.sdl.yabapi.consts.internal.NICK_CHECK_URL
@@ -44,6 +46,10 @@ import moe.sdl.yabapi.data.info.CoinGetResponse
 import moe.sdl.yabapi.data.info.CoinLogGetResponse
 import moe.sdl.yabapi.data.info.ExpRewardGetResponse
 import moe.sdl.yabapi.data.info.FavoritesInfoResponse
+import moe.sdl.yabapi.data.info.FavoritesMediaResponse
+import moe.sdl.yabapi.data.info.FavoritesOrder
+import moe.sdl.yabapi.data.info.FavoritesOrder.FAVORITE_TIME
+import moe.sdl.yabapi.data.info.FavoritesTypeResponse
 import moe.sdl.yabapi.data.info.MySpaceGetResponse
 import moe.sdl.yabapi.data.info.RealNameDetailedGetResponse
 import moe.sdl.yabapi.data.info.RealNameInfoGetResponse
@@ -584,15 +590,59 @@ public suspend fun BiliClient.checkNick(
 
 // region ============= Favorites =================
 
+/**
+ * 根据 id 获得特定收藏夹的信息
+ */
 public suspend fun BiliClient.getFavoritesInfo(
     id: Int,
     context: CoroutineContext = this.context,
 ): FavoritesInfoResponse = withContext(context) {
     logger.debug { "Getting favorites info " }
-    client.get<String>(FAV_FOLDER_GET_URL) {
+    client.get<String>(FAVORITES_INFO_GET_URL) {
         parameter("media_id", id)
     }.deserializeJson<FavoritesInfoResponse>().also {
         logger.debug { "Got favorites info: $it" }
+    }
+}
+
+/**
+ * 获取收藏夹内容
+ *
+ * @param id 收藏夹id
+ * @param page 页码
+ * @param pageSize 每页数量
+ * @param tid 分区过滤 ID, 可通过 [getFavoritesTypes] 获取
+ */
+public suspend fun BiliClient.getFavoritesMedia(
+    id: Int,
+    page: Int = 1,
+    pageSize: Int = 20,
+    tid: Int? = null,
+    order: FavoritesOrder = FAVORITE_TIME,
+    keyword: String = "",
+    context: CoroutineContext = this.context,
+): FavoritesMediaResponse = withContext(context) {
+    client.get<String>(FAVORITES_MEDIA_GET_URL) {
+        parameter("media_id", id)
+        parameter("pn", page)
+        parameter("ps", pageSize)
+        parameter("keyword", keyword)
+        parameter("order", order.code)
+        tid?.let { parameter("tid", tid) }
+    }.deserializeJson()
+}
+
+public suspend fun BiliClient.getFavoritesTypes(
+    mid: Int,
+    favoritesId: Int,
+    context: CoroutineContext = this.context,
+): FavoritesTypeResponse = withContext(context) {
+    logger.debug { "Getting Favorites Type for $favoritesId($mid)" }
+    client.get<String>(FAVORITES_TYPES_GET_URL) {
+        parameter("up_mid", mid)
+        parameter("media_id", favoritesId)
+    }.deserializeJson<FavoritesTypeResponse>().also {
+        logger.debug { "Got Favorites Type for $favoritesId($mid): $it" }
     }
 }
 

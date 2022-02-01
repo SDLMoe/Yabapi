@@ -15,7 +15,7 @@ public abstract class FeedCardFactory {
             listOf(
                 ArticleCard,
                 BangumiCard,
-                FavoritesCard,
+                CollectionCard,
                 ImageCard,
                 LiveCard,
                 RepostCard,

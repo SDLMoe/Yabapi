@@ -17,7 +17,7 @@ import moe.sdl.yabapi.enums.feed.FeedType
 import moe.sdl.yabapi.enums.video.VideoType
 
 @Serializable
-public data class FavoritesCard(
+public data class CollectionCard(
     @SerialName("aid") val aid: String? = null,
     @SerialName("attribute") val attribute: VideoAttribute? = null,
     @SerialName("attribute_v2") val attributeV2: VideoAttribute? = null,
@@ -49,7 +49,7 @@ public data class FavoritesCard(
 ) : FeedCard {
     public companion object : FeedCardFactory() {
         override val code: Int = FeedType.COLLECTION.code
-        override fun decode(json: Json, data: String): FavoritesCard = json.decodeFromString(data)
+        override fun decode(json: Json, data: String): CollectionCard = json.decodeFromString(data)
     }
 }
 

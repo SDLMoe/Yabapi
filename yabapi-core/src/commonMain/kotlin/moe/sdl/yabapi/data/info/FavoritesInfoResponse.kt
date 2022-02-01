@@ -14,11 +14,11 @@ public data class FavoritesInfoResponse(
     @SerialName("code") val code: GeneralCode = UNKNOWN,
     @SerialName("message") val message: String? = null,
     @SerialName("ttl") val ttl: Int? = null,
-    @SerialName("data") val data: FavoritesData? = null,
+    @SerialName("data") val data: FavoritesInfoData? = null,
 )
 
 @Serializable
-public data class FavoritesData(
+public data class FavoritesInfoData(
     @SerialName("id") val id: Int? = null,
     @SerialName("fid") val fid: Int? = null,
     @SerialName("mid") val mid: Int? = null,

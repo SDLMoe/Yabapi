@@ -7,10 +7,10 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.protobuf.ProtoBuf
 import moe.sdl.yabapi.enums.LogLevel
+import moe.sdl.yabapi.enums.LogLevel.INFO
 import moe.sdl.yabapi.util.Logger
 import moe.sdl.yabapi.util.LoggerFunc
 import moe.sdl.yabapi.util.nowLocalString
-import moe.sdl.yabapi.util.yabapiLogLevel
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
@@ -26,10 +26,10 @@ public object Yabapi {
     @ExperimentalSerializationApi
     public val protoBuf: AtomicRef<ProtoBuf> = atomic(ProtoBuf)
 
-    @SharedImmutable
+    public val yabapiLogLevel: AtomicRef<LogLevel> = atomic(INFO)
+
     public val log: AtomicRef<LoggerFunc> =
         { tag: String, level: LogLevel, throwable: Throwable?, message: () -> String ->
-
             if (level >= yabapiLogLevel.value) {
                 val str = "${nowLocalString()} [${level.name}] $tag ${message().replace("\n", "\\n")}"
                 println(str)
