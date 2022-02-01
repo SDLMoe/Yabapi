@@ -3,9 +3,9 @@ package moe.sdl.yabapi.data.live
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
 import moe.sdl.yabapi.data.GeneralCode
 import moe.sdl.yabapi.data.GeneralCode.UNKNOWN
-import moe.sdl.yabapi.enums.live.LiveArea
 
 @Serializable
 public data class LiveRoomInfoResponse(
@@ -26,14 +26,14 @@ public data class LiveRoomData(
     @SerialName("description") val description: String? = null,
     @SerialName("live_status") val liveStatus: Int? = null,
     @SerialName("area_id") val areaId: Int? = null, // 子区 ID?
-    @SerialName("parent_area_id") val parentAreaId: LiveArea? = null,
+    @SerialName("parent_area_id") val parentAreaId: Int? = null,
     @SerialName("parent_area_name") val parentAreaName: String? = null,
     @SerialName("old_area_id") val oldAreaId: Int? = null,
     @SerialName("background") val background: String? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("user_cover") val userCover: String? = null,
     @SerialName("keyframe") val keyFrame: String? = null,
-    @SerialName("is_strict_room") val isStrictRoom: Int? = null,
+    @SerialName("is_strict_room") val isStrictRoom: Boolean? = null,
     @SerialName("live_time") val liveTime: String? = null, // 格式为 yyyy-MM-DD HH:mm:ss
     @SerialName("tags") val tags: String? = null,
     @SerialName("is_anchor") val isAnchor: Int? = null,
@@ -41,7 +41,17 @@ public data class LiveRoomData(
     @SerialName("room_silent_level") val roomSilentLevel: Int? = null,
     @SerialName("room_silent_second") val roomSilentSecond: Int? = null,
     @SerialName("area_name") val areaName: String? = null,
+    @SerialName("pendants") val pendants: String? = null, // blank
+    @SerialName("area_pendants") val areaPendants: String? = null, // blank
+    @SerialName("new_pendants") val newPendants: JsonObject? = null,
+    @SerialName("up_session") val upSession: String? = null,
+    @SerialName("pk_status") val pkStatus: Int? = null,
+    @SerialName("pk_id") val pkId: Int? = null,
+    @SerialName("battle_id") val battleId: Int? = null,
+    @SerialName("allow_change_area_time") val allowChangeAreaTime: Int? = null,
+    @SerialName("allow_upload_cover_time") val allowUploadCoverTime: Int? = null,
     @SerialName("hot_words") val hotWords: List<String> = emptyList(),
+    @SerialName("studio_info") val studioInfo: JsonObject? = null,
     @SerialName("hot_words_status") val hotWordsStatus: Int? = null,
     @SerialName("verify") val verify: JsonElement? = null,
 )

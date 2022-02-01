@@ -66,6 +66,11 @@ internal class LiveApiTest {
     }
 
     @Test
+    fun getRoomInfoByRoomIdTest() = runTest {
+        client.getRoomInfoByRoomId(33989)
+    }
+
+    @Test
     fun getLiveIndexListTest() = runTest {
         client.getLiveIndexList()
     }
@@ -129,6 +134,7 @@ internal class LiveApiTest {
             client.getLiveRank(it)
         }
     }
+
     @Test
     fun getLiveMedalRank() = runTest {
         client.getLiveMedalRank()

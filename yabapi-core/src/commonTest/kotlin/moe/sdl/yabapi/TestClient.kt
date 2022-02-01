@@ -3,8 +3,8 @@
 package moe.sdl.yabapi
 
 import kotlinx.coroutines.CoroutineScope
+import moe.sdl.yabapi.Yabapi.yabapiLogLevel
 import moe.sdl.yabapi.enums.LogLevel.DEBUG
-import moe.sdl.yabapi.util.yabapiLogLevel
 import kotlin.jvm.JvmName
 import kotlin.test.Test
 

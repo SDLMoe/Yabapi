@@ -1,8 +1,5 @@
 package moe.sdl.yabapi.enums.live
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 public sealed class LiveArea(public val id: Int, public val name: String) {
     public object All : LiveArea(id = 0, name = "全部")
 
