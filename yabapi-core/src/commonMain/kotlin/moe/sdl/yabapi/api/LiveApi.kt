@@ -16,6 +16,7 @@ import moe.sdl.yabapi.consts.internal.LIVE_HOVER_GET_URL
 import moe.sdl.yabapi.consts.internal.LIVE_INIT_INFO_GET_URL
 import moe.sdl.yabapi.consts.internal.LIVE_MEDAL_RANK_GET_URL
 import moe.sdl.yabapi.consts.internal.LIVE_RANKING_GET_URL
+import moe.sdl.yabapi.consts.internal.LIVE_ROOM_INFO_URL
 import moe.sdl.yabapi.consts.internal.LIVE_SHOW_LIST_GET
 import moe.sdl.yabapi.consts.internal.LIVE_SIGN_INFO_URL
 import moe.sdl.yabapi.consts.internal.LIVE_SIGN_LAST_MONTH_URL
@@ -30,6 +31,7 @@ import moe.sdl.yabapi.data.live.LiveIndexList
 import moe.sdl.yabapi.data.live.LiveInitGetResponse
 import moe.sdl.yabapi.data.live.LiveRankMedalResponse
 import moe.sdl.yabapi.data.live.LiveRankResponse
+import moe.sdl.yabapi.data.live.LiveRoomInfoResponse
 import moe.sdl.yabapi.data.live.LiveRoomPwdResponse
 import moe.sdl.yabapi.data.live.LiveSignInfoGetResponse
 import moe.sdl.yabapi.data.live.LiveSignLastMonthResponse
@@ -90,6 +92,18 @@ public suspend fun BiliClient.getRoomInitInfo(
         parameter("id", roomId)
     }.deserializeJson<LiveInitGetResponse>().also {
         logger.debug { "Got Room Init Info for room $roomId: $it" }
+    }
+}
+
+public suspend fun BiliClient.getRoomInfoByRoomId(
+    roomId: Int,
+    context: CoroutineContext = this.context,
+): LiveRoomInfoResponse = withContext(context) {
+    logger.debug { "Getting Room Info for room $roomId" }
+    client.get<String>(LIVE_ROOM_INFO_URL) {
+        parameter("id", roomId)
+    }.deserializeJson<LiveRoomInfoResponse>().also {
+        logger.debug { "Got Room Info for room $roomId: $it" }
     }
 }
 

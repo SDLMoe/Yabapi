@@ -260,6 +260,8 @@ internal const val FEED_UPDATED_GET_URL = "$VC_API/dynamic_svr/v1/dynamic_svr/w_
 
 internal const val LIVE_INIT_INFO_GET_URL = "$LIVE/room/v1/Room/room_init"
 
+internal const val LIVE_ROOM_INFO_URL = "$LIVE/room/v1/Room/get_info"
+
 internal const val LIVE_AREA_URL = "$LIVE/room/v1/Area/getList"
 
 internal const val LIVE_UID_TO_ROOM_ID = "$LIVE/room/v2/Room/room_id_by_uid"
