@@ -30,8 +30,9 @@ public data class LoginWebResponse(
     val code: LoginWebResponseCode = UNKNOWN,
     @SerialName("ts")
     val timestamp: Long? = null,
+    @SerialName("ttl") val ttl: Int? = null,
     @SerialName("message")
-    val message: String = "0",
+    val message: String? = null,
     @SerialName("data")
     val data: LoginWebResponseData? = null,
 )
@@ -87,38 +88,10 @@ public enum class LoginWebResponseCode {
 
 /**
  * [LoginWebResponse] 的正文数据
- * @param redirectUrl 跳转地址, 用于游戏分站
- * @param isLogin 是否登录
- * @param mid 用户 mid
- * @param telephone 用户手机号, * 号遮蔽部分
- * @param email 用户邮箱, * 号遮蔽部分
- * @param sorce 未知
- * @param keepTime 未知
- * @param goUrl 重定向地址
  */
 @Serializable
 public data class LoginWebResponseData(
-    // not login
-    @SerialName("redirectUrl")
-    val redirectUrl: String? = null,
-
-    // login-ed
-    @SerialName("isLogin")
-    val isLogin: Boolean? = null,
-
-    // need two factor
-    @SerialName("mid")
-    val mid: Int? = null,
-    @SerialName("tel")
-    val telephone: String? = null,
-    @SerialName("email")
-    val email: String? = null,
-    @SerialName("sorce")
-    val sorce: Int? = null,
-    @SerialName("keeptime")
-    val keepTime: Int? = null,
-
-    // except for 'not login'
-    @SerialName("goUrl")
-    val goUrl: String? = null,
+    @SerialName("status") val status: Int? = null,
+    @SerialName("message") val message: String? = null,
+    @SerialName("url") val url: String? = null,
 )

@@ -114,11 +114,10 @@ public suspend fun BiliClient.loginWeb(
     client.post<String>(LOGIN_WEB_URL) {
         val params = Parameters.build {
             append("source", source)
-            append("captchaType", "6")
             append("username", userName)
             append("password", pwdEncrypted)
             append("keep", "true")
-            append("key", getCaptchaResponse.data?.token ?: error("Failed to get login token"))
+            append("token", getCaptchaResponse.data?.token ?: error("Failed to get login token"))
             append("challenge", getCaptchaResponse.data.geetest?.challenge ?: error("Failed to get geetest challenge"))
             append("validate", validate)
             append("seccode", seccode)
