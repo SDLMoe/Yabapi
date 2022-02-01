@@ -40,7 +40,7 @@ public data class BangumiCard(
     )
 
     public companion object : FeedCardFactory() {
-        override val code: Int = FeedType.ARTICLE.code
+        override val code: Int = FeedType.BANGUMI.code
 
         override fun decode(json: Json, data: String): BangumiCard = json.decodeFromString(data)
     }
