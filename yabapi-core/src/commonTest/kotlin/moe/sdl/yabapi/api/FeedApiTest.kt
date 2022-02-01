@@ -62,4 +62,9 @@ internal class FeedApiTest {
     fun getLivingUserTest() = runTest {
         client.getLivingUser()
     }
+
+    @Test
+    fun getFeedUpdatedTest() = runTest {
+        client.getFeedUpdated()
+    }
 }

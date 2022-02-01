@@ -240,6 +240,8 @@ internal const val FEED_SPACE_GET_URL = "$VC_API/dynamic_svr/v1/dynamic_svr/spac
 
 internal const val FEED_LIVING_GET_URL = "$LIVE_API/xlive/web-ucenter/v1/xfetter/FeedList"
 
+internal const val FEED_UPDATED_GET_URL = "$VC_API/dynamic_svr/v1/dynamic_svr/w_dyn_uplist"
+
 // endregion
 
 // region =================== Live ========================

@@ -9,9 +9,11 @@ import moe.sdl.yabapi.consts.internal.FEED_HISTORY_GET_URL
 import moe.sdl.yabapi.consts.internal.FEED_LIVING_GET_URL
 import moe.sdl.yabapi.consts.internal.FEED_NEW_GET_URL
 import moe.sdl.yabapi.consts.internal.FEED_SPACE_GET_URL
+import moe.sdl.yabapi.consts.internal.FEED_UPDATED_GET_URL
 import moe.sdl.yabapi.data.feed.FeedContentResponse
 import moe.sdl.yabapi.data.feed.FeedHistoryResponse
 import moe.sdl.yabapi.data.feed.FeedLivingResponse
+import moe.sdl.yabapi.data.feed.FeedUpdatedResponse
 import moe.sdl.yabapi.data.feed.NewFeedResponse
 import moe.sdl.yabapi.deserializeJson
 import moe.sdl.yabapi.util.Logger
@@ -96,8 +98,8 @@ public suspend fun BiliClient.getFeedByUid(
 public suspend fun BiliClient.getLivingUser(
     page: Int = 1,
     pageSize: Int = 10,
-    context: CoroutineContext = this.context
-) : FeedLivingResponse = withContext(context) {
+    context: CoroutineContext = this.context,
+): FeedLivingResponse = withContext(context) {
     logger.debug { "Getting Living User..." }
     client.get<String>(FEED_LIVING_GET_URL) {
         parameter("page", page)
@@ -105,4 +107,13 @@ public suspend fun BiliClient.getLivingUser(
     }.deserializeJson<FeedLivingResponse>().also {
         logger.debug { "Got Living User: $it" }
     }
+}
+
+public suspend fun BiliClient.getFeedUpdated(
+    context: CoroutineContext = this.context,
+): FeedUpdatedResponse = withContext(context) {
+    logger.debug { "Getting Updated Feed info..." }
+    client.get<String>(FEED_UPDATED_GET_URL)
+        .deserializeJson<FeedUpdatedResponse>()
+        .also { logger.debug { "Got Feed Updated Response: $it" } }
 }
