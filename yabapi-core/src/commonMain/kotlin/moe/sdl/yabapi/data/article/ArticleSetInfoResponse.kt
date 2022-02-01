@@ -6,16 +6,16 @@ import moe.sdl.yabapi.data.GeneralCode
 import moe.sdl.yabapi.data.GeneralCode.UNKNOWN
 
 @Serializable
-public data class ArticleCollectionInfoResponse(
+public data class ArticleSetInfoResponse(
     @SerialName("code") val code: GeneralCode = UNKNOWN,
     @SerialName("message") val message: String? = null,
     @SerialName("ttl") val ttl: Int? = null,
-    @SerialName("data") val data: ArticleCollectionInfoData? = null,
+    @SerialName("data") val data: ArticleSetInfoData? = null,
 )
 
 @Serializable
-public data class ArticleCollectionInfoData(
-    @SerialName("list") val info: ArticleCollection? = null,
+public data class ArticleSetInfoData(
+    @SerialName("list") val info: ArticleSet? = null,
     @SerialName("articles") val articles: List<SimpleArticleInfo> = emptyList(),
     @SerialName("author") val author: ArticleAuthor? = null,
     @SerialName("last") val last: SimpleArticleInfo? = null,

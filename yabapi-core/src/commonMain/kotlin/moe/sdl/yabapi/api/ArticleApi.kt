@@ -6,11 +6,11 @@ import kotlinx.coroutines.withContext
 import moe.sdl.yabapi.BiliClient
 import moe.sdl.yabapi.Platform
 import moe.sdl.yabapi.consts.internal.ARTICLE_BASIC_INFO_GET_URL
-import moe.sdl.yabapi.consts.internal.ARTICLE_COLLECTION_INFO_GET_URL
 import moe.sdl.yabapi.consts.internal.ARTICLE_PAGE_URL
-import moe.sdl.yabapi.data.article.ArticleCollectionInfoResponse
+import moe.sdl.yabapi.consts.internal.ARTICLE_SET_INFO_GET_URL
 import moe.sdl.yabapi.data.article.ArticleDetailedData
 import moe.sdl.yabapi.data.article.ArticleInfoGetResponse
+import moe.sdl.yabapi.data.article.ArticleSetInfoResponse
 import moe.sdl.yabapi.deserializeJson
 import moe.sdl.yabapi.util.Logger
 import moe.sdl.yabapi.util.string.findInitialState
@@ -45,14 +45,14 @@ public suspend fun BiliClient.getArticleDetailed(
         }
 }
 
-public suspend fun BiliClient.getCollectionInfo(
+public suspend fun BiliClient.getArticleSetInfo(
     id: Int,
     context: CoroutineContext = Platform.ioDispatcher,
-): ArticleCollectionInfoResponse = withContext(context) {
-    logger.debug { "Getting Article Collection Info id$id" }
-    client.get<String>(ARTICLE_COLLECTION_INFO_GET_URL) {
+): ArticleSetInfoResponse = withContext(context) {
+    logger.debug { "Getting Article Set Info id$id" }
+    client.get<String>(ARTICLE_SET_INFO_GET_URL) {
         parameter("id", id)
-    }.deserializeJson<ArticleCollectionInfoResponse>().also {
-        logger.debug { "Got Article Collection Info id$id: $it" }
+    }.deserializeJson<ArticleSetInfoResponse>().also {
+        logger.debug { "Got Article Set Info id$id: $it" }
     }
 }

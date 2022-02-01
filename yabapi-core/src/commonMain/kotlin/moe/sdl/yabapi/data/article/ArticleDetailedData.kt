@@ -42,7 +42,7 @@ public data class ArticleReadInfo(
     @SerialName("attributes") val attributes: Int? = null, // 限流相關, 二進制位
     @SerialName("words") val words: Int? = null,
     @SerialName("origin_image_urls") val originImageUrls: List<String> = emptyList(),
-    @SerialName("list") val collection: ArticleCollection? = null,
+    @SerialName("list") val collection: ArticleSet? = null,
     @SerialName("is_like") val isLiked: Boolean? = null,
     @SerialName("media") val media: ArticleMedia? = null,
     @SerialName("apply_time") val applyTime: String? = null,

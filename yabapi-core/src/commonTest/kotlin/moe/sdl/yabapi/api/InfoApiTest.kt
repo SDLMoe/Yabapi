@@ -187,15 +187,15 @@ internal class InfoApiTest {
     }
 
     @Test
-    fun getCollectionListTest() = runTest {
+    fun getFavoritesListTest() = runTest {
         client.apply {
-            getCollectionList(getBasicInfo().data.mid!!)
+            getFavorites(getBasicInfo().data.mid!!)
         }
     }
 
     @Test
-    fun getFavCollectionListTest() = runTest {
-        client.getFavCollectionList(63231)
+    fun getCollectedFavoritesListTest() = runTest {
+        client.getCollectedFavorites(63231)
     }
 
     @Test
@@ -228,5 +228,10 @@ internal class InfoApiTest {
                 client.checkNick(it)
             }
         }
+    }
+
+    @Test
+    fun getFavoritesInfoTest() = runTest {
+        client.getFavoritesInfo(1052622027)
     }
 }

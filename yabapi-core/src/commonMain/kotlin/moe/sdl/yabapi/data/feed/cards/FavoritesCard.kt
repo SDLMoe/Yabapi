@@ -17,12 +17,12 @@ import moe.sdl.yabapi.enums.feed.FeedType
 import moe.sdl.yabapi.enums.video.VideoType
 
 @Serializable
-public data class CollectionCard(
+public data class FavoritesCard(
     @SerialName("aid") val aid: String? = null,
     @SerialName("attribute") val attribute: VideoAttribute? = null,
     @SerialName("attribute_v2") val attributeV2: VideoAttribute? = null,
     @SerialName("cid") val cid: Int? = null,
-    @SerialName("collection") val collection: CollectionInfo? = null,
+    @SerialName("collection") val collection: FavoritesInfo? = null,
     @SerialName("copyright") val copyright: VideoCopyright = UNKNOWN,
     @SerialName("ctime") val createdTime: Long? = null,
     @SerialName("desc") val description: String? = null,
@@ -49,12 +49,12 @@ public data class CollectionCard(
 ) : FeedCard {
     public companion object : FeedCardFactory() {
         override val code: Int = FeedType.COLLECTION.code
-        override fun decode(json: Json, data: String): CollectionCard = json.decodeFromString(data)
+        override fun decode(json: Json, data: String): FavoritesCard = json.decodeFromString(data)
     }
 }
 
 @Serializable
-public data class CollectionInfo(
+public data class FavoritesInfo(
     @SerialName("cover") val cover: String? = null,
     @SerialName("id") val id: Int? = null,
     @SerialName("mid") val mid: Int? = null,

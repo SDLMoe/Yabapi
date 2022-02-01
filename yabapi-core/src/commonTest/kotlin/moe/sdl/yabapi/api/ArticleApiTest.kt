@@ -23,10 +23,10 @@ internal class ArticleApiTest {
     }
 
     @Test
-    fun getCollectionInfoTest() = runTest {
+    fun getFavoritesInfoTest() = runTest {
         client.apply {
             val rlId = getArticleDetailed(15018651)!!.readInfo!!.collection!!.id
-            getCollectionInfo(rlId!!)
+            getArticleSetInfo(rlId!!)
         }
     }
 }

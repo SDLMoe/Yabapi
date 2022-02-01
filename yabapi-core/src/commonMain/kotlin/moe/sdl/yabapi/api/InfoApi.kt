@@ -10,6 +10,7 @@ import moe.sdl.yabapi.consts.internal.COIN_EXP_GET_URL
 import moe.sdl.yabapi.consts.internal.COIN_GET_URL
 import moe.sdl.yabapi.consts.internal.COIN_LOG_GET_URL
 import moe.sdl.yabapi.consts.internal.EXP_REWARD_GET_URL
+import moe.sdl.yabapi.consts.internal.FAV_FOLDER_GET_URL
 import moe.sdl.yabapi.consts.internal.MASTERPIECE_VIDEO_GET_URL
 import moe.sdl.yabapi.consts.internal.MY_SPACE_GET_URL
 import moe.sdl.yabapi.consts.internal.NICK_CHECK_URL
@@ -42,6 +43,7 @@ import moe.sdl.yabapi.data.info.CoinExpGetResponse
 import moe.sdl.yabapi.data.info.CoinGetResponse
 import moe.sdl.yabapi.data.info.CoinLogGetResponse
 import moe.sdl.yabapi.data.info.ExpRewardGetResponse
+import moe.sdl.yabapi.data.info.FavoritesInfoResponse
 import moe.sdl.yabapi.data.info.MySpaceGetResponse
 import moe.sdl.yabapi.data.info.RealNameDetailedGetResponse
 import moe.sdl.yabapi.data.info.RealNameInfoGetResponse
@@ -50,8 +52,8 @@ import moe.sdl.yabapi.data.info.StatGetResponse
 import moe.sdl.yabapi.data.info.UserCardGetResponse
 import moe.sdl.yabapi.data.info.UserSpaceGetResponse
 import moe.sdl.yabapi.data.info.VipStatGetResponse
-import moe.sdl.yabapi.data.space.CollectionFavGetResponse
-import moe.sdl.yabapi.data.space.CollectionGetResponse
+import moe.sdl.yabapi.data.space.CollectedFavoritesGetResponse
+import moe.sdl.yabapi.data.space.FavoritesGetResponse
 import moe.sdl.yabapi.data.space.MasterpieceGetResponse
 import moe.sdl.yabapi.data.space.PinnedVideoGetResponse
 import moe.sdl.yabapi.data.space.PlayedGameGetResponse
@@ -490,15 +492,15 @@ public suspend fun BiliClient.getChannelArchives(
 /**
  * 獲取目標自己創建的收藏夾
  */
-public suspend fun BiliClient.getCollectionList(
+public suspend fun BiliClient.getFavorites(
     targetMid: Int,
     context: CoroutineContext = this.context,
-): CollectionGetResponse = withContext(context) {
-    logger.debug { "Getting Collection List for mid $targetMid..." }
+): FavoritesGetResponse = withContext(context) {
+    logger.debug { "Getting Favorites List for mid $targetMid..." }
     client.get<String>(SPACE_COLLECTION_LIST_GET_URL) {
         parameter("up_mid", targetMid)
-    }.deserializeJson<CollectionGetResponse>().also {
-        logger.debug { "Got Collection List for mid $targetMid" }
+    }.deserializeJson<FavoritesGetResponse>().also {
+        logger.debug { "Got Favorites List for mid $targetMid" }
     }
 }
 
@@ -509,21 +511,21 @@ public suspend fun BiliClient.getCollectionList(
  * @param page 頁碼
  * @param pageSize 單頁大小
  */
-public suspend fun BiliClient.getFavCollectionList(
+public suspend fun BiliClient.getCollectedFavorites(
     targetMid: Int,
     page: Int = 1,
     pageSize: Int = 20,
     platform: String = "web",
     context: CoroutineContext = this.context,
-): CollectionFavGetResponse = withContext(context) {
-    logger.debug { "Getting FavCollection List for mid $targetMid..." }
+): CollectedFavoritesGetResponse = withContext(context) {
+    logger.debug { "Getting Collected Favorites List for mid $targetMid..." }
     client.get<String>(SPACE_FAV_COLLECTION_LIST_GET_URL) {
         parameter("up_mid", targetMid)
         parameter("pn", page)
         parameter("ps", pageSize)
         parameter("platform", platform)
-    }.deserializeJson<CollectionFavGetResponse>().also {
-        logger.debug { "Got FavCollection List for mid $targetMid" }
+    }.deserializeJson<CollectedFavoritesGetResponse>().also {
+        logger.debug { "Got Collected Favorites List for mid $targetMid" }
     }
 }
 
@@ -547,7 +549,7 @@ public suspend fun BiliClient.getSubscribedBangumi(
 
 public suspend fun BiliClient.getSubscribedTags(
     targetMid: Int,
-    context: CoroutineContext = this.context
+    context: CoroutineContext = this.context,
 ): SubscribedTagsResponse = withContext(context) {
     logger.debug { "Getting Subscribed Tags for $targetMid" }
     client.get<String>(SPACE_SUB_TAGS_GET_URL) {
@@ -575,6 +577,22 @@ public suspend fun BiliClient.checkNick(
         parameter("nickName", nick)
     }.deserializeJson<CheckNickResponse>().also {
         logger.debug { "Nick \"$nick\" status: $it" }
+    }
+}
+
+// endregion
+
+// region ============= Favorites =================
+
+public suspend fun BiliClient.getFavoritesInfo(
+    id: Int,
+    context: CoroutineContext = this.context,
+): FavoritesInfoResponse = withContext(context) {
+    logger.debug { "Getting favorites info " }
+    client.get<String>(FAV_FOLDER_GET_URL) {
+        parameter("media_id", id)
+    }.deserializeJson<FavoritesInfoResponse>().also {
+        logger.debug { "Got favorites info: $it" }
     }
 }
 

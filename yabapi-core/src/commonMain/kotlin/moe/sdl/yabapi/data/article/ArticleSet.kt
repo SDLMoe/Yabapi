@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class ArticleCollection(
+public data class ArticleSet(
     @SerialName("id") val id: Int? = null,
     @SerialName("mid") val mid: Int? = null,
     @SerialName("name") val name: String? = null,

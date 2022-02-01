@@ -128,6 +128,16 @@ internal const val STAT_GET_URL = "$MAIN/x/web-interface/nav/stat"
 
 internal const val COIN_GET_URL = "$ACCOUNT/site/getCoin"
 
+internal const val USER_CARD_GET_URL = "$MAIN/x/web-interface/card"
+
+internal const val NICK_CHECK_URL = "$PASSPORT/web/generic/check/nickname"
+
+internal const val FANS_GET_URL = "$MAIN/x/relation/followers"
+
+// region ## =================== Space ========================
+
+internal const val MY_SPACE_GET_URL = "$MAIN/x/space/myinfo"
+
 internal const val USER_SPACE_GET_URL = "$MAIN/x/space/acc/info"
 
 internal const val PINNED_VIDEO_GET_URL = "$MAIN/x/space/top/arc"
@@ -162,13 +172,7 @@ internal const val SPACE_SUB_GET_URL = "$MAIN/x/space/bangumi/follow/list"
 
 internal const val SPACE_SUB_TAGS_GET_URL = "$SPACE/ajax/tags/getSubList"
 
-internal const val USER_CARD_GET_URL = "$MAIN/x/web-interface/card"
-
-internal const val MY_SPACE_GET_URL = "$MAIN/x/space/myinfo"
-
-internal const val NICK_CHECK_URL = "$PASSPORT/web/generic/check/nickname"
-
-internal const val FANS_GET_URL = "$MAIN/x/relation/followers"
+// endregion
 
 // region ## =================== Relation ========================
 
@@ -196,7 +200,7 @@ internal const val RELATION_QUERY_SPECIAL = "$MAIN/x/relation/tag/special"
 
 // endregion
 
-// region ## =================== Centre ========================
+// region ## =================== Personal Centre ========================
 
 internal const val ACCOUNT_INFO_GET_URL: String = "$MAIN/x/member/web/account"
 
@@ -217,6 +221,10 @@ internal const val COIN_LOG_GET_URL: String = "$MAIN/x/member/web/coin/log"
 internal const val CHANGE_BIO_URL: String = "$MAIN/x/member/web/sign/update"
 
 // endregion
+
+// region ## =================== Fav Folder ========================
+
+internal const val FAV_FOLDER_GET_URL = "http://api.bilibili.com/x/v3/fav/folder/info"
 
 // endregion
 
@@ -317,7 +325,7 @@ internal const val ARTICLE_PAGE_URL = "$WWW/read"
 
 internal const val ARTICLE_BASIC_INFO_GET_URL = "$MAIN/x/article/viewinfo"
 
-internal const val ARTICLE_COLLECTION_INFO_GET_URL = "$MAIN/x/article/list/web/articles"
+internal const val ARTICLE_SET_INFO_GET_URL = "$MAIN/x/article/list/web/articles"
 
 // endregion
 
