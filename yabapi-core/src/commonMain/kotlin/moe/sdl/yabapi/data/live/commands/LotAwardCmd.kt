@@ -25,7 +25,7 @@ public data class LotAwardData(
     @SerialName("award_image") val image: String? = null,
     @SerialName("award_name") val name: String? = null,
     @SerialName("award_num") val count: Int? = null, // 應該是獎品個數
-    @SerialName("award_users") val users: List<LotAwardUser>,
+    @SerialName("award_users") val users: List<LotAwardUser> = emptyList(),
     @SerialName("id") val id: Int? = null,
     @SerialName("lot_status") val status: LotStatus = UNKNOWN,
     @SerialName("url") val url: String? = null,

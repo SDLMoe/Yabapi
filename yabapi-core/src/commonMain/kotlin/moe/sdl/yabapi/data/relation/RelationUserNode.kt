@@ -31,7 +31,7 @@ public data class RelationUserNode(
     @SerialName("mid") val mid: Int? = null,
     @SerialName("attribute") val attribute: RelationAttribute = RelationAttribute.UNKNOWN,
     @SerialName("mtime") val mtime: Int? = null,
-    @SerialName("tag") val tag: List<Int>? = null,
+    @SerialName("tag") val tag: List<Int> = emptyList(),
     @SerialName("special") val special: Boolean? = null,
     @SerialName("contract_info") val contractInfo: ContractInfo? = null,
     @SerialName("uname") val name: String? = null,

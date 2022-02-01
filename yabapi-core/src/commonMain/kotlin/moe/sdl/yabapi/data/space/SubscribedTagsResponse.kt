@@ -24,7 +24,7 @@ public data class SubscribedTagsResponse(
 
 @Serializable
 public data class SubscribedTagData(
-    @SerialName("tags") val tags: List<SubscribedTag>,
+    @SerialName("tags") val tags: List<SubscribedTag> = emptyList(),
     @SerialName("count") val count: Int? = null,
 )
 

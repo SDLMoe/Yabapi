@@ -35,7 +35,7 @@ public data class WidgetBannerData(
         @SerialName("url") val url: String? = null,
         @SerialName("stay_time") val stayTime: Int? = null,
         @SerialName("site") val site: Int? = null,
-        @SerialName("platform_in") val platformIn: List<String>,
+        @SerialName("platform_in") val platformIn: List<String> = emptyList(),
         @SerialName("type") val type: Int? = null,
         @SerialName("band_id") val bandId: Int? = null,
         @SerialName("sub_key") val subKey: String? = null,

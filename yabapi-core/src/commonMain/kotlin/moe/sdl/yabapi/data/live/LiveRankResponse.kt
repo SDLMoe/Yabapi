@@ -19,7 +19,7 @@ public data class LiveRankResponse(
 
 @Serializable
 public data class LiveRank(
-    @SerialName("list") val list: List<User>,
+    @SerialName("list") val list: List<User> = emptyList(),
     @SerialName("own") val self: Self? = null,
     @SerialName("ratioDesc") val ratioDesc: String? = null,
 ) {

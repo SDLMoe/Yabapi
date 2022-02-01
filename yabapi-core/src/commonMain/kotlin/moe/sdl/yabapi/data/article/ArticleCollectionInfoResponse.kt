@@ -29,7 +29,7 @@ public data class SimpleArticleInfo(
     @SerialName("state") val state: Int? = null,
     @SerialName("publish_time") val releaseTime: Long? = null,
     @SerialName("words") val words: Int? = null,
-    @SerialName("image_urls") val imageUrls: List<String>,
+    @SerialName("image_urls") val imageUrls: List<String> = emptyList(),
     @SerialName("category") val category: ArticleCategory? = null,
     @SerialName("categories") val categories: List<ArticleCategory> = emptyList(),
     @SerialName("summary") val summary: String? = null,

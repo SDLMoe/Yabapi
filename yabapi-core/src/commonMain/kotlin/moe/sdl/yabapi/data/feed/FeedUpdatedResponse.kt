@@ -20,7 +20,7 @@ public data class FeedUpdatedResponse(
 @Serializable
 public data class FeedUpdatedData(
     @SerialName("button_statement") val buttonStatement: String? = null,
-    @SerialName("items") val items: List<UpdatedNode>,
+    @SerialName("items") val items: List<UpdatedNode> = emptyList(),
     @SerialName("_gt_") val gt: Int? = null,
 )
 

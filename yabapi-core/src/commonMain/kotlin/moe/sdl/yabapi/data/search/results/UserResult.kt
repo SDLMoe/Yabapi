@@ -28,7 +28,7 @@ public data class UserResult(
     @SerialName("is_upuser") val isUploader: Boolean? = null,
     @SerialName("is_live") val isLive: Boolean? = null,
     @SerialName("room_id") val roomId: Int? = null,
-    @SerialName("res") val videos: List<UserVideo>,
+    @SerialName("res") val videos: List<UserVideo> = emptyList(),
     @SerialName("official_verify") val officialCertify: OfficialCertify? = null,
     @SerialName("hit_columns") val hitColumns: JsonArray? = null,
     @SerialName("expand") val expand: UserExpandInfo? = null,

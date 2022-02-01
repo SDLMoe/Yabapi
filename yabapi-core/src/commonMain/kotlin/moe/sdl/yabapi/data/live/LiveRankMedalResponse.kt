@@ -21,7 +21,7 @@ public data class LiveRankMedalResponse(
 
 @Serializable
 public data class LiveRankMedalData(
-    @SerialName("list") val user: List<User>,
+    @SerialName("list") val user: List<User> = emptyList(),
     @SerialName("own") val self: Self? = null,
 ) {
     @Serializable

@@ -22,7 +22,7 @@ public data class TopicResult(
     @SerialName("tp_type") val topicType: Int? = null,
     @SerialName("tp_id") val tpId: Int? = null,
     @SerialName("keyword") val keyword: String? = null,
-    @SerialName("hit_columns") val hitColumns: List<String>,
+    @SerialName("hit_columns") val hitColumns: List<String> = emptyList(),
     @SerialName("arcurl") val url: String? = null,
     @SerialName("rank_offset") val rankOffset: Int? = null,
     @SerialName("rank_index") val rankIndex: Int? = null,

@@ -29,7 +29,7 @@ public data class VideoStreamData(
     @SerialName("video_codecid") val videoCodecId: CodecId? = null,
     @SerialName("seek_param") val seekParam: String? = null,
     @SerialName("seek_type") val seekType: String? = null,
-    @SerialName("durl") val urls: List<StreamUrl>? = null,
+    @SerialName("durl") val urls: List<StreamUrl> = emptyList(),
     @SerialName("dash") val dash: DashStream? = null,
     @SerialName("support_formats") val supportFormats: List<SupportFormat> = emptyList(),
     @SerialName("high_format") val highFormat: JsonElement? = null,

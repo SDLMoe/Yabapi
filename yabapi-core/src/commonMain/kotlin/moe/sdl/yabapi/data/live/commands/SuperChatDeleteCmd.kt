@@ -21,5 +21,5 @@ public data class SuperChatDeleteCmd(
 
 @Serializable
 public data class SuperChatDeleteData(
-    @SerialName("ids") val ids: List<Int>,
+    @SerialName("ids") val ids: List<Int> = emptyList(),
 )

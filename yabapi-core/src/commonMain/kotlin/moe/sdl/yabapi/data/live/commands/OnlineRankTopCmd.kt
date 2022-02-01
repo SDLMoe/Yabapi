@@ -22,7 +22,7 @@ public data class OnlineRankTopCmd(
 
 @Serializable
 public data class OnlineRankTopData(
-    @SerialName("list") val list: List<OnlineRankNode>, // 一般只有一个节点
+    @SerialName("list") val list: List<OnlineRankNode> = emptyList(), // 一般只有一个节点
 ) {
     @Serializable
     public data class OnlineRankNode(

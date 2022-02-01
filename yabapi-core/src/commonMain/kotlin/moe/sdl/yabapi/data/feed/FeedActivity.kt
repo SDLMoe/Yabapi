@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class FeedActivity(
-    @SerialName("details") val details: List<FeedActivityNode>,
+    @SerialName("details") val details: List<FeedActivityNode> = emptyList(),
 )
 
 @Serializable

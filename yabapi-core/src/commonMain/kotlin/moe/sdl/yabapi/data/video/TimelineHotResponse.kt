@@ -13,5 +13,5 @@ public data class TimelineHotResponse(
 
 @Serializable
 public data class TimelineEvents(
-    @SerialName("default") val list: List<Double>,
+    @SerialName("default") val list: List<Double> = emptyList(),
 )

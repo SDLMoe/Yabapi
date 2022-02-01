@@ -26,7 +26,7 @@ public data class HotRoomNotify(
     @SerialName("threshold") val threshold: Int? = null,
     @SerialName("ttl") val ttl: Int? = null,
     @SerialName("exit_no_refresh") val exitNoRefresh: Boolean? = null,
-    @SerialName("random_delay_req_v2") val randomDelayReqV2: List<RequestNode>,
+    @SerialName("random_delay_req_v2") val randomDelayReqV2: List<RequestNode> = emptyList(),
 ) {
     @Serializable
     public data class RequestNode(

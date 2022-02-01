@@ -23,7 +23,7 @@ public data class ArticleResult(
     @SerialName("rank_index") val rankIndex: Int? = null,
     @SerialName("rank_offset") val rankOffset: Int? = null,
     @SerialName("rank_score") val rankScore: Int? = null,
-    @SerialName("image_urls") val imageUrls: List<String>? = null,
+    @SerialName("image_urls") val imageUrls: List<String> = emptyList(),
 ) : SearchResult {
     public companion object : ResultFactory() {
         override val code: String = "article"

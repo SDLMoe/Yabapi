@@ -46,7 +46,7 @@ public data class EntryEffectData(
     @SerialName("web_close_time") val webCloseTime: Int? = null,
     @SerialName("business") val business: Int? = null,
     @SerialName("copy_writing_v2") val copyWritingV2: String? = null, // 欢迎 <^icon^> 提督 <%username%> 进入直播间",
-    @SerialName("icon_list") val iconList: List<Int>,
+    @SerialName("icon_list") val iconList: List<Int> = emptyList(),
     @SerialName("max_delay_time") val maxDelayTime: Int? = null,
     @SerialName("trigger_time") val triggerTime: Long? = null,
     @SerialName("identities") val identities: Int? = null,

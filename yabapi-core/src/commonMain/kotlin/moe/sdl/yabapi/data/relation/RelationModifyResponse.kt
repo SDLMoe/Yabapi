@@ -21,5 +21,5 @@ public data class RelationBatchModifyResponse(
 
 @Serializable
 public data class RelationBatchModifyData(
-    @SerialName("failed_fids") val failedId: List<String>,
+    @SerialName("failed_fids") val failedId: List<String> = emptyList(),
 )

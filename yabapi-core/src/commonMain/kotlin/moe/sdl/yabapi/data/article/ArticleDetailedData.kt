@@ -19,14 +19,14 @@ public data class ArticleDetailedData(
     @SerialName("catalogList") val catalogList: JsonArray?,
     @SerialName("stats") val stats: JsonObject? = null,
     @SerialName("actInfo") val actInfo: JsonObject? = null,
-    @SerialName("recommendInfoList") val recommendInfoList: List<ArticleReadInfo>,
+    @SerialName("recommendInfoList") val recommendInfoList: List<ArticleReadInfo> = emptyList(),
 )
 
 @Serializable
 public data class ArticleReadInfo(
     @SerialName("id") val id: Int? = null,
     @SerialName("category") val category: ArticleCategory? = null,
-    @SerialName("categories") val categories: List<ArticleCategory>,
+    @SerialName("categories") val categories: List<ArticleCategory> = emptyList(),
     @SerialName("title") val title: String? = null,
     @SerialName("summary") val summary: String? = null,
     @SerialName("banner_url") val bannerUrl: String? = null,
@@ -34,14 +34,14 @@ public data class ArticleReadInfo(
     @SerialName("state") val state: Int? = null,
     @SerialName("author") val author: ArticleAuthor? = null,
     @SerialName("reprint") val notOrigin: Boolean? = null,
-    @SerialName("image_urls") val imageUrls: List<String>,
+    @SerialName("image_urls") val imageUrls: List<String> = emptyList(),
     @SerialName("publish_time") val releaseTime: Long? = null,
     @SerialName("ctime") val createdTime: Long? = null,
     @SerialName("stats") val stats: ArticleStats? = null,
     @SerialName("tags") val tags: List<ArticleTag> = emptyList(),
     @SerialName("attributes") val attributes: Int? = null, // 限流相關, 二進制位
     @SerialName("words") val words: Int? = null,
-    @SerialName("origin_image_urls") val originImageUrls: List<String>,
+    @SerialName("origin_image_urls") val originImageUrls: List<String> = emptyList(),
     @SerialName("list") val collection: ArticleCollection? = null,
     @SerialName("is_like") val isLiked: Boolean? = null,
     @SerialName("media") val media: ArticleMedia? = null,

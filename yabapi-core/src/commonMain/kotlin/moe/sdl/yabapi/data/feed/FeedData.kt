@@ -15,7 +15,7 @@ public data class FeedData(
     @SerialName("update_num") val updateNum: Int? = null,
     @SerialName("has_more") val hasMore: Boolean? = null,
     @SerialName("open_rcmd") val openRecommend: Boolean? = null,
-    @SerialName("fold_mgr") val foldManager: List<FoldManager>? = null,
+    @SerialName("fold_mgr") val foldManager: List<FoldManager> = emptyList(),
     @SerialName("cards") val cards: List<FeedCardNode> = emptyList(),
     @SerialName("attentions") val subs: FeedSubscribes? = null,
     @SerialName("max_dynamic_id") val maxFeedId: ULong? = null,

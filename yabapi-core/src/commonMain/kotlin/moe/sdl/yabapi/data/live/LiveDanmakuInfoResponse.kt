@@ -20,7 +20,7 @@ public data class LiveDanmakuInfo(
     @SerialName("refresh_rate") val refreshRate: Double? = null,
     @SerialName("max_delay") val maxDelay: Double? = null,
     @SerialName("token") val token: String? = null,
-    @SerialName("host_list") val hostList: List<LiveDanmakuHost>,
+    @SerialName("host_list") val hostList: List<LiveDanmakuHost> = emptyList(),
 )
 
 @Serializable

@@ -26,8 +26,8 @@ public data class AllStickersGetResponse(
  */
 @Serializable
 public data class AllStickersGetResponseData(
-    @SerialName("user_panel_packages") val owned: List<StickerSetData>,
-    @SerialName("all_packages") val all: List<StickerSetData>,
+    @SerialName("user_panel_packages") val owned: List<StickerSetData> = emptyList(),
+    @SerialName("all_packages") val all: List<StickerSetData> = emptyList(),
     @SerialName("mall") val mall: StickerMallData? = null,
 )
 

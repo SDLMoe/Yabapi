@@ -10,14 +10,14 @@ public data class LiveAreasGetResponse(
     @SerialName("code") val code: GeneralCode = UNKNOWN,
     @SerialName("msg") val msg: String? = null,
     @SerialName("message") val message: String? = null,
-    @SerialName("data") val data: List<LiveArea>,
+    @SerialName("data") val data: List<LiveArea> = emptyList(),
 )
 
 @Serializable
 public data class LiveArea(
     @SerialName("id") val id: Int? = null,
     @SerialName("name") val name: String? = null,
-    @SerialName("list") val list: List<LiveSubArea>,
+    @SerialName("list") val list: List<LiveSubArea> = emptyList(),
 )
 
 @Serializable

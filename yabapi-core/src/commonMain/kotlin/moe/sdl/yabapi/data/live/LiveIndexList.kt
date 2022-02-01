@@ -10,7 +10,7 @@ public data class LiveIndexList(
     @SerialName("code") val code: GeneralCode = UNKNOWN,
     @SerialName("msg") val msg: String? = null,
     @SerialName("message") val message: String? = null,
-    @SerialName("data") val data: List<IndexLiveRoomInfo>,
+    @SerialName("data") val data: List<IndexLiveRoomInfo> = emptyList(),
 )
 
 @Serializable

@@ -22,7 +22,7 @@ public data class LiveUserResult(
     @SerialName("is_live") val isLive: Boolean? = null,
     @SerialName("live_status") val liveStatus: LiveRoomStatus? = null,
     @SerialName("live_time") val liveTime: String? = null,
-    @SerialName("hit_columns") val hitColumns: List<String>,
+    @SerialName("hit_columns") val hitColumns: List<String> = emptyList(),
     @SerialName("rank_offset") val rankOffset: Int? = null,
     @SerialName("rank_index") val rankIndex: Int? = null,
     @SerialName("rank_score") val rankScore: Int? = null,

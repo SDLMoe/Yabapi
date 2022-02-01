@@ -18,6 +18,6 @@ public data class LiveSignLastMonthInfo(
     @SerialName("month") val month: Int? = null,
     @SerialName("days") val days: Int? = null,
     @SerialName("hadSignDays") val hadSignDays: Int? = null,
-    @SerialName("signDaysList") val signDaysList: List<Int>,
-    @SerialName("signBonusDaysList") val signBonusDaysList: List<Int>,
+    @SerialName("signDaysList") val signDaysList: List<Int> = emptyList(),
+    @SerialName("signBonusDaysList") val signBonusDaysList: List<Int> = emptyList(),
 )

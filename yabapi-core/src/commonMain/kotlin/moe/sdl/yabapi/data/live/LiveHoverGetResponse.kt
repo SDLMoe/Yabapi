@@ -19,8 +19,8 @@ public data class LiveHoverGetResponse(
 
 @Serializable
 public data class LiveHover(
-    @SerialName("list") val room: List<Room>,
-    @SerialName("banner") val banner: List<Banner>,
+    @SerialName("list") val room: List<Room> = emptyList(),
+    @SerialName("banner") val banner: List<Banner> = emptyList(),
 ) {
     @Serializable
     public data class Room(

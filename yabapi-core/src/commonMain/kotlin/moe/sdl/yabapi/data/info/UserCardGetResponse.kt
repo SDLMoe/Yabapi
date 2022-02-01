@@ -58,7 +58,7 @@ public data class UserCard(
     @SerialName("place") val place: String? = null,
     @SerialName("description") val description: String? = null,
     @SerialName("article") val article: Int? = null,
-    @SerialName("attentions") val attentions: List<String>,
+    @SerialName("attentions") val attentions: List<String> = emptyList(),
     @SerialName("fans") val fans: Int? = null,
     @SerialName("friend") val friend: Int? = null,
     @SerialName("attention") val attention: Int? = null,

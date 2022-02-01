@@ -9,7 +9,7 @@ public data class PlayedGameGetResponse(
     @SerialName("code") val code: SpaceResponseCode = UNKNOWN,
     @SerialName("message") val message: String? = null,
     @SerialName("ttl") val ttl: Int? = null,
-    @SerialName("data") val data: List<PlayedGameNode>? = null,
+    @SerialName("data") val data: List<PlayedGameNode> = emptyList(),
 )
 
 

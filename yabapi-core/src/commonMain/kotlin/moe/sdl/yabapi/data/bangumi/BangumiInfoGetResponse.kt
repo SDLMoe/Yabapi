@@ -25,7 +25,7 @@ public data class BangumiInfo(
 
 @Serializable
 public data class BangumiMedia(
-    @SerialName("areas") val areas: List<BangumiArea>,
+    @SerialName("areas") val areas: List<BangumiArea> = emptyList(),
     @SerialName("cover") val cover: String? = null,
     @SerialName("media_id") val mediaId: Int? = null,
     @SerialName("new_ep") val latestEpisode: SimpleBangumiEpisode? = null,
