@@ -3,6 +3,7 @@ package moe.sdl.yabapi.util
 import co.touchlab.kermit.Logger
 import kotlinx.atomicfu.AtomicRef
 import kotlinx.atomicfu.atomic
+import moe.sdl.yabapi.Yabapi
 import moe.sdl.yabapi.enums.LogLevel
 import moe.sdl.yabapi.enums.LogLevel.ASSERT
 import moe.sdl.yabapi.enums.LogLevel.DEBUG
@@ -12,21 +13,11 @@ import moe.sdl.yabapi.enums.LogLevel.VERBOSE
 import moe.sdl.yabapi.enums.LogLevel.WARN
 import moe.sdl.yabapi.enums.toKermitSeverity
 import kotlin.native.concurrent.SharedImmutable
-import kotlin.native.concurrent.ThreadLocal
 
 @SharedImmutable
 public val yabapiLogLevel: AtomicRef<LogLevel> = atomic(INFO)
 
-@ThreadLocal
-public var log: (tag: String, level: LogLevel, throwable: Throwable?, message: () -> String) -> Unit =
-    { tag: String, level: LogLevel, throwable: Throwable?, message: () -> String ->
-
-        if (level >= yabapiLogLevel.value) {
-            val str = "${nowLocalString()} [${level.name}] $tag ${message().replace("\n", "\\n")}"
-            println(str)
-            throwable?.printStackTrace()
-        }
-    }
+internal typealias LoggerFunc = (tag: String, level: LogLevel, throwable: Throwable?, message: () -> String) -> Unit
 
 internal typealias Logger = StdOutLogger
 
@@ -35,7 +26,7 @@ internal class StdOutLogger(tag: String) : ILogger {
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun log(level: LogLevel, throwable: Throwable?, noinline message: () -> String) {
-        log(tag, level, throwable, message)
+        Yabapi.log.value(tag, level, throwable, message)
     }
 
     override fun verbose(throwable: Throwable?, message: () -> String) = log(VERBOSE, throwable, message)

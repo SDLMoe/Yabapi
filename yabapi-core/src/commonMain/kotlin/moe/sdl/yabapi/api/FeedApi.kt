@@ -6,10 +6,12 @@ import kotlinx.coroutines.withContext
 import moe.sdl.yabapi.BiliClient
 import moe.sdl.yabapi.consts.internal.FEED_CONTENT_GET_URL
 import moe.sdl.yabapi.consts.internal.FEED_HISTORY_GET_URL
+import moe.sdl.yabapi.consts.internal.FEED_LIVING_GET_URL
 import moe.sdl.yabapi.consts.internal.FEED_NEW_GET_URL
 import moe.sdl.yabapi.consts.internal.FEED_SPACE_GET_URL
 import moe.sdl.yabapi.data.feed.FeedContentResponse
 import moe.sdl.yabapi.data.feed.FeedHistoryResponse
+import moe.sdl.yabapi.data.feed.FeedLivingResponse
 import moe.sdl.yabapi.data.feed.NewFeedResponse
 import moe.sdl.yabapi.deserializeJson
 import moe.sdl.yabapi.util.Logger
@@ -88,5 +90,19 @@ public suspend fun BiliClient.getFeedByUid(
         parameter("platform", platform)
     }.deserializeJson<FeedHistoryResponse>().also {
         logger.debug { "Got new feed by uid $targetUid|offset$offset: $it" }
+    }
+}
+
+public suspend fun BiliClient.getLivingUser(
+    page: Int = 1,
+    pageSize: Int = 10,
+    context: CoroutineContext = this.context
+) : FeedLivingResponse = withContext(context) {
+    logger.debug { "Getting Living User..." }
+    client.get<String>(FEED_LIVING_GET_URL) {
+        parameter("page", page)
+        parameter("pagesize", pageSize)
+    }.deserializeJson<FeedLivingResponse>().also {
+        logger.debug { "Got Living User: $it" }
     }
 }

@@ -238,6 +238,8 @@ internal const val FEED_HISTORY_GET_URL = "$VC_API/dynamic_svr/v1/dynamic_svr/dy
 
 internal const val FEED_SPACE_GET_URL = "$VC_API/dynamic_svr/v1/dynamic_svr/space_history"
 
+internal const val FEED_LIVING_GET_URL = "$LIVE_API/xlive/web-ucenter/v1/xfetter/FeedList"
+
 // endregion
 
 // region =================== Live ========================

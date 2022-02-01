@@ -23,7 +23,7 @@ import moe.sdl.yabapi.data.album.AlbumUploadResponse
 import moe.sdl.yabapi.data.album.AlbumUploadResponseCode.SUCCESS
 import moe.sdl.yabapi.deserializeJson
 import moe.sdl.yabapi.util.Logger
-import moe.sdl.yabapi.util.quoteList
+import moe.sdl.yabapi.util.string.quoteList
 import moe.sdl.yabapi.util.string.toHeaderValue
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable

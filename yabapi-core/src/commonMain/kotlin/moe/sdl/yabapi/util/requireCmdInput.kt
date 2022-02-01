@@ -24,7 +24,7 @@ internal inline fun <reified T : Number> requireCmdInputNumber(
             UInt::class -> readlnOrNull()?.toUIntOrNull()
             ULong::class -> readlnOrNull()?.toULongOrNull()
             else -> throw IllegalArgumentException("Unsupported Number Type: ${T::class.qualifiedOrSimpleName}")
-        }.let { it as T? }
+        }.let { it as? T? }
         if (input != null) {
             loop = false
         } else outFunc(errorMessage)

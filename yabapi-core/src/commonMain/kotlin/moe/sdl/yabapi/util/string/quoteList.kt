@@ -1,4 +1,4 @@
-package moe.sdl.yabapi.util
+package moe.sdl.yabapi.util.string
 
 import kotlin.native.concurrent.SharedImmutable
 
