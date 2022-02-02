@@ -5,16 +5,15 @@ import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.decodeFromByteArray
 import moe.sdl.yabapi.BiliClient
-import moe.sdl.yabapi.Yabapi.protoBuf
 import moe.sdl.yabapi.consts.internal.VIDEO_DANMAKU_CALENDAR_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_DANMAKU_WEB_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_HISTORY_DANMAKU_GET_URL
 import moe.sdl.yabapi.data.danmaku.DanmakuCalendarResponse
-import moe.sdl.yabapi.data.danmaku.DanmakuMetadataResponse
+import moe.sdl.yabapi.data.danmaku.DanmakuMetadata
 import moe.sdl.yabapi.data.danmaku.DanmakuResponse
 import moe.sdl.yabapi.deserializeJson
+import moe.sdl.yabapi.deserializeProto
 import moe.sdl.yabapi.enums.danmaku.DanmakuType
 import moe.sdl.yabapi.enums.danmaku.DanmakuType.VIDEO
 import moe.sdl.yabapi.util.Logger
@@ -43,13 +42,12 @@ public suspend fun BiliClient.getDanmaku(
 ): DanmakuResponse = withContext(context) {
     val showAid = aid?.let { " (av$it)" } ?: ""
     logger.debug { "Getting danmaku for cid $cid$showAid part $part..." }
-    val bytes: ByteArray = client.get(VIDEO_DANMAKU_WEB_URL) {
+    client.get<ByteArray>(VIDEO_DANMAKU_WEB_URL) {
         parameter("type", type.code)
         parameter("oid", cid)
         aid?.let { parameter("pid", aid) }
         parameter("segment_index", part)
-    }
-    protoBuf.value.decodeFromByteArray<DanmakuResponse>(bytes).also {
+    }.deserializeProto<DanmakuResponse>().also {
         logger.debug { "Got danmaku for cid $cid$showAid part $part, count: ${it.danmakus.count()}" }
         logger.verbose { "Danmakus: $it" }
     }
@@ -67,15 +65,14 @@ public suspend fun BiliClient.getDanmakuMetadata(
     aid: Int? = null,
     type: DanmakuType = VIDEO,
     context: CoroutineContext = this.context,
-): DanmakuMetadataResponse = withContext(context) {
+): DanmakuMetadata = withContext(context) {
     val showAid = aid?.let { " (av$it)" } ?: ""
     logger.debug { "Getting danmaku metadata for cid $cid$showAid..." }
-    val bytes: ByteArray = client.get(VIDEO_DANMAKU_WEB_URL) {
+    client.get<ByteArray>(VIDEO_DANMAKU_WEB_URL) {
         parameter("type", type.code)
         parameter("oid", cid)
         aid?.let { parameter("pid", aid) }
-    }
-    protoBuf.value.decodeFromByteArray<DanmakuMetadataResponse>(bytes).also {
+    }.deserializeProto<DanmakuMetadata>().also {
         logger.debug { "Got danmaku metadata for cid $cid$showAid: $it}" }
     }
 }
@@ -83,7 +80,7 @@ public suspend fun BiliClient.getDanmakuMetadata(
 @ExperimentalSerializationApi
 public suspend inline fun BiliClient.getDanmakuMetadata(
     cid: Int, bid: String, type: DanmakuType = VIDEO, context: CoroutineContext = this.context,
-): DanmakuMetadataResponse = getDanmakuMetadata(cid, bid.avInt, type, context)
+): DanmakuMetadata = getDanmakuMetadata(cid, bid.avInt, type, context)
 
 /**
  * 获取弹幕日历, 返回有弹幕的日期
@@ -125,20 +122,17 @@ public suspend fun BiliClient.getHistoryDanmaku(
     date: String,
     type: DanmakuType = VIDEO,
     context: CoroutineContext = this.context,
-): DanmakuResponse =
-    withContext(context) {
-        logger.debug { "Getting History Danmaku for cid$cid on $date..." }
-        client.get<ByteArray>(VIDEO_HISTORY_DANMAKU_GET_URL) {
-            parameter("type", type.code)
-            parameter("oid", cid)
-            parameter("date", date)
-        }.let<ByteArray, DanmakuResponse> {
-            protoBuf.value.decodeFromByteArray(it)
-        }.also {
-            logger.debug { "Got History Danmaku for cid$cid on $date: danmaku count ${it.danmakus.count()}" }
-            logger.verbose { "$it" }
-        }
+): DanmakuResponse = withContext(context) {
+    logger.debug { "Getting History Danmaku for cid$cid on $date..." }
+    client.get<ByteArray>(VIDEO_HISTORY_DANMAKU_GET_URL) {
+        parameter("type", type.code)
+        parameter("oid", cid)
+        parameter("date", date)
+    }.deserializeProto<DanmakuResponse>().also {
+        logger.debug { "Got History Danmaku for cid$cid on $date: danmaku count ${it.danmakus.count()}" }
+        logger.verbose { "$it" }
     }
+}
 
 /**
  * 对 kotlinx.datetime 的封装支持
