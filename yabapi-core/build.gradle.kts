@@ -3,7 +3,6 @@ import java.util.Properties
 plugins {
     kotlin("multiplatform") version Versions.kotlin
     kotlin("plugin.serialization") version Versions.kotlin
-    id("com.google.protobuf") version "0.8.18"
     `maven-publish`
     signing
 }
