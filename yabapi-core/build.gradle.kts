@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     kotlin("multiplatform") version Versions.kotlin
     kotlin("plugin.serialization") version Versions.kotlin
+    id("com.google.protobuf") version "0.8.18"
     `maven-publish`
     signing
 }
@@ -15,7 +16,7 @@ ext["signing.secretKeyRingFile"] = null
 ext["ossrhUsername"] = null
 ext["ossrhPassword"] = null
 
-val secretPropsFile = project.rootProject.file("local.properties")
+val secretPropsFile: File = project.rootProject.file("local.properties")
 if (secretPropsFile.exists()) {
     secretPropsFile.reader().use {
         Properties().apply {
@@ -113,7 +114,6 @@ kotlin {
             }
         }
         val jvmMain by getting {
-            dependsOn(commonMain)
             dependencies {
                 implementation("io.ktor:ktor-client-cio:${Versions.ktor}")
             }
@@ -124,7 +124,6 @@ kotlin {
             }
         }
         val nativeMain by getting {
-            dependsOn(commonMain)
             dependencies {
                 implementation("io.ktor:ktor-client-curl:${Versions.ktor}")
             }

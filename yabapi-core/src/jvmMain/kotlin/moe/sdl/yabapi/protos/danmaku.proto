@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package bilibili.community.service.dm.v1;
+
+// source: https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/grpc_api/bilibili/community/service/dm/v1/dm.proto
+// just select `DanmakuWebMetadata` related msg, and rename variables
+
+// web端弹幕元数据-响应
+message DanmakuWebMetadata {
+  // 是否已关闭弹幕
+  // 0:未关闭 1:已关闭
+  int32 state = 1;
+  string text = 2;
+  string textSide = 3;
+  // 分段弹幕配置
+  DanmakuSegmentConfig segmentConfig = 4;
+  // 云屏蔽配置信息
+  DanmakuFlagConfig flag = 5;
+  // 高级弹幕专包url(bfs)
+  repeated string specialDanmakus = 6;
+  // check box 是否展示
+  bool showCheckBox = 7;
+  // 弹幕数
+  int64 count = 8;
+  // 互动弹幕
+  repeated CommandDanmaku commands = 9;
+  // 用户弹幕配置
+  DanmakuPlayerConfig playerConfig = 10;
+  // 用户举报弹幕 cid维度屏蔽
+  repeated string reportFilterContent = 11;
+  //
+  repeated Expressions expressions = 12;
+}
+
+message DanmakuSegmentConfig {
+  int64 pageSize = 1;
+  int64 total = 2;
+}
+
+// 云屏蔽配置信息
+message DanmakuFlagConfig {
+  // 云屏蔽等级
+  int32 level = 1;
+  // 云屏蔽文案
+  string text = 2;
+  // 云屏蔽开关
+  int32 switch = 3;
+}
+
+// 互动弹幕条目信息
+message CommandDanmaku {
+  // 弹幕id
+  int64 id = 1;
+  // 对象视频cid
+  int64 oid = 2;
+  // 发送者mid
+  string mid = 3;
+  // 互动弹幕指令
+  string command = 4;
+  // 互动弹幕正文
+  string content = 5;
+  // 出现时间
+  int32 progress = 6;
+  // 创建时间
+  string createTime = 7;
+  // 发布时间
+  string modifiedTime = 8;
+  // 扩展json数据
+  string extra = 9;
+  // 弹幕id str类型
+  string idStr = 10;
+}
+
+// web端用户弹幕配置
+message DanmakuPlayerConfig {
+  bool danmakuSwitch = 1;
+  bool aiSwitch = 2;
+  int32 aiLevel = 3;
+  bool blockTop = 4;
+  bool blockScroll = 5;
+  bool blockBottom = 6;
+  bool blockColor = 7;
+  bool blockSpecial = 8;
+  bool preventShade = 9;
+  bool danmakuMask = 10;
+  float opacity = 11;
+  int32 area = 12;
+  float speedPlus = 13;
+  float fontSize = 14;
+  bool screenSync = 15;
+  bool speedSync = 16;
+  string fontFamily = 17;
+  bool bold = 18;
+  int32 fontBorder = 19;
+  string drawType = 20;
+  int32 seniorModeSwitch = 21;
+}
+
+message Expressions {
+  repeated Expression data = 1;
+}
+
+message Expression {
+  repeated string keyword = 1;
+  string url = 2;
+  repeated Period period = 3;
+}
+
+message Period {
+  int64 start = 1;
+  int64 end = 2;
+}
