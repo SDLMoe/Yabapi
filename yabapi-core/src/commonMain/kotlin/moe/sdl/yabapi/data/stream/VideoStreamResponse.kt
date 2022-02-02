@@ -94,6 +94,9 @@ public enum class CodecId {
     @SerialName("12")
     HEVC,
 
+    @SerialName("13")
+    AV1,
+
     @SerialName("0")
     AUDIO,
 }
