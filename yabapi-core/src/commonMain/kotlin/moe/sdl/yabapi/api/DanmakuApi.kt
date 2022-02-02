@@ -21,7 +21,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-private val logger by lazy { Logger("DanmakuApiJvm") }
+private val logger by lazy { Logger("DanmakuApi") }
 
 /**
  * 获取视频弹幕
