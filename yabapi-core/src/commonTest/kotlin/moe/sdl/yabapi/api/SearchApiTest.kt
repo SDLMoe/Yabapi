@@ -66,4 +66,14 @@ internal class SearchApiTest {
             this?.liveUser.also(::println)
         }
     }
+
+    @Test
+    fun getSearchPlaceHolderTest() = runTest {
+        client.getSearchPlaceHolder()
+    }
+
+    @Test
+    fun getSearchRankingTest() = runTest {
+        client.getSearchRanking()
+    }
 }

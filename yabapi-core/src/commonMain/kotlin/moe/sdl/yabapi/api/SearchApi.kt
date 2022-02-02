@@ -6,11 +6,15 @@ import kotlinx.coroutines.withContext
 import moe.sdl.yabapi.BiliClient
 import moe.sdl.yabapi.consts.internal.SEARCH_ALL_URL
 import moe.sdl.yabapi.consts.internal.SEARCH_BY_TYPE_URL
+import moe.sdl.yabapi.consts.internal.SEARCH_PLACEHOLDER_GET_URL
+import moe.sdl.yabapi.consts.internal.SEARCH_RANKING_GET_URL
 import moe.sdl.yabapi.data.search.LiveSearchOptionBase
 import moe.sdl.yabapi.data.search.SearchAllResponse
 import moe.sdl.yabapi.data.search.SearchLiveResponse
 import moe.sdl.yabapi.data.search.SearchNormalResponse
 import moe.sdl.yabapi.data.search.SearchOption
+import moe.sdl.yabapi.data.search.SearchPlaceHolderResponse
+import moe.sdl.yabapi.data.search.SearchRankResponse
 import moe.sdl.yabapi.deserializeJson
 import moe.sdl.yabapi.enums.search.SearchType
 import moe.sdl.yabapi.util.Logger
@@ -66,4 +70,23 @@ public suspend fun BiliClient.searchLive(
     }.deserializeJson<SearchLiveResponse>().also {
         logger.debug { "Search '$keyword' by type $type Response: $it" }
     }
+}
+
+public suspend fun BiliClient.getSearchPlaceHolder(
+    context: CoroutineContext = this.context,
+): SearchPlaceHolderResponse = withContext(context) {
+    logger.debug { "Getting Search Place Holder..." }
+    client.get<String>(SEARCH_PLACEHOLDER_GET_URL).deserializeJson<SearchPlaceHolderResponse>().also {
+        logger.debug { "Got Search Place Holder: $it" }
+    }
+}
+
+public suspend fun BiliClient.getSearchRanking(
+    context: CoroutineContext = this.context
+): SearchRankResponse = withContext(context) {
+    logger.debug { "Getting Search Ranking..." }
+    client.get<String>(SEARCH_RANKING_GET_URL)
+        .deserializeJson<SearchRankResponse>().also {
+            logger.debug { "Got Search Ranking: $it" }
+        }
 }

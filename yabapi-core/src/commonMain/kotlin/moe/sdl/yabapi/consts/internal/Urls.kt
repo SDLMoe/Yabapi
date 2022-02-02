@@ -365,4 +365,8 @@ internal const val SEARCH_ALL_URL = "$MAIN/x/web-interface/search/all/v2"
 
 internal const val SEARCH_BY_TYPE_URL = "$MAIN/x/web-interface/search/type"
 
+internal const val SEARCH_PLACEHOLDER_GET_URL = "$MAIN/x/web-interface/search/default"
+
+internal const val SEARCH_RANKING_GET_URL = "https://s.search.bilibili.com/main/hotword"
+
 // endregion
