@@ -27,7 +27,7 @@ public data class SearchLiveData(
     @SerialName("suggest_keyword") override val suggestKeyword: String? = null,
     @SerialName("rqt_type") override val rqtType: String? = null,
     @SerialName("cost_time") override val costTime: Map<String, String>,
-    @SerialName("exp_list") override val expList: Map<String, String>,
+    @SerialName("exp_list") override val expList: Map<String, String> = emptyMap(),
     @SerialName("egg_hit") override val eggHit: Boolean? = null,
     @SerialName("pageinfo") override val pageInfo: Map<String, SearchNumInfo> = mapOf(),
     // @SerialName("top_tlist") override val typeList: Map<String, Int>,

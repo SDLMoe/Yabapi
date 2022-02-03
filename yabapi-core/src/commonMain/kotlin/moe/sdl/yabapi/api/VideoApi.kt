@@ -12,6 +12,7 @@ import io.ktor.http.Parameters
 import io.ktor.http.ParametersBuilder
 import kotlinx.coroutines.withContext
 import moe.sdl.yabapi.BiliClient
+import moe.sdl.yabapi.consts.internal.PGC_STREAM_FETCH_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_COIN_CHECK_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_COIN_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_COLLECT_ACTION_URL
@@ -29,6 +30,7 @@ import moe.sdl.yabapi.consts.internal.VIDEO_SHARE_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_STREAM_FETCH_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_TAG_GET_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_TIMELINE_HOT_URL
+import moe.sdl.yabapi.data.stream.PgcStreamResponse
 import moe.sdl.yabapi.data.stream.StreamRequest
 import moe.sdl.yabapi.data.stream.VideoStreamResponse
 import moe.sdl.yabapi.data.video.CoinVideoResponse
@@ -53,7 +55,6 @@ import moe.sdl.yabapi.enums.video.CollectAction.ADD
 import moe.sdl.yabapi.enums.video.CollectAction.REMOVE
 import moe.sdl.yabapi.enums.video.LikeAction
 import moe.sdl.yabapi.enums.video.LikeAction.LIKE
-import moe.sdl.yabapi.enums.video.VideoFormat.DASH
 import moe.sdl.yabapi.util.Logger
 import moe.sdl.yabapi.util.encoding.avInt
 import moe.sdl.yabapi.util.requireLeastAndOnlyOne
@@ -646,10 +647,7 @@ private suspend inline fun BiliClient.fetchVideoStream(
     client.get<String>(VIDEO_STREAM_FETCH_URL) {
         putVideoId(aid, bid, "avid")
         parameter("cid", cid)
-        if (request.fnvalFormat.format != DASH) parameter("qn", request.qnQuality.code)
-        parameter("fnval", request.fnvalFormat.toBinary())
-        parameter("fnver", "0")
-        parameter("fourk", request.fourk)
+        request.putParameter(this)
     }.deserializeJson()
 }
 
@@ -690,6 +688,20 @@ public suspend fun BiliClient.fetchVideoStream(
     logger.debug { "Fetching Video Stream for $bid..." }
     return fetchVideoStream(null, bid, cid, request, context).also {
         logger.debug { "Fetched video stream for $bid: $it" }
+    }
+}
+
+public suspend fun BiliClient.fetchPgcStream(
+    ep: Int,
+    request: StreamRequest = StreamRequest(),
+    context: CoroutineContext = this.context,
+): PgcStreamResponse = withContext(context) {
+    logger.debug { "Fetching Pgc Stream for ep$ep..." }
+    client.get<String>(PGC_STREAM_FETCH_URL) {
+        parameter("ep_id", ep)
+        request.putParameter(this)
+    }.deserializeJson<PgcStreamResponse>().also {
+        logger.debug { "Fetched Pgc Stream for ep$ep..." }
     }
 }
 

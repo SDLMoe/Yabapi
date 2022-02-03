@@ -92,6 +92,8 @@ internal const val VIDEO_HISTORY_DANMAKU_GET_URL = "$MAIN/x/v2/dm/web/history/se
 
 internal const val VIDEO_STREAM_FETCH_URL = "$MAIN/x/player/playurl"
 
+internal const val PGC_STREAM_FETCH_URL = "$MAIN/pgc/player/web/playurl"
+
 internal const val VIDEO_REPORT_PROGRESS_URL = "$MAIN/x/v2/history/report"
 
 // endregion

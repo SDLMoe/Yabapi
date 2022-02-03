@@ -16,25 +16,45 @@ public data class VideoStreamResponse(
 )
 
 @Serializable
+public abstract class AbstractStreamData {
+    public abstract val from: String?
+    public abstract val result: String?
+    public abstract val message: String?
+    public abstract val quality: QnQuality?
+    public abstract val format: String?
+    public abstract val length: Long? // ms
+    public abstract val acceptFormat: String?
+    public abstract val acceptDescription: List<String>
+    protected abstract val rawAcceptQuality: List<String>
+    public abstract val videoCodecId: CodecId?
+    public abstract val seekParam: String?
+    public abstract val seekType: String?
+    public abstract val urls: List<StreamUrl>
+    public abstract val dash: DashStream?
+    public abstract val supportFormats: List<SupportFormat>
+    public abstract val highFormat: JsonElement?
+}
+
+@Serializable
 public data class VideoStreamData(
-    @SerialName("from") val from: String? = null,
-    @SerialName("result") val result: String? = null,
-    @SerialName("message") val message: String? = null,
-    @SerialName("quality") val quality: QnQuality? = null,
-    @SerialName("format") val format: String? = null,
-    @SerialName("timelength") val length: Long? = null, // ms
-    @SerialName("accept_format") val acceptFormat: String? = null,
-    @SerialName("accept_description") val acceptDescription: List<String> = emptyList(),
-    @SerialName("accept_quality") private val _acceptQuality: List<String> = emptyList(),
-    @SerialName("video_codecid") val videoCodecId: CodecId? = null,
-    @SerialName("seek_param") val seekParam: String? = null,
-    @SerialName("seek_type") val seekType: String? = null,
-    @SerialName("durl") val urls: List<StreamUrl> = emptyList(),
-    @SerialName("dash") val dash: DashStream? = null,
-    @SerialName("support_formats") val supportFormats: List<SupportFormat> = emptyList(),
-    @SerialName("high_format") val highFormat: JsonElement? = null,
-) {
-    val acceptQuality: List<QnQuality> = _acceptQuality.fold(mutableListOf()) { acc, s ->
+    @SerialName("from") override val from: String? = null,
+    @SerialName("result") override val result: String? = null,
+    @SerialName("message") override val message: String? = null,
+    @SerialName("quality") override val quality: QnQuality? = null,
+    @SerialName("format") override val format: String? = null,
+    @SerialName("timelength") override val length: Long? = null, // ms
+    @SerialName("accept_format") override val acceptFormat: String? = null,
+    @SerialName("accept_description") override val acceptDescription: List<String> = emptyList(),
+    @SerialName("accept_quality") override val rawAcceptQuality: List<String> = emptyList(),
+    @SerialName("video_codecid") override val videoCodecId: CodecId? = null,
+    @SerialName("seek_param") override val seekParam: String? = null,
+    @SerialName("seek_type") override val seekType: String? = null,
+    @SerialName("durl") override val urls: List<StreamUrl> = emptyList(),
+    @SerialName("dash") override val dash: DashStream? = null,
+    @SerialName("support_formats") override val supportFormats: List<SupportFormat> = emptyList(),
+    @SerialName("high_format") override val highFormat: JsonElement? = null,
+): AbstractStreamData() {
+    val acceptQuality: List<QnQuality> = rawAcceptQuality.fold(mutableListOf()) { acc, s ->
         acc.add(QnQuality.fromCode(s.toInt()))
         acc
     }
@@ -49,6 +69,7 @@ public data class StreamUrl(
     @SerialName("vhead") val vhead: String? = null,
     @SerialName("url") val url: String? = null,
     @SerialName("backup_url") val backups: List<String> = emptyList(),
+    @SerialName("md5") val md5: String? = null,
 )
 
 @Serializable
@@ -112,7 +133,10 @@ public data class SupportFormat(
     @SerialName("quality") val quality: QnQuality? = null,
     @SerialName("format") val format: String? = null,
     @SerialName("new_description") val newDescription: String? = null,
-    @SerialName("display_desc") val description: String? = null,
+    @SerialName("display_desc") val displayDescription: String? = null,
+    @SerialName("description") val description: String? = null,
     @SerialName("superscript") val superscript: String? = null,
     @SerialName("codecs") val codecs: List<String> = emptyList(),
+    @SerialName("need_login") val needLogin: Boolean? = null,
+    @SerialName("need_vip") val needVip: Boolean? = null,
 )

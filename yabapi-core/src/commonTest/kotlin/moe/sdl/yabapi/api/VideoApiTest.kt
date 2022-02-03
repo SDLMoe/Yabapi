@@ -172,6 +172,11 @@ internal class VideoApiTest {
     }
 
     @Test
+    fun fetchPgcStreamTest() = runTest {
+        client.fetchPgcStream(457775)
+    }
+    
+    @Test
     fun getTimelineHotTest() {
         runTest {
             val cid = client.getVideoParts("BV1qM4y1w716").data[0].cid
