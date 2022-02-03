@@ -70,10 +70,15 @@ private fun checkVideoId(aid: Int?, bid: String?) {
     if (bid != null) require(bid.startsWith(prefix = "bv", ignoreCase = true))
 }
 
-internal fun HttpRequestBuilder.putVideoId(aid: Int?, bid: String?) {
+internal fun HttpRequestBuilder.putVideoId(
+    aid: Int?,
+    bid: String?,
+    aidKey: String = "aid",
+    bidKey: String = "bvid",
+) {
     checkVideoId(aid, bid)
-    aid?.let { parameter("aid", aid) }
-    bid?.let { parameter("bvid", bid) }
+    aid?.let { parameter(aidKey, aid) }
+    bid?.let { parameter(bidKey, bid) }
 }
 
 internal fun ParametersBuilder.putVideoId(aid: Int?, bid: String?) {
@@ -639,7 +644,7 @@ private suspend inline fun BiliClient.fetchVideoStream(
     context: CoroutineContext = this.context,
 ): VideoStreamResponse = withContext(context) {
     client.get<String>(VIDEO_STREAM_FETCH_URL) {
-        putVideoId(aid, bid)
+        putVideoId(aid, bid, "avid")
         parameter("cid", cid)
         if (request.fnvalFormat.format != DASH) parameter("qn", request.qnQuality.code)
         parameter("fnval", request.fnvalFormat.toBinary())
