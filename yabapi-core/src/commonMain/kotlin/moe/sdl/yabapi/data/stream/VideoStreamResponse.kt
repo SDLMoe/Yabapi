@@ -79,8 +79,14 @@ public data class DashStream(
     @SerialName("min_buffer_time") private val _minBufferTime: Double? = null,
     @SerialName("video") val videos: List<DashTrack> = emptyList(),
     @SerialName("audio") val audios: List<DashTrack> = emptyList(),
-    @SerialName("dolby") val dolby: List<DashTrack> = emptyList(),
-)
+    @SerialName("dolby") val dolby: Dolby? = null,
+) {
+    @Serializable
+    public data class Dolby(
+        val type: Int? = null,
+        val audios: List<DashTrack> = emptyList(),
+    )
+}
 
 @Serializable
 public data class DashTrack(
