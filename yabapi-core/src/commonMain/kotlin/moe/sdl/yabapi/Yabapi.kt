@@ -3,6 +3,7 @@ package moe.sdl.yabapi
 import kotlinx.atomicfu.AtomicRef
 import kotlinx.atomicfu.atomic
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -13,6 +14,7 @@ import moe.sdl.yabapi.util.Logger
 import moe.sdl.yabapi.util.LoggerFunc
 import moe.sdl.yabapi.util.encoding.hex
 import moe.sdl.yabapi.util.nowLocalString
+import moe.sdl.yabapi.util.reflect.qualifiedOrSimpleName
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
@@ -46,7 +48,10 @@ internal inline fun <reified T> ByteArray.deserializeProto(): T {
     return Yabapi.protoBuf.value.decodeFromByteArray(this)
 }
 
-internal inline fun <reified T> String.deserializeJson(): T {
-    logger.debug { "Received Source String: $this" }
-    return Yabapi.defaultJson.value.decodeFromString(this)
-}
+internal inline fun <reified T> String.deserializeJson(): T =
+    try {
+        Yabapi.defaultJson.value.decodeFromString(this)
+    } catch (e: SerializationException) {
+        logger.error { "Failed to deserialize ${T::class.qualifiedOrSimpleName}, raw json: $this" }
+        throw e
+    }
