@@ -55,7 +55,7 @@ public fun buildImageUrl(
 
     fun appendAndCount(str: String) {
         if (appendedValue >= 1) sb.append("_")
-        sb.append("${str}h")
+        sb.append(str)
         appendedValue += 1
     }
 
