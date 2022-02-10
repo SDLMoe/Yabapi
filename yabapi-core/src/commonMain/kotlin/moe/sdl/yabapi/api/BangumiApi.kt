@@ -44,7 +44,7 @@ private suspend inline fun BiliClient.getBangumiDetailed(
     logger.debug { "Getting bangumi detailed info for $showId..." }
     client.get<String>(BANGUMI_DETAILED_GET_URL) {
         seasonId?.let { parameter("season_id", it) }
-        seasonId?.let { parameter("ep_id", it) }
+        epId?.let { parameter("ep_id", it) }
     }.deserializeJson<BangumiDetailedResponse>().also {
         logger.debug { "Got bangumi detailed info for $showId: $it" }
     }
