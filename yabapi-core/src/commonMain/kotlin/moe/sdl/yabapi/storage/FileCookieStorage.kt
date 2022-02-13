@@ -1,6 +1,5 @@
 package moe.sdl.yabapi.storage
 
-import com.soywiz.korio.async.runBlockingNoJs
 import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.CookiesStorage
 import io.ktor.http.Cookie
@@ -96,9 +95,6 @@ public class FileCookieStorage(
 
     override fun close() {
         logger.debug { "Closing FileCookiesStorage path: $path" }
-        runBlockingNoJs {
-            save()
-        }
     }
 
     private fun cleanup(timestamp: Long) {

@@ -2,7 +2,6 @@
 
 package moe.sdl.yabapi.connect
 
-import com.soywiz.korio.lang.toByteArray
 import io.ktor.client.HttpClient
 import io.ktor.client.features.websocket.DefaultClientWebSocketSession
 import io.ktor.client.features.websocket.wss
@@ -11,6 +10,7 @@ import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.FrameType.BINARY
 import io.ktor.utils.io.core.buildPacket
 import io.ktor.utils.io.core.readUInt
+import io.ktor.utils.io.core.toByteArray
 import io.ktor.utils.io.core.writeFully
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.CancellationException

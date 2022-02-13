@@ -163,7 +163,7 @@ Yabapi 基于此，力求类型安全，避免空指针，减少运行时错误�
 - 时间
     - [X] 获取服务器时间戳
 - Cookie 存储
-    - [X] 提供 FileCookieStorage (基于 Ktor AcceptAllCookies, 以及 [korio](https://github.com/korlibs/korio) 的 VfsFile)
+    - [X] 提供 FileCookieStorage
 
 </details>
 

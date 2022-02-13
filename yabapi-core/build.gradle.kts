@@ -100,9 +100,9 @@ kotlin {
                 implementation("io.matthewnelson.kotlin-components:encoding-base64:1.0.3")
                 implementation("com.soywiz.korlibs.krypto:krypto:2.2.0")
                 // Logger
-                implementation("co.touchlab:kermit:1.0.0")
+                // implementation("co.touchlab:kermit:1.0.0")
                 // File
-                implementation("com.soywiz.korlibs.korio:korio:2.2.1")
+                // implementation("com.soywiz.korlibs.korio:korio:2.2.1")
                 implementation("com.squareup.okio:okio:3.0.0")
             }
 
