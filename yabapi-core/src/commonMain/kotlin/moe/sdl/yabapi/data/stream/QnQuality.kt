@@ -27,7 +27,9 @@ public enum class QnQuality(public val code: Int) {
     // audio
     AUDIO_LOW(30216),
     AUDIO_MEDIUM(30232),
-    AUDIO_HIGH(30280);
+    AUDIO_HIGH(30280),
+    AUDIO_DOLBY(30250),
+    ;
 
     public companion object {
         public fun fromCode(code: Int): QnQuality = values().firstOrNull { it.code == code }

@@ -11,6 +11,7 @@ import moe.sdl.yabapi.enums.video.LikeAction.UNLIKE
 import moe.sdl.yabapi.enums.video.VideoFormat.DASH
 import moe.sdl.yabapi.initTest
 import moe.sdl.yabapi.runTest
+import moe.sdl.yabapi.util.encoding.bv
 import kotlin.test.Test
 
 internal class VideoApiTest {
@@ -152,7 +153,8 @@ internal class VideoApiTest {
     @Test
     fun fetchVideoStreamTest() {
         runTest {
-            val bv = "BV1qM4y1w716"
+            // client.loginWebQRCodeInteractive()
+            val bv = "av419059870".bv
             val data = client.getVideoParts(bv).data
             client.fetchVideoStream(
                 bv,

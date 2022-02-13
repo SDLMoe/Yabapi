@@ -1,9 +1,10 @@
 package moe.sdl.yabapi.data.stream
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonNames
 import moe.sdl.yabapi.data.GeneralCode
 import moe.sdl.yabapi.data.GeneralCode.UNKNOWN
 
@@ -84,32 +85,51 @@ public data class DashStream(
     @Serializable
     public data class Dolby(
         val type: Int? = null,
-        val audios: List<DashTrack> = emptyList(),
+        val audio: List<DashTrack> = emptyList(),
     )
 }
 
 @Serializable
 public data class DashTrack(
     @SerialName("id") val id: QnQuality? = null,
-    @SerialName("baseUrl") val baseUrl: String? = null,
-    @SerialName("base_url") private val _baseUrl: String? = null,
-    @SerialName("backupUrl") val backupUrl: List<String> = emptyList(),
-    @SerialName("backup_url") private val _backupUrl: List<String> = emptyList(),
-    @SerialName("bandwidth") val bandwidth: Int? = null,
-    @SerialName("mimeType") val mimeType: String? = null,
-    @SerialName("mime_type") private val _mimeType: String? = null,
-    @SerialName("codecs") val codecs: String? = null,
-    @SerialName("width") val width: Int? = null,
-    @SerialName("height") val height: Int? = null,
-    @SerialName("frameRate") val frameRate: String? = null,
-    @SerialName("frame_rate") private val _frameRate: String? = null,
-    @SerialName("sar") val sar: String? = null,
-    @SerialName("startWithSap") val startWithSap: Int? = null,
-    @SerialName("start_with_sap") private val _startWithSap: Int? = null,
-    @SerialName("SegmentBase") val segmentBase: SegmentBase? = null,
-    @SerialName("segment_base") private val _segmentBase: JsonObject? = null,
-    @SerialName("codecid") val codec: CodecId = CodecId.UNKNOWN,
-)
+    @SerialName("baseUrl") private val _baseUrl1: String? = null,
+    @SerialName("base_url") private val _baseUrl2: String? = null,
+    @SerialName("backupUrl") private val _backupUrl1: List<String>? = null,
+    @SerialName("backup_url") private val _backupUrl2: List<String>? = null,
+    @SerialName("bandwidth") private val bandwidth: Int? = null,
+    @SerialName("mimeType") private val _mimeType1: String? = null,
+    @SerialName("mime_type") private val _mimeType2: String? = null,
+    @SerialName("codecs") private val codecs: String? = null,
+    @SerialName("width") private val width: Int? = null,
+    @SerialName("height") private val height: Int? = null,
+    @SerialName("frameRate") private val _frameRate1: String? = null,
+    @SerialName("frame_rate") private val _frameRate2: String? = null,
+    @SerialName("sar") private val sar: String? = null,
+    @SerialName("startWithSap") private val _startWithSap1: Int? = null,
+    @SerialName("start_with_sap") private val _startWithSap2: Int? = null,
+    @SerialName("SegmentBase") private val _segmentBase1: SegmentBase? = null,
+    @SerialName("segment_base") private val _segmentBase2: SegmentBase? = null,
+    @SerialName("size") val size: Long? = null, // 不一定返回, 目前僅觀察到 dolby 音軌有
+    @SerialName("codecid") private val codec: CodecId = CodecId.UNKNOWN,
+) {
+    public val baseUrl: String?
+        get() = _baseUrl1 ?: _baseUrl2
+
+    public val backupUrl: List<String>
+        get() = _backupUrl1 ?: _backupUrl2 ?: emptyList()
+
+    public val mimeType: String?
+        get() = _mimeType1 ?: _mimeType2
+
+    public val frameRate: String?
+        get() = _frameRate1 ?: _frameRate2
+
+    public val startWithSap: Int?
+        get() = _startWithSap1 ?: _startWithSap2
+
+    public val segmentBase: SegmentBase?
+        get() = _segmentBase1 ?: _segmentBase2
+}
 
 @Serializable
 public enum class CodecId {
@@ -129,9 +149,9 @@ public enum class CodecId {
 }
 
 @Serializable
-public data class SegmentBase(
-    @SerialName("Initialization") val initialization: String? = null,
-    @SerialName("indexRange") val indexRange: String? = null,
+public data class SegmentBase @OptIn(ExperimentalSerializationApi::class) constructor(
+    @JsonNames("initialization", "Initialization") val initialization: String? = null,
+    @JsonNames("index_range","indexRange") val indexRange: String? = null,
 )
 
 @Serializable
