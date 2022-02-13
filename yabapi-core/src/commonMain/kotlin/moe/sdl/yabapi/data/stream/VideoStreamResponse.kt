@@ -110,7 +110,7 @@ public data class DashTrack(
     @SerialName("SegmentBase") private val _segmentBase1: SegmentBase? = null,
     @SerialName("segment_base") private val _segmentBase2: SegmentBase? = null,
     @SerialName("size") val size: Long? = null, // 不一定返回, 目前僅觀察到 dolby 音軌有
-    @SerialName("codecid") private val codec: CodecId = CodecId.UNKNOWN,
+    @SerialName("codecid") val codec: CodecId = CodecId.UNKNOWN,
 ) {
     public val baseUrl: String?
         get() = _baseUrl1 ?: _baseUrl2
