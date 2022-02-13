@@ -4,7 +4,6 @@
 [![Maven-Central Yabapi Version](https://img.shields.io/maven-central/v/moe.sdl.yabapi/yabapi-core-jvm?style=for-the-badge)](https://repo1.maven.org/maven2/moe/sdl/yabapi/)
 [![Maven-Central Yabapi Snapshots Version](https://img.shields.io/nexus/s/moe.sdl.yabapi/yabapi-core-jvm?label=Maven%20Snapshots&server=https%3A%2F%2Fs01.oss.sonatype.org&style=for-the-badge)](https://s01.oss.sonatype.org/content/repositories/snapshots/moe/sdl/yabapi/yabapi-core-jvm/)
 
-/nexus/s/
 > 🔧 WIP 并没有进入稳定版本, API 可能会发生变动
 
 # Intro
@@ -196,8 +195,6 @@ dependencies {
 ```
 
 </details>
-
-
 
 # Change Log
 
