@@ -96,7 +96,7 @@ public data class DashTrack(
     @SerialName("base_url") private val _baseUrl2: String? = null,
     @SerialName("backupUrl") private val _backupUrl1: List<String>? = null,
     @SerialName("backup_url") private val _backupUrl2: List<String>? = null,
-    @SerialName("bandwidth") private val bandwidth: Int? = null,
+    @SerialName("bandwidth") val bandwidth: Int? = null,
     @SerialName("mimeType") private val _mimeType1: String? = null,
     @SerialName("mime_type") private val _mimeType2: String? = null,
     @SerialName("codecs") private val codecs: String? = null,
