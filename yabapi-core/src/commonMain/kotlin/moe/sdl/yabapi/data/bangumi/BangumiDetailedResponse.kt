@@ -89,7 +89,7 @@ public data class BangumiEpisode(
     @SerialName("cid") val cid: Int? = null, // 分 p id
     @SerialName("cover") val cover: String? = null, // 封面链接
     @SerialName("dimension") val dimension: VideoDimension? = null, // 视频分辨率
-    @SerialName("duration") val duration: Long? = null, // 时长
+    @SerialName("duration") val duration: Long? = null, // 时长, ms
     @SerialName("from") val from: String? = null,
     @SerialName("id") val id: Int? = null,
     @SerialName("is_view_hide") val isViewHide: Boolean? = null,
@@ -107,7 +107,9 @@ public data class BangumiEpisode(
     @SerialName("subtitle") val subtitle: String? = null,
     @SerialName("title") val title: String? = null, // 标题
     @SerialName("vid") val vid: String? = null,
-)
+) {
+    val durationInSecond: Long? by lazy { duration?.div(1000L) }
+}
 
 @Serializable
 public data class BangumiBadgeInfo(
