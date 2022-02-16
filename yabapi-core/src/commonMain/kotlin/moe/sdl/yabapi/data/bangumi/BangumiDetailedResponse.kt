@@ -197,6 +197,7 @@ public data class BangumiSeason(
 @Serializable
 public data class BangumiSection(
     @SerialName("episode_id") val epId: Int? = null,
+    @SerialName("episode_ids") val episodeIds: List<Int> = emptyList(),
     @SerialName("episodes") val episodes: List<BangumiEpisode> = emptyList(),
     @SerialName("id") val id: Int? = null,
     @SerialName("title") val title: String? = null,
