@@ -1,9 +1,9 @@
 package moe.sdl.yabapi.enums
 
-import com.soywiz.korio.lang.assert
 import moe.sdl.yabapi.enums.video.Douga
 import moe.sdl.yabapi.enums.video.VideoType
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 internal class VideoTypeTest {
     @Test
@@ -11,8 +11,8 @@ internal class VideoTypeTest {
         VideoType.getAllTypes()
         val fromCode = VideoType.fromCode("douga")
         val fromTid = VideoType.fromTid(1)
-        assert(fromCode === Douga)
-        assert(fromTid === Douga)
+        assertEquals(Douga, fromCode)
+        assertEquals(Douga, fromTid)
     }
 
     @Test

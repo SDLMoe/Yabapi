@@ -1,6 +1,6 @@
 package moe.sdl.yabapi.packet
 
-import com.soywiz.korio.lang.toByteArray
+import io.ktor.utils.io.core.toByteArray
 import kotlinx.atomicfu.atomic
 import moe.sdl.yabapi.packet.LiveMsgPacketProtocol.COMMAND_NO_COMPRESSION
 import moe.sdl.yabapi.packet.LiveMsgPacketProtocol.COMMAND_ZLIB

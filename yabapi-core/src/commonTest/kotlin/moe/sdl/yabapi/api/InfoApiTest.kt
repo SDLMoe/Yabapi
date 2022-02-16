@@ -1,6 +1,6 @@
 package moe.sdl.yabapi.api
 
-import com.soywiz.korio.async.launch
+import kotlinx.coroutines.launch
 import moe.sdl.yabapi.client
 import moe.sdl.yabapi.enums.video.Kichiku
 import moe.sdl.yabapi.enums.video.VideoSort.COLLECT

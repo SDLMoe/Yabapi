@@ -1,7 +1,7 @@
 package moe.sdl.yabapi.api
 
-import com.soywiz.korio.async.async
 import io.ktor.client.request.get
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.asFlow
 import moe.sdl.yabapi.client
 import moe.sdl.yabapi.enums.StickerBusiness.REPLY
