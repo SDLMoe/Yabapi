@@ -71,9 +71,12 @@ public data class BangumiDetailed(
 
 @Serializable
 public data class BangumiActivity(
+    @SerialName("cover") val cover: String? = null,
     @SerialName("head_bg_url") val bannerUrl: String? = null,
     @SerialName("id") val id: Int? = null,
     @SerialName("title") val title: String? = null,
+    @SerialName("link") val link: String? = null,
+    @SerialName("pendants") val pendants: List<Pendant> = emptyList(),
 )
 
 /**
