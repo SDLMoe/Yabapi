@@ -10,6 +10,6 @@ internal actual val client: BiliClient by lazy {
     BiliClient(getDefaultHttpClient(storage))
 }
 
-actual inline fun <T> runTest(crossinline block: suspend CoroutineScope.() -> T) {
-    runBlocking { block() }
+actual inline fun <T> runTest(crossinline block: suspend CoroutineScope.() -> T): T {
+    return runBlocking { block() }
 }

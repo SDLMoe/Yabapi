@@ -12,7 +12,7 @@ internal const val TEST_COOKIE_PATH = "./cookies.json"
 
 internal expect val client: BiliClient
 
-expect fun <T> runTest(block: suspend CoroutineScope.() -> T)
+expect fun <T> runTest(block: suspend CoroutineScope.() -> T): T
 
 internal fun initTest() {
     yabapiLogLevel.getAndSet(DEBUG)

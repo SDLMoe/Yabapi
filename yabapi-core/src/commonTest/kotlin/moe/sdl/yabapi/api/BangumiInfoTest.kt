@@ -11,10 +11,8 @@ internal class BangumiApiTest {
     }
 
     @Test
-    fun getBanugmiInfoTest() {
-        runTest {
-            client.getBangumiInfo(28220978)
-        }
+    fun getBanugmiInfoTest(): Unit = runTest {
+        client.getBangumiInfo(28220978)
     }
 
     @Test

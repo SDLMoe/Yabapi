@@ -18,14 +18,15 @@ internal actual val client: BiliClient by lazy {
     BiliClient(httpClient)
 }
 
-actual inline fun <T> runTest(crossinline block: suspend CoroutineScope.() -> T) {
-    runBlocking { block() }
+actual inline fun <T> runTest(crossinline block: suspend CoroutineScope.() -> T): T {
+    return runBlocking { block() }
 }
 
 internal class Test {
     init {
         initTest()
     }
+
     @Test
     fun test() = runTest {
         // client.loginWebQRCodeInteractive()
