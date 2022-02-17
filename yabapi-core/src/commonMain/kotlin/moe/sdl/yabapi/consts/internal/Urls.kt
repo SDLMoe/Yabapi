@@ -48,6 +48,8 @@ internal const val BANGUMI_INFO_GET_URL = "$MAIN/pgc/review/user"
 
 internal const val BANGUMI_DETAILED_GET_URL = "$MAIN/pgc/view/web/season"
 
+internal const val BANGUMI_REVIEW_INFO_GET_URL = "$MAIN/pgc/review/user"
+
 // endregion
 
 // region =================== Video ========================

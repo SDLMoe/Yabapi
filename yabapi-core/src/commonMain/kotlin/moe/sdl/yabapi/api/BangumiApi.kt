@@ -6,8 +6,10 @@ import kotlinx.coroutines.withContext
 import moe.sdl.yabapi.BiliClient
 import moe.sdl.yabapi.consts.internal.BANGUMI_DETAILED_GET_URL
 import moe.sdl.yabapi.consts.internal.BANGUMI_INFO_GET_URL
+import moe.sdl.yabapi.consts.internal.BANGUMI_REVIEW_INFO_GET_URL
 import moe.sdl.yabapi.data.bangumi.BangumiDetailedResponse
 import moe.sdl.yabapi.data.bangumi.BangumiInfoGetResponse
+import moe.sdl.yabapi.data.bangumi.BangumiReviewInfoResponse
 import moe.sdl.yabapi.deserializeJson
 import moe.sdl.yabapi.util.Logger
 import moe.sdl.yabapi.util.requireLeastAndOnlyOne
@@ -31,6 +33,23 @@ public suspend fun BiliClient.getBangumiInfo(
         parameter("media_id", mediaId)
     }.deserializeJson<BangumiInfoGetResponse>().also {
         logger.debug { "Got bangumi info for media id $mediaId： $it" }
+    }
+}
+
+/**
+ * 获取评价相关信息
+ *
+ * 可以用于获取 md 号对应的 ss 号
+ */
+public suspend fun BiliClient.getBangumiReviewInfo(
+    mediaId: Int,
+    context: CoroutineContext = this.context,
+): BangumiReviewInfoResponse = withContext(context) {
+    logger.debug { "Getting Bangumi Review Info for media id $mediaId" }
+    client.get<String>(BANGUMI_REVIEW_INFO_GET_URL) {
+        parameter("media_id", mediaId)
+    }.deserializeJson<BangumiReviewInfoResponse>().also {
+        logger.debug { "Got Bangumi Review Info for media id $mediaId: $it" }
     }
 }
 
