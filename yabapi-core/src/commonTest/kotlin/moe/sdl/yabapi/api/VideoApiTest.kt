@@ -57,10 +57,13 @@ internal class VideoApiTest {
     @Test
     fun subtitleGetTest(): Unit = runTest {
         yabapiLogLevel.getAndSet(LogLevel.VERBOSE)
-        val list = client.getVideoInfo(60977932).data?.subtitle?.list.orEmpty()
-        val track = list.first()
-        val content = client.getSubtitleContent(track.subtitleUrl!!)
-        content.body.filterIndexed { index, _ -> index in 50..100 }.encodeToSrt().also(::println)
+        val aid = 60977932
+        client.getVideoParts(aid).data.asSequence().map { it.cid }.forEach { cid ->
+            val list = client.getVideoInfo(aid, cid).data?.subtitle?.list.orEmpty()
+            val track = list.firstOrNull() ?: return@forEach
+            val content = client.getSubtitleContent(track.subtitleUrl ?: return@forEach)
+            content.body.filterIndexed { index, _ -> index in 50..100 }.encodeToSrt().also(::println)
+        }
     }
 
 

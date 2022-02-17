@@ -103,10 +103,12 @@ private fun getActualId(aid: Int?, bid: String?): Int {
 private suspend inline fun BiliClient.getVideoInfo(
     aid: Int? = null,
     bid: String? = null,
+    cid: Int? = null,
     context: CoroutineContext = this.context,
 ): VideoInfoGetResponse = withContext(context) {
     client.get<String>(VIDEO_INFO_GET_URL) {
         putVideoId(aid, bid)
+        cid?.let { parameter("cid", cid) }
     }.deserializeJson()
 }
 
@@ -117,10 +119,11 @@ private suspend inline fun BiliClient.getVideoInfo(
  */
 public suspend fun BiliClient.getVideoInfo(
     aid: Int,
+    cid: Int? = null,
     context: CoroutineContext = this.context,
 ): VideoInfoGetResponse {
     logger.debug { "Getting video info for av$aid..." }
-    return this.getVideoInfo(aid, null, context).also {
+    return this.getVideoInfo(aid, null, cid, context).also {
         logger.debug { "Got video info for av$aid: $it" }
     }
 }
@@ -132,10 +135,11 @@ public suspend fun BiliClient.getVideoInfo(
  */
 public suspend fun BiliClient.getVideoInfo(
     bid: String,
+    cid: Int? = null,
     context: CoroutineContext = this.context,
 ): VideoInfoGetResponse {
     logger.debug { "Getting video info for $bid..." }
-    return this.getVideoInfo(null, bid, context).also {
+    return this.getVideoInfo(null, bid, cid, context).also {
         logger.debug { "Got video info for $bid: $it" }
     }
 }
