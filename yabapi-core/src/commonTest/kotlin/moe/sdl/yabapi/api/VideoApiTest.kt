@@ -5,6 +5,7 @@ import moe.sdl.yabapi.client
 import moe.sdl.yabapi.data.stream.QnQuality.V8K
 import moe.sdl.yabapi.data.stream.StreamRequest
 import moe.sdl.yabapi.data.stream.VideoFnvalFormat
+import moe.sdl.yabapi.data.video.encodeToSrt
 import moe.sdl.yabapi.enums.LogLevel
 import moe.sdl.yabapi.enums.video.CollectAction.ADD
 import moe.sdl.yabapi.enums.video.CollectAction.REMOVE
@@ -58,7 +59,8 @@ internal class VideoApiTest {
         yabapiLogLevel.getAndSet(LogLevel.VERBOSE)
         val list = client.getVideoInfo(60977932).data?.subtitle?.list.orEmpty()
         val track = list.first()
-        client.getSubtitleContent(track.subtitleUrl!!)
+        val content = client.getSubtitleContent(track.subtitleUrl!!)
+        content.body.filterIndexed { index, _ -> index in 50..100 }.encodeToSrt().also(::println)
     }
 
 
