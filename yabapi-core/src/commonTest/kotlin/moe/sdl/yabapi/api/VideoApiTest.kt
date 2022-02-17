@@ -1,9 +1,11 @@
 package moe.sdl.yabapi.api
 
+import moe.sdl.yabapi.Yabapi.yabapiLogLevel
 import moe.sdl.yabapi.client
 import moe.sdl.yabapi.data.stream.QnQuality.V8K
 import moe.sdl.yabapi.data.stream.StreamRequest
 import moe.sdl.yabapi.data.stream.VideoFnvalFormat
+import moe.sdl.yabapi.enums.LogLevel
 import moe.sdl.yabapi.enums.video.CollectAction.ADD
 import moe.sdl.yabapi.enums.video.CollectAction.REMOVE
 import moe.sdl.yabapi.enums.video.LikeAction.LIKE
@@ -50,6 +52,15 @@ internal class VideoApiTest {
             }
         }
     }
+
+    @Test
+    fun subtitleGetTest(): Unit = runTest {
+        yabapiLogLevel.getAndSet(LogLevel.VERBOSE)
+        val list = client.getVideoInfo(60977932).data?.subtitle?.list.orEmpty()
+        val track = list.first()
+        client.getSubtitleContent(track.subtitleUrl!!)
+    }
+
 
     @Test
     fun getVideoParts() {
@@ -177,7 +188,7 @@ internal class VideoApiTest {
     fun fetchPgcStreamTest() = runTest {
         client.fetchPgcStream(457775)
     }
-    
+
     @Test
     fun getTimelineHotTest() {
         runTest {

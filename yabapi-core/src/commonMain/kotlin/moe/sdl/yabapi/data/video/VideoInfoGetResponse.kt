@@ -5,7 +5,6 @@ package moe.sdl.yabapi.data.video
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -88,10 +87,11 @@ public data class VideoInfo(
     @SerialName("honor_reply") val honor: VideoHonorData? = null,
 ) {
 
-    public fun getSubtitle(json: Json = defaultJson.value): VideoSubtitle? =
+    public val subtitle: VideoSubtitle? by lazy {
         if (_subtitle is JsonObject || _subtitle != null) {
-            json.decodeFromJsonElement<VideoSubtitle>(_subtitle)
+            defaultJson.value.decodeFromJsonElement<VideoSubtitle>(_subtitle)
         } else null
+    }
 
     val typeName: String? by lazy { _typename ?: _tname }
 

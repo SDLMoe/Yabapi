@@ -48,10 +48,12 @@ internal inline fun <reified T> ByteArray.deserializeProto(): T {
     return Yabapi.protoBuf.value.decodeFromByteArray(this)
 }
 
-internal inline fun <reified T> String.deserializeJson(): T =
-    try {
+internal inline fun <reified T> String.deserializeJson(): T {
+    logger.verbose { "Received raw json: $this" }
+    return try {
         Yabapi.defaultJson.value.decodeFromString(this)
     } catch (e: SerializationException) {
         logger.error { "Failed to deserialize ${T::class.qualifiedOrSimpleName}, raw json: $this" }
         throw e
     }
+}

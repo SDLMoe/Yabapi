@@ -15,12 +15,14 @@ public data class VideoSubtitle(
 
 @Serializable
 public data class SubtitleTrack(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: ULong? = null,
     @SerialName("lan") val language: String? = null,
     @SerialName("lan_doc") val languageName: String? = null,
     @SerialName("is_lock") val isLocked: Boolean? = null,
     @SerialName("author_mid") val authorMid: Int? = null,
     @SerialName("subtitle_url") val subtitleUrl: String? = null,
+    @SerialName("type") val type: Int? = null,
+    @SerialName("id_str") val idStr: String? = null,
     @SerialName("author") val author: SubtitleAuthor? = null,
 )
 
@@ -35,4 +37,6 @@ public data class SubtitleAuthor(
     @SerialName("birthday") val birthday: Int? = null,
     @SerialName("is_fake_account") val isFakeAccount: Boolean? = null,
     @SerialName("is_deleted") val isDeleted: Boolean? = null,
+    @SerialName("in_reg_audit") val inRegAudit: Boolean? = null,
+    @SerialName("is_senior_member") val isSeniorMember: Boolean? = null,
 )

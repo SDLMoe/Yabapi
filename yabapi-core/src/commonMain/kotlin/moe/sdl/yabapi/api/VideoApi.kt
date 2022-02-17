@@ -37,6 +37,7 @@ import moe.sdl.yabapi.data.video.CoinVideoResponse
 import moe.sdl.yabapi.data.video.HasLikedResponse
 import moe.sdl.yabapi.data.video.ReportWatchResponse
 import moe.sdl.yabapi.data.video.ShareVideoResponse
+import moe.sdl.yabapi.data.video.SubtitleContent
 import moe.sdl.yabapi.data.video.TimelineHotResponse
 import moe.sdl.yabapi.data.video.VideoCoinCheckResponse
 import moe.sdl.yabapi.data.video.VideoCollectCheck
@@ -900,5 +901,26 @@ public suspend inline fun BiliClient.reportVideoProgress(
     progress: Int,
     context: CoroutineContext = this.context,
 ): ReportWatchResponse = reportVideoProgress(bid.avInt, cid, progress, context)
+
+// endregion
+
+// region ==================== Subtitle ====================
+
+private val subtitleUrlRegex by lazy {
+    Regex("""^\s*(https?)?:?//([\w\d]+\.hdslb\.com/bfs/subtitle/[\w\d]+\.json)\s*$""")
+}
+
+public suspend fun BiliClient.getSubtitleContent(
+    url: String,
+    context: CoroutineContext = this.context,
+): SubtitleContent = withContext(context) {
+    logger.debug { "Getting subtitle at $url" }
+    val match = subtitleUrlRegex.matchEntire(url)
+    require(match?.groupValues != null) { "Subtitle url must matches $subtitleUrlRegex..." }
+    val normalizeUrl =  "https://" + match!!.groupValues[2]
+    client.get<String>(normalizeUrl).deserializeJson<SubtitleContent>().also {
+        logger.debug { "Got subtitle content from $normalizeUrl: $it" }
+    }
+}
 
 // endregion
