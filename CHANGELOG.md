@@ -4,6 +4,27 @@
 
 ## 2022-01
 
+### 0.0.8
+
+#### ADD
+
+- 爲 `getVideoApi` 添加 `cid` 參數, 可獲取如字幕等依據分 P 不同的內容
+- 字幕獲取 `getSubtitleContent` 以及 `toSrt` 工具方法
+- `getBangumiReviewInfo` 可根據 MD 號獲取 SS 號碼
+
+#### CHANGE
+
+- 重命名 `A64K` `A128K` 等爲 `AUDIO_LOW` `AUDIO_MEIDUM` `AUDIO_HIGH` 並新增 `AUDIO_DOLBY` 
+
+#### FIX
+
+- `buildUrl` 行爲
+- 清除無用依賴
+
+#### MISC
+
+- 新增 `SNAPSHOT` 倉庫
+
 ### 0.0.7
 
 #### ADD
