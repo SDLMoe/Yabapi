@@ -56,6 +56,8 @@ internal const val BANGUMI_REVIEW_INFO_GET_URL = "$MAIN/pgc/review/user"
 
 internal const val VIDEO_INFO_GET_URL = "$MAIN/x/web-interface/view"
 
+internal const val VIDEO_PLAYER_INFO_GET_URL = "$MAIN/x/player/v2"
+
 internal const val VIDEO_PARTS_GET_URL = "$MAIN/x/player/pagelist"
 
 internal const val VIDEO_DESCRIPTION_GET_URL = "$MAIN/x/web-interface/archive/desc"
@@ -236,6 +238,8 @@ internal const val FAVORITES_MEDIA_GET_URL = "$MAIN/x/v3/fav/resource/list"
 
 // endregion
 
+// endregion
+
 // region =================== Album ========================
 
 internal const val ALBUM_INFO_GET_URL = "$VC_API/link_draw/v1/doc/detail"
@@ -339,7 +343,7 @@ internal const val ARTICLE_SET_INFO_GET_URL = "$MAIN/x/article/list/web/articles
 
 // endregion
 
-// region =================== Info ========================
+// region =================== History ========================
 
 internal const val HISTORY_GET_URL = "$MAIN/x/web-interface/history/cursor"
 

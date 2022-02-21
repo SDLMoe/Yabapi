@@ -55,6 +55,15 @@ internal class VideoApiTest {
     }
 
     @Test
+    fun getVideoPlayerInfoTest(): Unit = runTest {
+        client.apply {
+            val aid = 207575334
+            val cid = getVideoParts(aid).data.first().part!!
+            getVideoPlayerInfo(aid, cid)
+        }
+    }
+
+    @Test
     fun subtitleGetTest(): Unit = runTest {
         yabapiLogLevel.getAndSet(LogLevel.VERBOSE)
         val aid = 60977932

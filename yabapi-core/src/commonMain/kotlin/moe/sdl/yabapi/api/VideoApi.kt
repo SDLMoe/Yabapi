@@ -24,6 +24,7 @@ import moe.sdl.yabapi.consts.internal.VIDEO_INFO_GET_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_LIKE_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_ONLINE_GET_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_PARTS_GET_URL
+import moe.sdl.yabapi.consts.internal.VIDEO_PLAYER_INFO_GET_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_RELATED_GET_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_REPORT_PROGRESS_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_SHARE_URL
@@ -48,6 +49,7 @@ import moe.sdl.yabapi.data.video.VideoInfoGetResponse
 import moe.sdl.yabapi.data.video.VideoLikeResponse
 import moe.sdl.yabapi.data.video.VideoOnlineGetResponse
 import moe.sdl.yabapi.data.video.VideoPartsGetResponse
+import moe.sdl.yabapi.data.video.VideoPlayerInfoResponse
 import moe.sdl.yabapi.data.video.VideoRelatedGetResponse
 import moe.sdl.yabapi.data.video.VideoTagsGetResponse
 import moe.sdl.yabapi.deserializeJson
@@ -141,6 +143,41 @@ public suspend fun BiliClient.getVideoInfo(
     logger.debug { "Getting video info for $bid..." }
     return this.getVideoInfo(null, bid, cid, context).also {
         logger.debug { "Got video info for $bid: $it" }
+    }
+}
+
+private suspend fun BiliClient.getVideoPlayerInfo(
+    aid: Int?,
+    bvid: String?,
+    cid: Int,
+    context: CoroutineContext = this.context,
+): VideoPlayerInfoResponse = withContext(context) {
+    requireLeastAndOnlyOne(aid, bvid)
+    client.get<String>(VIDEO_PLAYER_INFO_GET_URL) {
+        putVideoId(aid, bvid)
+        parameter("cid", cid)
+    }.deserializeJson()
+}
+
+public suspend fun BiliClient.getVideoPlayerInfo(
+    aid: Int,
+    cid: Int,
+    context: CoroutineContext = this.context,
+): VideoPlayerInfoResponse {
+    logger.debug { "Getting VideoPlayerInfo for av$aid - $cid" }
+    return getVideoPlayerInfo(aid, null, cid, context).also {
+        logger.debug { "Got VideoPlayerInfo for av$aid - $cid: $it" }
+    }
+}
+
+public suspend fun BiliClient.getVideoPlayerInfo(
+    bvid: String,
+    cid: Int,
+    context: CoroutineContext = this.context,
+): VideoPlayerInfoResponse {
+    logger.debug { "Getting VideoPlayerInfo for $bvid - $cid" }
+    return getVideoPlayerInfo(null, bvid, cid, context).also {
+        logger.debug { "Got VideoPlayerInfo for $bvid - $cid: $it" }
     }
 }
 
@@ -921,7 +958,7 @@ public suspend fun BiliClient.getSubtitleContent(
     logger.debug { "Getting subtitle at $url" }
     val match = subtitleUrlRegex.matchEntire(url)
     require(match?.groupValues != null) { "Subtitle url must matches $subtitleUrlRegex..." }
-    val normalizeUrl =  "https://" + match!!.groupValues[2]
+    val normalizeUrl = "https://" + match!!.groupValues[2]
     client.get<String>(normalizeUrl).deserializeJson<SubtitleContent>().also {
         logger.debug { "Got subtitle content from $normalizeUrl: $it" }
     }

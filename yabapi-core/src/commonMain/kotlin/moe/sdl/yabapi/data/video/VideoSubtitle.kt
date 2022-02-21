@@ -2,15 +2,19 @@
 
 package moe.sdl.yabapi.data.video
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
+import kotlinx.serialization.json.JsonNames
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
-public data class VideoSubtitle(
+public data class VideoSubtitle @OptIn(ExperimentalSerializationApi::class) constructor(
     @SerialName("allow_submit") val allowSubmit: Boolean? = null,
-    @SerialName("list") val list: List<SubtitleTrack> = emptyList(),
+    @SerialName("lan") val lan: String? = null,
+    @SerialName("lan_doc") val lanDoc: String? = null,
+    @JsonNames("list", "subtitles") val list: List<SubtitleTrack> = emptyList(),
 )
 
 @Serializable
