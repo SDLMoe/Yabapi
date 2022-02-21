@@ -17,7 +17,7 @@ import java.io.File
 
 internal class FeedApiTestJvm {
     @Test
-    fun storageNewFeedToFile() = runTest {
+    fun storageNewFeedToFile(): Unit = runTest {
         client.apply {
             val mid = getBasicInfo().data.mid!!
             val list = intArrayOf(

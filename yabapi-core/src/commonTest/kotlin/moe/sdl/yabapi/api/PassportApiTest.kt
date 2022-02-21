@@ -20,7 +20,7 @@ internal class PassportApiTest {
     }
 
     @Test
-    fun getCallingCodeTest() = runTest {
+    fun getCallingCodeTest(): Unit = runTest {
         client.getCallingCode()
     }
 }

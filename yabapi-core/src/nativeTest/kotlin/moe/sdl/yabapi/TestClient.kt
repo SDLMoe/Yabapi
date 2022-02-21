@@ -28,7 +28,7 @@ internal class Test {
     }
 
     @Test
-    fun test() = runTest {
+    fun test(): Unit = runTest {
         // client.loginWebQRCodeInteractive()
         client.getStat()
     }

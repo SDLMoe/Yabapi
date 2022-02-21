@@ -24,33 +24,29 @@ internal class VideoApiTest {
     }
 
     @Test
-    fun getVideoInfo() {
-        runTest {
-            listOf(
-                2,
-                7,
-                507448290,
-                933731156,
-                971149764,
-                422651576,
-                974531866,
-                892816331,
-                252043983,
-                252702924,
-                206735865,
-                549481623,
-            ).forEach {
-                client.getVideoInfo(it)
-            }
+    fun getVideoInfo(): Unit = runTest {
+        listOf(
+            2,
+            7,
+            507448290,
+            933731156,
+            971149764,
+            422651576,
+            974531866,
+            892816331,
+            252043983,
+            252702924,
+            206735865,
+            549481623,
+        ).forEach {
+            client.getVideoInfo(it)
         }
     }
 
     @Test
-    fun getUgcSeasonInfo() {
-        runTest {
-            listOf("BV1ei4y1X7mo", "BV1jF411B7sw", "BV17A411575p", "BV1h34y1o7bz").forEach {
-                client.getVideoInfo(it)
-            }
+    fun getUgcSeasonInfo(): Unit = runTest {
+        listOf("BV1ei4y1X7mo", "BV1jF411B7sw", "BV17A411575p", "BV1h34y1o7bz").forEach {
+            client.getVideoInfo(it)
         }
     }
 
@@ -75,170 +71,137 @@ internal class VideoApiTest {
         }
     }
 
-
     @Test
-    fun getVideoParts() {
-        runTest {
-            listOf(
-                507448290,
-                933731156,
-                971149764,
-                422651576,
-                974531866,
-                892816331,
-                252043983,
-                252702924,
-                206735865,
-                549481623,
-            ).forEach {
-                client.getVideoParts(it)
-            }
+    fun getVideoParts(): Unit = runTest {
+        listOf(
+            507448290,
+            933731156,
+            971149764,
+            422651576,
+            974531866,
+            892816331,
+            252043983,
+            252702924,
+            206735865,
+            549481623,
+        ).forEach {
+            client.getVideoParts(it)
         }
     }
 
     @Test
-    fun getVideoDescription() {
-        runTest {
-            listOf(
-                507448290,
-                933731156,
-                971149764,
-                422651576,
-                974531866,
-                892816331,
-                252043983,
-                252702924,
-                206735865,
-                549481623,
-            ).forEach {
-                client.getVideoDescription(it)
-            }
+    fun getVideoDescription(): Unit = runTest {
+        listOf(
+            507448290,
+            933731156,
+            971149764,
+            422651576,
+            974531866,
+            892816331,
+            252043983,
+            252702924,
+            206735865,
+            549481623,
+        ).forEach {
+            client.getVideoDescription(it)
         }
     }
 
     @Test
-    fun likeVideoTest() {
-        runTest {
-            client.likeVideo("BV13Z4y1F798", LIKE)
-            client.likeVideo("BV13Z4y1F798", UNLIKE)
-        }
+    fun likeVideoTest(): Unit = runTest {
+        client.likeVideo("BV13Z4y1F798", LIKE)
+        client.likeVideo("BV13Z4y1F798", UNLIKE)
     }
 
     @Test
-    fun checkVideoLikeTest() {
-        runTest {
-            client.checkVideoLike("BV13Z4y1F798")
-        }
+    fun checkVideoLikeTest(): Unit = runTest {
+        client.checkVideoLike("BV13Z4y1F798")
     }
 
     @Test
-    fun coinVideoTest() {
-        runTest {
-            client.coinVideo("BV13Z4y1F798")
-            client.coinVideo("BV13Z4y1F798", withLike = true)
-        }
+    fun coinVideoTest(): Unit = runTest {
+        client.coinVideo("BV13Z4y1F798")
+        client.coinVideo("BV13Z4y1F798", withLike = true)
     }
 
     @Test
-    fun checkCoinTest() {
-        runTest {
-            client.checkVideoCoin("BV13Z4y1F798")
-        }
+    fun checkCoinTest(): Unit = runTest {
+        client.checkVideoCoin("BV13Z4y1F798")
     }
 
     @Test
-    fun collectVideo() {
-        runTest {
-            client.collectVideo("BV13Z4y1F798", ADD, listOf(83867716))
-            client.collectVideo("BV13Z4y1F798", REMOVE, listOf(83867716))
-        }
+    fun collectVideo(): Unit = runTest {
+        client.collectVideo("BV13Z4y1F798", ADD, listOf(83867716))
+        client.collectVideo("BV13Z4y1F798", REMOVE, listOf(83867716))
     }
 
     @Test
-    fun checkVideoCollect() {
-        runTest {
-            client.checkVideoCollect("BV13Z4y1F798")
-        }
+    fun checkVideoCollect(): Unit = runTest {
+        client.checkVideoCollect("BV13Z4y1F798")
     }
 
     @Test
-    fun comboLikeTest() {
-        runTest {
-            client.comboLike(170001)
-        }
+    fun comboLikeTest(): Unit = runTest {
+        client.comboLike(170001)
     }
 
     @Test
-    fun shareTest() {
-        runTest {
-            client.shareVideo("BV13Z4y1F798")
-        }
+    fun shareTest(): Unit = runTest {
+        client.shareVideo("BV13Z4y1F798")
     }
 
     @Test
-    fun fetchVideoStreamTest() {
-        runTest {
-            // client.loginWebQRCodeInteractive()
-            val bv = "av419059870".bv
-            val data = client.getVideoParts(bv).data
-            client.fetchVideoStream(
-                bv,
-                data[0].cid!!,
-                StreamRequest(
-                    qnQuality = V8K,
-                    fnvalFormat = VideoFnvalFormat(
-                        format = DASH,
-                        needHDR = true,
-                        need4K = true,
-                        need8K = true,
-                        needDolby = true
-                    )
+    fun fetchVideoStreamTest(): Unit = runTest {
+        // client.loginWebQRCodeInteractive()
+        val bv = "av419059870".bv
+        val data = client.getVideoParts(bv).data
+        client.fetchVideoStream(
+            bv,
+            data[0].cid!!,
+            StreamRequest(
+                qnQuality = V8K,
+                fnvalFormat = VideoFnvalFormat(
+                    format = DASH,
+                    needHDR = true,
+                    need4K = true,
+                    need8K = true,
+                    needDolby = true
                 )
             )
-        }
+        )
     }
 
     @Test
-    fun fetchPgcStreamTest() = runTest {
+    fun fetchPgcStreamTest(): Unit = runTest {
         client.fetchPgcStream(457775)
     }
 
     @Test
-    fun getTimelineHotTest() {
-        runTest {
-            val cid = client.getVideoParts("BV1qM4y1w716").data[0].cid
-            client.getTimelineHot(cid!!)
-        }
+    fun getTimelineHotTest(): Unit = runTest {
+        val cid = client.getVideoParts("BV1qM4y1w716").data[0].cid
+        client.getTimelineHot(cid!!)
     }
 
     @Test
-    fun getVideoOnlineTest() {
-        runTest {
-            val cid = client.getVideoParts("BV1mM4y1F7yh").data[0].cid
-            client.getVideoOnline("BV1mM4y1F7yh", cid!!)
-        }
+    fun getVideoOnlineTest(): Unit = runTest {
+        val cid = client.getVideoParts("BV1mM4y1F7yh").data[0].cid
+        client.getVideoOnline("BV1mM4y1F7yh", cid!!)
     }
 
     @Test
-    fun getVideoTagsTest() {
-        runTest {
-            client.getVideoTags("BV1mM4y1F7yh")
-        }
+    fun getVideoTagsTest(): Unit = runTest {
+        client.getVideoTags("BV1mM4y1F7yh")
     }
 
     @Test
-    fun getVideoRelatedTest() {
-        runTest {
-            client.getVideoRelated("BV1jF411B7sw")
-        }
+    fun getVideoRelatedTest(): Unit = runTest {
+        client.getVideoRelated("BV1jF411B7sw")
     }
 
     @Test
-    fun reportVideoProgressTest() {
-        runTest {
-            val avid = 170001
-            val cid = client.getVideoParts(avid).data[0].cid
-            client.reportVideoProgress(avid, cid!!, 3 * 60)
-        }
+    fun reportVideoProgressTest(): Unit = runTest {
+        val avid = 170001
+        val cid = client.getVideoParts(avid).data[0].cid
+        client.reportVideoProgress(avid, cid!!, 3 * 60)
     }
 }

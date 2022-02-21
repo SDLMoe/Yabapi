@@ -7,12 +7,13 @@ import kotlin.test.Test
 
 internal class FileCookieStorageTest(private val storage: FileCookieStorage) {
     @Test
-    fun test() = runTest {
+    fun test(): Unit = runTest {
         storage.addCookie(Url("https://example.com"), Cookie("test", "test"))
         storage.get(Url("https://example.com"))
         storage.close()
     }
 
+    @Test
     fun test2() = runTest {
         for (i in 0..100) {
             storage.addCookie(Url("https://example.com"), Cookie("test$i", "test$i"))
@@ -21,6 +22,7 @@ internal class FileCookieStorageTest(private val storage: FileCookieStorage) {
         storage.close()
     }
 
+    @Test
     fun test3() = runTest {
         for (i in 0..100) {
             storage.addCookie(Url("https://example.com"), Cookie("test$i", "test$i"))

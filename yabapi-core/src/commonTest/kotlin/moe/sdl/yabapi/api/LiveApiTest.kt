@@ -22,7 +22,7 @@ internal class LiveApiTest {
     }
 
     @Test
-    fun generateAreasCode() = runTest {
+    fun generateAreasCode(): Unit = runTest {
         val sb = StringBuilder()
         sb.appendLine("public sealed class LiveArea(val id: Int, val name: String) {")
         client.getLiveAreas().data.sortedBy {
@@ -36,7 +36,7 @@ internal class LiveApiTest {
     }
 
     @Test
-    fun getRoomIdByUid() = runTest {
+    fun getRoomIdByUid(): Unit = runTest {
         client.getRoomIdByUid(2)
     }
 
@@ -66,17 +66,17 @@ internal class LiveApiTest {
     }
 
     @Test
-    fun getRoomInfoByRoomIdTest() = runTest {
+    fun getRoomInfoByRoomIdTest(): Unit = runTest {
         client.getRoomInfoByRoomId(33989)
     }
 
     @Test
-    fun getLiveIndexListTest() = runTest {
+    fun getLiveIndexListTest(): Unit = runTest {
         client.getLiveIndexList()
     }
 
     @Test
-    fun getLiveHover() = runTest {
+    fun getLiveHover(): Unit = runTest {
         client.getLiveHover(2)
     }
 
@@ -114,29 +114,29 @@ internal class LiveApiTest {
     }
 
     @Test
-    fun signTest() = runTest {
+    fun signTest(): Unit = runTest {
         client.signLive()
     }
 
     @Test
-    fun getLiveSignInfoTest() = runTest {
+    fun getLiveSignInfoTest(): Unit = runTest {
         client.getLiveSignInfo()
     }
 
     @Test
-    fun getLiveSignLastMonthInfo() = runTest {
+    fun getLiveSignLastMonthInfo(): Unit = runTest {
         client.getLiveSignLastMonthInfo()
     }
 
     @Test
-    fun getLiveRank() = runTest {
+    fun getLiveRank(): Unit = runTest {
         LiveRankType.values().forEach {
             client.getLiveRank(it)
         }
     }
 
     @Test
-    fun getLiveMedalRank() = runTest {
+    fun getLiveMedalRank(): Unit = runTest {
         client.getLiveMedalRank()
     }
 }

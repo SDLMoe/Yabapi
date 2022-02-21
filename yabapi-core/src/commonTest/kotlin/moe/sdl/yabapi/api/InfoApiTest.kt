@@ -20,128 +20,104 @@ internal class InfoApiTest {
     }
 
     @Test
-    fun getBasicInfoTest() {
-        runTest {
-            // client.loginWebQRCodeInteractive()
-            client.getBasicInfo()
+    fun getBasicInfoTest(): Unit = runTest {
+        // client.loginWebQRCodeInteractive()
+        client.getBasicInfo()
+    }
+
+    @Test
+    fun getStatTest(): Unit = runTest {
+        client.getStat()
+    }
+
+    @Test
+    fun getCoinTest(): Unit = runTest {
+        client.getCoinInfo()
+    }
+
+    @Test
+    fun getAccountInfoTest(): Unit = runTest {
+        client.getAccountInfo()
+    }
+
+    @Test
+    fun getExpTest(): Unit = runTest {
+        val expData = client.getExpReward().data
+        val coinExpData = client.getCoinExp()
+        expData?.replaceWithCoinExp(coinExpData)?.countTodayRewarded().also {
+            logger.info { "Sum: $it" }
         }
     }
 
     @Test
-    fun getStatTest() {
-        runTest {
-            client.getStat()
-        }
+    fun getVipStatTest(): Unit = runTest {
+        client.getVipStat()
     }
 
     @Test
-    fun getCoinTest() {
-        runTest {
-            client.getCoinInfo()
-        }
+    fun getSecureInfoTest(): Unit = runTest {
+        client.getSecureInfo()
     }
 
     @Test
-    fun getAccountInfoTest() {
-        runTest {
-            client.getAccountInfo()
-        }
+    fun getRealNameInfoTest(): Unit = runTest {
+        client.getRealNameInfo()
     }
 
     @Test
-    fun getExpTest() {
-        runTest {
-            val expData = client.getExpReward().data
-            val coinExpData = client.getCoinExp()
-            expData?.replaceWithCoinExp(coinExpData)?.countTodayRewarded().also {
-                logger.info { "Sum: $it" }
+    fun getRealNameDetailedTest(): Unit = runTest {
+        client.getRealNameDetailed()
+    }
+
+    @Test
+    fun getCoinLogTest(): Unit = runTest {
+        client.getCoinLog()
+    }
+
+    @Test
+    fun getUserSpaceTest(): Unit = runTest {
+        listOf(2, 264155183, 699766742, 399308420, 1887658, 2648514, 2746732, 546195, 63231)
+            .forEach {
+                client.getUserSpace(it)
             }
-        }
     }
 
     @Test
-    fun getVipStatTest() {
-        runTest {
-            client.getVipStat()
-        }
+    fun getUserCardTest(): Unit = runTest {
+        val random = listOf(true, false)
+        // val body: String = client.client.get(USER_CARD_GET_URL) {
+        //     parameter("mid", "2")
+        //     parameter("photo", "true")
+        // }
+        // println(body)
+        listOf(2, 264155183, 699766742, 399308420, 1887658, 2648514, 2746732, 546195, 63231)
+            .forEach {
+                client.getUserCard(it, random.random())
+            }
     }
 
     @Test
-    fun getSecureInfoTest() {
-        runTest {
-            client.getSecureInfo()
-        }
-    }
-
-    @Test
-    fun getRealNameInfoTest() {
-        runTest {
-            client.getRealNameInfo()
-        }
-    }
-
-    @Test
-    fun getRealNameDetailedTest() {
-        runTest {
-            client.getRealNameDetailed()
-        }
-    }
-
-    @Test
-    fun getCoinLogTest() {
-        runTest {
-            client.getCoinLog()
-        }
-    }
-
-    @Test
-    fun getUserSpaceTest() {
-        runTest {
-            listOf(2, 264155183, 699766742, 399308420, 1887658, 2648514, 2746732, 546195, 63231)
-                .forEach {
-                    client.getUserSpace(it)
-                }
-        }
-    }
-
-    @Test
-    fun getUserCardTest() {
-        runTest {
-            val random = listOf(true, false)
-            // val body: String = client.client.get(USER_CARD_GET_URL) {
-            //     parameter("mid", "2")
-            //     parameter("photo", "true")
-            // }
-            // println(body)
-            listOf(2, 264155183, 699766742, 399308420, 1887658, 2648514, 2746732, 546195, 63231)
-                .forEach {
-                    client.getUserCard(it, random.random())
-                }
-        }
-    }
-
-    @Test
-    fun getPinnedVideoTest() = runTest {
+    fun getPinnedVideoTest(): Unit = runTest {
         client.getPinnedVideo(client.getBasicInfo().data.mid!!)
     }
 
     @Test
-    fun getMasterpieceVideoTest() = runTest {
+    fun getMasterpieceVideoTest(): Unit = runTest {
         client.getMasterpieceVideo(client.getBasicInfo().data.mid!!)
     }
 
     @Test
-    fun getUserTagsTest() = runTest {
+    fun getUserTagsTest(): Unit = runTest {
         client.getUserTags(2)
     }
 
     @Test
-    fun getSpaceAnnouncementTest() = runTest {
+    fun getSpaceAnnouncementTest(): Unit = runTest {
         client.getSpaceAnnouncement(2)
     }
 
     @Test
-    fun getSpaceSettingTest() = runTest {
+    fun getSpaceSettingTest(): Unit = runTest {
         client.getSpaceSetting(2).let {
             it.dataWhenFalse
             it.dataWhenTrue
@@ -149,17 +125,17 @@ internal class InfoApiTest {
     }
 
     @Test
-    fun getRecentPlayedGameTest() = runTest {
+    fun getRecentPlayedGameTest(): Unit = runTest {
         client.getRecentPlayedGame(2)
     }
 
     @Test
-    fun getRecentCoinedVideoTest() = runTest {
+    fun getRecentCoinedVideoTest(): Unit = runTest {
         client.getRecentCoinedVideo(client.getBasicInfo().data.mid!!)
     }
 
     @Test
-    fun getSpaceVideoTest() = runTest {
+    fun getSpaceVideoTest(): Unit = runTest {
         launch { client.getSpaceVideo(2) }
         launch { client.getSpaceVideo(2, type = Kichiku) }
         launch { client.getSpaceVideo(2, 2, 30, COLLECT) }
@@ -167,44 +143,44 @@ internal class InfoApiTest {
     }
 
     @Test
-    fun getSpaceAlbumIndexTest() = runTest {
+    fun getSpaceAlbumIndexTest(): Unit = runTest {
         client.getSpaceAlbumIndex(63231, 20)
     }
 
     @Test
-    fun getSpaceAlbumListTest() = runTest {
+    fun getSpaceAlbumListTest(): Unit = runTest {
         client.getSpaceAlbumList(63231)
     }
 
     @Test
-    fun getSpaceChannelTest() = runTest {
+    fun getSpaceChannelTest(): Unit = runTest {
         client.getSpaceChannel(63231)
     }
 
     @Test
-    fun getSpaceChannelArchivesTest() = runTest {
+    fun getSpaceChannelArchivesTest(): Unit = runTest {
         client.getChannelArchives(63231, 139535)
     }
 
     @Test
-    fun getFavoritesListTest() = runTest {
+    fun getFavoritesListTest(): Unit = runTest {
         client.apply {
             getFavorites(getBasicInfo().data.mid!!)
         }
     }
 
     @Test
-    fun getCollectedFavoritesListTest() = runTest {
+    fun getCollectedFavoritesListTest(): Unit = runTest {
         client.getCollectedFavorites(63231)
     }
 
     @Test
-    fun getSubscribedBangumiTest() = runTest {
+    fun getSubscribedBangumiTest(): Unit = runTest {
         client.getSubscribedBangumi(63231)
     }
 
     @Test
-    fun getSubscribedTagsTest() = runTest {
+    fun getSubscribedTagsTest(): Unit = runTest {
         client.apply {
             getSubscribedTags(getBasicInfo().data.mid!!).also {
                 println(it.data)
@@ -214,34 +190,30 @@ internal class InfoApiTest {
     }
 
     @Test
-    fun getMySpaceTest() {
-        runTest {
-            client.getMySpace()
+    fun getMySpaceTest(): Unit = runTest {
+        client.getMySpace()
+    }
+
+    @Test
+    fun nickCheckTest(): Unit = runTest {
+        // lol 星黛*露b*ot 是敏感詞
+        listOf("//", "test11145141919810123123123", "星黛露bot", "0", "1", "哈哈哈哈哈", "儑厫爊").forEach {
+            client.checkNick(it)
         }
     }
 
     @Test
-    fun nickCheckTest() {
-        runTest {
-            // lol 星黛*露b*ot 是敏感詞
-            listOf("//", "test11145141919810123123123", "星黛露bot", "0", "1", "哈哈哈哈哈", "儑厫爊").forEach {
-                client.checkNick(it)
-            }
-        }
-    }
-
-    @Test
-    fun getFavoritesInfoTest() = runTest {
+    fun getFavoritesInfoTest(): Unit = runTest {
         client.getFavoritesInfo(1052622027)
     }
 
     @Test
-    fun getFavoritesMediaTest() = runTest {
+    fun getFavoritesMediaTest(): Unit = runTest {
         client.getFavoritesMedia(1052622027)
     }
 
     @Test
-    fun getFavoritesTypesTest() = runTest {
+    fun getFavoritesTypesTest(): Unit = runTest {
         client.getFavoritesTypes(25554216, 83867716)
     }
 }

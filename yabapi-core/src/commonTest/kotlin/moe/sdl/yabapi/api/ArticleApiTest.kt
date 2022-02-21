@@ -11,19 +11,19 @@ internal class ArticleApiTest {
     }
 
     @Test
-    fun getArticleInfoTest() = runTest {
+    fun getArticleInfoTest(): Unit = runTest {
         client.getArticleInfo(8042693)
     }
 
     @Test
-    fun getArticleDetailedTest() = runTest {
+    fun getArticleDetailedTest(): Unit = runTest {
         listOf(15018183, 15018153, 15018213).forEach {
             client.getArticleDetailed(it)
         }
     }
 
     @Test
-    fun getFavoritesInfoTest() = runTest {
+    fun getFavoritesInfoTest(): Unit = runTest {
         client.apply {
             val rlId = getArticleDetailed(15018651)!!.readInfo!!.collection!!.id
             getArticleSetInfo(rlId!!)

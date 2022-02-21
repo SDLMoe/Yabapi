@@ -16,14 +16,14 @@ internal class StickerApiTest {
     }
 
     @Test
-    fun getAllSticker() = runTest {
+    fun getAllSticker(): Unit = runTest {
         client.getAllStickers(REPLY).data!!.all
             .first { it.name!!.contains("小黄脸") }
             .stickerList.asSequence()
             .map { it.text!!.substringAfter('[').substringBefore(']') to it.url }
             .asFlow().collect { (name, url) ->
                 val byteArray = async { client.client.get<ByteArray>(url!!) }
-                val file = File("./tmp/小黄脸/$name.png").apply {
+                File("./tmp/小黄脸/$name.png").apply {
                     parentFile?.mkdirs()
                     createNewFile()
                     writeBytes(byteArray.await())

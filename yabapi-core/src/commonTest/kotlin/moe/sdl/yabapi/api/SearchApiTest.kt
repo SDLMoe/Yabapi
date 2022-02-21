@@ -24,7 +24,7 @@ internal class SearchApiTest {
     }
 
     @Test
-    fun getWebSearchDefaultTest() = runTest {
+    fun getWebSearchDefaultTest(): Unit = runTest {
         listOf("原神", "我的世界", "拜年纪", "bilibili", "后浪", "影视飓风", "鲁迅说：“我没说过”", "腾讯", "英雄联盟").asFlow()
             .onEach { delay(2500) }
             .map { client.searchAll(it).data?.result?.value!! }
@@ -43,7 +43,7 @@ internal class SearchApiTest {
     }
 
     @Test
-    fun getDeserializeTest() = runTest {
+    fun getDeserializeTest(): Unit = runTest {
         listOf("原神", "我的世界", "拜年纪", "bilibili", "后浪", "影视飓风", "鲁迅说：“我没说过”", "腾讯", "英雄联盟").asFlow()
             .onEach { delay(2500) }
             .map { client.searchAll(it).data?.resultFlatted!! }
@@ -51,7 +51,7 @@ internal class SearchApiTest {
     }
 
     @Test
-    fun searchByTypeTest() = runTest {
+    fun searchByTypeTest(): Unit = runTest {
         SearchType.values().filter {
             it != LIVE && it != LIVE_USER
         }.forEach {
@@ -60,7 +60,7 @@ internal class SearchApiTest {
     }
 
     @Test
-    fun searchLiveTest() = runTest {
+    fun searchLiveTest(): Unit = runTest {
         client.searchLive("bilibili", LiveSearchOption()).data?.result.apply {
             this?.liveRoom.also(::println)
             this?.liveUser.also(::println)
@@ -68,12 +68,12 @@ internal class SearchApiTest {
     }
 
     @Test
-    fun getSearchPlaceHolderTest() = runTest {
+    fun getSearchPlaceHolderTest(): Unit = runTest {
         client.getSearchPlaceHolder()
     }
 
     @Test
-    fun getSearchRankingTest() = runTest {
+    fun getSearchRankingTest(): Unit = runTest {
         client.getSearchRanking()
     }
 }

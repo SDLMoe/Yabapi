@@ -13,17 +13,17 @@ internal class FeedApiTest {
     }
 
     @Test
-    fun getFeedContentTest() = runTest {
+    fun getFeedContentTest(): Unit = runTest {
         client.getFeedContent(619969539813998819uL)
     }
 
     @Test
-    fun getShareCardTest() = runTest {
+    fun getShareCardTest(): Unit = runTest {
         client.getFeedContent(618811530730428013uL).data!!.card!!.getCard()
     }
 
     @Test
-    fun getNewFeedTest() = runTest {
+    fun getNewFeedTest(): Unit = runTest {
         client.apply {
             getNewFeed(getBasicInfo().data.mid!!, intArrayOf(FeedType.ALL.code)).data?.cards?.forEach { node ->
                 node.getCard()
@@ -32,7 +32,7 @@ internal class FeedApiTest {
     }
 
     @Test
-    fun getHistoryFeedTest() = runTest {
+    fun getHistoryFeedTest(): Unit = runTest {
         client.apply {
             val currentUid = getBasicInfo().data.mid!!
             val types = intArrayOf(FeedType.ALL.code)
@@ -54,17 +54,17 @@ internal class FeedApiTest {
     }
 
     @Test
-    fun getFeedByUidTest() = runTest {
+    fun getFeedByUidTest(): Unit = runTest {
         client.apply { getFeedByUid(getBasicInfo().data.mid!!, 2) }
     }
 
     @Test
-    fun getLivingUserTest() = runTest {
+    fun getLivingUserTest(): Unit = runTest {
         client.getLivingUser()
     }
 
     @Test
-    fun getFeedUpdatedTest() = runTest {
+    fun getFeedUpdatedTest(): Unit = runTest {
         client.getFeedUpdated()
     }
 }

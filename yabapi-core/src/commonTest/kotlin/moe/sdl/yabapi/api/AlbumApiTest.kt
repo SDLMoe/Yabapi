@@ -10,7 +10,7 @@ internal class AlbumApiTest {
         initTest()
     }
     @Test
-    fun getAlbumInfoTest() = runTest {
+    fun getAlbumInfoTest(): Unit = runTest {
         client.getVcAlbumInfo(1102793).getData()
     }
 }

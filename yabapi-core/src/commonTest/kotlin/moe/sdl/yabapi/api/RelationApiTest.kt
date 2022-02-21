@@ -21,83 +21,65 @@ internal class RelationApiTest {
     }
 
     @Test
-    fun getFansTest() {
-        runTest {
-            for (i in 1..5) {
-                client.getFans(2, page = i)
-            }
+    fun getFansTest(): Unit = runTest {
+        for (i in 1..5) {
+            client.getFans(2, page = i)
         }
     }
 
     @Test
-    fun getFollowingTest() {
-        runTest {
-            client.getFollowing(2)
-            client.getFollowing(2, 1, 45, MOST_FREQUENT)
+    fun getFollowingTest(): Unit = runTest {
+        client.getFollowing(2)
+        client.getFollowing(2, 1, 45, MOST_FREQUENT)
+    }
+
+    @Test
+    fun searchFollowingTest(): Unit = runTest {
+        val currentUserMid = client.getBasicInfo().data.mid
+        requireNotNull(currentUserMid)
+        listOf(2, 223902, currentUserMid).forEach {
+            client.searchFollowing(it, "1")
         }
     }
 
     @Test
-    fun searchFollowingTest() {
-        runTest {
-            val currentUserMid = client.getBasicInfo().data.mid
-            requireNotNull(currentUserMid)
-            listOf(2, 223902, currentUserMid).forEach {
-                client.searchFollowing(it, "1")
-            }
-        }
+    fun getCoFollowingTest(): Unit = runTest {
+        client.getCoFollowing(2)
     }
 
     @Test
-    fun getCoFollowingTest() {
-        runTest {
-            client.getCoFollowing(2)
-        }
+    fun getQuietlyFollowingTest(): Unit = runTest {
+        client.getQuietlyFollowing()
     }
 
     @Test
-    fun getQuietlyFollowingTest() {
-        runTest {
-            client.getQuietlyFollowing()
-        }
+    fun getBlacklistTest(): Unit = runTest {
+        client.getBlacklist()
     }
 
     @Test
-    fun getBlacklistTest() {
-        runTest {
-            client.getBlacklist()
-        }
+    fun modifyTest(): Unit = runTest {
+        client.modifyRelation(2, SUB)
+        client.modifyRelation(2, UNSUB)
+        client.modifyRelation(2, SUB_QUIETLY, VIDEO)
+        client.modifyRelation(2, UNSUB_QUIETLY, ACTIVITY)
+        client.modifyRelation(2, ADD_BLACKLIST)
+        client.modifyRelation(2, REMOVE_BLACKLIST, VIDEO)
+        client.modifyRelation(2, REMOVE_FANS)
     }
 
     @Test
-    fun modifyTest() {
-        runTest {
-            client.modifyRelation(2, SUB)
-            client.modifyRelation(2, UNSUB)
-            client.modifyRelation(2, SUB_QUIETLY, VIDEO)
-            client.modifyRelation(2, UNSUB_QUIETLY, ACTIVITY)
-            client.modifyRelation(2, ADD_BLACKLIST)
-            client.modifyRelation(2, REMOVE_BLACKLIST, VIDEO)
-            client.modifyRelation(2, REMOVE_FANS)
-        }
+    fun modifyBatchTest(): Unit = runTest {
+        val testList = intArrayOf(1, 2, 3, 4, 5)
+        client.modifyRelation(testList, SUB)
+        client.modifyRelation(testList, UNSUB)
     }
 
     @Test
-    fun modifyBatchTest() {
-        runTest {
-            val testList = intArrayOf(1, 2, 3, 4, 5)
-            client.modifyRelation(testList, SUB)
-            client.modifyRelation(testList, UNSUB)
-        }
-    }
-
-    @Test
-    fun queryRelationTest() {
-        runTest {
-            client.queryRelation(2)
-            client.queryRelation(1, 2, 3, 4)
-            client.queryRelationMutually(2)
-            client.querySpecialFollowing()
-        }
+    fun queryRelationTest(): Unit = runTest {
+        client.queryRelation(2)
+        client.queryRelation(1, 2, 3, 4)
+        client.queryRelationMutually(2)
+        client.querySpecialFollowing()
     }
 }
