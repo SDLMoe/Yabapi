@@ -36,6 +36,7 @@ public data class RelationUserNode(
     @SerialName("contract_info") val contractInfo: ContractInfo? = null,
     @SerialName("uname") val name: String? = null,
     @SerialName("face") val avatar: String? = null,
+    @SerialName("face_nft") val faceNft: String? = null,
     @SerialName("sign") val bio: String? = null,
     @SerialName("official_verify") val officialCertify: OfficialCertify? = null,
     @SerialName("vip") val vip: RelationVipInfo? = null,

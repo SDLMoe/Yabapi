@@ -48,6 +48,7 @@ public data class BangumiResult(
     @SerialName("display_info") val displayInfo: List<ColorsInfo> = emptyList(),
     @SerialName("pgc_season_id") val pgcSeasonId: Int? = null,
     @SerialName("corner") val corner: Int? = null,
+    @SerialName("index_show") val indexShow: String? = null,
 ) : SearchResult {
     @Serializable
     public data class BangumiEpisode(

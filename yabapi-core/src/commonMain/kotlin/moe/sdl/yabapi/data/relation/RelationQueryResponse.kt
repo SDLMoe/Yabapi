@@ -17,15 +17,19 @@ public data class RelationQueryResponse(
 
 /**
  * 批量關係查詢返回
- * @param data [List]<[RelationUserNode]>
+ * @param dataMap 數據返回, key 爲 uid
  */
 @Serializable
 public data class RelationQueryBatchResponse(
     @SerialName("code") val code: RelationResponseCode = RelationResponseCode.UNKNOWN,
     @SerialName("message") val message: String? = null,
     @SerialName("ttl") val ttl: Int? = null,
-    @SerialName("data") val data: List<RelationUserNode> = emptyList(),
-)
+    @SerialName("data") val dataMap: Map<String, RelationUserNode> = emptyMap(),
+) {
+    val data: List<RelationUserNode> by lazy {
+        dataMap.values.toList()
+    }
+}
 
 /**
  * 查詢互相關係返回

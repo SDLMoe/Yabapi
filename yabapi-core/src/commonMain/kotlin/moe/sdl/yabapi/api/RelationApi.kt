@@ -200,7 +200,7 @@ private val allowedBatchAction by lazy { listOf(RelationAction.SUB, ADD_BLACKLIS
 /**
  * 操作用戶關係
  * @param mids 目標用戶 mid List
- * @param action 操作 [RelationAction]
+ * @param action 操作 [RelationAction], 必須是 [allowedBatchAction] 中的
  * @param source 關注來源 [SubscribeSource]
  */
 public suspend fun BiliClient.modifyRelation(
@@ -210,7 +210,7 @@ public suspend fun BiliClient.modifyRelation(
     context: CoroutineContext = this.context,
 ): RelationBatchModifyResponse = withContext(context) {
     require(allowedBatchAction.contains(action))
-    logger.debug { "Modify relation for $mids, action: $action, with source $source" }
+    logger.debug { "Modify relation for ${mids.contentToString()}, action: $action, with source $source" }
     client.post<String>(BATCH_MODIFY_RELATION_URL) {
         val params = Parameters.build {
             append("fids", mids.joinToString(","))

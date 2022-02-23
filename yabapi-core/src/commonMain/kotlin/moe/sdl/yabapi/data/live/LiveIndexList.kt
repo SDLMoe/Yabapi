@@ -36,4 +36,16 @@ public data class IndexLiveRoomInfo(
     @SerialName("show_cover") val showCover: String? = null,
     @SerialName("pk_id") val pkId: Int? = null,
     @SerialName("flag") val flag: Int? = null,
+    @SerialName("watched_show") val watchedShow: WatchedShow? = null,
+)
+
+@Serializable
+public data class WatchedShow(
+    @SerialName("switch") val switch: Boolean? = null,
+    @SerialName("num") val num: Int? = null,
+    @SerialName("text_small") val textSmall: String? = null,
+    @SerialName("text_large") val textLarge: String? = null,
+    @SerialName("icon") val icon: String? = null,
+    @SerialName("icon_location") val iconLocation: Int,
+    @SerialName("icon_web") val iconWeb: String? = null,
 )

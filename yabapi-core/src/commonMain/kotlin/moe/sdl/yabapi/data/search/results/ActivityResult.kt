@@ -13,7 +13,8 @@ public data class ActivityResult(
     @SerialName("url") val url: String? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("cover") val cover: String? = null,
-    @SerialName("pos") val pos: Int? = null,
+    @SerialName("pos") private val _pos: Int? = null,
+    @SerialName("position") private val _position: Int? = null,
     @SerialName("card_type") val cardType: Int? = null,
     @SerialName("state") val state: Int? = null,
     @SerialName("corner") val corner: String? = null,
@@ -22,6 +23,9 @@ public data class ActivityResult(
     @SerialName("id") val id: Int? = null,
     @SerialName("desc") val desc: String? = null,
 ) : SearchResult {
+    val pos: Int?
+        get() = _pos ?: _position
+
     public companion object : ResultFactory() {
         override val code: String = "activity"
         override fun decode(json: Json, data: JsonObject): ActivityResult = json.decodeFromJsonElement(data)

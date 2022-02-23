@@ -32,7 +32,7 @@ public suspend fun BiliClient.searchAll(
     client.get<String>(SEARCH_ALL_URL) {
         parameter("keyword", keyword)
     }.deserializeJson<SearchAllResponse>().also {
-        logger.debug { "Search Reponse for '$keyword': $it" }
+        logger.debug { "Search Response for '$keyword': $it" }
     }
 }
 

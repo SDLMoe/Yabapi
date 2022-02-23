@@ -14,7 +14,6 @@ import moe.sdl.yabapi.util.Logger
 import moe.sdl.yabapi.util.LoggerFunc
 import moe.sdl.yabapi.util.encoding.hex
 import moe.sdl.yabapi.util.nowLocalString
-import moe.sdl.yabapi.util.reflect.qualifiedOrSimpleName
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
@@ -53,7 +52,7 @@ internal inline fun <reified T> String.deserializeJson(): T {
     return try {
         Yabapi.defaultJson.value.decodeFromString(this)
     } catch (e: SerializationException) {
-        logger.error { "Failed to deserialize ${T::class.qualifiedOrSimpleName}, raw json: $this" }
+        logger.error { "Failed to deserialize, raw json: $this" }
         throw e
     }
 }
