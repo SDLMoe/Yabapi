@@ -12,6 +12,7 @@ import moe.sdl.yabapi.consts.internal.LIVER_INFO_GET_URL
 import moe.sdl.yabapi.consts.internal.LIVE_AREA_URL
 import moe.sdl.yabapi.consts.internal.LIVE_CHECK_PWD_URL
 import moe.sdl.yabapi.consts.internal.LIVE_DANMAKU_INFO_URL
+import moe.sdl.yabapi.consts.internal.LIVE_GUARD_LIST_GET_URL
 import moe.sdl.yabapi.consts.internal.LIVE_HOVER_GET_URL
 import moe.sdl.yabapi.consts.internal.LIVE_INIT_INFO_GET_URL
 import moe.sdl.yabapi.consts.internal.LIVE_MEDAL_RANK_GET_URL
@@ -26,6 +27,7 @@ import moe.sdl.yabapi.consts.internal.LIVE_UID_TO_ROOM_ID
 import moe.sdl.yabapi.data.live.LiveAreasGetResponse
 import moe.sdl.yabapi.data.live.LiveDanmakuHost
 import moe.sdl.yabapi.data.live.LiveDanmakuInfoGetResponse
+import moe.sdl.yabapi.data.live.LiveGuardListGetResponse
 import moe.sdl.yabapi.data.live.LiveHoverGetResponse
 import moe.sdl.yabapi.data.live.LiveIndexList
 import moe.sdl.yabapi.data.live.LiveInitGetResponse
@@ -140,7 +142,7 @@ public suspend fun BiliClient.getLiveIndexList(
 public suspend fun BiliClient.checkLivePwd(
     id: Int,
     pwd: String,
-    context: CoroutineContext = this.context
+    context: CoroutineContext = this.context,
 ): LiveRoomPwdResponse = withContext(context) {
     logger.debug { "Checking Live Pwd for id$id" }
     client.get<String>(LIVE_CHECK_PWD_URL) {
@@ -206,19 +208,16 @@ public suspend fun BiliClient.createLiveDanmakuConnection(
     host: LiveDanmakuHost,
     context: CoroutineContext = this.context,
     config: LiveDanmakuConnectConfig.() -> Unit = {},
-): Job = withContext(context) {
-    val bClient = this@createLiveDanmakuConnection
-    LiveMessageConnection(
-        loginUserMid,
-        realRoomId,
-        token,
-        host,
-        bClient.client,
-        Yabapi.defaultJson.value,
-        bClient.context,
-        config
-    ).start()
-}
+): Job = LiveMessageConnection(
+    loginUserMid = loginUserMid,
+    realRoomId = realRoomId,
+    token = token,
+    host = host,
+    client = client,
+    jsonParser = Yabapi.defaultJson.value,
+    context = context,
+    config = config
+).start()
 
 /**
  * 獲取直播視頻流
@@ -319,6 +318,28 @@ public suspend fun BiliClient.getLiveMedalRank(
         parameter("page_size", pageSize)
     }.deserializeJson<LiveRankMedalResponse>().also {
         logger.debug { "Got Live Medal Rank, page $page: $it" }
+    }
+}
+
+// endregion
+
+// region =========================== Guard ===========================
+
+public suspend fun BiliClient.getGuardList(
+    roomId: Int,
+    targetUid: Int,
+    page: Int = 1,
+    pageSize: Int = 29,
+    context: CoroutineContext = this.context,
+): LiveGuardListGetResponse = withContext(context) {
+    logger.debug { "Getting live guard list for room $roomId, page $page, size $pageSize..." }
+    client.get<String>(LIVE_GUARD_LIST_GET_URL) {
+        parameter("roomid", roomId)
+        parameter("page", page)
+        parameter("ruid", targetUid)
+        parameter("page_size", pageSize)
+    }.deserializeJson<LiveGuardListGetResponse>().also {
+        logger.debug { "Got live guard list response: $it" }
     }
 }
 

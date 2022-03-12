@@ -139,4 +139,12 @@ internal class LiveApiTest {
     fun getLiveMedalRank(): Unit = runTest {
         client.getLiveMedalRank()
     }
+
+    @Test
+    fun getGuardList(): Unit = runTest {
+        client.getGuardList(
+            33989,
+            63231,
+        )
+    }
 }

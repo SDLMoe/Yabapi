@@ -296,6 +296,8 @@ internal const val LIVE_RANKING_GET_URL = "$LIVE/rankdb/v1/Rank2018/getWebTop"
 
 internal const val LIVE_MEDAL_RANK_GET_URL = "$LIVE/xlive/general-interface/v1/Rank/GetTotalMedalLevelRank"
 
+internal const val LIVE_GUARD_LIST_GET_URL = "$LIVE/xlive/app-room/v2/guardTab/topList"
+
 // endregion
 
 // region =================== Passport ========================

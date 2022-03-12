@@ -38,7 +38,6 @@ val javadocJar by tasks.registering(Jar::class) {
 
 fun getExtraString(name: String) = ext[name]?.toString()
 
-
 @Suppress("UNUSED_VARIABLE")
 kotlin {
 
@@ -99,10 +98,7 @@ kotlin {
                 // Encoding
                 implementation("io.matthewnelson.kotlin-components:encoding-base64:1.0.3")
                 implementation("com.soywiz.korlibs.krypto:krypto:2.2.0")
-                // Logger
-                // implementation("co.touchlab:kermit:1.0.0")
-                // File
-                // implementation("com.soywiz.korlibs.korio:korio:2.2.1")
+                // IO
                 implementation("com.squareup.okio:okio:3.0.0")
             }
 
@@ -174,7 +170,6 @@ publishing {
             scm {
                 url.set("https://github.com/SDLMoe/Yabapi.git")
             }
-
         }
     }
 }
