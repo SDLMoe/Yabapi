@@ -36,9 +36,12 @@ internal class MessageApiTest {
     @Test
     fun sendImageTest() {
         runTest {
-            client.sendMessageTo(30358448, MessageContent.Image(
-                "https://i2.hdslb.com/bfs/face/2e07981b42bc26ebc2b25f374a8fb99c36e875b1.jpg@168w_168h_1c.webp",
-            ))
+            client.sendMessageTo(
+                30358448,
+                MessageContent.Image(
+                    "https://i2.hdslb.com/bfs/face/2e07981b42bc26ebc2b25f374a8fb99c36e875b1.jpg@168w_168h_1c.webp",
+                )
+            )
         }
     }
 

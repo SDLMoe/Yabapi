@@ -12,7 +12,10 @@ public open class LiveMsgPacket(
     internal open var body: ByteArray,
 ) {
     public constructor(
-        protocol: LiveMsgPacketProtocol, type: LiveMsgPacketType, sequence: AtomicLong, body: ByteArray,
+        protocol: LiveMsgPacketProtocol,
+        type: LiveMsgPacketType,
+        sequence: AtomicLong,
+        body: ByteArray,
     ) : this(
         LiveMsgPacketHead(
             body.size.toUInt() + LiveMsgPacketHead.HEAD_SIZE.toUInt(),

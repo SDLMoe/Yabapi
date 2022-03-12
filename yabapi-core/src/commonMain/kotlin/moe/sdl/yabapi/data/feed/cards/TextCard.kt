@@ -10,7 +10,7 @@ import moe.sdl.yabapi.enums.feed.FeedType
 public data class TextCard(
     @SerialName("user") val user: SimpleFeedCardUser? = null,
     @SerialName("item") val item: Item? = null,
-): FeedCard {
+) : FeedCard {
     @Serializable
     public data class Item(
         @SerialName("rp_id") val rpId: ULong? = null,
@@ -24,7 +24,7 @@ public data class TextCard(
         @SerialName("reply") val reply: Int? = null,
     )
 
-    public companion object: FeedCardFactory() {
+    public companion object : FeedCardFactory() {
         override val code: Int = FeedType.TEXT.code
 
         override fun decode(json: Json, data: String): TextCard = json.decodeFromString(data)

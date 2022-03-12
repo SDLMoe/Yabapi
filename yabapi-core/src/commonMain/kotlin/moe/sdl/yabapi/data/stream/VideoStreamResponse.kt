@@ -54,7 +54,7 @@ public data class VideoStreamData(
     @SerialName("dash") override val dash: DashStream? = null,
     @SerialName("support_formats") override val supportFormats: List<SupportFormat> = emptyList(),
     @SerialName("high_format") override val highFormat: JsonElement? = null,
-): AbstractStreamData() {
+) : AbstractStreamData() {
     val acceptQuality: List<QnQuality> = rawAcceptQuality.fold(mutableListOf()) { acc, s ->
         acc.add(QnQuality.fromCode(s.toInt()))
         acc
@@ -151,7 +151,7 @@ public enum class CodecId {
 @Serializable
 public data class SegmentBase @OptIn(ExperimentalSerializationApi::class) constructor(
     @JsonNames("initialization", "Initialization") val initialization: String? = null,
-    @JsonNames("index_range","indexRange") val indexRange: String? = null,
+    @JsonNames("index_range", "indexRange") val indexRange: String? = null,
 )
 
 @Serializable

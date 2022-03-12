@@ -63,10 +63,14 @@ public suspend fun BiliClient.uploadImage(
         }
         body = MultiPartFormDataContent(
             formData {
-                appendInput("file_up", Headers.build {
-                    append(HttpHeaders.ContentType, ContentType.Image.Any.toHeaderValue())
-                    append(HttpHeaders.ContentDisposition, "filename=$fileName")
-                }, block = inputProvider)
+                appendInput(
+                    "file_up",
+                    Headers.build {
+                        append(HttpHeaders.ContentType, ContentType.Image.Any.toHeaderValue())
+                        append(HttpHeaders.ContentDisposition, "filename=$fileName")
+                    },
+                    block = inputProvider
+                )
                 append("category", category.code)
             }
         )

@@ -48,4 +48,4 @@ public data class PgcStreamResult(
     @SerialName("dash") override val dash: DashStream? = null,
     @SerialName("support_formats") override val supportFormats: List<SupportFormat> = emptyList(),
     @SerialName("high_format") override val highFormat: JsonElement? = null,
-): AbstractStreamData()
+) : AbstractStreamData()

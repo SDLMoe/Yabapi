@@ -26,8 +26,8 @@ public data class LiveUserResult(
     @SerialName("rank_offset") val rankOffset: Int? = null,
     @SerialName("rank_index") val rankIndex: Int? = null,
     @SerialName("rank_score") val rankScore: Int? = null,
-): SearchResult {
-    public companion object: ResultFactory() {
+) : SearchResult {
+    public companion object : ResultFactory() {
         override val code: String = "live_user"
         override fun decode(json: Json, data: JsonObject): LiveUserResult = json.decodeFromJsonElement(data)
     }

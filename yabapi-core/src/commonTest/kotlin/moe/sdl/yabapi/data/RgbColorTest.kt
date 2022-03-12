@@ -20,7 +20,7 @@ internal class RgbColorTest {
             val b = random.random()
             val color = RgbColor(r, g, b).also(::println)
             val decoded = RgbColor.fromHex(color.hex).also(::println)
-            if(decoded == color) print("OK") else print("Failed")
+            if (decoded == color) print("OK") else print("Failed")
             println()
         }
     }
@@ -36,7 +36,7 @@ internal class RgbColorTest {
             val a = random.random()
             val color = RgbaColor(r, g, b, a).also(::println)
             val decoded = RgbaColor.fromHex(color.hex).also(::println)
-            if(decoded == color) print("OK") else print("Failed")
+            if (decoded == color) print("OK") else print("Failed")
             println()
         }
     }

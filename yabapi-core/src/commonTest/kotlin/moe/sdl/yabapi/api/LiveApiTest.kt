@@ -49,7 +49,8 @@ internal class LiveApiTest {
         val realId = client.getRoomInitInfo(roomId).data?.roomId ?: error("Get init info failed")
         val danmakuInfoData = client.getLiveDanmakuInfo(realId).data ?: error("Get live server failed")
         val loginUserMid = client.getBasicInfo().data.mid ?: error("Not login")
-        client.createLiveDanmakuConnection(loginUserMid,
+        client.createLiveDanmakuConnection(
+            loginUserMid,
             realId,
             danmakuInfoData.token ?: error("Failed To Get Token"),
             danmakuInfoData.hostList.getOrNull(0) ?: error("Failed to fetch bilibili live host"),
@@ -93,7 +94,7 @@ internal class LiveApiTest {
         runTest {
             val roomId = 7777
             createConnection(roomId) {
-                onCommandResponse { //flow ->
+                onCommandResponse { // flow ->
                     // flow.collect {}
                 }
             }

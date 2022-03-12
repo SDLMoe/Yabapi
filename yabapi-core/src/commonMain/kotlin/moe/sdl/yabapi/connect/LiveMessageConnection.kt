@@ -137,17 +137,23 @@ internal class LiveMessageConnection(
         HEARTBEAT_RESPONSE -> {
             val popular = buildPacket { writeFully(packet.body) }.readUInt()
             logger.debug { "Decoded popular value: $popular" }
-            configInstance.onHeartbeatResponse(this, channelFlow {
-                this.send(popular)
-            })
+            configInstance.onHeartbeatResponse(
+                this,
+                channelFlow {
+                    this.send(popular)
+                }
+            )
         }
         CERTIFICATE_RESPONSE -> {
             val data: CertificatePacketResponse =
                 jsonParser.decodeFromString(packet.body.decodeToString())
             logger.debug { "Decoded Certificate Response: $data" }
-            configInstance.onCertificateResponse(this, channelFlow {
-                this.send(data)
-            })
+            configInstance.onCertificateResponse(
+                this,
+                channelFlow {
+                    this.send(data)
+                }
+            )
         }
         COMMAND -> {
             val flow = packet.body.decodeToString().also {
@@ -166,9 +172,12 @@ internal class LiveMessageConnection(
                     null
                 }
                 logger.debug { "Decoded LiveCommand $data" }
-                configInstance.onCommandResponse(this, channelFlow {
-                    data?.let { this.send(it) }
-                })
+                configInstance.onCommandResponse(
+                    this,
+                    channelFlow {
+                        data?.let { this.send(it) }
+                    }
+                )
             }
         }
         else -> error("Decoded Unexpected Incoming Packet: $packet")

@@ -1,8 +1,9 @@
 import java.util.Properties
 
 plugins {
-    kotlin("multiplatform") version Versions.kotlin
-    kotlin("plugin.serialization") version Versions.kotlin
+    kotlin("multiplatform")
+    kotlin("plugin.serialization")
+    id("org.jlleitschuh.gradle.ktlint")
     `maven-publish`
     signing
 }
@@ -85,23 +86,21 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 // Kotlinx Libraries
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.3.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.1")
-                implementation("org.jetbrains.kotlinx:atomicfu:0.17.0")
+                implementation(KotlinX.serialization.json)
+                implementation(KotlinX.serialization.protobuf)
+                implementation(KotlinX.coroutines.core)
+                implementation(KotlinX.datetime)
+                implementation("org.jetbrains.kotlinx:atomicfu:_")
                 // Ktor
-                implementation("io.ktor:ktor-client-core:${Versions.ktor}")
-                // implementation("io.ktor:ktor-client-serialization:${Versions.ktor}")
-                implementation("io.ktor:ktor-client-websockets:${Versions.ktor}")
-                implementation("io.ktor:ktor-client-encoding:${Versions.ktor}")
+                implementation(Ktor.client.core)
+                implementation(Ktor.client.websockets)
+                implementation(Ktor.client.encoding)
                 // Encoding
-                implementation("io.matthewnelson.kotlin-components:encoding-base64:1.0.3")
-                implementation("com.soywiz.korlibs.krypto:krypto:2.2.0")
+                implementation("io.matthewnelson.kotlin-components:encoding-base64:_")
+                implementation("com.soywiz.korlibs.krypto:krypto:_")
                 // IO
-                implementation("com.squareup.okio:okio:3.0.0")
+                implementation(Square.okio)
             }
-
         }
         val commonTest by getting {
             dependencies {
@@ -110,17 +109,17 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-cio:${Versions.ktor}")
+                implementation(Ktor.client.cio)
             }
         }
         val jvmTest by getting {
             dependencies {
-                implementation("org.junit.jupiter:junit-jupiter:5.8.1")
+                implementation(Testing.junit.jupiter)
             }
         }
         val nativeMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-curl:${Versions.ktor}")
+                implementation(Ktor.client.curl)
             }
         }
         val nativeTest by getting
@@ -174,8 +173,13 @@ publishing {
     }
 }
 
-// Signing artifacts. Signing.* extra properties values will be used
-
 signing {
     sign(publishing.publications)
+}
+
+configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+    reporters {
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML)
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
+    }
 }

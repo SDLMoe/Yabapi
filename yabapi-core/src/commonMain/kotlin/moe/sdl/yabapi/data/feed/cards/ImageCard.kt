@@ -17,7 +17,7 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 public data class ImageCard(
     @SerialName("item") val item: Item? = null,
     @SerialName("user") val user: User? = null,
-): FeedCard {
+) : FeedCard {
     @Serializable
     public data class Item(
         @SerialName("at_control") val atControl: String? = null,

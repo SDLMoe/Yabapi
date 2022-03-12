@@ -12,9 +12,11 @@ import kotlin.test.Test
 
 @SharedImmutable
 internal actual val client: BiliClient by lazy {
-    val httpClient = getDefaultHttpClient(FileCookieStorage(FileSystem.SYSTEM, TEST_COOKIE_PATH.toPath()) {
-        saveInTime = true
-    })
+    val httpClient = getDefaultHttpClient(
+        FileCookieStorage(FileSystem.SYSTEM, TEST_COOKIE_PATH.toPath()) {
+            saveInTime = true
+        }
+    )
     BiliClient(httpClient)
 }
 

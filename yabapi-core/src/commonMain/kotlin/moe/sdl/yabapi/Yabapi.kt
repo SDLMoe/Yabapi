@@ -20,11 +20,13 @@ import kotlin.native.concurrent.SharedImmutable
 private val logger by lazy { Logger("Yabapi") }
 
 public object Yabapi {
-    public val defaultJson: AtomicRef<Json> = atomic(Json {
-        prettyPrint = true
-        isLenient = true
-        coerceInputValues = true
-    })
+    public val defaultJson: AtomicRef<Json> = atomic(
+        Json {
+            prettyPrint = true
+            isLenient = true
+            coerceInputValues = true
+        }
+    )
 
     @ExperimentalSerializationApi
     public val protoBuf: AtomicRef<ProtoBuf> = atomic(ProtoBuf)

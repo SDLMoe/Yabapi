@@ -17,7 +17,11 @@ public data class LiveMsgPacketHead(
 ) {
 
     internal constructor(
-        size: UInt, headSize: UShort, protocol: UShort, type: UInt, sequence: UInt,
+        size: UInt,
+        headSize: UShort,
+        protocol: UShort,
+        type: UInt,
+        sequence: UInt,
     ) : this(
         size,
         headSize,

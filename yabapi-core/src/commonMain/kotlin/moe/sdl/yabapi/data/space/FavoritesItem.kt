@@ -23,7 +23,7 @@ public data class FavoritesItem(
     @SerialName("title") public override val title: String? = null,
     @SerialName("fav_state") public override val favState: Int? = null,
     @SerialName("media_count") public override val count: Int? = null,
-): BaseFavoritesItem()
+) : BaseFavoritesItem()
 
 @Serializable
 public data class CollectedFavoritesItem(
@@ -44,7 +44,7 @@ public data class CollectedFavoritesItem(
     @SerialName("view_count") val viewCount: Int? = null,
     @SerialName("type") val type: Int? = null,
     @SerialName("link") val link: String? = null,
-): BaseFavoritesItem()
+) : BaseFavoritesItem()
 
 @Serializable
 public data class FavoritesOwner(

@@ -12,7 +12,7 @@ public data class ShareCard(
     @SerialName("user") val user: SimpleFeedCardUser? = null,
     @SerialName("vest") val vest: VestItem? = null,
     @SerialName("sketch") val sketch: SketchItem? = null,
-): FeedCard {
+) : FeedCard {
     public companion object : FeedCardFactory() {
         override val code: Int = FeedType.SHARE.code
         override fun decode(json: Json, data: String): ShareCard = json.decodeFromString(data)

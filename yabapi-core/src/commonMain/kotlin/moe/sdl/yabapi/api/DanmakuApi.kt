@@ -54,7 +54,11 @@ public suspend fun BiliClient.getDanmaku(
 
 @ExperimentalSerializationApi
 public suspend inline fun BiliClient.getDanmaku(
-    cid: Int, part: Int = 1, bid: String, type: DanmakuType = VIDEO, context: CoroutineContext = this.context,
+    cid: Int,
+    part: Int = 1,
+    bid: String,
+    type: DanmakuType = VIDEO,
+    context: CoroutineContext = this.context,
 ): DanmakuResponse = getDanmaku(cid, part, bid.avInt, type, context)
 
 /**

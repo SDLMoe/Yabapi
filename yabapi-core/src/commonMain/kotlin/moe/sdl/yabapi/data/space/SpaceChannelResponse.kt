@@ -13,7 +13,6 @@ public data class SpaceChannelResponse(
     @SerialName("data") val data: SpaceChannelData? = null,
 )
 
-
 @Serializable
 public data class SpaceChannelData(
     @SerialName("count") val count: Int? = null,

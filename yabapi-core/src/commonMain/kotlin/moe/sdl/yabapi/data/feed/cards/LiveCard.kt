@@ -28,7 +28,7 @@ public data class LiveCardInfo(
     @SerialName("area_name") val areaName: String? = null,
     @SerialName("cover") val cover: String? = null,
     @SerialName("link") val link: String? = null,
-    @SerialName("live_id") val liveId : ULong,
+    @SerialName("live_id") val liveId: ULong,
     @SerialName("live_screen_type") val liveScreenType: Int? = null,
     @SerialName("live_start_time") val liveStartTime: Long? = null,
     @SerialName("live_status") val liveStatus: LiveRoomStatus = UNKNOWN,

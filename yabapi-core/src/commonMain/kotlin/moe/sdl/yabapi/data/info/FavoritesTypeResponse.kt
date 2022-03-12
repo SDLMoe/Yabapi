@@ -13,7 +13,6 @@ public data class FavoritesTypeResponse(
     @SerialName("data") val data: List<FavoritesType> = emptyList(),
 )
 
-
 @Serializable
 public data class FavoritesType(
     @SerialName("tid") val tid: Int? = null,

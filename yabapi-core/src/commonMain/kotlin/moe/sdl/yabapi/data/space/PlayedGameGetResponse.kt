@@ -12,8 +12,6 @@ public data class PlayedGameGetResponse(
     @SerialName("data") val data: List<PlayedGameNode> = emptyList(),
 )
 
-
-
 @Serializable
 public data class PlayedGameNode(
     @SerialName("website") val website: String? = null,

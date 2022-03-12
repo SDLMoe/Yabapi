@@ -27,5 +27,5 @@ public data class HotRankSettlementV2Data(
     @SerialName("area_name") val areaName: String? = null,
     @SerialName("url") val url: String? = null,
     @SerialName("cache_key") val cacheKey: String? = null,
-    @SerialName("dm_msg") val dmMsg: String? = null, //恭喜主播 <% Username %> 荣登限时热门榜主机游戏榜榜首! 即将获得热门流量推荐哦！
+    @SerialName("dm_msg") val dmMsg: String? = null, // 恭喜主播 <% Username %> 荣登限时热门榜主机游戏榜榜首! 即将获得热门流量推荐哦！
 )

@@ -19,7 +19,7 @@ public data class GameResult(
     @SerialName("comment_num") val commentNum: Int? = null,
     @SerialName("platform") val platform: String? = null,
 ) : SearchResult {
-    public companion object: ResultFactory() {
+    public companion object : ResultFactory() {
         override val code: String = "web_game"
         override fun decode(json: Json, data: JsonObject): GameResult = json.decodeFromJsonElement(data)
     }

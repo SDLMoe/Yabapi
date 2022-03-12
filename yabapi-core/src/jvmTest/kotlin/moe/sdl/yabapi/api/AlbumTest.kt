@@ -2,9 +2,9 @@ package moe.sdl.yabapi.api
 
 import io.ktor.utils.io.streams.asInput
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Test
 import moe.sdl.yabapi.client
 import moe.sdl.yabapi.initTest
+import org.junit.jupiter.api.Test
 import java.io.File
 
 internal class AlbumTest {

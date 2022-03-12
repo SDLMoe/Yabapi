@@ -8,11 +8,11 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.junit.jupiter.api.Test
 import moe.sdl.yabapi.client
 import moe.sdl.yabapi.data.GeneralCode.SUCCESS
 import moe.sdl.yabapi.data.feed.NewFeedResponse
 import moe.sdl.yabapi.runTest
+import org.junit.jupiter.api.Test
 import java.io.File
 
 internal class FeedApiTestJvm {

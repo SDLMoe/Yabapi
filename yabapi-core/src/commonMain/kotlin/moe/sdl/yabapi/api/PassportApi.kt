@@ -48,7 +48,6 @@ import kotlin.native.concurrent.SharedImmutable
 @SharedImmutable
 private val logger by lazy { Logger("PassportApi") }
 
-
 private suspend fun BiliClient.isLogin(): Boolean = getBasicInfo().data.isLogin
 
 private suspend fun BiliClient.needLogin() {
