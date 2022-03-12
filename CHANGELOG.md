@@ -2,6 +2,21 @@
 
 本文件自 0.0.4 版本開始記錄
 
+## 2022-03
+
+### 0.10.0
+
+> 本版本开始遵循 Semantic Version
+
+#### ADD
+
+- 获取视频播放器信息 `getVideoPlayerInfo`
+- 获取直播舰长列表 `getLiveGuardList`
+
+#### CHANGE
+
+- 常规更新, 添加 B 站更新的新字段
+
 ## 2022-01
 
 ### 0.0.8
