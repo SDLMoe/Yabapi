@@ -116,10 +116,13 @@ internal class LiveMessageConnection(
         incoming.consumeAsFlow().collect { frame ->
             when (frame) {
                 is Frame.Binary -> {
-                    logger.verbose { "Received Binary: ${frame.data.contentToString()}" }
-                    LiveMsgPacket.decode(frame.data).also { packet ->
-                        logger.debug { "Decoded Packet Head: ${packet.header}" }
-                        handleBinaryPacket(packet)
+                    try {
+                        LiveMsgPacket.decode(frame.data).also { packet ->
+                            logger.debug { "Decoded Packet Head: ${packet.header}" }
+                            handleBinaryPacket(packet)
+                        }
+                    } catch (e: NotImplementedError) {
+                        logger.warn(e) { "Not Implemented Compression" }
                     }
                 }
                 is Frame.Text -> logger.debug { "Received Text: ${frame.data.contentToString()}" }
