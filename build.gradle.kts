@@ -1,6 +1,6 @@
 allprojects {
     group = "moe.sdl.yabapi"
-    version = "0.0.9-SNAPSHOT"
+    version = "0.10.0"
     repositories {
         mavenCentral()
     }
