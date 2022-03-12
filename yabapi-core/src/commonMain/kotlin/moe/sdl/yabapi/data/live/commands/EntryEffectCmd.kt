@@ -50,4 +50,5 @@ public data class EntryEffectData(
     @SerialName("max_delay_time") val maxDelayTime: Int? = null,
     @SerialName("trigger_time") val triggerTime: Long? = null,
     @SerialName("identities") val identities: Int? = null,
+    @SerialName("effect_silent_time") val effectSilentTime: Int? = null,
 )
