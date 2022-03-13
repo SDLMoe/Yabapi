@@ -69,7 +69,8 @@ public sealed class LiveCommandFactory {
                 SuperChatMsgCmd,
                 SuperChatMsgJpnCmd,
                 UserToastMsgCmd,
-                WidgetBannerCmd
+                WatchedChangeCmd,
+                WidgetBannerCmd,
             )
         }
 
