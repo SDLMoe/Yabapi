@@ -1,6 +1,6 @@
 package moe.sdl.yabapi.util.compress
 
-internal interface ICompress {
-    suspend fun compress(data: ByteArray): ByteArray
-    suspend fun decompress(data: ByteArray): ByteArray
+public interface ICompress {
+    public suspend fun compress(data: ByteArray): ByteArray
+    public suspend fun decompress(data: ByteArray): ByteArray
 }

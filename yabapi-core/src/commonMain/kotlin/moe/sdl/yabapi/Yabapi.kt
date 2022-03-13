@@ -12,6 +12,7 @@ import moe.sdl.yabapi.enums.LogLevel
 import moe.sdl.yabapi.enums.LogLevel.INFO
 import moe.sdl.yabapi.util.Logger
 import moe.sdl.yabapi.util.LoggerFunc
+import moe.sdl.yabapi.util.compress.ICompress
 import moe.sdl.yabapi.util.encoding.hex
 import moe.sdl.yabapi.util.nowLocalString
 import kotlin.native.concurrent.SharedImmutable
@@ -41,6 +42,8 @@ public object Yabapi {
                 throwable?.printStackTrace()
             }
         }.let { atomic(it) }
+
+    public val brotliImpl: AtomicRef<ICompress?> = atomic(null)
 }
 
 @OptIn(ExperimentalSerializationApi::class)

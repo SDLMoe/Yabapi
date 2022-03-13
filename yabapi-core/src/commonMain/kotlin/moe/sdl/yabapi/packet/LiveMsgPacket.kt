@@ -4,7 +4,7 @@ import io.ktor.utils.io.core.buildPacket
 import io.ktor.utils.io.core.readBytes
 import io.ktor.utils.io.core.writeFully
 import kotlinx.atomicfu.AtomicLong
-import moe.sdl.yabapi.util.compress.BrotliImpl
+import moe.sdl.yabapi.Yabapi
 import moe.sdl.yabapi.util.compress.ZLibImpl
 
 public open class LiveMsgPacket(
@@ -39,7 +39,10 @@ public open class LiveMsgPacket(
                 val rawBody = readBytes()
                 body = when (head.protocol) {
                     LiveMsgPacketProtocol.COMMAND_ZLIB -> ZLibImpl.decompress(rawBody)
-                    LiveMsgPacketProtocol.COMMAND_BROTLI -> BrotliImpl.decompress(rawBody)
+                    LiveMsgPacketProtocol.COMMAND_BROTLI ->
+                        Yabapi.brotliImpl.value?.decompress(rawBody).let {
+                            it?.copyOfRange(head.headSize.toInt(), it.size)
+                        } ?: throw UnsupportedOperationException("No implementation for Brotli decompression")
                     else -> rawBody
                 }
             }
@@ -50,7 +53,8 @@ public open class LiveMsgPacket(
     private suspend inline fun encodeBody(body: ByteArray): ByteArray =
         when (header.protocol) {
             LiveMsgPacketProtocol.COMMAND_ZLIB -> ZLibImpl.compress(body)
-            LiveMsgPacketProtocol.COMMAND_BROTLI -> BrotliImpl.compress(body)
+            LiveMsgPacketProtocol.COMMAND_BROTLI -> Yabapi.brotliImpl.value?.compress(body)
+                ?: throw UnsupportedOperationException("No implementation for Brotli compression")
             else -> body
         }
 
