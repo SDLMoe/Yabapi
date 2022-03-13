@@ -188,13 +188,14 @@ public suspend fun BiliClient.loginWebQRCode(
  */
 public suspend fun BiliClient.loginWebQRCodeInteractive(
     context: CoroutineContext = this.context,
+    out: (String) -> Unit = ::println,
 ): List<LoginWebQRCodeResponse> =
     withContext(context) {
         noNeedLogin()
         logger.debug { "Starting Interactive Login via Web QR Code" }
         val getQrResponse = getWebQRCode()
-        println("打开网站，通过Bilibili手机客户端扫描二维码。")
-        println("https://qrcode.jp/qr?q=${getQrResponse.data?.url}&s=10")
+        out("打开网站，通过Bilibili手机客户端扫描二维码。")
+        out("https://qrcode.jp/qr?q=${getQrResponse.data?.url}&s=10")
         val loop = atomic(true)
         val responseList = mutableListOf<LoginWebQRCodeResponse>()
 
