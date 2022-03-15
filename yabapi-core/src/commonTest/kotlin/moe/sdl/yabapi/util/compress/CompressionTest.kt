@@ -19,9 +19,4 @@ internal class CompressionTest {
     fun deflate() {
         compressTest(ZLibImpl)
     }
-
-    @Test
-    fun br() {
-        compressTest(BrotliImpl)
-    }
 }

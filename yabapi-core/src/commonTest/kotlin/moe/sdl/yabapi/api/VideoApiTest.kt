@@ -14,6 +14,7 @@ import moe.sdl.yabapi.enums.video.LikeAction.UNLIKE
 import moe.sdl.yabapi.enums.video.VideoFormat.DASH
 import moe.sdl.yabapi.initTest
 import moe.sdl.yabapi.runTest
+import moe.sdl.yabapi.util.encoding.avInt
 import moe.sdl.yabapi.util.encoding.bv
 import kotlin.test.Test
 
@@ -53,7 +54,7 @@ internal class VideoApiTest {
     @Test
     fun getVideoPlayerInfoTest(): Unit = runTest {
         client.apply {
-            val aid = 207575334
+            val aid = "BV1MJ411C7ie".avInt
             val cid = getVideoParts(aid).data.first().part!!
             getVideoPlayerInfo(aid, cid)
         }
@@ -203,5 +204,14 @@ internal class VideoApiTest {
         val avid = 170001
         val cid = client.getVideoParts(avid).data[0].cid
         client.reportVideoProgress(avid, cid!!, 3 * 60)
+    }
+
+    @Test
+    fun getInteractiveInfoTest(): Unit = runTest {
+        val bvid = "BV1Xb4y1x7Rd"
+        with(client) {
+            val graph = getVideoPlayerInfo(bvid, getVideoParts(bvid).data.first().cid!!).data!!.interactionInfo!!.graphVersion!!
+            getInteractiveInfo(bvid, graph)
+        }
     }
 }

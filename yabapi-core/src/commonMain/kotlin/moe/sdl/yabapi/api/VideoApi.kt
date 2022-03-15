@@ -21,6 +21,7 @@ import moe.sdl.yabapi.consts.internal.VIDEO_COMBO_LIKE_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_DESCRIPTION_GET_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_HAS_LIKE_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_INFO_GET_URL
+import moe.sdl.yabapi.consts.internal.VIDEO_INTERACTIVE_INFO_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_LIKE_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_ONLINE_GET_URL
 import moe.sdl.yabapi.consts.internal.VIDEO_PARTS_GET_URL
@@ -46,6 +47,7 @@ import moe.sdl.yabapi.data.video.VideoCollectResponse
 import moe.sdl.yabapi.data.video.VideoComboLikeResponse
 import moe.sdl.yabapi.data.video.VideoDescriptionGetResponse
 import moe.sdl.yabapi.data.video.VideoInfoGetResponse
+import moe.sdl.yabapi.data.video.VideoInteractiveResponse
 import moe.sdl.yabapi.data.video.VideoLikeResponse
 import moe.sdl.yabapi.data.video.VideoOnlineGetResponse
 import moe.sdl.yabapi.data.video.VideoPartsGetResponse
@@ -963,6 +965,33 @@ public suspend fun BiliClient.getSubtitleContent(
     val normalizeUrl = "https://" + match!!.groupValues[2]
     client.get<String>(normalizeUrl).deserializeJson<SubtitleContent>().also {
         logger.debug { "Got subtitle content from $normalizeUrl: $it" }
+    }
+}
+
+// endregion
+
+// region ==================== Interactive Video ====================
+
+/**
+ * @param bvid video id
+ * @param graphVersion, get from [getVideoPlayerInfo], [VideoPlayerInfoResponse] resp.data.interactionInfo
+ * @param edgeId, get from choices of [VideoInteractiveResponse]
+ */
+public suspend fun BiliClient.getInteractiveInfo(
+    bvid: String,
+    graphVersion: Int,
+    edgeId: Int? = null,
+    platform: String = "pc",
+    context: CoroutineContext = this.context,
+): VideoInteractiveResponse = withContext(context) {
+    logger.debug { "Try to get interactive video info for $bvid" }
+    client.get<String>(VIDEO_INTERACTIVE_INFO_URL) {
+        parameter("bvid", bvid)
+        parameter("graph_version", graphVersion)
+        edgeId?.let { parameter("edge_id", edgeId) }
+        parameter("platform", platform)
+    }.deserializeJson<VideoInteractiveResponse>().also {
+        logger.debug { "Got interactive video info for $bvid graph $graphVersion edge $edgeId: $it" }
     }
 }
 

@@ -100,6 +100,8 @@ internal const val PGC_STREAM_FETCH_URL = "$MAIN/pgc/player/web/playurl"
 
 internal const val VIDEO_REPORT_PROGRESS_URL = "$MAIN/x/v2/history/report"
 
+internal const val VIDEO_INTERACTIVE_INFO_URL = "$MAIN/x/stein/edgeinfo_v2"
+
 // endregion
 
 // region =================== Ranking ========================

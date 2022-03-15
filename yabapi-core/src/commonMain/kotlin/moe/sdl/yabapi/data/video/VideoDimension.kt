@@ -12,4 +12,5 @@ public data class VideoDimension(
     @SerialName("width") val width: Int? = null,
     @SerialName("height") val height: Int? = null,
     @SerialName("rotate") val isRotate: Boolean? = null,
+    @SerialName("sar") val sar: String? = null,
 )

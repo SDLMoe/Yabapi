@@ -1,12 +1,16 @@
+@file:UseSerializers(BooleanJsSerializer::class)
+
 package moe.sdl.yabapi.data.video
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import kotlinx.serialization.json.JsonArray
 import moe.sdl.yabapi.data.GeneralCode
 import moe.sdl.yabapi.data.GeneralCode.UNKNOWN
 import moe.sdl.yabapi.data.info.LevelInfo
 import moe.sdl.yabapi.data.info.UserVip
+import moe.sdl.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
 public data class VideoPlayerInfoResponse(
@@ -41,10 +45,12 @@ public data class VideoPlayerInfo(
     @SerialName("last_play_cid") val lastPlayCid: Int? = null,
     @SerialName("now_time") val nowTime: Long? = null,
     @SerialName("online_count") val onlineCount: Int? = null,
+    @SerialName("dm_mask") val danmakuMask: DanmakuMask? = null,
     @SerialName("subtitle") val subtitle: VideoSubtitle? = null,
     @SerialName("view_points") val viewPoints: List<ViewPoint> = emptyList(),
     @SerialName("is_ugc_pay_preview") val isUgcPayPreview: Boolean? = null,
     @SerialName("preview_toast") val previewToast: String? = null,
+    @SerialName("interaction") val interactionInfo: InteractionData? = null,
     @SerialName("pcdn_loader") val pcdnLoader: Map<String, PcdnData> = emptyMap(),
     @SerialName("options") val options: PlayerOptions? = null,
     @SerialName("guide_attention") val guideSubscribe: List<GuideSubscribe>? = null,
@@ -66,6 +72,15 @@ public data class IpInfo(
 )
 
 @Serializable
+public data class DanmakuMask(
+    @SerialName("cid") val cid: Int? = null,
+    @SerialName("plat") val plat: Int? = null,
+    @SerialName("fps") val fps: Int? = null,
+    @SerialName("time") val time: Int? = null,
+    @SerialName("mask_url") val maskUrl: String? = null,
+)
+
+@Serializable
 public data class ViewPoint(
     @SerialName("type") val type: Int? = null,
     @SerialName("from") val from: Int? = null,
@@ -73,6 +88,23 @@ public data class ViewPoint(
     @SerialName("content") val content: String? = null,
     @SerialName("imgUrl") val imgUrl: String? = null,
     @SerialName("logoUrl") val logoUrl: String? = null,
+)
+
+@Serializable
+public data class InteractionData(
+    @SerialName("history_node") val historyNode: HistoryNode? = null,
+    @SerialName("graph_version") val graphVersion: Int? = null,
+    @SerialName("msg") val msg: String? = null,
+    @SerialName("error_toast") val errorToast: String? = null,
+    @SerialName("mark") val mark: Boolean? = null,
+    @SerialName("need_reload") val needReload: Boolean? = null,
+)
+
+@Serializable
+public data class HistoryNode(
+    @SerialName("node_id") val nodeId: Int? = null,
+    @SerialName("title") val title: String? = null,
+    @SerialName("cid") val cid: Int? = null,
 )
 
 @Serializable
