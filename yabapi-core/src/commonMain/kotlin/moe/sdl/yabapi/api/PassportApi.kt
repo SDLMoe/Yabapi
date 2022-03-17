@@ -140,15 +140,16 @@ public suspend fun BiliClient.loginWebConsole(
         } else error("Failed to encrypt data, RSA public key is null")
     },
     context: CoroutineContext = this.context,
+    out: (String) -> Unit = ::println
 ): Unit = withContext(context) {
     noNeedLogin()
     logger.info { "Starting Console Interactive Bilibili Web Login" }
-    val userName = requireCmdInputString("Please Input Bilibili Username:")
-    val pwd = requireCmdInputString("Please Input Bilibili Password:")
+    val userName = requireCmdInputString("Please Input Bilibili Username:", outFunc = out)
+    val pwd = requireCmdInputString("Please Input Bilibili Password:", outFunc = out)
     val captchaResponse = getCaptcha()
-    println("Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :")
-    println("gt=${captchaResponse.data?.geetest?.gt}, challenge=${captchaResponse.data?.geetest?.challenge}")
-    val validate = requireCmdInputString("input the result, validate=")
+    out("Please prove you are human, do the captcha via https://kuresaru.github.io/geetest-validator/ :")
+    out("gt=${captchaResponse.data?.geetest?.gt}, challenge=${captchaResponse.data?.geetest?.challenge}")
+    val validate = requireCmdInputString("input the result, validate=", outFunc = out)
     val seccode = "$validate|jordan"
     val encryptPwd = encryptFunc(pwd, this@loginWebConsole.getRsaKeyWeb())
     loginWeb(userName, encryptPwd, validate, seccode, captchaResponse)
@@ -316,31 +317,32 @@ public suspend fun BiliClient.loginWebSMS(
 public suspend fun BiliClient.loginWebSMSConsole(
     needsCallingCode: Boolean = false,
     context: CoroutineContext = this.context,
+    out: (String) -> Unit = ::println
 ): LoginWebSMSResponse = withContext(context) {
     noNeedLogin()
     logger.info { "Starting Console Interactive Bilibili Web Login" }
-    val countryCode = if (needsCallingCode) requireCmdInputNumber("Please Input Country Code(e.g, 86, 1)") else 86
+    val countryCode = if (needsCallingCode) requireCmdInputNumber("Please Input Country Code(e.g, 86, 1)", outFunc = out) else 86
 
-    val phone: Long = requireCmdInputNumber("Please Input Phone Number (e.g. 13800138000):")
+    val phone: Long = requireCmdInputNumber("Please Input Phone Number (e.g. 13800138000):", outFunc = out)
 
     var smsSent = false
     var sendSMSResponse: SendSMSResponse? = null
     while (!smsSent) {
         val captchaResponse = getCaptcha()
-        println("Please do the captcha via https://kuresaru.github.io/geetest-validator/ :")
-        println("gt=${captchaResponse.data?.geetest?.gt}, challenge=${captchaResponse.data?.geetest?.challenge}")
-        val validate = requireCmdInputString("validate=")
+        out("Please do the captcha via https://kuresaru.github.io/geetest-validator/ :")
+        out("gt=${captchaResponse.data?.geetest?.gt}, challenge=${captchaResponse.data?.geetest?.challenge}")
+        val validate = requireCmdInputString("validate=", outFunc = out)
         sendSMSResponse = requestSMSCode(phone, countryCode, captchaResponse, validate, "$validate|jordan")
         if (sendSMSResponse.code == SendSMSResponseCode.SUCCESS) {
-            println("SMS Code Sent")
+            out("SMS Code Sent")
             smsSent = true
         } else {
-            println("SMS Code Request Failed, Error Code: ${sendSMSResponse.code}")
-            println("Please Retry!")
+            out("SMS Code Request Failed, Error Code: ${sendSMSResponse.code}")
+            out("Please Retry!")
         }
     }
     requireNotNull(sendSMSResponse) { "SMS Code Request Failed" }
-    val code: Int = requireCmdInputNumber("Please Input SMS Code (e.g. 123456):")
+    val code: Int = requireCmdInputNumber("Please Input SMS Code (e.g. 123456):", outFunc = out)
     loginWebSMS(phone, countryCode, code, sendSMSResponse)
 }
 
