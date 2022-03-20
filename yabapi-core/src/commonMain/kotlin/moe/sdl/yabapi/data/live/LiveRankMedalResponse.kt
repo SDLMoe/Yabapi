@@ -9,7 +9,7 @@ import moe.sdl.yabapi.data.GeneralCode
 import moe.sdl.yabapi.data.GeneralCode.UNKNOWN
 import moe.sdl.yabapi.data.RgbColor
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
-import moe.sdl.yabapi.serializer.data.RgbColorIntSerializer
+import moe.sdl.yabapi.serializer.data.RgbColorIntSerializerNullable
 
 @Serializable
 public data class LiveRankMedalResponse(
@@ -53,16 +53,16 @@ public data class LiveRankMedalData(
     @Serializable
     public data class MedalContent(
         @SerialName("level") val level: Int? = null,
-        @Serializable(RgbColorIntSerializer::class)
+        @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("masterRoomId") val masterRoomId: RgbColor? = null,
         @SerialName("medalName") val medalName: String? = null,
-        @Serializable(RgbColorIntSerializer::class)
+        @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("color") val color: RgbColor? = null,
-        @Serializable(RgbColorIntSerializer::class)
+        @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("medal_color_start") val medalColorStart: RgbColor? = null,
-        @Serializable(RgbColorIntSerializer::class)
+        @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("medal_color_end") val medalColorEnd: RgbColor? = null,
-        @Serializable(RgbColorIntSerializer::class)
+        @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("medal_color_border") val medalColorBorder: RgbColor? = null,
         @SerialName("is_lighted") val isLighted: Boolean? = null,
         @SerialName("guard_level") val guardLevel: Int? = null,

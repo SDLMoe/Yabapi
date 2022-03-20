@@ -6,7 +6,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromJsonElement
 import moe.sdl.yabapi.data.RgbColor
-import moe.sdl.yabapi.serializer.data.RgbColorStringSerializer
+import moe.sdl.yabapi.serializer.data.RgbColorStringSerializerNullable
 
 @Serializable
 public data class MatchRoomConfCmd(
@@ -48,11 +48,11 @@ public data class MatchRoomConfData(
 
     @Serializable
     public data class LiveRoomColor(
-        @Serializable(RgbColorStringSerializer::class)
+        @Serializable(RgbColorStringSerializerNullable::class)
         @SerialName("font_color") val fontColor: RgbColor? = null,
-        @Serializable(RgbColorStringSerializer::class)
+        @Serializable(RgbColorStringSerializerNullable::class)
         @SerialName("background_color") val backgroundColor: RgbColor? = null,
-        @Serializable(RgbColorStringSerializer::class)
+        @Serializable(RgbColorStringSerializerNullable::class)
         @SerialName("border_color") val borderColor: RgbColor? = null,
     )
 }

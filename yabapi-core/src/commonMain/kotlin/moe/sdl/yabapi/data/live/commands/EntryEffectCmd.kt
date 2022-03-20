@@ -10,7 +10,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromJsonElement
 import moe.sdl.yabapi.data.RgbColor
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
-import moe.sdl.yabapi.serializer.data.RgbColorStringSerializer
+import moe.sdl.yabapi.serializer.data.RgbColorStringSerializerNullable
 
 @Serializable
 public data class EntryEffectCmd(
@@ -32,9 +32,9 @@ public data class EntryEffectData(
     @SerialName("face") val avatar: String? = null,
     @SerialName("privilege_type") val privilegeType: Int? = null,
     @SerialName("copy_writing") val copyWriting: String? = null,
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("copy_color") val copyColor: RgbColor? = null,
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("highlight_color") val highlightColor: RgbColor? = null,
     @SerialName("priority") val priority: Int? = null,
     @SerialName("basemap_url") val basemapUrl: String? = null,

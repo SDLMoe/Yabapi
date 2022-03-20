@@ -12,7 +12,7 @@ import moe.sdl.yabapi.data.RgbColor
 import moe.sdl.yabapi.data.live.BatteryCurrency
 import moe.sdl.yabapi.data.live.GuardLevel
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
-import moe.sdl.yabapi.serializer.data.RgbColorStringSerializer
+import moe.sdl.yabapi.serializer.data.RgbColorStringSerializerNullable
 
 @Serializable
 public data class UserToastMsgCmd(
@@ -31,8 +31,8 @@ public data class UserToastMsgCmd(
 public data class UserToast(
     @SerialName("is_show") val isShow: Boolean, // 是否显示
     @SerialName("anchor_show") val showAnchor: Boolean, // 应该是是否显示上舰动画
-    @Serializable(RgbColorStringSerializer::class)
-    @SerialName("color") val color: RgbColor, // 可能是底色 目前观察到的(舰长)都为 #00D1F1
+    @Serializable(RgbColorStringSerializerNullable::class)
+    @SerialName("color") val color: RgbColor? = null, // 可能是底色 目前观察到的(舰长)都为 #00D1F1
     @SerialName("dmscore") val score: Int,
     @SerialName("start_time") val startTime: Long, // 开始显示时间
     @SerialName("end_time") val endTime: Long, // 结束时间

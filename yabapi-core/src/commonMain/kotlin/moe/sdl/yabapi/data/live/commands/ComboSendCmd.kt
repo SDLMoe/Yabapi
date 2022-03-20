@@ -12,7 +12,7 @@ import moe.sdl.yabapi.data.RgbColor
 import moe.sdl.yabapi.data.live.GuardLevel
 import moe.sdl.yabapi.data.live.GuardLevel.UNKNOWN
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
-import moe.sdl.yabapi.serializer.data.RgbColorIntSerializer
+import moe.sdl.yabapi.serializer.data.RgbColorIntSerializerNullable
 
 @Serializable
 public data class ComboSendCmd(
@@ -56,13 +56,13 @@ public data class ComboSendData(
         @SerialName("guard_level") val guardLevel: GuardLevel = UNKNOWN, // 等级
         @SerialName("icon_id") val iconId: Int? = null, // icon id
         @SerialName("is_lighted") val isLighted: Boolean? = null, // 是否点亮
-        @Serializable(RgbColorIntSerializer::class)
+        @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("medal_color") val medalColor: RgbColor? = null,
-        @Serializable(RgbColorIntSerializer::class)
+        @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("medal_color_border") val medalColorBorder: RgbColor? = null,
-        @Serializable(RgbColorIntSerializer::class)
+        @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("medal_color_end") val medalColorEnd: RgbColor? = null,
-        @Serializable(RgbColorIntSerializer::class)
+        @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("medal_color_start") val medalColorStart: RgbColor? = null,
         @SerialName("medal_level") val level: Int? = null,
         @SerialName("medal_name") val name: String? = null,

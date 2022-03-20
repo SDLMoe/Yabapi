@@ -7,7 +7,7 @@ import moe.sdl.yabapi.data.GeneralCode
 import moe.sdl.yabapi.data.GeneralCode.UNKNOWN
 import moe.sdl.yabapi.data.RgbColor
 import moe.sdl.yabapi.data.info.OfficialCertify
-import moe.sdl.yabapi.serializer.data.RgbColorIntSerializer
+import moe.sdl.yabapi.serializer.data.RgbColorIntSerializerNullable
 
 @Serializable
 public data class LiverInfoGetResponse(
@@ -46,7 +46,7 @@ public data class LiverExp(
     @Serializable
     public data class MasterLevel(
         @SerialName("level") val level: Int? = null,
-        @Serializable(RgbColorIntSerializer::class)
+        @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("color") val color: RgbColor? = null, // 等級框顏色
         @SerialName("current") val current: List<Int> = emptyList(), // size 2, 1 升級積分, 2 總積分
         @SerialName("next") val next: List<Int> = emptyList(), // size 2, 1 升級積分, 2 總積分

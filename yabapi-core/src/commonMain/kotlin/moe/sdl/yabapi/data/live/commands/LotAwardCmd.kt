@@ -7,7 +7,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromJsonElement
 import moe.sdl.yabapi.data.RgbColor
 import moe.sdl.yabapi.data.live.commands.LotStatus.UNKNOWN
-import moe.sdl.yabapi.serializer.data.RgbColorIntSerializer
+import moe.sdl.yabapi.serializer.data.RgbColorIntSerializerNullable
 
 @Serializable
 public data class LotAwardCmd(
@@ -38,6 +38,6 @@ public data class LotAwardUser(
     @SerialName("uname") val uname: String? = null,
     @SerialName("face") val avatar: String? = null,
     @SerialName("level") val level: Int? = null,
-    @Serializable(RgbColorIntSerializer::class)
+    @Serializable(RgbColorIntSerializerNullable::class)
     @SerialName("color") val color: RgbColor? = null,
 )

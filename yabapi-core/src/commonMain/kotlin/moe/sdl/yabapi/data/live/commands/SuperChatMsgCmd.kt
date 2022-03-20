@@ -12,8 +12,8 @@ import moe.sdl.yabapi.data.RgbColor
 import moe.sdl.yabapi.data.live.GuardLevel
 import moe.sdl.yabapi.data.live.GuardLevel.UNKNOWN
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
-import moe.sdl.yabapi.serializer.data.RgbColorIntSerializer
-import moe.sdl.yabapi.serializer.data.RgbColorStringSerializer
+import moe.sdl.yabapi.serializer.data.RgbColorIntSerializerNullable
+import moe.sdl.yabapi.serializer.data.RgbColorStringSerializerNullable
 
 /**
  * SuperChat command
@@ -33,17 +33,17 @@ public data class SuperChatMsgCmd(
 
 @Serializable
 public data class SuperChatData(
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("background_bottom_color") val backgroundBottomColor: RgbColor? = null,
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("background_color") val backgroundColor: RgbColor? = null,
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("background_color_end") val backgroundColorEnd: RgbColor? = null,
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("background_color_start") val backgroundColorStart: RgbColor? = null,
     @SerialName("background_icon") val backgroundIcon: String? = null,
     @SerialName("background_image") val backgroundImage: String? = null,
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("background_price_color") val backgroundPriceColor: RgbColor? = null,
     @SerialName("color_point") val colorPoint: Double? = null,
     @SerialName("dmscore") val danmakuScore: Int? = null,
@@ -54,7 +54,7 @@ public data class SuperChatData(
     @SerialName("is_send_audit") val isSendAudit: Boolean? = null,
     @SerialName("medal_info") val medalInfo: LiveMedal? = null,
     @SerialName("message") val message: String? = null,
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("message_font_color") val messageFontColor: RgbColor? = null,
     @SerialName("message_trans") val messageTranslated: String? = null,
     @SerialName("price") val price: Int? = null,
@@ -74,13 +74,13 @@ public data class SuperChatData(
         @SerialName("guard_level") val guardLevel: GuardLevel = UNKNOWN, // 等级
         @SerialName("icon_id") val iconId: Int? = null, // icon id
         @SerialName("is_lighted") val isLighted: Boolean? = null, // 是否点亮
-        @Serializable(RgbColorStringSerializer::class)
+        @Serializable(RgbColorStringSerializerNullable::class)
         @SerialName("medal_color") val medalColor: RgbColor? = null,
-        @Serializable(RgbColorIntSerializer::class)
+        @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("medal_color_border") val medalColorBorder: RgbColor? = null,
-        @Serializable(RgbColorIntSerializer::class)
+        @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("medal_color_end") val medalColorEnd: RgbColor? = null,
-        @Serializable(RgbColorIntSerializer::class)
+        @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("medal_color_start") val medalColorStart: RgbColor? = null,
         @SerialName("medal_level") val level: Int? = null,
         @SerialName("medal_name") val name: String? = null,
@@ -104,10 +104,10 @@ public data class SuperChatUserInfo(
     @SerialName("is_main_vip") val isMainVip: Boolean? = null, // 是否主站大会员
     @SerialName("is_svip") val isSvip: Boolean? = null, // 年费姥爷
     @SerialName("is_vip") val isVip: Boolean? = null, // 月费姥爷
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("level_color") val levelColor: RgbColor? = null,
     @SerialName("manager") val isManager: Boolean? = null, // 是否管理员?
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("name_color") val nameColor: RgbColor? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("uname") val userName: String? = null, // 用户名

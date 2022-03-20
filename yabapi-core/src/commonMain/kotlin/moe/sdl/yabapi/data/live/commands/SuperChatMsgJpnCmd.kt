@@ -10,7 +10,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromJsonElement
 import moe.sdl.yabapi.data.RgbColor
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
-import moe.sdl.yabapi.serializer.data.RgbColorStringSerializer
+import moe.sdl.yabapi.serializer.data.RgbColorStringSerializerNullable
 
 public data class SuperChatMsgJpnCmd(
     @SerialName("cmd") override val operation: String,
@@ -36,12 +36,12 @@ public data class SuperChatJpnData(
     @SerialName("message_jpn") val messageJpn: String? = null,
     @SerialName("is_ranked") val isRanked: Boolean? = null,
     @SerialName("background_image") val backgroundImage: String? = null,
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("background_color") val backgroundColor: RgbColor? = null,
     @SerialName("background_icon") val backgroundIcon: String? = null,
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("background_price_color") val backgroundPriceColor: RgbColor? = null,
-    @Serializable(RgbColorStringSerializer::class)
+    @Serializable(RgbColorStringSerializerNullable::class)
     @SerialName("background_bottom_color") val backgroundBottomColor: RgbColor? = null,
     @SerialName("ts") val timestamp: Long? = null,
     @SerialName("token") val token: String? = null,
@@ -64,7 +64,7 @@ public data class SuperChatJpnData(
         @SerialName("anchor_roomid") val roomId: Int? = null, // 房间id
         @SerialName("medal_level") val level: Int? = null,
         @SerialName("medal_name") val name: String? = null,
-        @Serializable(RgbColorStringSerializer::class)
+        @Serializable(RgbColorStringSerializerNullable::class)
         @SerialName("medal_color") val medalColor: RgbColor? = null,
     )
 }

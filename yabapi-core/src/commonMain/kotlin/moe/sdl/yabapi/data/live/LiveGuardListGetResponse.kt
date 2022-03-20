@@ -11,7 +11,7 @@ import moe.sdl.yabapi.data.GeneralCode.UNKNOWN
 import moe.sdl.yabapi.data.RgbColor
 import moe.sdl.yabapi.data.live.GuardLevel.NONE
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
-import moe.sdl.yabapi.serializer.data.RgbColorIntSerializer
+import moe.sdl.yabapi.serializer.data.RgbColorIntSerializerNullable
 
 @Serializable
 public data class LiveGuardListGetResponse(
@@ -57,10 +57,10 @@ public data class GuardNode(
 public data class MedalInfo(
     @SerialName("medal_name") val medalName: String? = null,
     @SerialName("medal_level") val medalLevel: Int? = null,
-    @Serializable(RgbColorIntSerializer::class)
+    @Serializable(RgbColorIntSerializerNullable::class)
     @SerialName("medal_color_start") val medalColorStart: RgbColor? = null,
-    @Serializable(RgbColorIntSerializer::class)
+    @Serializable(RgbColorIntSerializerNullable::class)
     @SerialName("medal_color_end") val medalColorEnd: RgbColor? = null,
-    @Serializable(RgbColorIntSerializer::class)
+    @Serializable(RgbColorIntSerializerNullable::class)
     @SerialName("medal_color_border") val medalColorBorder: RgbColor? = null,
 )
