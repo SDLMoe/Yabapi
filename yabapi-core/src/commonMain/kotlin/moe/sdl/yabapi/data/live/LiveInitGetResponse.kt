@@ -5,6 +5,10 @@ package moe.sdl.yabapi.data.live
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.decodeFromJsonElement
+import moe.sdl.yabapi.Yabapi
+import moe.sdl.yabapi.data.live.LiveResponseCode.SUCCESS
 import moe.sdl.yabapi.data.live.LiveResponseCode.UNKNOWN
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
 
@@ -13,8 +17,15 @@ public data class LiveInitGetResponse(
     @SerialName("code") val code: LiveResponseCode = UNKNOWN,
     @SerialName("msg") val msg: String? = null,
     @SerialName("message") val message: String? = null,
-    @SerialName("data") val data: LiveInitData? = null,
-)
+    @SerialName("data") private val _data: JsonElement? = null,
+) {
+    val data: LiveInitData? by lazy {
+        if (code != SUCCESS) return@lazy null
+        _data?.let {
+            Yabapi.defaultJson.value.decodeFromJsonElement(it)
+        }
+    }
+}
 
 @Serializable
 public data class LiveInitData(
