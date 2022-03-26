@@ -2,6 +2,9 @@ package moe.sdl.yabapi.data.live
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.intOrNull
 import moe.sdl.yabapi.data.GeneralCode
 import moe.sdl.yabapi.data.GeneralCode.UNKNOWN
 
@@ -46,6 +49,12 @@ public data class WatchedShow(
     @SerialName("text_small") val textSmall: String? = null,
     @SerialName("text_large") val textLarge: String? = null,
     @SerialName("icon") val icon: String? = null,
-    @SerialName("icon_location") val iconLocation: Int,
+    @SerialName("icon_location") private val _iconLocation: JsonElement? = null,
     @SerialName("icon_web") val iconWeb: String? = null,
-)
+) {
+    val iconLocation: Int? by lazy {
+        if (_iconLocation is JsonPrimitive) {
+            _iconLocation.intOrNull
+        } else null
+    }
+}

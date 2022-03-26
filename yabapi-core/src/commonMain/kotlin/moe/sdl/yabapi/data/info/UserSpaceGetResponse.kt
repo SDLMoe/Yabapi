@@ -9,6 +9,7 @@ import kotlinx.serialization.json.JsonObject
 import moe.sdl.yabapi.data.GeneralCode
 import moe.sdl.yabapi.data.GeneralCode.UNKNOWN
 import moe.sdl.yabapi.data.live.GuardLevel
+import moe.sdl.yabapi.data.live.WatchedShow
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
@@ -128,6 +129,7 @@ public data class LiveRoomInfo(
     @SerialName("roomid") val roomId: Int? = null,
     @SerialName("roundStatus") val isRounding: Int? = null,
     @SerialName("broadcast_type") val broadcastType: Int? = null,
+    @SerialName("watched_show") val watchedShow: WatchedShow? = null,
 )
 
 @Serializable
