@@ -20,6 +20,9 @@ import kotlin.native.concurrent.SharedImmutable
 @SharedImmutable
 private val logger by lazy { Logger("Yabapi") }
 
+internal val json: Json
+    get() = Yabapi.defaultJson.value
+
 public object Yabapi {
     public val defaultJson: AtomicRef<Json> = atomic(
         Json {

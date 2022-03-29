@@ -10,6 +10,14 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
+
+public enum class MessageType(public val code: Int) {
+    TEXT(1),
+    IMAGE(2),
+    RECALL(5),
+    ;
+}
+
 @Serializable
 public sealed class MessageContent {
 
@@ -19,21 +27,21 @@ public sealed class MessageContent {
     public data class Text(
         @SerialName("content") val content: String? = null,
     ) : MessageContent() {
-        @Transient override val code: Int = 1
+        @Transient override val code: Int = MessageType.TEXT.code
     }
 
     @Serializable
     public data class Image(
         @SerialName("url") val url: String? = null,
     ) : MessageContent() {
-        @Transient override val code: Int = 2
+        @Transient override val code: Int = MessageType.IMAGE.code
     }
 
     @Serializable
     public data class Recall(
         public val key: String,
     ) : MessageContent() {
-        @Transient override val code: Int = 5
+        @Transient override val code: Int = MessageType.RECALL.code
 
         public companion object : KSerializer<Recall> {
             override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("MessageRecall", PrimitiveKind.STRING)

@@ -335,6 +335,14 @@ internal const val UNREAD_WHISPER_COUNT_GET_URL = "$VC_API/session_svr/v1/sessio
 
 internal const val SEND_MESSAGE_URL = "$VC_API/web_im/v1/web_im/send_msg"
 
+internal const val FETCH_MESSAGE_SESSIONS_URL = "$VC_API/session_svr/v1/session_svr/get_sessions"
+
+internal const val FETCH_NEW_MESSAGE_SESSIONS_URL = "$VC_API/session_svr/v1/session_svr/new_sessions"
+
+internal const val MESSAGE_SETTINGS_URL = "$VC_API/link_setting/v1/link_setting/set"
+
+internal const val FETCH_SESSION_MESSAGES_URL = "$VC_API/svr_sync/v1/svr_sync/fetch_session_msgs"
+
 // endregion
 
 // region =================== Article ========================
