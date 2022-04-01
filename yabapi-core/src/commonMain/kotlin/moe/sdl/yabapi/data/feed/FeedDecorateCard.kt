@@ -23,15 +23,16 @@ public data class FeedDecorateCard(
     @SerialName("item_type") val itemType: Int? = null,
     @SerialName("big_card_url") val bigCardUrl: String? = null,
     @SerialName("jump_url") val jumpUrl: String? = null,
-    @SerialName("fan") val fan: Fan? = null,
+    @SerialName("fan") val fan: UserFanInfo? = null,
     @SerialName("image_enhance") val imageEnhance: String? = null,
-) {
-    @Serializable
-    public data class Fan(
-        @SerialName("is_fan") val isFan: Boolean? = null,
-        @SerialName("number") val number: Int? = null,
-        @Serializable(RgbColorStringSerializerNullable::class)
-        @SerialName("color") val color: RgbColor? = null,
-        @SerialName("num_desc") val numDesc: String? = null,
-    )
-}
+)
+
+@Serializable
+public data class UserFanInfo(
+    @SerialName("name") val name: String? = null,
+    @SerialName("is_fan") val isFan: Boolean? = null,
+    @SerialName("number") val number: Int? = null,
+    @Serializable(RgbColorStringSerializerNullable::class)
+    @SerialName("color") val color: RgbColor? = null,
+    @SerialName("num_desc") val numDesc: String? = null,
+)

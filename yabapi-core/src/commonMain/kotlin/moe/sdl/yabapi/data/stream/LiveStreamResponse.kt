@@ -98,6 +98,7 @@ public data class LiveStreamPlayUrl(
         @SerialName("base_url") val baseUrl: String? = null,
         @SerialName("url_info") val urlInfo: List<UrlInfo> = emptyList(),
         @SerialName("hdr_qn") val hdrQn: JsonElement? = null,
+        @SerialName("dolby_type") val doblyType: Int? = null,
     ) {
         val playUrl: String? by lazy {
             val url = urlInfo.firstOrNull()

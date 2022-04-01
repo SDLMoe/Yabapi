@@ -390,3 +390,11 @@ internal const val SEARCH_PLACEHOLDER_GET_URL = "$MAIN/x/web-interface/search/de
 internal const val SEARCH_RANKING_GET_URL = "https://s.search.bilibili.com/main/hotword"
 
 // endregion
+
+// region =================== Comment ========================
+
+internal const val COMMENT_GET_URL = "$MAIN/x/v2/reply"
+
+internal const val COMMENT_LAZY_GET_URL = "$MAIN/x/v2/reply/main"
+
+// endregion

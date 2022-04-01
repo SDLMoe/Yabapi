@@ -6,6 +6,10 @@ import moe.sdl.yabapi.data.message.MessageSetting._FoldUnfollowed
 import moe.sdl.yabapi.data.message.MessageSetting._Like
 import moe.sdl.yabapi.data.message.MessageSetting._Intercept
 import moe.sdl.yabapi.data.message.MessageSetting._Notify
+import moe.sdl.yabapi.util.dsl.DslSwitch2
+import moe.sdl.yabapi.util.dsl.DslSwitch2Status
+import moe.sdl.yabapi.util.dsl.DslSwitch3
+import moe.sdl.yabapi.util.dsl.DslSwitch3Status
 
 @Suppress("ClassName")
 private sealed interface MessageSetting {
@@ -146,33 +150,4 @@ public class MessageSettingBuilder {
             list.add(_FoldUnfollowed.OFF)
         }
     }
-}
-
-public interface DslSwitchStatus
-
-public enum class DslSwitch2Status : DslSwitchStatus { FIRST, SECOND; }
-
-public enum class DslSwitch3Status : DslSwitchStatus { FIRST, SECOND, THIRD; }
-
-public interface DslSwitch
-
-public abstract class DslSwitch2 : DslSwitch {
-    public infix fun set(status: DslSwitch2Status): Unit = when (status) {
-        DslSwitch2Status.FIRST -> slot1()
-        DslSwitch2Status.SECOND -> slot2()
-    }
-
-    internal abstract fun slot1()
-
-    internal abstract fun slot2()
-}
-
-public abstract class DslSwitch3 : DslSwitch2() {
-    public infix fun set(status: DslSwitch3Status): Unit = when (status) {
-        DslSwitch3Status.FIRST -> slot1()
-        DslSwitch3Status.SECOND -> slot2()
-        DslSwitch3Status.THIRD -> slot3()
-    }
-
-    internal abstract fun slot3()
 }

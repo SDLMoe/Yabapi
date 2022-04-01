@@ -27,6 +27,7 @@ public data class BasicInfoGetResponse(
  * @param coin 硬币数
  * @param moral 节操值
  * @param username 用户名
+ * @param isSeniorMember 硬核会员
  */
 @Serializable
 public data class BasicInfoData(
@@ -58,5 +59,5 @@ public data class BasicInfoData(
     @SerialName("shop_url") val shopUrl: String? = null,
     @SerialName("allowance_count") val allowanceCount: Int? = null,
     @SerialName("answer_status") val answerStatus: Int? = null,
-    @SerialName("is_senior_member") val isSeniorMember: Int? = null,
+    @SerialName("is_senior_member") val isSeniorMember: Boolean? = null,
 )
