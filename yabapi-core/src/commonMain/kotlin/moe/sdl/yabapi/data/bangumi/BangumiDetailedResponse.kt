@@ -225,8 +225,8 @@ public data class BangumiShow(
 
 @Serializable
 public data class BangumiStat(
-    @SerialName("coin") private val _coin: Int? = null,
-    @SerialName("coins") private val _coins: Int? = null,
+    @SerialName("coin") private val _coin: Double? = null,
+    @SerialName("coins") private val _coins: Double? = null,
     @SerialName("danmakus") val danmakus: Int? = null,
     @SerialName("favorite") private val _favorite: Int? = null,
     @SerialName("favorites") private val _favorites: Int? = null,
@@ -240,7 +240,7 @@ public data class BangumiStat(
     @SerialName("views") private val _views: Int? = null,
 ) {
     @Transient
-    public val coins: Int? = _coins ?: _coin
+    public val coins: Double? = _coins ?: _coin
 
     @Transient
     public val collects: Int? = _favorites ?: _favorite

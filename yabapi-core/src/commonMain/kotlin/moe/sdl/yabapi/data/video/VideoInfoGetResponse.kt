@@ -60,7 +60,7 @@ public data class VideoInfo(
     @SerialName("rights") val rights: VideoRights,
     @SerialName("owner") val owner: VideoOwner? = null,
     @SerialName("stat") val stat: VideoStat? = null,
-    @SerialName("coins") val coins: Int? = null,
+    @SerialName("coins") val coins: Double? = null,
     @SerialName("play") val play: Int? = null,
     @SerialName("review") val review: Int? = null,
     @SerialName("dynamic") val dynamic: String? = null,

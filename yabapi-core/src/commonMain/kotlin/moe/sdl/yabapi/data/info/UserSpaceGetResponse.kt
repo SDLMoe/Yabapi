@@ -33,7 +33,7 @@ public data class UserSpace(
     @SerialName("jointime") val joinTime: Long? = null,
     @SerialName("moral") val moral: Int? = null,
     @SerialName("silence") val isBanned: Boolean? = null,
-    @SerialName("coins") val coins: Int? = null,
+    @SerialName("coins") val coins: Double? = null,
     @SerialName("fans_badge") val hasFansBadge: Boolean? = null,
     @SerialName("fans_medal") val fansMedal: UserFansMedal? = null,
     @SerialName("official") val official: Official? = null,
