@@ -13,7 +13,7 @@ public data class RoomChangeCmd(
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "ROOM_CHANGE"
-        override fun decode(json: Json, data: JsonElement): LiveCommand = json.decodeFromJsonElement(data)
+        override fun decode(json: Json, data: JsonElement): RoomChangeCmd = json.decodeFromJsonElement(data)
     }
 }
 
