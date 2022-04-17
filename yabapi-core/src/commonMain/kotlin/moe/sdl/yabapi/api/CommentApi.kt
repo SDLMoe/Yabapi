@@ -49,7 +49,7 @@ private suspend fun BiliClient.getComment(
 }
 
 /**
- * getRoomComment DSL 封装
+ * getComment DSL 封装
  * @param builder 参见 [CommentReqDsl]
  */
 public suspend fun BiliClient.getComment(
