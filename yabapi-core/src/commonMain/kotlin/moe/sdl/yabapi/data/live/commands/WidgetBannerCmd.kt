@@ -20,7 +20,7 @@ public data class WidgetBannerCmd(
 @Serializable
 public data class WidgetBannerData(
     @SerialName("timestamp") val timestamp: Long? = null,
-    @SerialName("widget_list") val map: Map<String, WidgetBanner> = mapOf(),
+    @SerialName("widget_list") val map: Map<String, WidgetBanner?> = mapOf(),
 ) {
     @Serializable
     public data class WidgetBanner(

@@ -20,7 +20,7 @@ public data class SuperChatMsgJpnCmd(
 
     public companion object : LiveCommandFactory() {
         override val operation: String = "SUPER_CHAT_MESSAGE_JPN"
-        override fun decode(json: Json, data: JsonElement): LiveCommand = json.decodeFromJsonElement(data)
+        override fun decode(json: Json, data: JsonElement): SuperChatMsgJpnCmd = json.decodeFromJsonElement(data)
     }
 }
 
