@@ -12,6 +12,7 @@ import moe.sdl.yabapi.data.RgbColor
 import moe.sdl.yabapi.serializer.BooleanJsSerializer
 import moe.sdl.yabapi.serializer.data.RgbColorStringSerializerNullable
 
+@Serializable
 public data class SuperChatMsgJpnCmd(
     @SerialName("cmd") override val operation: String,
     @SerialName("data") val data: SuperChatJpnData? = null,
@@ -27,6 +28,7 @@ public data class SuperChatMsgJpnCmd(
 /**
  * 基本同 [SuperChatData], 多了一个 [messageJpn], 机翻日语
  */
+@Serializable
 public data class SuperChatJpnData(
     @SerialName("id") private val _id: String? = null,
     @SerialName("uid") private val _uid: String? = null,
