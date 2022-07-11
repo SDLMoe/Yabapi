@@ -79,6 +79,11 @@ public data class CommentReqDsl(
             _type = CommentType.VIDEO
             _id = (if (!string.startsWith("bv", true)) "BV$string" else string).av.toULong()
         }
+
+        override fun feed(id: ULong) {
+            _type = CommentType.IMAGE_FEED
+            _id = id
+        }
     }
 
     public val Page: _Page = object : _Page {
@@ -112,6 +117,7 @@ public data class CommentReqDsl(
         public abstract infix fun av(id: Int)
         public abstract infix fun av(id: String)
         public abstract infix fun bv(string: String)
+        public abstract infix fun feed(id: ULong)
     }
 
     public interface _Page : ReqDsl {

@@ -5,6 +5,7 @@ package moe.sdl.yabapi.data.comment
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
+import kotlinx.serialization.json.JsonElement
 import moe.sdl.yabapi.data.feed.UserFanInfo
 import moe.sdl.yabapi.data.info.LevelInfo
 import moe.sdl.yabapi.data.info.OfficialCertify
@@ -73,6 +74,7 @@ public data class Comment(
         @SerialName("underline") val underline: Boolean? = null,
         @SerialName("match_once") val matchOnce: Boolean? = null,
         @SerialName("pc_url") val pcUrl: String? = null,
+        @SerialName("icon_position") val iconPosition: Int? = null,
     )
 
     @Serializable
@@ -135,6 +137,7 @@ public data class CommentMember(
     @SerialName("user_sailing") val userSailing: UserSailing? = null,
     @SerialName("is_contractor") val isContractor: Boolean? = null,
     @SerialName("contract_desc") val contractDesc: String? = null,
+    @SerialName("nft_interaction") val nftInteraction: JsonElement? = null,
 )
 
 @Serializable
