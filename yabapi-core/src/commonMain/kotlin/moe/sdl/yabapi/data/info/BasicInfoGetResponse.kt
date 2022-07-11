@@ -35,6 +35,7 @@ public data class BasicInfoData(
     @SerialName("email_verified") val isVerifiedEmail: Boolean? = null,
     @SerialName("face") val avatar: String? = null,
     @SerialName("face_nft") val avatarNft: Int? = null,
+    @SerialName("face_nft_type") val avatarNftType: Int? = null,
     @SerialName("level_info") val levelInfo: LevelInfo? = null,
     @SerialName("mid") val mid: Int? = null,
     @SerialName("mobile_verified") val isVerifiedMobile: Boolean? = null,

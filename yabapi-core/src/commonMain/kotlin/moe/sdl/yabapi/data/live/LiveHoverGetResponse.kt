@@ -29,6 +29,7 @@ public data class LiveHover(
         @SerialName("pic") val pic: String? = null,
         @SerialName("is_hot") val isHot: Boolean? = null,
         @SerialName("is_new") val isNew: Boolean? = null,
+        @SerialName("update_time") val updateTime: String? = null,
     )
     @Serializable
     public data class Banner(

@@ -14,6 +14,7 @@ public data class NoticeMsgCmd(
     @SerialName("id") val id: Int? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("full") val full: Full? = null,
+    @SerialName("half") val half: Half? = null,
     @SerialName("room_id") val roomId: Int? = null,
     @SerialName("real_roomid") val realRoomid: Int? = null,
     @SerialName("msg_common") val msgCommon: String? = null,

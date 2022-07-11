@@ -40,6 +40,7 @@ public data class EntryEffectData(
     @SerialName("basemap_url") val basemapUrl: String? = null,
     @SerialName("show_avatar") val showAvatar: Boolean? = null,
     @SerialName("effective_time") val effectiveTime: Int? = null,
+    @SerialName("effective_time_new") val effectiveTimeNew: Int? = null,
     @SerialName("web_basemap_url") val webBasemapUrl: String? = null,
     @SerialName("web_effective_time") val webEffectiveTime: Int? = null,
     @SerialName("web_effect_close") val webEffectClose: Int? = null,

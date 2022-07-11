@@ -37,6 +37,8 @@ public data class UserVip(
     @SerialName("nickname_color") val nicknameColor: RgbColor? = null,
     @SerialName("role") val role: Int? = null,
     @SerialName("avatar_subscript_url") val avatarSubscriptUrl: String? = null,
+    @SerialName("tv_vip_status") val tvVipStatus: Int? = null,
+    @SerialName("tv_vip_pay_type") val tvVipPayType: Int? = null,
 )
 
 @Serializable
@@ -92,4 +94,9 @@ public data class VipLabel(
     @SerialName("bg_style") val backgroundStyle: Int? = null,
     @SerialName("bg_color") val backgroundColor: String? = null,
     @SerialName("border_color") val borderColor: String? = null,
+    @SerialName("use_img_label") val useImgLabel: Boolean? = null,
+    @SerialName("img_label_uri_hans") val imgLabelUriHans: String? = null,
+    @SerialName("img_label_uri_hant") val imgLabelUriHant: String? = null,
+    @SerialName("img_label_uri_hans_static") val imgLabelUriHansStatic: String? = null,
+    @SerialName("img_label_uri_hant_static") val imgLabelUriHantStatic: String? = null,
 )

@@ -29,6 +29,8 @@ public data class LiveGuardPage(
     // no valuable info, all number and string filled with zero
     @SerialName("my_follow_info") val myFollowInfo: JsonObject? = null,
     @SerialName("guard_warn") val guardWarn: JsonObject? = null,
+    @SerialName("exist_benefit") val existBenefit: Boolean? = null,
+    @SerialName("remind_benefit") val remindBenefit: String? = null,
 ) {
     @Serializable
     public data class PageInfo(

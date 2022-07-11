@@ -33,6 +33,7 @@ public data class InteractWordData(
     @SerialName("identities") val identities: List<Int> = emptyList(),
     @SerialName("is_spread") val isSpread: Boolean? = null,
     @SerialName("msg_type") val msgType: Int? = null,
+    @SerialName("privilege_type") val privilegeType: Int? = null,
     @SerialName("roomid") val roomId: Int? = null,
     @SerialName("score") val score: Long? = null,
     @SerialName("spread_desc") val spreadDesc: String? = null,
