@@ -17,6 +17,7 @@ import moe.sdl.yabapi.runTest
 import moe.sdl.yabapi.util.encoding.avInt
 import moe.sdl.yabapi.util.encoding.bv
 import kotlin.test.Test
+import kotlin.test.assertNotNull
 
 internal class VideoApiTest {
 
@@ -170,6 +171,28 @@ internal class VideoApiTest {
                 )
             )
         )
+    }
+
+    @Test
+    fun fetchFlacStream(): Unit = runTest {
+        // client.loginWebQRCodeInteractive()
+        val bv = "BV1cL4y157PD"
+        val data = client.getVideoParts(bv).data
+        val resp = client.fetchVideoStream(
+            bv,
+            data[0].cid!!,
+            StreamRequest(
+                qnQuality = V8K,
+                fnvalFormat = VideoFnvalFormat(
+                    format = DASH,
+                    needHDR = true,
+                    need4K = true,
+                    need8K = true,
+                    needDolby = true
+                )
+            )
+        )
+        assertNotNull(resp.data?.dash?.flac)
     }
 
     @Test

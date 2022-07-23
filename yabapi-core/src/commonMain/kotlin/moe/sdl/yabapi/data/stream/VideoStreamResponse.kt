@@ -81,11 +81,18 @@ public data class DashStream(
     @SerialName("video") val videos: List<DashTrack> = emptyList(),
     @SerialName("audio") val audios: List<DashTrack> = emptyList(),
     @SerialName("dolby") val dolby: Dolby? = null,
+    @SerialName("flac") val flac: Flac? = null,
 ) {
     @Serializable
     public data class Dolby(
         val type: Int? = null,
         val audio: List<DashTrack> = emptyList(),
+    )
+
+    @Serializable
+    public data class Flac(
+        val display: Boolean? = null,
+        val audio: DashTrack? = null,
     )
 }
 

@@ -29,6 +29,7 @@ public enum class QnQuality(public val code: Int) {
     AUDIO_MEDIUM(30232),
     AUDIO_HIGH(30280),
     AUDIO_DOLBY(30250),
+    AUDIO_FLAC(30251),
     ;
 
     public companion object {
