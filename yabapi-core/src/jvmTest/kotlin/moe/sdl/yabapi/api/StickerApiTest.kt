@@ -1,5 +1,6 @@
 package moe.sdl.yabapi.api
 
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.asFlow
@@ -22,7 +23,7 @@ internal class StickerApiTest {
             .stickerList.asSequence()
             .map { it.text!!.substringAfter('[').substringBefore(']') to it.url }
             .asFlow().collect { (name, url) ->
-                val byteArray = async { client.client.get<ByteArray>(url!!) }
+                val byteArray = async { client.client.get(url!!).body<ByteArray>() }
                 File("./tmp/小黄脸/$name.png").apply {
                     parentFile?.mkdirs()
                     createNewFile()
