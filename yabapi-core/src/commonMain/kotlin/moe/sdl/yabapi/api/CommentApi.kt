@@ -1,5 +1,6 @@
 package moe.sdl.yabapi.api
 
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
@@ -36,14 +37,14 @@ private suspend fun BiliClient.getComment(
     context: CoroutineContext,
 ): CommentGetResponse = withContext(context) {
     logger.debug { "Getting root comment for $type $id" }
-    client.get<String>(if (lazy) COMMENT_LAZY_GET_URL else COMMENT_GET_URL) {
+    client.get(if (lazy) COMMENT_LAZY_GET_URL else COMMENT_GET_URL) {
         parameter("type", type.code)
         parameter("oid", id.toString())
         parameter(if (lazy) "next" else "pn", page)
         parameter("ps", count)
         parameter("mode", sort.code)
         parameter("_", now().epochSeconds)
-    }.deserializeJson<CommentGetResponse>().also {
+    }.body<String>().deserializeJson<CommentGetResponse>().also {
         logger.debug { "Got root comment for $type $id: $it" }
     }
 }

@@ -2,13 +2,13 @@ package moe.sdl.yabapi.consts
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineFactory
-import io.ktor.client.features.UserAgent
-import io.ktor.client.features.compression.ContentEncoding
-import io.ktor.client.features.cookies.AcceptAllCookiesStorage
-import io.ktor.client.features.cookies.CookiesStorage
-import io.ktor.client.features.cookies.HttpCookies
-import io.ktor.client.features.defaultRequest
-import io.ktor.client.features.websocket.WebSockets
+import io.ktor.client.plugins.UserAgent
+import io.ktor.client.plugins.compression.ContentEncoding
+import io.ktor.client.plugins.cookies.AcceptAllCookiesStorage
+import io.ktor.client.plugins.cookies.CookiesStorage
+import io.ktor.client.plugins.cookies.HttpCookies
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 

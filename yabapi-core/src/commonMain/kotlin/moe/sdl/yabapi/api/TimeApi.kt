@@ -1,5 +1,6 @@
 package moe.sdl.yabapi.api
 
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import kotlinx.coroutines.withContext
 import moe.sdl.yabapi.BiliClient
@@ -23,7 +24,8 @@ public suspend fun BiliClient.getTimestamp(
     context: CoroutineContext = this.context,
 ): TimestampGetResponse = withContext(context) {
     logger.debug { "Getting timestamp" }
-    client.get<String>(GET_TIMESTAMP_URL)
+    client.get(GET_TIMESTAMP_URL)
+        .body<String>()
         .deserializeJson<TimestampGetResponse>()
         .also { logger.debug { "Timestamp Get Response: $it" } }
 }

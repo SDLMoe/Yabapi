@@ -1,9 +1,11 @@
 package moe.sdl.yabapi.api
 
+import io.ktor.client.call.body
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
+import io.ktor.client.request.setBody
 import io.ktor.http.Parameters
 import kotlinx.coroutines.withContext
 import moe.sdl.yabapi.BiliClient
@@ -52,11 +54,11 @@ public suspend fun BiliClient.getFans(
     pageCount: Int = 50,
 ): RelationGetResponse = withContext(context) {
     logger.debug { "Getting fans of mid $mid, page $page for max $pageCount user(s)" }
-    client.get<String>(FANS_GET_URL) {
+    client.get(FANS_GET_URL) {
         parameter("vmid", mid)
         parameter("ps", pageCount)
         parameter("pn", page)
-    }.deserializeJson<RelationGetResponse>().also {
+    }.body<String>().deserializeJson<RelationGetResponse>().also {
         logger.debug { "Got fans of mid $mid, page $page: $it" }
     }
 }
@@ -75,14 +77,14 @@ public suspend fun BiliClient.getFollowing(
     order: FollowingOrder = TIME,
 ): RelationGetResponse = withContext(context) {
     logger.debug { "Getting mid $mid's following, page $page for max $pageCount by $order..." }
-    client.get<String>(FOLLOWING_GET_URL) {
+    client.get(FOLLOWING_GET_URL) {
         parameter("vmid", mid)
         if (order == FollowingOrder.MOST_FREQUENT) {
             parameter("order_type", "attention")
         }
         parameter("ps", pageCount)
         parameter("pn", page)
-    }.deserializeJson<RelationGetResponse>().also {
+    }.body<String>().deserializeJson<RelationGetResponse>().also {
         logger.debug { "Got followings of mid $mid, page $page: $it" }
     }
 }
@@ -101,12 +103,12 @@ public suspend fun BiliClient.searchFollowing(
     pageCount: Int = 50,
 ): RelationGetResponse = withContext(context) {
     logger.debug { "Searching Searched followings of mid $mid by keyword \"$keyword\"..." }
-    client.get<String>(FOLLOWING_SEARCH_URL) {
+    client.get(FOLLOWING_SEARCH_URL) {
         parameter("vmid", mid)
         parameter("name", keyword)
         parameter("ps", pageCount)
         parameter("pn", page)
-    }.deserializeJson<RelationGetResponse>().also {
+    }.body<String>().deserializeJson<RelationGetResponse>().also {
         logger.debug { "Searched followings of mid $mid by keyword \"$keyword\", page $page: $it" }
     }
 }
@@ -123,11 +125,11 @@ public suspend fun BiliClient.getCoFollowing(
     pageCount: Int = 50,
 ): RelationGetResponse = withContext(context) {
     logger.debug { "Getting co-followings of mid $mid..." }
-    client.get<String>(CO_FOLLOWING_GET_URL) {
+    client.get(CO_FOLLOWING_GET_URL) {
         parameter("vmid", mid)
         parameter("ps", pageCount)
         parameter("pn", page)
-    }.deserializeJson<RelationGetResponse>().also {
+    }.body<String>().deserializeJson<RelationGetResponse>().also {
         logger.debug { "Got co-followings of mid $mid, page $page: $it" }
     }
 }
@@ -142,10 +144,10 @@ public suspend fun BiliClient.getQuietlyFollowing(
     pageCount: Int = 50,
 ): RelationGetResponse = withContext(context) {
     logger.debug { "Getting quietly following..." }
-    client.get<String>(QUIETLY_FOLLOWING_GET_URL) {
+    client.get(QUIETLY_FOLLOWING_GET_URL) {
         parameter("ps", pageCount)
         parameter("pn", page)
-    }.deserializeJson<RelationGetResponse>().also {
+    }.body<String>().deserializeJson<RelationGetResponse>().also {
         logger.debug { "Got quietly following: $it" }
     }
 }
@@ -160,10 +162,10 @@ public suspend fun BiliClient.getBlacklist(
     pageCount: Int = 50,
 ): RelationGetResponse = withContext(context) {
     logger.debug { "Getting blacklist..." }
-    client.get<String>(BLACKLIST_GET_URL) {
+    client.get(BLACKLIST_GET_URL) {
         parameter("ps", pageCount)
         parameter("pn", page)
-    }.deserializeJson<RelationGetResponse>().also {
+    }.body<String>().deserializeJson<RelationGetResponse>().also {
         logger.debug { "Got blacklist: $it" }
     }
 }
@@ -181,15 +183,15 @@ public suspend fun BiliClient.modifyRelation(
     context: CoroutineContext = this.context,
 ): RelationModifyResponse = withContext(context) {
     logger.debug { "Modify relation for $mid, action: $action, with source $source" }
-    client.post<String>(MODIFY_RELATION_URL) {
+    client.post(MODIFY_RELATION_URL) {
         val params = Parameters.build {
             append("fid", mid.toString())
             append("act", action.code.toString())
             append("re_src", source.code.toString())
             putCsrf()
         }
-        body = FormDataContent(params)
-    }.deserializeJson<RelationModifyResponse>().also {
+        setBody(FormDataContent(params))
+    }.body<String>().deserializeJson<RelationModifyResponse>().also {
         logger.debug { "Modified relation for $mid, action: $action, with source $source: $it" }
     }
 }
@@ -211,15 +213,15 @@ public suspend fun BiliClient.modifyRelation(
 ): RelationBatchModifyResponse = withContext(context) {
     require(allowedBatchAction.contains(action))
     logger.debug { "Modify relation for ${mids.contentToString()}, action: $action, with source $source" }
-    client.post<String>(BATCH_MODIFY_RELATION_URL) {
+    client.post(BATCH_MODIFY_RELATION_URL) {
         val params = Parameters.build {
             append("fids", mids.joinToString(","))
             append("act", action.code.toString())
             append("re_src", source.code.toString())
             putCsrf()
         }
-        body = FormDataContent(params)
-    }.deserializeJson<RelationBatchModifyResponse>().also {
+        setBody(FormDataContent(params))
+    }.body<String>().deserializeJson<RelationBatchModifyResponse>().also {
         logger.debug { "Modified relation for $mids, action: $action, with source $source: $it" }
     }
 }
@@ -234,9 +236,9 @@ public suspend fun BiliClient.queryRelation(
     context: CoroutineContext = this.context,
 ): RelationQueryResponse = withContext(context) {
     logger.debug { "Querying relation to mid $mid..." }
-    client.get<String>(RELATION_QUERY_URL) {
+    client.get(RELATION_QUERY_URL) {
         parameter("fid", mid)
-    }.deserializeJson<RelationQueryResponse>().also {
+    }.body<String>().deserializeJson<RelationQueryResponse>().also {
         logger.debug { "Queried relation to mid $mid: $it" }
     }
 }
@@ -251,9 +253,9 @@ public suspend fun BiliClient.queryRelation(
     context: CoroutineContext = this.context,
 ): RelationQueryBatchResponse = withContext(context) {
     logger.debug { "Querying relation to mids ${mid.contentToString()}..." }
-    client.get<String>(RELATION_BATCH_QUERY_URL) {
+    client.get(RELATION_BATCH_QUERY_URL) {
         parameter("fids", mid.joinToString(","))
-    }.deserializeJson<RelationQueryBatchResponse>().also {
+    }.body<String>().deserializeJson<RelationQueryBatchResponse>().also {
         logger.debug { "Queried relation to mids ${mid.contentToString()}: $it" }
     }
 }
@@ -268,9 +270,9 @@ public suspend fun BiliClient.queryRelationMutually(
     context: CoroutineContext = this.context,
 ): RelationQueryMutuallyResponse = withContext(context) {
     logger.debug { "Querying relation mutually to mid $mid..." }
-    client.get<String>(RELATION_QUERY_MUTUALLY) {
+    client.get(RELATION_QUERY_MUTUALLY) {
         parameter("mid", mid)
-    }.deserializeJson<RelationQueryMutuallyResponse>().also {
+    }.body<String>().deserializeJson<RelationQueryMutuallyResponse>().also {
         logger.debug { "Querying relation mutually to mid $mid..." }
     }
 }
@@ -283,7 +285,8 @@ public suspend fun BiliClient.querySpecialFollowing(
     context: CoroutineContext = this.context,
 ): SpecialFollowingQueryResponse = withContext(context) {
     logger.debug { "Querying special relation for current user..." }
-    client.get<String>(RELATION_QUERY_SPECIAL)
+    client.get(RELATION_QUERY_SPECIAL)
+        .body<String>()
         .deserializeJson<SpecialFollowingQueryResponse>()
         .also { logger.debug { "Queried special relation: $it" } }
 }

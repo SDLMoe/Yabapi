@@ -1,9 +1,11 @@
 package moe.sdl.yabapi.api
 
+import io.ktor.client.call.body
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
+import io.ktor.client.request.setBody
 import io.ktor.http.Parameters
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -46,7 +48,8 @@ public suspend fun BiliClient.getUnreadMsgCount(
     context: CoroutineContext = this.context,
 ): UnreadMsgCountGetResponse = withContext(context) {
     logger.debug { "Getting unread message count..." }
-    client.get<String>(UNREAD_MESSAGE_COUNT_GET_URL)
+    client.get(UNREAD_MESSAGE_COUNT_GET_URL)
+        .body<String>()
         .deserializeJson<UnreadMsgCountGetResponse>()
         .also { logger.debug { "Got unread message count: $it" } }
 }
@@ -59,7 +62,8 @@ public suspend fun BiliClient.getUnreadWhisperCount(
 ): UnreadWhisperCountGetResponse =
     withContext(context) {
         logger.debug { "Getting unread whisper count..." }
-        client.get<String>(UNREAD_WHISPER_COUNT_GET_URL)
+        client.get(UNREAD_WHISPER_COUNT_GET_URL)
+            .body<String>()
             .deserializeJson<UnreadWhisperCountGetResponse>()
             .also { logger.debug { "Got unread whisper count: $it" } }
     }
@@ -74,13 +78,13 @@ public suspend fun BiliClient.sendMessage(
     context: CoroutineContext = this.context,
 ): MessageSendResponse = withContext(context) {
     logger.debug { "try to send message: $message" }
-    client.post<String>(SEND_MESSAGE_URL) {
+    client.post(SEND_MESSAGE_URL) {
         val params = Parameters.build {
             message.put(this, Yabapi.defaultJson.value)
             putCsrf()
         }
-        body = FormDataContent(params)
-    }.deserializeJson<MessageSendResponse>().also {
+        setBody(FormDataContent(params))
+    }.body<String>().deserializeJson<MessageSendResponse>().also {
         logger.debug { "Sent message, response: $it" }
     }
 }
@@ -129,16 +133,16 @@ public suspend fun BiliClient.modifyMessageSetting(
 ): ModifyMsgSettingResponse = withContext(context) {
     logger.debug { "Try to modify message setting..." }
     val list = MessageSettingBuilder().apply(builder).build()
-    client.post<String>(MESSAGE_SETTINGS_URL) {
-        body = FormDataContent(
+    client.post(MESSAGE_SETTINGS_URL) {
+        setBody(FormDataContent(
             Parameters.build {
                 putCsrf("csrf")
                 append("build", build.toString())
                 append("mobi_app", app)
                 list.forEach { (k, v) -> append(k, v.toString()) }
             }
-        )
-    }.deserializeJson<ModifyMsgSettingResponse>().also {
+        ))
+    }.body<String>().deserializeJson<ModifyMsgSettingResponse>().also {
         logger.debug { "modify message setting resp: $it..." }
     }
 }
@@ -155,7 +159,7 @@ public suspend fun BiliClient.fetchMessageSessions(
 ): MessageSessionsResponse = withContext(context) {
     logger.debug { "Try to fetch MessageSessionsResponse, Type $type Sort $sort Timestamp $endTimestamp" }
     require(type != UNKNOWN) { "Do not allow $type session type" }
-    client.get<String>(FETCH_MESSAGE_SESSIONS_URL) {
+    client.get(FETCH_MESSAGE_SESSIONS_URL) {
         endTimestamp?.also { parameter("end_ts", it) }
         parameter("session_type", type.code)
         parameter("sort_rule", sort.code)
@@ -163,7 +167,7 @@ public suspend fun BiliClient.fetchMessageSessions(
         parameter("unfollow_fold", if (foldUnfollowed) "1" else "0")
         parameter("build", build)
         parameter("mobi_app", app)
-    }.deserializeJson<MessageSessionsResponse>().also {
+    }.body<String>().deserializeJson<MessageSessionsResponse>().also {
         logger.debug { "Recv MessageSessionsResponse: $it" }
     }
 }
@@ -178,11 +182,11 @@ public suspend fun BiliClient.fetchNewMessageSessions(
     context: CoroutineContext = this.context,
 ): MessageSessionsResponse = withContext(context) {
     logger.debug { "Getting new sessions after $beginTimestamp..." }
-    client.get<String>(FETCH_NEW_MESSAGE_SESSIONS_URL) {
+    client.get(FETCH_NEW_MESSAGE_SESSIONS_URL) {
         parameter("begin_ts", beginTimestamp)
         parameter("build", build)
         parameter("mobi_app", app)
-    }.deserializeJson<MessageSessionsResponse>().also {
+    }.body<String>().deserializeJson<MessageSessionsResponse>().also {
         logger.debug { "Got new sessions after $beginTimestamp: $it" }
     }
 }
@@ -205,7 +209,7 @@ public suspend fun BiliClient.fetchSessionMessage(
     context: CoroutineContext = this.context,
 ): MessageResponse = withContext(context) {
     logger.debug { "fetch session message for $talkerId" }
-    client.get<String>(FETCH_SESSION_MESSAGES_URL) {
+    client.get(FETCH_SESSION_MESSAGES_URL) {
         parameter("sender_device_id", senderDeviceId)
         parameter("talker_id", talkerId)
         parameter("session_type", sessionType.code)
@@ -213,7 +217,7 @@ public suspend fun BiliClient.fetchSessionMessage(
         parameter("size", size)
         parameter("build", build)
         parameter("mobi_app", app)
-    }.deserializeJson<MessageResponse>().also {
+    }.body<String>().deserializeJson<MessageResponse>().also {
         logger.debug { "fetched session message  for $talkerId: $it" }
     }
 }

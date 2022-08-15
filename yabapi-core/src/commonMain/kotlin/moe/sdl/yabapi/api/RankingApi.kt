@@ -1,5 +1,6 @@
 package moe.sdl.yabapi.api
 
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
@@ -28,10 +29,10 @@ public suspend fun BiliClient.getRanking(
     context: CoroutineContext = this.context,
 ): RankingGetResponse = withContext(context) {
     logger.debug { "Getting Ranking for type ${type.name}, recent $day day(s)." }
-    client.get<String>(RANKING_GET_URL) {
+    client.get(RANKING_GET_URL) {
         parameter("rid", type.tid)
         parameter("day", day)
-    }.deserializeJson<RankingGetResponse>().also {
+    }.body<String>().deserializeJson<RankingGetResponse>().also {
         logger.debug { "Got Ranking for ${type.name}, recent $day day(s), count: ${it.data.count()}" }
         if (it.code != SUCCESS) logger.debug { "$it" }
         else logger.verbose { "$it" }
@@ -48,11 +49,11 @@ public suspend fun BiliClient.getLatestVideo(
     context: CoroutineContext = this.context,
 ): LatestVideoGetResponse = withContext(context) {
     logger.debug { "Getting latest video for type ${type.name}, page $page..." }
-    client.get<String>(LATEST_VIDEO_GET_URL) {
+    client.get(LATEST_VIDEO_GET_URL) {
         parameter("pn", page)
         parameter("ps", countPerPage)
         parameter("rid", type.tid)
-    }.deserializeJson<LatestVideoGetResponse>().also {
+    }.body<String>().deserializeJson<LatestVideoGetResponse>().also {
         logger.debug { "Got latest video for type ${type.name}, page $page, count: ${it.data?.archives?.count()}" }
         if (it.code != SUCCESS) logger.debug { "$it" }
         else logger.verbose { "$it" }

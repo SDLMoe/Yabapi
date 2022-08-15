@@ -1,5 +1,6 @@
 package moe.sdl.yabapi.api
 
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
@@ -29,9 +30,9 @@ public suspend fun BiliClient.getBangumiInfo(
     context: CoroutineContext = this.context,
 ): BangumiInfoGetResponse = withContext(context) {
     logger.debug { "Getting bangumi info for media id $mediaId" }
-    client.get<String>(BANGUMI_INFO_GET_URL) {
+    client.get(BANGUMI_INFO_GET_URL) {
         parameter("media_id", mediaId)
-    }.deserializeJson<BangumiInfoGetResponse>().also {
+    }.body<String>().deserializeJson<BangumiInfoGetResponse>().also {
         logger.debug { "Got bangumi info for media id $mediaId： $it" }
     }
 }
@@ -46,9 +47,9 @@ public suspend fun BiliClient.getBangumiReviewInfo(
     context: CoroutineContext = this.context,
 ): BangumiReviewInfoResponse = withContext(context) {
     logger.debug { "Getting Bangumi Review Info for media id $mediaId" }
-    client.get<String>(BANGUMI_REVIEW_INFO_GET_URL) {
+    client.get(BANGUMI_REVIEW_INFO_GET_URL) {
         parameter("media_id", mediaId)
-    }.deserializeJson<BangumiReviewInfoResponse>().also {
+    }.body<String>().deserializeJson<BangumiReviewInfoResponse>().also {
         logger.debug { "Got Bangumi Review Info for media id $mediaId: $it" }
     }
 }
@@ -61,10 +62,10 @@ private suspend inline fun BiliClient.getBangumiDetailed(
     requireLeastAndOnlyOne(seasonId, epId)
     val showId = if (seasonId != null) "ss$seasonId" else "ep$epId"
     logger.debug { "Getting bangumi detailed info for $showId..." }
-    client.get<String>(BANGUMI_DETAILED_GET_URL) {
+    client.get(BANGUMI_DETAILED_GET_URL) {
         seasonId?.let { parameter("season_id", it) }
         epId?.let { parameter("ep_id", it) }
-    }.deserializeJson<BangumiDetailedResponse>().also {
+    }.body<String>().deserializeJson<BangumiDetailedResponse>().also {
         logger.debug { "Got bangumi detailed info for $showId: $it" }
     }
 }

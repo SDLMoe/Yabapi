@@ -1,5 +1,6 @@
 package moe.sdl.yabapi.api
 
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
@@ -29,9 +30,9 @@ public suspend fun BiliClient.getAllStickers(
     context: CoroutineContext = this.context,
 ): AllStickersGetResponse = withContext(context) {
     logger.debug { "Getting all stickers for business: $business" }
-    client.get<String>(GET_ALL_STICKERS_URL) {
+    client.get(GET_ALL_STICKERS_URL) {
         parameter("business", business.toString())
-    }.deserializeJson<AllStickersGetResponse>().also {
+    }.body<String>().deserializeJson<AllStickersGetResponse>().also {
         logger.debug { "Got all stickers response: $it" }
     }
 }

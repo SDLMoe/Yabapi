@@ -1,5 +1,6 @@
 package moe.sdl.yabapi.api
 
+import io.ktor.client.call.body
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.get
@@ -7,6 +8,7 @@ import io.ktor.client.request.header
 import io.ktor.client.request.headers
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
+import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
@@ -42,9 +44,9 @@ public suspend fun BiliClient.getVcAlbumInfo(
     context: CoroutineContext = this.context,
 ): AlbumInfoResponse = withContext(context) {
     logger.debug { "Getting Album Info $id..." }
-    client.get<String>(ALBUM_INFO_GET_URL) {
+    client.get(ALBUM_INFO_GET_URL) {
         parameter("doc_id", id)
-    }.deserializeJson<AlbumInfoResponse>().also {
+    }.body<String>().deserializeJson<AlbumInfoResponse>().also {
         logger.debug { "Got Album Info $id: $it" }
     }
 }
@@ -56,12 +58,12 @@ public suspend fun BiliClient.uploadImage(
     inputProvider: () -> Input,
 ): AlbumUploadResponse = withContext(context) {
     logger.debug { "Trying to upload " }
-    client.post<String>(ALBUM_UPLOAD_URL) {
+    client.post(ALBUM_UPLOAD_URL) {
         headers {
             header(HttpHeaders.Origin, FEED_DOMAIN)
             header(HttpHeaders.Referrer, FEED_DOMAIN)
         }
-        body = MultiPartFormDataContent(
+        setBody(MultiPartFormDataContent(
             formData {
                 appendInput(
                     "file_up",
@@ -73,8 +75,8 @@ public suspend fun BiliClient.uploadImage(
                 )
                 append("category", category.code)
             }
-        )
-    }.deserializeJson<AlbumUploadResponse>().also {
+        ))
+    }.body<String>().deserializeJson<AlbumUploadResponse>().also {
         if (it.code == SUCCESS) logger.debug { "Successfully upload img: $it" }
         else logger.debug { "Failed to upload img: $it" }
     }

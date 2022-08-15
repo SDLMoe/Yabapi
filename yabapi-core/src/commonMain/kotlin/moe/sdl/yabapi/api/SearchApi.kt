@@ -1,5 +1,6 @@
 package moe.sdl.yabapi.api
 
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
@@ -29,9 +30,9 @@ public suspend fun BiliClient.searchAll(
     context: CoroutineContext = this.context,
 ): SearchAllResponse = withContext(context) {
     logger.debug { "Search for '$keyword'..." }
-    client.get<String>(SEARCH_ALL_URL) {
+    client.get(SEARCH_ALL_URL) {
         parameter("keyword", keyword)
-    }.deserializeJson<SearchAllResponse>().also {
+    }.body<String>().deserializeJson<SearchAllResponse>().also {
         logger.debug { "Search Response for '$keyword': $it" }
     }
 }
@@ -49,10 +50,10 @@ public suspend fun BiliClient.searchByType(
     val type = option.type
     logger.debug { "Searching '$keyword' by type $type, option: $option..." }
     require(type != SearchType.LIVE || type != SearchType.LIVE_USER) { "For live related search, use [BiliClient.searchLive] instead." }
-    client.get<String>(SEARCH_BY_TYPE_URL) {
+    client.get(SEARCH_BY_TYPE_URL) {
         parameter("keyword", keyword)
         option.putToQuery(this)
-    }.deserializeJson<SearchNormalResponse>().also {
+    }.body<String>().deserializeJson<SearchNormalResponse>().also {
         logger.debug { "Search '$keyword' by type $type Response: $it" }
     }
 }
@@ -65,9 +66,9 @@ public suspend fun BiliClient.searchLive(
     val type = option.type
     logger.debug { "Searching '$keyword' by type $type, option: $option..." }
     require(type == SearchType.LIVE || type == SearchType.LIVE_USER) { "For non-live search, use [BiliClient.searchByType] instead" }
-    client.get<String>(SEARCH_BY_TYPE_URL) {
+    client.get(SEARCH_BY_TYPE_URL) {
         parameter("keyword", keyword)
-    }.deserializeJson<SearchLiveResponse>().also {
+    }.body<String>().deserializeJson<SearchLiveResponse>().also {
         logger.debug { "Search '$keyword' by type $type Response: $it" }
     }
 }
@@ -76,7 +77,7 @@ public suspend fun BiliClient.getSearchPlaceHolder(
     context: CoroutineContext = this.context,
 ): SearchPlaceHolderResponse = withContext(context) {
     logger.debug { "Getting Search Place Holder..." }
-    client.get<String>(SEARCH_PLACEHOLDER_GET_URL).deserializeJson<SearchPlaceHolderResponse>().also {
+    client.get(SEARCH_PLACEHOLDER_GET_URL).body<String>().deserializeJson<SearchPlaceHolderResponse>().also {
         logger.debug { "Got Search Place Holder: $it" }
     }
 }
@@ -85,7 +86,8 @@ public suspend fun BiliClient.getSearchRanking(
     context: CoroutineContext = this.context
 ): SearchRankResponse = withContext(context) {
     logger.debug { "Getting Search Ranking..." }
-    client.get<String>(SEARCH_RANKING_GET_URL)
+    client.get(SEARCH_RANKING_GET_URL)
+        .body<String>()
         .deserializeJson<SearchRankResponse>().also {
             logger.debug { "Got Search Ranking: $it" }
         }

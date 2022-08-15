@@ -1,7 +1,6 @@
 package moe.sdl.yabapi.storage
 
-import io.ktor.client.features.cookies.AcceptAllCookiesStorage
-import io.ktor.client.features.cookies.CookiesStorage
+import io.ktor.client.plugins.cookies.CookiesStorage
 import io.ktor.http.Cookie
 import io.ktor.http.Url
 import io.ktor.http.hostIsIp

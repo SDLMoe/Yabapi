@@ -1,5 +1,6 @@
 package moe.sdl.yabapi.api
 
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.Job
@@ -64,7 +65,8 @@ public suspend fun BiliClient.getLiveAreas(
     context: CoroutineContext = this.context,
 ): LiveAreasGetResponse = withContext(context) {
     logger.debug { "Getting live areas..." }
-    client.get<String>(LIVE_AREA_URL)
+    client.get(LIVE_AREA_URL)
+        .body<String>()
         .deserializeJson<LiveAreasGetResponse>()
         .also { logger.debug { "Got live areas, response: $it" } }
 }
@@ -74,9 +76,9 @@ public suspend fun BiliClient.getRoomIdByUid(
     context: CoroutineContext = this.context,
 ): RoomIdByUserResponse = withContext(context) {
     logger.debug { "Getting room id of uid $uid" }
-    client.get<String>(LIVE_UID_TO_ROOM_ID) {
+    client.get(LIVE_UID_TO_ROOM_ID) {
         parameter("uid", uid.toString())
-    }.deserializeJson<RoomIdByUserResponse>().also {
+    }.body<String>().deserializeJson<RoomIdByUserResponse>().also {
         logger.debug { "Got room id of uid $uid: $it" }
     }
 }
@@ -90,9 +92,9 @@ public suspend fun BiliClient.getRoomInitInfo(
     context: CoroutineContext = this.context,
 ): LiveInitGetResponse = withContext(context) {
     logger.debug { "Getting Room Init Info for room $roomId" }
-    client.get<String>(LIVE_INIT_INFO_GET_URL) {
+    client.get(LIVE_INIT_INFO_GET_URL) {
         parameter("id", roomId)
-    }.deserializeJson<LiveInitGetResponse>().also {
+    }.body<String>().deserializeJson<LiveInitGetResponse>().also {
         logger.debug { "Got Room Init Info for room $roomId: $it" }
     }
 }
@@ -102,9 +104,9 @@ public suspend fun BiliClient.getRoomInfoByRoomId(
     context: CoroutineContext = this.context,
 ): LiveRoomInfoResponse = withContext(context) {
     logger.debug { "Getting Room Info for room $roomId" }
-    client.get<String>(LIVE_ROOM_INFO_URL) {
+    client.get(LIVE_ROOM_INFO_URL) {
         parameter("id", roomId)
-    }.deserializeJson<LiveRoomInfoResponse>().also {
+    }.body<String>().deserializeJson<LiveRoomInfoResponse>().also {
         logger.debug { "Got Room Info for room $roomId: $it" }
     }
 }
@@ -117,9 +119,9 @@ public suspend fun BiliClient.getLiverInfo(
     context: CoroutineContext = this.context,
 ): LiverInfoGetResponse = withContext(context) {
     logger.debug { "Getting liver info for mid $mid..." }
-    client.get<String>(LIVER_INFO_GET_URL) {
+    client.get(LIVER_INFO_GET_URL) {
         parameter("uid", mid)
-    }.deserializeJson<LiverInfoGetResponse>().also {
+    }.body<String>().deserializeJson<LiverInfoGetResponse>().also {
         logger.debug { "Got liver info for mid $mid, response: $it" }
     }
 }
@@ -131,7 +133,8 @@ public suspend fun BiliClient.getLiveIndexList(
     context: CoroutineContext = this.context,
 ): LiveIndexList = withContext(context) {
     logger.debug { "Getting live index list: " }
-    client.get<String>(LIVE_SHOW_LIST_GET)
+    client.get(LIVE_SHOW_LIST_GET)
+        .body<String>()
         .deserializeJson<LiveIndexList>()
         .also { logger.debug { "Got live index list: $it" } }
 }
@@ -145,10 +148,10 @@ public suspend fun BiliClient.checkLivePwd(
     context: CoroutineContext = this.context,
 ): LiveRoomPwdResponse = withContext(context) {
     logger.debug { "Checking Live Pwd for id$id" }
-    client.get<String>(LIVE_CHECK_PWD_URL) {
+    client.get(LIVE_CHECK_PWD_URL) {
         parameter("room_id", id)
         parameter("pwd", pwd)
-    }.deserializeJson<LiveRoomPwdResponse>().also {
+    }.body<String>().deserializeJson<LiveRoomPwdResponse>().also {
         logger.debug { "Checked Live Pwd for id$id: $it" }
     }
 }
@@ -161,9 +164,9 @@ public suspend fun BiliClient.getLiveHover(
     context: CoroutineContext = this.context,
 ): LiveHoverGetResponse = withContext(context) {
     logger.debug { "Getting live hover of area $areaId..." }
-    client.get<String>(LIVE_HOVER_GET_URL) {
+    client.get(LIVE_HOVER_GET_URL) {
         parameter("area_id", areaId)
-    }.deserializeJson<LiveHoverGetResponse>().also {
+    }.body<String>().deserializeJson<LiveHoverGetResponse>().also {
         logger.debug { "Got live hover of area $areaId" }
     }
 }
@@ -182,9 +185,9 @@ public suspend fun BiliClient.getLiveDanmakuInfo(
     context: CoroutineContext = this.context,
 ): LiveDanmakuInfoGetResponse = withContext(context) {
     logger.debug { "Getting live danmaku info for room $realRoomId" }
-    client.get<String>(LIVE_DANMAKU_INFO_URL) {
+    client.get(LIVE_DANMAKU_INFO_URL) {
         parameter("id", realRoomId)
-    }.deserializeJson<LiveDanmakuInfoGetResponse>().also {
+    }.body<String>().deserializeJson<LiveDanmakuInfoGetResponse>().also {
         logger.debug { "Got live danmaku info for room $realRoomId: $it" }
     }
 }
@@ -232,10 +235,10 @@ public suspend fun BiliClient.fetchLiveStream(
     context: CoroutineContext = this.context,
 ): LiveStreamResponse = withContext(context) {
     logger.debug { "Fetching Live Stream..." }
-    client.get<String>(LIVE_STREAM_FETCH_URL) {
+    client.get(LIVE_STREAM_FETCH_URL) {
         parameter("room_id", roomId)
         putLiveStreamRequest(request)
-    }.deserializeJson<LiveStreamResponse>().also {
+    }.body<String>().deserializeJson<LiveStreamResponse>().also {
         logger.debug { "Fetched Live Stream: $it" }
     }
 }
@@ -252,7 +255,8 @@ public suspend fun BiliClient.signLive(
     context: CoroutineContext = this.context,
 ): LiveSignResponse = withContext(context) {
     logger.debug { "Do signing for live..." }
-    client.get<String>(LIVE_SIGN_URL)
+    client.get(LIVE_SIGN_URL)
+        .body<String>()
         .deserializeJson<LiveSignResponse>()
         .also { logger.debug { "Signed for live, response: $it" } }
 }
@@ -264,7 +268,8 @@ public suspend fun BiliClient.getLiveSignInfo(
     context: CoroutineContext = this.context,
 ): LiveSignInfoGetResponse = withContext(context) {
     logger.debug { "Getting live sign info..." }
-    client.get<String>(LIVE_SIGN_INFO_URL)
+    client.get(LIVE_SIGN_INFO_URL)
+        .body<String>()
         .deserializeJson<LiveSignInfoGetResponse>()
         .also { logger.debug { "Got Live Sign Info: $it" } }
 }
@@ -276,7 +281,8 @@ public suspend fun BiliClient.getLiveSignLastMonthInfo(
     context: CoroutineContext = this.context,
 ): LiveSignLastMonthResponse = withContext(context) {
     logger.debug { "Getting last-month live sign info..." }
-    client.get<String>(LIVE_SIGN_LAST_MONTH_URL)
+    client.get(LIVE_SIGN_LAST_MONTH_URL)
+        .body<String>()
         .deserializeJson<LiveSignLastMonthResponse>()
         .also { logger.debug { "Got last-month Live Sign Info: $it" } }
 }
@@ -295,14 +301,14 @@ public suspend fun BiliClient.getLiveRank(
     context: CoroutineContext = this.context,
 ): LiveRankResponse = withContext(context) {
     logger.debug { "Getting live rank, type $type, page $page..." }
-    client.get<String>(LIVE_RANKING_GET_URL) {
+    client.get(LIVE_RANKING_GET_URL) {
         if (type == USER_ENERGY || type == LIVER_VITALITY) parameter("date", date)
         parameter("type", type.code)
         parameter("area_id", if (type == LIVER_VITALITY) areaId ?: 0 else "")
         parameter("page", page)
         parameter("pageSize", pageSize)
         parameter("isTrend", if (isTrend) "1" else "0")
-    }.deserializeJson<LiveRankResponse>().also {
+    }.body<String>().deserializeJson<LiveRankResponse>().also {
         logger.debug { "Got live rank, type $type, page $page: $it" }
     }
 }
@@ -313,10 +319,10 @@ public suspend fun BiliClient.getLiveMedalRank(
     context: CoroutineContext = this.context,
 ): LiveRankMedalResponse = withContext(context) {
     logger.debug { "Getting Live Medal Rank, page $page..." }
-    client.get<String>(LIVE_MEDAL_RANK_GET_URL) {
+    client.get(LIVE_MEDAL_RANK_GET_URL) {
         parameter("page", page)
         parameter("page_size", pageSize)
-    }.deserializeJson<LiveRankMedalResponse>().also {
+    }.body<String>().deserializeJson<LiveRankMedalResponse>().also {
         logger.debug { "Got Live Medal Rank, page $page: $it" }
     }
 }
@@ -333,12 +339,12 @@ public suspend fun BiliClient.getGuardList(
     context: CoroutineContext = this.context,
 ): LiveGuardListGetResponse = withContext(context) {
     logger.debug { "Getting live guard list for room $roomId, page $page, size $pageSize..." }
-    client.get<String>(LIVE_GUARD_LIST_GET_URL) {
+    client.get(LIVE_GUARD_LIST_GET_URL) {
         parameter("roomid", roomId)
         parameter("page", page)
         parameter("ruid", targetUid)
         parameter("page_size", pageSize)
-    }.deserializeJson<LiveGuardListGetResponse>().also {
+    }.body<String>().deserializeJson<LiveGuardListGetResponse>().also {
         logger.debug { "Got live guard list response: $it" }
     }
 }

@@ -1,8 +1,7 @@
 package moe.sdl.yabapi
 
 import io.ktor.client.HttpClient
-import io.ktor.client.features.cookies.CookiesStorage
-import io.ktor.client.features.cookies.cookies
+import io.ktor.client.plugins.cookies.cookies
 import io.ktor.http.Cookie
 import io.ktor.http.ParametersBuilder
 import kotlinx.coroutines.CoroutineName

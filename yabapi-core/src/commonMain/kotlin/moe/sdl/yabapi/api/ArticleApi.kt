@@ -1,5 +1,6 @@
 package moe.sdl.yabapi.api
 
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
@@ -25,9 +26,9 @@ public suspend fun BiliClient.getArticleInfo(
     context: CoroutineContext = Platform.ioDispatcher,
 ): ArticleInfoGetResponse = withContext(context) {
     logger.debug { "Getting article info cv$cvId..." }
-    client.get<String>(ARTICLE_BASIC_INFO_GET_URL) {
+    client.get(ARTICLE_BASIC_INFO_GET_URL) {
         parameter("id", cvId)
-    }.deserializeJson<ArticleInfoGetResponse>().also {
+    }.body<String>().deserializeJson<ArticleInfoGetResponse>().also {
         println("Got article info cv$cvId: $it")
     }
 }
@@ -37,7 +38,7 @@ public suspend fun BiliClient.getArticleDetailed(
     context: CoroutineContext = Platform.ioDispatcher,
 ): ArticleDetailedData? = withContext(context) {
     logger.debug { "Trying to capture article detail data for cv$cvId" }
-    client.get<String>("$ARTICLE_PAGE_URL/cv$cvId")
+    client.get("$ARTICLE_PAGE_URL/cv$cvId").body<String>()
         .findInitialState().also {
             logger.debug { "Captured Article Detailed Raw Data: $it" }
         }?.deserializeJson<ArticleDetailedData>().also {
@@ -50,9 +51,9 @@ public suspend fun BiliClient.getArticleSetInfo(
     context: CoroutineContext = Platform.ioDispatcher,
 ): ArticleSetInfoResponse = withContext(context) {
     logger.debug { "Getting Article Set Info id$id" }
-    client.get<String>(ARTICLE_SET_INFO_GET_URL) {
+    client.get(ARTICLE_SET_INFO_GET_URL) {
         parameter("id", id)
-    }.deserializeJson<ArticleSetInfoResponse>().also {
+    }.body<String>().deserializeJson<ArticleSetInfoResponse>().also {
         logger.debug { "Got Article Set Info id$id: $it" }
     }
 }

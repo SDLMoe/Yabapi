@@ -1,5 +1,6 @@
 package moe.sdl.yabapi.api
 
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.withContext
@@ -41,12 +42,12 @@ public suspend fun BiliClient.getDanmaku(
 ): DanmakuResponse = withContext(context) {
     val showAid = aid?.let { " (av$it)" } ?: ""
     logger.debug { "Getting danmaku for cid $cid$showAid part $part..." }
-    client.get<ByteArray>(VIDEO_DANMAKU_WEB_URL) {
+    client.get(VIDEO_DANMAKU_WEB_URL) {
         parameter("type", type.code)
         parameter("oid", cid)
         aid?.let { parameter("pid", aid) }
         parameter("segment_index", part)
-    }.deserializeProto<DanmakuResponse>().also {
+    }.body<ByteArray>().deserializeProto<DanmakuResponse>().also {
         logger.debug { "Got danmaku for cid $cid$showAid part $part, count: ${it.danmakus.count()}" }
         logger.verbose { "Danmakus: $it" }
     }
@@ -79,11 +80,11 @@ public suspend fun BiliClient.getDanmakuCalendar(
 ): DanmakuCalendarResponse = withContext(context) {
     val date = "$year-${month.toString().padStart(2, '0')}"
     logger.debug { "Getting calendar for cid$cid in $date" }
-    client.get<String>(VIDEO_DANMAKU_CALENDAR_URL) {
+    client.get(VIDEO_DANMAKU_CALENDAR_URL) {
         parameter("type", type.code)
         parameter("oid", cid)
         parameter("month", date)
-    }.deserializeJson<DanmakuCalendarResponse>().also {
+    }.body<String>().deserializeJson<DanmakuCalendarResponse>().also {
         logger.debug { "Got calendar for cid$cid in $date: $it" }
     }
 }
@@ -103,11 +104,11 @@ public suspend fun BiliClient.getHistoryDanmaku(
     context: CoroutineContext = this.context,
 ): DanmakuResponse = withContext(context) {
     logger.debug { "Getting History Danmaku for cid$cid on $date..." }
-    client.get<ByteArray>(VIDEO_HISTORY_DANMAKU_GET_URL) {
+    client.get(VIDEO_HISTORY_DANMAKU_GET_URL) {
         parameter("type", type.code)
         parameter("oid", cid)
         parameter("date", date)
-    }.deserializeProto<DanmakuResponse>().also {
+    }.body<ByteArray>().deserializeProto<DanmakuResponse>().also {
         logger.debug { "Got History Danmaku for cid$cid on $date: danmaku count ${it.danmakus.count()}" }
         logger.verbose { "$it" }
     }

@@ -1,17 +1,15 @@
-@file:Suppress("NOTHING_TO_INLINE")
-
 package moe.sdl.yabapi.connect
 
 import io.ktor.client.HttpClient
-import io.ktor.client.features.websocket.DefaultClientWebSocketSession
-import io.ktor.client.features.websocket.wss
+import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
+import io.ktor.client.plugins.websocket.wss
 import io.ktor.http.HttpMethod
-import io.ktor.http.cio.websocket.Frame
-import io.ktor.http.cio.websocket.FrameType.BINARY
 import io.ktor.utils.io.core.buildPacket
 import io.ktor.utils.io.core.readUInt
 import io.ktor.utils.io.core.toByteArray
 import io.ktor.utils.io.core.writeFully
+import io.ktor.websocket.Frame
+import io.ktor.websocket.FrameType.BINARY
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineName
@@ -93,7 +91,7 @@ internal class LiveMessageConnection(
         packet: LiveMsgPacket,
     ): Boolean {
         var isSuccess = false
-        outgoing.trySend(Frame.byType(true, BINARY, packet.encode())).also {
+        outgoing.trySend(Frame.byType(true, BINARY, packet.encode(), rsv1 = false, rsv2 = false, rsv3 = false)).also {
             logger.debug { "Try to send ${packet.header.type} packet." }
         }.onFailure {
             if (it is CancellationException) throw it
