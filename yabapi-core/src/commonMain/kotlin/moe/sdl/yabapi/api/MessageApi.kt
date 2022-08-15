@@ -134,14 +134,16 @@ public suspend fun BiliClient.modifyMessageSetting(
     logger.debug { "Try to modify message setting..." }
     val list = MessageSettingBuilder().apply(builder).build()
     client.post(MESSAGE_SETTINGS_URL) {
-        setBody(FormDataContent(
-            Parameters.build {
-                putCsrf("csrf")
-                append("build", build.toString())
-                append("mobi_app", app)
-                list.forEach { (k, v) -> append(k, v.toString()) }
-            }
-        ))
+        setBody(
+            FormDataContent(
+                Parameters.build {
+                    putCsrf("csrf")
+                    append("build", build.toString())
+                    append("mobi_app", app)
+                    list.forEach { (k, v) -> append(k, v.toString()) }
+                }
+            )
+        )
     }.body<String>().deserializeJson<ModifyMsgSettingResponse>().also {
         logger.debug { "modify message setting resp: $it..." }
     }

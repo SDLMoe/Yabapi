@@ -95,13 +95,15 @@ public suspend fun BiliClient.deleteHistory(
 ): HistoryDeleteResponse = withContext(context) {
     logger.debug { "Deleting Watch History for $type $targetId" }
     client.post(HISTORY_DELETE_URL) {
-        setBody(FormDataContent(
-            Parameters.build {
-                append("kid", "${type.code}_$targetId")
-                append("jsonp", "jsonp")
-                putCsrf()
-            }
-        ))
+        setBody(
+            FormDataContent(
+                Parameters.build {
+                    append("kid", "${type.code}_$targetId")
+                    append("jsonp", "jsonp")
+                    putCsrf()
+                }
+            )
+        )
     }.body<String>().deserializeJson<HistoryDeleteResponse>().also {
         logger.debug { "Delete History Response: $it" }
     }
@@ -112,11 +114,13 @@ public suspend fun BiliClient.clearHistory(
 ): HistoryDeleteResponse = withContext(context) {
     logger.debug { "Clearing Watch History..." }
     client.post(HISTORY_CLEAR_URL) {
-        setBody(FormDataContent(
-            Parameters.build {
-                putCsrf()
-            }
-        ))
+        setBody(
+            FormDataContent(
+                Parameters.build {
+                    putCsrf()
+                }
+            )
+        )
     }.body<String>().deserializeJson<HistoryDeleteResponse>().also {
         logger.debug { "Clear History Response: $it" }
     }
@@ -128,12 +132,14 @@ public suspend fun BiliClient.setStopHistory(
 ): HistoryStopResponse = withContext(context) {
     logger.debug { "Setting History Stop Status to $isStop..." }
     client.post(HISTORY_STOP_URL) {
-        setBody(FormDataContent(
-            Parameters.build {
-                parameter("switch", isStop)
-                putCsrf()
-            }
-        ))
+        setBody(
+            FormDataContent(
+                Parameters.build {
+                    parameter("switch", isStop)
+                    putCsrf()
+                }
+            )
+        )
     }.body<String>().deserializeJson<HistoryStopResponse>().also {
         logger.debug { "Set History Stop Status Response: $it" }
     }
@@ -166,12 +172,14 @@ private suspend fun BiliClient.addLaterWatch(
     context: CoroutineContext = this.context,
 ): LaterWatchAddResponse = withContext(context) {
     client.post(LATER_WATCH_ADD_URL) {
-        setBody(FormDataContent(
-            Parameters.build {
-                putVideoId(aid, bid)
-                putCsrf()
-            }
-        ))
+        setBody(
+            FormDataContent(
+                Parameters.build {
+                    putVideoId(aid, bid)
+                    putCsrf()
+                }
+            )
+        )
     }.body<String>().deserializeJson()
 }
 
@@ -205,13 +213,15 @@ public suspend fun BiliClient.addChannelToLaterWatch(
         headers {
             append(HttpHeaders.Referrer, WWW)
         }
-        setBody(FormDataContent(
-            Parameters.build {
-                append("cid", collectionId.toString())
-                append("mid", targetUid.toString())
-                putCsrf()
-            }
-        ))
+        setBody(
+            FormDataContent(
+                Parameters.build {
+                    append("cid", collectionId.toString())
+                    append("mid", targetUid.toString())
+                    putCsrf()
+                }
+            )
+        )
     }.body<String>().deserializeJson<LaterWatchAddChannelResponse>().also {
         logger.debug { "Add channel $collectionId mid $targetUid to later watching response: $it" }
     }
@@ -224,13 +234,15 @@ private suspend fun BiliClient.deleteLaterWatchRaw(
 ) = withContext(context) {
     logger.debug { "Deleting LaterWatch for av$avToDelete${if (deleteViewed) " and viewed" else ""}..." }
     client.post(LATER_WATCH_DELETE_URL) {
-        setBody(FormDataContent(
-            Parameters.build {
-                avToDelete?.let { append("aid", it.toString()) }
-                append("viewed", deleteViewed.toString())
-                putCsrf()
-            }
-        ))
+        setBody(
+            FormDataContent(
+                Parameters.build {
+                    avToDelete?.let { append("aid", it.toString()) }
+                    append("viewed", deleteViewed.toString())
+                    putCsrf()
+                }
+            )
+        )
     }.body<String>().deserializeJson<LaterWatchDeleteResponse>().also {
         logger.debug { "Delete Later Watch Response: $it" }
     }
@@ -257,11 +269,13 @@ public suspend fun BiliClient.clearLaterWatch(
 ): LaterWatchClearResponse = withContext(context) {
     logger.debug { "Clearing Later Watch..." }
     client.post(LATER_WATCH_CLEAR_URL) {
-        setBody(FormDataContent(
-            Parameters.build {
-                putCsrf()
-            }
-        ))
+        setBody(
+            FormDataContent(
+                Parameters.build {
+                    putCsrf()
+                }
+            )
+        )
     }.body<String>().deserializeJson<LaterWatchClearResponse>().also {
         logger.debug { "Clear Later Watch Response: $it" }
     }

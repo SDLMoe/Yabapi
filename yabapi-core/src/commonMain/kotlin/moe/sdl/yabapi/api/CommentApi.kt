@@ -7,8 +7,8 @@ import kotlinx.coroutines.withContext
 import moe.sdl.yabapi.BiliClient
 import moe.sdl.yabapi.consts.internal.COMMENT_GET_URL
 import moe.sdl.yabapi.consts.internal.COMMENT_LAZY_GET_URL
-import moe.sdl.yabapi.data.comment.CommentReqDsl
 import moe.sdl.yabapi.data.comment.CommentGetResponse
+import moe.sdl.yabapi.data.comment.CommentReqDsl
 import moe.sdl.yabapi.data.comment.CommentSort
 import moe.sdl.yabapi.data.comment.CommentType
 import moe.sdl.yabapi.deserializeJson

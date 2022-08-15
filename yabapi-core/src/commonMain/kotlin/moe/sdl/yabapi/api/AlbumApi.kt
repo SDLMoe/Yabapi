@@ -63,19 +63,21 @@ public suspend fun BiliClient.uploadImage(
             header(HttpHeaders.Origin, FEED_DOMAIN)
             header(HttpHeaders.Referrer, FEED_DOMAIN)
         }
-        setBody(MultiPartFormDataContent(
-            formData {
-                appendInput(
-                    "file_up",
-                    Headers.build {
-                        append(HttpHeaders.ContentType, ContentType.Image.Any.toHeaderValue())
-                        append(HttpHeaders.ContentDisposition, "filename=$fileName")
-                    },
-                    block = inputProvider
-                )
-                append("category", category.code)
-            }
-        ))
+        setBody(
+            MultiPartFormDataContent(
+                formData {
+                    appendInput(
+                        "file_up",
+                        Headers.build {
+                            append(HttpHeaders.ContentType, ContentType.Image.Any.toHeaderValue())
+                            append(HttpHeaders.ContentDisposition, "filename=$fileName")
+                        },
+                        block = inputProvider
+                    )
+                    append("category", category.code)
+                }
+            )
+        )
     }.body<String>().deserializeJson<AlbumUploadResponse>().also {
         if (it.code == SUCCESS) logger.debug { "Successfully upload img: $it" }
         else logger.debug { "Failed to upload img: $it" }

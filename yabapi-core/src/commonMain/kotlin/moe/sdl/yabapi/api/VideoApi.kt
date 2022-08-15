@@ -923,14 +923,16 @@ public suspend fun BiliClient.reportVideoProgress(
 ): ReportWatchResponse = withContext(context) {
     logger.debug { "Reporting Video Watch Progress for av$aid, cid$cid." }
     client.post(VIDEO_REPORT_PROGRESS_URL) {
-        setBody(FormDataContent(
-            Parameters.build {
-                append("aid", aid.toString())
-                append("cid", cid.toString())
-                append("progress", progress.toString())
-                putCsrf()
-            }
-        ))
+        setBody(
+            FormDataContent(
+                Parameters.build {
+                    append("aid", aid.toString())
+                    append("cid", cid.toString())
+                    append("progress", progress.toString())
+                    putCsrf()
+                }
+            )
+        )
     }.body<String>().deserializeJson<ReportWatchResponse>().also {
         logger.debug { "Reported Video Watch Progress for av$aid, cid$cid: $it" }
     }

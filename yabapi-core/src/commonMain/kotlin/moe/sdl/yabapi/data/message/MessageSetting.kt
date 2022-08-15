@@ -3,8 +3,8 @@ package moe.sdl.yabapi.data.message
 import moe.sdl.yabapi.data.message.MessageSetting._At
 import moe.sdl.yabapi.data.message.MessageSetting._Comment
 import moe.sdl.yabapi.data.message.MessageSetting._FoldUnfollowed
-import moe.sdl.yabapi.data.message.MessageSetting._Like
 import moe.sdl.yabapi.data.message.MessageSetting._Intercept
+import moe.sdl.yabapi.data.message.MessageSetting._Like
 import moe.sdl.yabapi.data.message.MessageSetting._Notify
 import moe.sdl.yabapi.util.dsl.DslSwitch2
 import moe.sdl.yabapi.util.dsl.DslSwitch2Status
