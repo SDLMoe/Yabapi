@@ -20,7 +20,7 @@ public data class RoomUpdateCmd(
 
 @Serializable
 public data class RoomUpdateData(
-    @SerialName("roomid") val roomId: Int? = null,
+    @SerialName("roomid") val roomId: Long? = null,
     @SerialName("fans") val fans: Int? = null,
     @SerialName("red_notice") val redNotice: Int? = null,
     @SerialName("fans_club") val fansClub: Int? = null, // 粉丝团数量

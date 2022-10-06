@@ -35,7 +35,7 @@ public data class LiveGuardPage(
     @Serializable
     public data class PageInfo(
         @SerialName("num") val num: Int? = null,
-        @SerialName("page") val page: Int? = null,
+        @SerialName("page") val page: Long? = null,
         @SerialName("now") val now: Int? = null,
         @SerialName("achievement_level") val achievementLevel: Int? = null,
         @SerialName("anchor_guard_achieve_level") val anchorGuardAchieveLevel: Int? = null,
@@ -44,8 +44,8 @@ public data class LiveGuardPage(
 
 @Serializable
 public data class GuardNode(
-    @SerialName("uid") val uid: Int? = null,
-    @SerialName("ruid") val liverUid: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
+    @SerialName("ruid") val liverUid: Long? = null,
     @SerialName("rank") val rank: Int? = null,
     @SerialName("username") val username: String? = null,
     @SerialName("face") val face: String? = null,

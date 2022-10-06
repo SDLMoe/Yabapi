@@ -269,7 +269,7 @@ public suspend fun BiliClient.getMySpace(
  * @see getMySpace
  */
 public suspend fun BiliClient.getUserSpace(
-    mid: Int,
+    mid: Long,
     context: CoroutineContext = this.context,
 ): UserSpaceGetResponse = withContext(context) {
     logger.debug { "Getting User Space Info..." }
@@ -287,7 +287,7 @@ public suspend fun BiliClient.getUserSpace(
  * @see UserCardGetResponse
  */
 public suspend fun BiliClient.getUserCard(
-    mid: Int,
+    mid: Long,
     requestBanner: Boolean,
     context: CoroutineContext = this.context,
 ): UserCardGetResponse = withContext(context) {
@@ -306,7 +306,7 @@ public suspend fun BiliClient.getUserCard(
  * @return [PinnedVideoGetResponse]
  */
 public suspend fun BiliClient.getPinnedVideo(
-    mid: Int,
+    mid: Long,
     context: CoroutineContext = this.context,
 ): PinnedVideoGetResponse = withContext(context) {
     logger.debug { "Getting pinned video for mid$mid..." }
@@ -323,7 +323,7 @@ public suspend fun BiliClient.getPinnedVideo(
  * @return [MasterpieceGetResponse]
  */
 public suspend fun BiliClient.getMasterpieceVideo(
-    mid: Int,
+    mid: Long,
     context: CoroutineContext = this.context,
 ): MasterpieceGetResponse = withContext(context) {
     logger.debug { "Getting masterpiece video for mid$mid..." }
@@ -340,7 +340,7 @@ public suspend fun BiliClient.getMasterpieceVideo(
  * @return [UserTagsGetResponse]
  */
 public suspend fun BiliClient.getUserTags(
-    mid: Int,
+    mid: Long,
     context: CoroutineContext = this.context,
 ): UserTagsGetResponse = withContext(context) {
     logger.debug { "Getting user tags for mid$mid..." }
@@ -356,7 +356,7 @@ public suspend fun BiliClient.getUserTags(
  * @param mid 目标用户 mid
  */
 public suspend fun BiliClient.getSpaceAnnouncement(
-    mid: Int,
+    mid: Long,
     context: CoroutineContext = this.context,
 ): SpaceAnnouncementGetResponse = withContext(context) {
     logger.debug { "Getting Space Announcement for mid$mid..." }
@@ -372,7 +372,7 @@ public suspend fun BiliClient.getSpaceAnnouncement(
  * @param mid 目标用户mid
  */
 public suspend fun BiliClient.getSpaceSetting(
-    mid: Int,
+    mid: Long,
     context: CoroutineContext = this.context,
 ): SpaceSettingResponse = withContext(context) {
     logger.debug { "Getting Space Setting for mid$mid..." }
@@ -388,7 +388,7 @@ public suspend fun BiliClient.getSpaceSetting(
  * @param mid 目標用戶 mid
  */
 public suspend fun BiliClient.getRecentPlayedGame(
-    mid: Int,
+    mid: Long,
     context: CoroutineContext = this.context,
 ): PlayedGameGetResponse = withContext(context) {
     logger.debug { "Getting recent played game for mid $mid..." }
@@ -405,7 +405,7 @@ public suspend fun BiliClient.getRecentPlayedGame(
  * @return [RecentCoinedVideoResponse]
  */
 public suspend fun BiliClient.getRecentCoinedVideo(
-    mid: Int,
+    mid: Long,
     context: CoroutineContext = this.context,
 ): RecentCoinedVideoResponse = withContext(context) {
     logger.debug { "Getting Recent Coined Video for mid $mid" }
@@ -426,7 +426,7 @@ public suspend fun BiliClient.getRecentCoinedVideo(
  * @param keyword 搜索關鍵詞
  */
 public suspend fun BiliClient.getSpaceVideo(
-    mid: Int,
+    mid: Long,
     page: Int = 1,
     pageSize: Int = 20,
     sort: VideoSort = TIME,
@@ -448,7 +448,7 @@ public suspend fun BiliClient.getSpaceVideo(
 }
 
 public suspend fun BiliClient.getSpaceAlbumIndex(
-    targetMid: Int,
+    targetMid: Long,
     count: Int = 8,
     context: CoroutineContext = this.context,
 ): SpaceAlbumResponse = withContext(context) {
@@ -462,7 +462,7 @@ public suspend fun BiliClient.getSpaceAlbumIndex(
 }
 
 public suspend fun BiliClient.getSpaceAlbumList(
-    targetMid: Int,
+    targetMid: Long,
     page: Int = 1,
     pageSize: Int = 20,
 ) {
@@ -477,7 +477,7 @@ public suspend fun BiliClient.getSpaceAlbumList(
 }
 
 public suspend fun BiliClient.getSpaceChannel(
-    targetMid: Int,
+    targetMid: Long,
     context: CoroutineContext = this.context,
 ): SpaceChannelResponse = withContext(context) {
     logger.debug { "Getting Space Channel for mid $targetMid..." }
@@ -489,8 +489,8 @@ public suspend fun BiliClient.getSpaceChannel(
 }
 
 public suspend fun BiliClient.getChannelArchives(
-    targetMid: Int,
-    targetCid: Int,
+    targetMid: Long,
+    targetCid: Long,
     page: Int = 1,
     pageSize: Int = 20,
     context: CoroutineContext = this.context,
@@ -511,7 +511,7 @@ public suspend fun BiliClient.getChannelArchives(
  * 獲取目標自己創建的收藏夾
  */
 public suspend fun BiliClient.getFavorites(
-    targetMid: Int,
+    targetMid: Long,
     context: CoroutineContext = this.context,
 ): FavoritesGetResponse = withContext(context) {
     logger.debug { "Getting Favorites List for mid $targetMid..." }
@@ -530,7 +530,7 @@ public suspend fun BiliClient.getFavorites(
  * @param pageSize 單頁大小
  */
 public suspend fun BiliClient.getCollectedFavorites(
-    targetMid: Int,
+    targetMid: Long,
     page: Int = 1,
     pageSize: Int = 20,
     platform: String = "web",
@@ -548,7 +548,7 @@ public suspend fun BiliClient.getCollectedFavorites(
 }
 
 public suspend fun BiliClient.getSubscribedBangumi(
-    targetMid: Int,
+    targetMid: Long,
     page: Int = 1,
     pageSize: Int = 15,
     type: SubscribedBangumiType = ANIME,
@@ -566,7 +566,7 @@ public suspend fun BiliClient.getSubscribedBangumi(
 }
 
 public suspend fun BiliClient.getSubscribedTags(
-    targetMid: Int,
+    targetMid: Long,
     context: CoroutineContext = this.context,
 ): SubscribedTagsResponse = withContext(context) {
     logger.debug { "Getting Subscribed Tags for $targetMid" }
@@ -606,7 +606,7 @@ public suspend fun BiliClient.checkNick(
  * 根据 id 获得特定收藏夹的信息
  */
 public suspend fun BiliClient.getFavoritesInfo(
-    id: Int,
+    id: Long,
     context: CoroutineContext = this.context,
 ): FavoritesInfoResponse = withContext(context) {
     logger.debug { "Getting favorites info " }
@@ -626,10 +626,10 @@ public suspend fun BiliClient.getFavoritesInfo(
  * @param tid 分区过滤 ID, 可通过 [getFavoritesTypes] 获取
  */
 public suspend fun BiliClient.getFavoritesMedia(
-    id: Int,
+    id: Long,
     page: Int = 1,
     pageSize: Int = 20,
-    tid: Int? = null,
+    tid: Long? = null,
     order: FavoritesOrder = FAVORITE_TIME,
     keyword: String = "",
     context: CoroutineContext = this.context,
@@ -645,8 +645,8 @@ public suspend fun BiliClient.getFavoritesMedia(
 }
 
 public suspend fun BiliClient.getFavoritesTypes(
-    mid: Int,
-    favoritesId: Int,
+    mid: Long,
+    favoritesId: Long,
     context: CoroutineContext = this.context,
 ): FavoritesTypeResponse = withContext(context) {
     logger.debug { "Getting Favorites Type for $favoritesId($mid)" }

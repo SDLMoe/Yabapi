@@ -39,7 +39,7 @@ public data class BangumiDetailed(
     @SerialName("evaluate") val evaluate: String? = null, // 簡介
     @SerialName("jp_title") val jpTitle: String? = null,
     @SerialName("link") val link: String? = null, // 鏈接
-    @SerialName("media_id") val mediaId: Int? = null, // media id
+    @SerialName("media_id") val mediaId: Long? = null, // media id
     @SerialName("mode") val mode: Int? = null,
     @SerialName("new_ep") val latestEpisode: SimpleBangumiEpisode? = null,
     @SerialName("payment") val payment: BangumiPayment? = null,
@@ -48,7 +48,7 @@ public data class BangumiDetailed(
     @SerialName("rating") val rating: BangumiRating? = null,
     @SerialName("record") val record: String? = null, // 備案號
     @SerialName("rights") val rights: BangumiRights? = null,
-    @SerialName("season_id") val seasonId: Int? = null, // ssid
+    @SerialName("season_id") val seasonId: Long? = null, // ssid
     @SerialName("season_title") val seasonTitle: String? = null,
     @SerialName("seasons") val seasons: List<BangumiSeason> = emptyList(), // 季度信息
     @SerialName("section") val section: List<BangumiSection> = emptyList(), // section 信息, 例如 正片, PV
@@ -73,7 +73,7 @@ public data class BangumiDetailed(
 public data class BangumiActivity(
     @SerialName("cover") val cover: String? = null,
     @SerialName("head_bg_url") val bannerUrl: String? = null,
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("link") val link: String? = null,
     @SerialName("pendants") val pendants: List<Pendant> = emptyList(),
@@ -84,17 +84,17 @@ public data class BangumiActivity(
  */
 @Serializable
 public data class BangumiEpisode(
-    @SerialName("aid") val aid: Int? = null, // av 号
+    @SerialName("aid") val aid: Long? = null, // av 号
     @SerialName("badge") val badge: String? = null, // badge 提示
     @SerialName("badge_info") val badgeInfo: BangumiBadgeInfo? = null, // badge 信息
     @SerialName("badge_type") val badgeType: Int? = null, // badge 类型, 未知
     @SerialName("bvid") val bvId: String? = null, // bv 号
-    @SerialName("cid") val cid: Int? = null, // 分 p id
+    @SerialName("cid") val cid: Long? = null, // 分 p id
     @SerialName("cover") val cover: String? = null, // 封面链接
     @SerialName("dimension") val dimension: VideoDimension? = null, // 视频分辨率
     @SerialName("duration") val duration: Long? = null, // 时长, ms
     @SerialName("from") val from: String? = null,
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("is_view_hide") val isViewHide: Boolean? = null,
     @SerialName("link") val link: String? = null,
     @SerialName("long_title") val longTitle: String? = null,
@@ -146,7 +146,7 @@ public data class BangumiPayType(
 
 @Serializable
 public data class BangumiPositive(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("title") val title: String? = null,
 )
 
@@ -193,7 +193,7 @@ public data class BangumiSeason(
     @SerialName("horizontal_cover_169") val smallCover: String? = null,
     @SerialName("media_id") val mediaId: String? = null,
     @SerialName("new_ep") val latestEpisode: SimpleBangumiEpisode? = null,
-    @SerialName("season_id") val seasonId: Int? = null,
+    @SerialName("season_id") val seasonId: Long? = null,
     @SerialName("season_title") val seasonTitle: String? = null,
     @SerialName("season_type") val seasonType: String? = null,
     @SerialName("stat") val stat: BangumiStat? = null,
@@ -201,20 +201,20 @@ public data class BangumiSeason(
 
 @Serializable
 public data class BangumiSection(
-    @SerialName("episode_id") val epId: Int? = null,
-    @SerialName("episode_ids") val episodeIds: List<Int> = emptyList(),
+    @SerialName("episode_id") val epId: Long? = null,
+    @SerialName("episode_ids") val episodeIds: List<Long> = emptyList(),
     @SerialName("episodes") val episodes: List<BangumiEpisode> = emptyList(),
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("type") val type: BangumiType = BangumiType.UNKNOWN,
 )
 
 @Serializable
 public data class BangumiSeries(
-    @SerialName("series_id") val seriesId: Int? = null,
+    @SerialName("series_id") val seriesId: Long? = null,
     @SerialName("series_title") val seriesTitle: String? = null,
     @SerialName("season_count") val seasonCount: Int? = null,
-    @SerialName("new_season_id") val newSeasonId: Int? = null,
+    @SerialName("new_season_id") val newSeasonId: Long? = null,
     @SerialName("series_ord") val seriesOrd: Int? = null,
 )
 
@@ -254,7 +254,7 @@ public data class BangumiOwner(
     @SerialName("avatar") val avatar: String? = null,
     @SerialName("follower") val follower: Int? = null,
     @SerialName("is_follow") val isFollowed: Int? = null,
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("pendant") val pendant: Pendant? = null,
     @SerialName("theme_type") val themeType: Int? = null,
     @SerialName("uname") val username: String? = null,

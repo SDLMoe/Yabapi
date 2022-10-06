@@ -17,18 +17,18 @@ public data class LiveRoomInfoResponse(
 
 @Serializable
 public data class LiveRoomData(
-    @SerialName("uid") val uid: Int,
-    @SerialName("room_id") val roomId: Int,
-    @SerialName("short_id") val shortId: Int? = null, // 官方定制房间号
+    @SerialName("uid") val uid: Long,
+    @SerialName("room_id") val roomId: Long,
+    @SerialName("short_id") val shortId: Long? = null, // 官方定制房间号
     @SerialName("attention") val attention: Int? = null,
     @SerialName("online") val online: Int? = null,
     @SerialName("is_portrait") val portrait: Boolean? = null,
     @SerialName("description") val description: String? = null,
     @SerialName("live_status") val liveStatus: Int? = null,
-    @SerialName("area_id") val areaId: Int? = null, // 子区 ID?
-    @SerialName("parent_area_id") val parentAreaId: Int? = null,
+    @SerialName("area_id") val areaId: Long? = null, // 子区 ID?
+    @SerialName("parent_area_id") val parentAreaId: Long? = null,
     @SerialName("parent_area_name") val parentAreaName: String? = null,
-    @SerialName("old_area_id") val oldAreaId: Int? = null,
+    @SerialName("old_area_id") val oldAreaId: Long? = null,
     @SerialName("background") val background: String? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("user_cover") val userCover: String? = null,
@@ -46,8 +46,8 @@ public data class LiveRoomData(
     @SerialName("new_pendants") val newPendants: JsonObject? = null,
     @SerialName("up_session") val upSession: String? = null,
     @SerialName("pk_status") val pkStatus: Int? = null,
-    @SerialName("pk_id") val pkId: Int? = null,
-    @SerialName("battle_id") val battleId: Int? = null,
+    @SerialName("pk_id") val pkId: Long? = null,
+    @SerialName("battle_id") val battleId: Long? = null,
     @SerialName("allow_change_area_time") val allowChangeAreaTime: Int? = null,
     @SerialName("allow_upload_cover_time") val allowUploadCoverTime: Int? = null,
     @SerialName("hot_words") val hotWords: List<String> = emptyList(),

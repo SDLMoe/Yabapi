@@ -97,9 +97,9 @@ public suspend fun BiliClient.sendMessage(
  * @see MessageData
  */
 public suspend fun BiliClient.sendMessageTo(
-    targetMid: Int,
+    targetMid: Long,
     messageContent: MessageContent,
-    selfMid: Int? = null,
+    selfMid: Long? = null,
     context: CoroutineContext = this.context,
 ): MessageSendResponse = withContext(context) {
     val loginMid = async {
@@ -119,9 +119,9 @@ public suspend fun BiliClient.sendMessageTo(
  * @see sendMessageTo
  */
 public suspend inline fun BiliClient.sendTextMsgTo(
-    targetMid: Int,
+    targetMid: Long,
     text: String,
-    selfMid: Int? = null,
+    selfMid: Long? = null,
     context: CoroutineContext = this.context,
 ): MessageSendResponse = sendMessageTo(targetMid, MessageContent.Text(text), selfMid, context)
 
@@ -201,7 +201,7 @@ public suspend inline fun BiliClient.fetchNewMessageSessions(
 ): MessageSessionsResponse = fetchNewMessageSessions(begin.toEpochMilliseconds() * 1_000, build, app, context)
 
 public suspend fun BiliClient.fetchSessionMessage(
-    talkerId: Int,
+    talkerId: Long,
     beginSeq: ULong? = null,
     sessionType: SessionType = NORMAL,
     senderDeviceId: Int = 1,

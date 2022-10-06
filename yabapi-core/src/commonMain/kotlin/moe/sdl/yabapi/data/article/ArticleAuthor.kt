@@ -9,7 +9,7 @@ import moe.sdl.yabapi.data.info.UserVip
 
 @Serializable
 public data class ArticleAuthor(
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("face") val face: String? = null,
     @SerialName("pendant") val pendant: Pendant? = null,

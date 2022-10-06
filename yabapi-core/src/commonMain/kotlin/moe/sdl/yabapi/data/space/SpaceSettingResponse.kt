@@ -63,13 +63,13 @@ public data class SpacePrivacy(
 
 @Serializable
 public data class SpacePosNode(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("name") val name: String? = null,
 )
 
 @Serializable
 public data class SpaceBanner(
-    @SerialName("sid") val sid: Int? = null,
+    @SerialName("sid") val sid: Long? = null,
     @SerialName("expire") val expire: Long? = null,
     @SerialName("s_img") val smallImg: String? = null,
     @SerialName("l_img") val largeImg: String? = null,

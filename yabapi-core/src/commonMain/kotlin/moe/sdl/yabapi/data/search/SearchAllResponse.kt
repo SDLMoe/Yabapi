@@ -21,7 +21,7 @@ public data class SearchAllResponse(
 @Serializable
 public data class SearchAllData(
     @SerialName("seid") override val seid: String? = null,
-    @SerialName("page") override val page: Int? = null,
+    @SerialName("page") override val page: Long? = null,
     @SerialName("pagesize") override val pageSize: Int? = null,
     @SerialName("numResults") override val numResults: Int? = null,
     @SerialName("numPages") override val numPages: Int? = null,

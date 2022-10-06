@@ -29,8 +29,8 @@ public data class LaterWatchData(
 
 @Serializable
 public data class LaterWatchNode(
-    @SerialName("aid") val aid: Int? = null,
-    @SerialName("videos") val videos: Int? = null,
+    @SerialName("aid") val aid: Long? = null,
+    @SerialName("videos") val videos: Long? = null,
     @SerialName("tid") val tid: VideoType = Unknown,
     @SerialName("tname") val tname: String? = null,
     @SerialName("copyright") val copyright: VideoCopyright? = null,
@@ -46,12 +46,12 @@ public data class LaterWatchNode(
     @SerialName("stat") val stat: VideoStat? = null,
     @SerialName("dynamic") val dynamic: String? = null,
     @SerialName("dimension") val dimension: VideoDimension? = null,
-    @SerialName("season_id") val seasonId: Int? = null,
+    @SerialName("season_id") val seasonId: Long? = null,
     @SerialName("short_link_v2") val shortLinkV2: String? = null,
     @SerialName("first_frame") val firstFrame: String? = null,
     @SerialName("page") val part: VideoPart? = null,
     @SerialName("count") val count: Int? = null,
-    @SerialName("cid") val cid: Int? = null,
+    @SerialName("cid") val cid: Long? = null,
     @SerialName("progress") val progress: Int? = null,
     @SerialName("add_at") val addAt: Long? = null,
     @SerialName("bvid") val bvid: String? = null,

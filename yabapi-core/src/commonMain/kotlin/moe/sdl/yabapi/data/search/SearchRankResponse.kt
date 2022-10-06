@@ -19,14 +19,14 @@ public data class SearchRankResponse(
 @Serializable
 public data class SearchRankNode(
     @SerialName("status") val status: String? = null,
-    @SerialName("hot_id") val hotId: Int? = null,
+    @SerialName("hot_id") val hotId: Long? = null,
     @SerialName("keyword") val keyword: String? = null,
-    @SerialName("resource_id") val resourceId: Int? = null,
+    @SerialName("resource_id") val resourceId: Long? = null,
     @SerialName("goto_type") val gotoType: Int? = null,
     @SerialName("show_name") val showName: String? = null,
     @SerialName("pos") val pos: Int? = null,
     @SerialName("word_type") val wordType: Int? = null,
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("goto_value") val gotoValue: String? = null,
     @SerialName("name_type") val nameType: String? = null,
     @SerialName("icon") val icon: String? = null,

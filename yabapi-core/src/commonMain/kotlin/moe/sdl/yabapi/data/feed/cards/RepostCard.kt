@@ -31,13 +31,13 @@ public data class RepostCard(
     @Serializable
     public data class Item(
         @SerialName("rp_id") val rpId: ULong? = null,
-        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uid") val uid: Long? = null,
         @SerialName("content") val content: String? = null,
         @SerialName("ctrl") val ctrl: String? = null,
         @SerialName("orig_dy_id") val originFeedId: ULong? = null,
         @SerialName("pre_dy_id") val preDyId: ULong? = null,
         @SerialName("timestamp") val timestamp: Long? = null,
-        @SerialName("at_uids") val atUids: List<Int> = emptyList(),
+        @SerialName("at_uids") val atUids: List<Long> = emptyList(),
         @SerialName("reply") val reply: Int? = null,
         @SerialName("miss") val miss: Boolean? = null,
         @SerialName("tips") val tips: String? = null,

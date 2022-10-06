@@ -23,8 +23,8 @@ public data class FeedLivingData(
 
 @Serializable
 public data class LivingNode(
-    @SerialName("roomid") val roomId: Int? = null,
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("roomid") val roomId: Long? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("uname") val userName: String? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("face") val avatar: String? = null,
@@ -32,6 +32,6 @@ public data class LivingNode(
     @SerialName("pic") val newCover: String? = null, // *hdslb.com/bfs/live/new_room_cover/*
     @SerialName("online") val online: Int? = null,
     @SerialName("link") val link: String? = null,
-    @SerialName("parent_area_id") val parentAreaId: Int? = null,
-    @SerialName("area_id") val areaId: Int? = null,
+    @SerialName("parent_area_id") val parentAreaId: Long? = null,
+    @SerialName("area_id") val areaId: Long? = null,
 )

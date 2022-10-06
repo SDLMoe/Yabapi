@@ -21,7 +21,7 @@ public data class CollectionCard(
     @SerialName("aid") val aid: String? = null,
     @SerialName("attribute") val attribute: VideoAttribute? = null,
     @SerialName("attribute_v2") val attributeV2: VideoAttribute? = null,
-    @SerialName("cid") val cid: Int? = null,
+    @SerialName("cid") val cid: Long? = null,
     @SerialName("collection") val collection: FavoritesInfo? = null,
     @SerialName("copyright") val copyright: VideoCopyright = UNKNOWN,
     @SerialName("ctime") val createdTime: Long? = null,
@@ -35,7 +35,7 @@ public data class CollectionCard(
     @SerialName("pic") val pic: String? = null,
     @SerialName("pubdate") val releaseDate: Long? = null,
     @SerialName("rights") val rights: VideoRights? = null,
-    @SerialName("season_id") val seasonId: Int? = null,
+    @SerialName("season_id") val seasonId: Long? = null,
     @SerialName("season_theme") val seasonTheme: SeasonTheme? = null,
     @SerialName("share_subtitle") val shareSubtitle: String? = null,
     @SerialName("short_link") val shortLink: String? = null,
@@ -56,8 +56,8 @@ public data class CollectionCard(
 @Serializable
 public data class FavoritesInfo(
     @SerialName("cover") val cover: String? = null,
-    @SerialName("id") val id: Int? = null,
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("id") val id: Long? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("title") val title: String? = null,
 )

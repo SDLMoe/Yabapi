@@ -7,7 +7,7 @@ import moe.sdl.yabapi.data.info.UserVip
 
 @Serializable
 public data class VideoStaff(
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("face") val avatar: String? = null,

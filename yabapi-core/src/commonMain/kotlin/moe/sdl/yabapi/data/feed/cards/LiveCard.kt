@@ -24,7 +24,7 @@ public data class LiveCard(
 
 @Serializable
 public data class LiveCardInfo(
-    @SerialName("area_id") val areaId: Int? = null,
+    @SerialName("area_id") val areaId: Long? = null,
     @SerialName("area_name") val areaName: String? = null,
     @SerialName("cover") val cover: String? = null,
     @SerialName("link") val link: String? = null,
@@ -33,11 +33,11 @@ public data class LiveCardInfo(
     @SerialName("live_start_time") val liveStartTime: Long? = null,
     @SerialName("live_status") val liveStatus: LiveRoomStatus = UNKNOWN,
     @SerialName("online") val online: Int? = null,
-    @SerialName("parent_area_id") val parentAreaId: Int? = null,
+    @SerialName("parent_area_id") val parentAreaId: Long? = null,
     @SerialName("parent_area_name") val parentAreaName: String? = null,
     @SerialName("play_type") val playType: Int? = null,
-    @SerialName("room_id") val roomId: Int? = null,
+    @SerialName("room_id") val roomId: Long? = null,
     @SerialName("room_type") val roomType: Int? = null,
     @SerialName("title") val title: String? = null,
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
 )

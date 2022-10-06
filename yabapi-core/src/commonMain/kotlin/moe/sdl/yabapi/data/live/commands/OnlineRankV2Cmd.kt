@@ -29,7 +29,7 @@ public data class OnlineRankV2(
 ) {
     @Serializable
     public data class OnlineRankV2Node(
-        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uid") val uid: Long? = null,
         @SerialName("face") val avatar: String? = null,
         @SerialName("score") val score: String? = null,
         @SerialName("uname") val uname: String? = null,

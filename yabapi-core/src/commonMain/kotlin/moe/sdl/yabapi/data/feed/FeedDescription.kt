@@ -13,7 +13,7 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
 public data class FeedDescription(
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("type") val type: Int? = null,
     @SerialName("rid") val rid: ULong? = null,
     @SerialName("acl") val acl: Int? = null,
@@ -31,7 +31,7 @@ public data class FeedDescription(
     @SerialName("uid_type") val uidType: Int? = null,
     @SerialName("stype") val sType: Int? = null,
     @SerialName("r_type") val rType: Int? = null,
-    @SerialName("inner_id") val innerId: Int? = null,
+    @SerialName("inner_id") val innerId: Long? = null,
     @SerialName("status") val status: Int? = null,
     @SerialName("dynamic_id_str") val feedIdStr: String? = null,
     @SerialName("pre_dy_id_str") val preFeedIdStr: String? = null,
@@ -44,7 +44,7 @@ public data class FeedDescription(
 
 @Serializable
 public data class UserInfo(
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("uname") val uname: String? = null,
     @SerialName("face") val face: String? = null,
     @SerialName("face_nft") val avatarNft: Boolean? = null,

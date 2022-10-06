@@ -14,13 +14,13 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 @Serializable
 public data class VideoResult(
     @SerialName("type") val type: String? = null,
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("author") val author: String? = null,
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("typeid") val typeId: String? = null,
     @SerialName("typename") val typename: String? = null,
     @SerialName("arcurl") val avUrl: String? = null,
-    @SerialName("aid") val aid: Int? = null,
+    @SerialName("aid") val aid: Long? = null,
     @SerialName("bvid") val bvid: String? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("description") val description: String? = null,

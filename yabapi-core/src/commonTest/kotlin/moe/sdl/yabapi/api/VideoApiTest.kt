@@ -14,7 +14,7 @@ import moe.sdl.yabapi.enums.video.LikeAction.UNLIKE
 import moe.sdl.yabapi.enums.video.VideoFormat.DASH
 import moe.sdl.yabapi.initTest
 import moe.sdl.yabapi.runTest
-import moe.sdl.yabapi.util.encoding.avInt
+import moe.sdl.yabapi.util.encoding.av
 import moe.sdl.yabapi.util.encoding.bv
 import kotlin.test.Test
 import kotlin.test.assertNotNull
@@ -27,7 +27,7 @@ internal class VideoApiTest {
 
     @Test
     fun getVideoInfo(): Unit = runTest {
-        listOf(
+        longArrayOf(
             2,
             7,
             507448290,
@@ -55,7 +55,7 @@ internal class VideoApiTest {
     @Test
     fun getVideoPlayerInfoTest(): Unit = runTest {
         client.apply {
-            val aid = "BV1MJ411C7ie".avInt
+            val aid = "BV1MJ411C7ie".av
             val cid = getVideoParts(aid).data.first().part!!
             getVideoPlayerInfo(aid, cid)
         }
@@ -64,7 +64,7 @@ internal class VideoApiTest {
     @Test
     fun subtitleGetTest(): Unit = runTest {
         yabapiLogLevel.getAndSet(LogLevel.VERBOSE)
-        val aid = 60977932
+        val aid = 60977932L
         client.getVideoParts(aid).data.asSequence().map { it.cid }.forEach { cid ->
             val list = client.getVideoInfo(aid, cid).data?.subtitle?.list.orEmpty()
             val track = list.firstOrNull() ?: return@forEach
@@ -75,7 +75,7 @@ internal class VideoApiTest {
 
     @Test
     fun getVideoParts(): Unit = runTest {
-        listOf(
+        longArrayOf(
             507448290,
             933731156,
             971149764,
@@ -93,7 +93,7 @@ internal class VideoApiTest {
 
     @Test
     fun getVideoDescription(): Unit = runTest {
-        listOf(
+        longArrayOf(
             507448290,
             933731156,
             971149764,
@@ -224,7 +224,7 @@ internal class VideoApiTest {
 
     @Test
     fun reportVideoProgressTest(): Unit = runTest {
-        val avid = 170001
+        val avid = 170001L
         val cid = client.getVideoParts(avid).data[0].cid
         client.reportVideoProgress(avid, cid!!, 3 * 60)
     }

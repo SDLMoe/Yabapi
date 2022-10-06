@@ -36,7 +36,7 @@ public data class AlbumInfoData(
 
 @Serializable
 public data class AlbumUser(
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("head_url") val headUrl: String? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("vip") val vip: AlbumVipInfo? = null,
@@ -63,8 +63,8 @@ public data class AlbumVipLabel(
 @Serializable
 public data class AlbumItem(
     @SerialName("biz") val type: AlbumType = AlbumType.UNKNOWN,
-    @SerialName("doc_id") val id: Int? = null,
-    @SerialName("poster_uid") val authorMid: Int? = null,
+    @SerialName("doc_id") val id: Long? = null,
+    @SerialName("poster_uid") val authorMid: Long? = null,
     @SerialName("category") val category: String? = null,
     @SerialName("type") val origin: AlbumOrigin = AlbumOrigin.UNKNOWN,
     @SerialName("title") val title: String? = null,

@@ -37,7 +37,7 @@ public data class UpdatedUser(
 ) {
     @Serializable
     public data class Info(
-        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uid") val uid: Long? = null,
         @SerialName("uname") val userName: String? = null,
         @SerialName("face") val face: String? = null,
     )

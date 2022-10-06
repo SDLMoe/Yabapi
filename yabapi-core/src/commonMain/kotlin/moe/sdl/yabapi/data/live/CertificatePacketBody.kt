@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class CertificatePacketBody(
-    @SerialName("uid") val mid: Int,
-    @SerialName("roomid") val roomId: Int,
+    @SerialName("uid") val mid: Long,
+    @SerialName("roomid") val roomId: Long,
     @SerialName("key") val key: String,
     @SerialName("protover") val version: Int = 3,
     @SerialName("platform") val platform: String = "web",

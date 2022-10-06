@@ -24,7 +24,7 @@ public data class WidgetBannerData(
 ) {
     @Serializable
     public data class WidgetBanner(
-        @SerialName("id") val id: Int? = null,
+        @SerialName("id") val id: Long? = null,
         @SerialName("title") val title: String? = null,
         @SerialName("cover") val cover: String? = null,
         @SerialName("web_cover") val webCover: String? = null,
@@ -37,7 +37,7 @@ public data class WidgetBannerData(
         @SerialName("site") val site: Int? = null,
         @SerialName("platform_in") val platformIn: List<String> = emptyList(),
         @SerialName("type") val type: Int? = null,
-        @SerialName("band_id") val bandId: Int? = null,
+        @SerialName("band_id") val bandId: Long? = null,
         @SerialName("sub_key") val subKey: String? = null,
         @SerialName("sub_data") val subData: String? = null,
         @SerialName("is_add") val isAdd: Boolean? = null,

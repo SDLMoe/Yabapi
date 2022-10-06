@@ -22,7 +22,7 @@ import kotlin.native.concurrent.SharedImmutable
 private val logger by lazy { Logger("ArticleApi") }
 
 public suspend fun BiliClient.getArticleInfo(
-    cvId: Int,
+    cvId: Long,
     context: CoroutineContext = Platform.ioDispatcher,
 ): ArticleInfoGetResponse = withContext(context) {
     logger.debug { "Getting article info cv$cvId..." }
@@ -34,7 +34,7 @@ public suspend fun BiliClient.getArticleInfo(
 }
 
 public suspend fun BiliClient.getArticleDetailed(
-    cvId: Int,
+    cvId: Long,
     context: CoroutineContext = Platform.ioDispatcher,
 ): ArticleDetailedData? = withContext(context) {
     logger.debug { "Trying to capture article detail data for cv$cvId" }
@@ -47,7 +47,7 @@ public suspend fun BiliClient.getArticleDetailed(
 }
 
 public suspend fun BiliClient.getArticleSetInfo(
-    id: Int,
+    id: Long,
     context: CoroutineContext = Platform.ioDispatcher,
 ): ArticleSetInfoResponse = withContext(context) {
     logger.debug { "Getting Article Set Info id$id" }

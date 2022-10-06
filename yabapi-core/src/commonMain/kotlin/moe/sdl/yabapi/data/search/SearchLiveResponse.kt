@@ -20,7 +20,7 @@ public data class SearchLiveResponse(
 @Serializable
 public data class SearchLiveData(
     @SerialName("seid") override val seid: String? = null,
-    @SerialName("page") override val page: Int? = null,
+    @SerialName("page") override val page: Long? = null,
     @SerialName("pagesize") override val pageSize: Int? = null,
     @SerialName("numResults") override val numResults: Int? = null,
     @SerialName("numPages") override val numPages: Int? = null,

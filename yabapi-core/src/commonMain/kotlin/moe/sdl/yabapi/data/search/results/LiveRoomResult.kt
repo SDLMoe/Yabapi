@@ -14,9 +14,9 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 @Serializable
 public data class LiveRoomResult(
     @SerialName("title") val title: String? = null,
-    @SerialName("uid") val uid: Int? = null,
-    @SerialName("roomid") val roomId: Int? = null,
-    @SerialName("short_id") val shortId: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
+    @SerialName("roomid") val roomId: Long? = null,
+    @SerialName("short_id") val shortId: Long? = null,
     @SerialName("uface") val avatar: String? = null,
     @SerialName("uname") val userName: String? = null,
     @SerialName("user_cover") val userCover: String? = null,

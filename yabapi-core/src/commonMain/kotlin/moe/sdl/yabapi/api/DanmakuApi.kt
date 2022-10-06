@@ -17,7 +17,7 @@ import moe.sdl.yabapi.deserializeProto
 import moe.sdl.yabapi.enums.danmaku.DanmakuType
 import moe.sdl.yabapi.enums.danmaku.DanmakuType.VIDEO
 import moe.sdl.yabapi.util.Logger
-import moe.sdl.yabapi.util.encoding.avInt
+import moe.sdl.yabapi.util.encoding.av
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
@@ -34,9 +34,9 @@ private val logger by lazy { Logger("DanmakuApi") }
  */
 @ExperimentalSerializationApi
 public suspend fun BiliClient.getDanmaku(
-    cid: Int,
+    cid: Long,
     part: Int = 1,
-    aid: Int? = null,
+    aid: Long? = null,
     type: DanmakuType = VIDEO,
     context: CoroutineContext = this.context,
 ): DanmakuResponse = withContext(context) {
@@ -55,12 +55,12 @@ public suspend fun BiliClient.getDanmaku(
 
 @ExperimentalSerializationApi
 public suspend inline fun BiliClient.getDanmaku(
-    cid: Int,
+    cid: Long,
     part: Int = 1,
     bid: String,
     type: DanmakuType = VIDEO,
     context: CoroutineContext = this.context,
-): DanmakuResponse = getDanmaku(cid, part, bid.avInt, type, context)
+): DanmakuResponse = getDanmaku(cid, part, bid.av, type, context)
 
 /**
  * 获取弹幕日历, 返回有弹幕的日期
@@ -72,7 +72,7 @@ public suspend inline fun BiliClient.getDanmaku(
  * @see getHistoryDanmaku
  */
 public suspend fun BiliClient.getDanmakuCalendar(
-    cid: Int,
+    cid: Long,
     year: Int,
     month: Int,
     type: DanmakuType = VIDEO,
@@ -98,7 +98,7 @@ public suspend fun BiliClient.getDanmakuCalendar(
  */
 @ExperimentalSerializationApi
 public suspend fun BiliClient.getHistoryDanmaku(
-    cid: Int,
+    cid: Long,
     date: String,
     type: DanmakuType = VIDEO,
     context: CoroutineContext = this.context,
@@ -120,7 +120,7 @@ public suspend fun BiliClient.getHistoryDanmaku(
  */
 @ExperimentalSerializationApi
 public suspend fun BiliClient.getHistoryDanmaku(
-    cid: Int,
+    cid: Long,
     date: LocalDate,
     type: DanmakuType = VIDEO,
     context: CoroutineContext = this.context,

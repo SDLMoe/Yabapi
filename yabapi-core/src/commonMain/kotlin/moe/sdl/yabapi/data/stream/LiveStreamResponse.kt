@@ -22,9 +22,9 @@ public data class LiveStreamResponse(
 
 @Serializable
 public data class LiveStreamInfo(
-    @SerialName("room_id") val roomId: Int? = null,
-    @SerialName("short_id") val shortId: Int? = null,
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("room_id") val roomId: Long? = null,
+    @SerialName("short_id") val shortId: Long? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("is_hidden") val isHidden: Boolean? = null,
     @SerialName("is_locked") val isLocked: Boolean? = null,
     @SerialName("is_portrait") val isPortrait: Boolean? = null,
@@ -57,7 +57,7 @@ public data class LiveStreamConfigInfo(
 
 @Serializable
 public data class LiveStreamPlayUrl(
-    @SerialName("cid") val cid: Int? = null,
+    @SerialName("cid") val cid: Long? = null,
     @SerialName("g_qn_desc") val gQnDesc: List<QnDescNode> = emptyList(),
     @SerialName("stream") val stream: List<ProtocolTrack> = emptyList(),
     @SerialName("p2p_data") val p2pData: P2pData? = null,

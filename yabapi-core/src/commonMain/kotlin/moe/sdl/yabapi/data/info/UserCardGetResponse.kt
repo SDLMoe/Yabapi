@@ -44,7 +44,7 @@ public data class UserCardGetData(
  */
 @Serializable
 public data class UserCard(
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("approve") val approve: Boolean? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("sex") val sex: String? = null,

@@ -28,7 +28,7 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
  */
 @Serializable
 public data class RelationUserNode(
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("attribute") val attribute: RelationAttribute = RelationAttribute.UNKNOWN,
     @SerialName("mtime") val mtime: Int? = null,
     @SerialName("tag") val tag: List<Int> = emptyList(),

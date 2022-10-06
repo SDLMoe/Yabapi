@@ -20,7 +20,7 @@ public data class VideoInteractiveResponse(
 @Serializable
 public data class VideoInteractiveData(
     @SerialName("title") val title: String? = null,
-    @SerialName("edge_id") val edgeId: Int? = null,
+    @SerialName("edge_id") val edgeId: Long? = null,
     @SerialName("story_list") val storyList: List<StoryNode> = emptyList(),
     @SerialName("edges") val edges: EdgesInfo? = null,
     @SerialName("buvid") val buvid: String? = null,
@@ -30,10 +30,10 @@ public data class VideoInteractiveData(
 
 @Serializable
 public data class StoryNode(
-    @SerialName("node_id") val nodeId: Int? = null,
-    @SerialName("edge_id") val edgeId: Int? = null,
+    @SerialName("node_id") val nodeId: Long? = null,
+    @SerialName("edge_id") val edgeId: Long? = null,
     @SerialName("title") val title: String? = null,
-    @SerialName("cid") val cid: Int? = null,
+    @SerialName("cid") val cid: Long? = null,
     @SerialName("start_pos") val startPos: Int? = null,
     @SerialName("cover") val cover: String? = null,
     @SerialName("is_current") val isCurrent: Boolean? = null,
@@ -49,7 +49,7 @@ public data class EdgesInfo(
 ) {
     @Serializable
     public data class Question(
-        @SerialName("id") val id: Int? = null,
+        @SerialName("id") val id: Long? = null,
         @SerialName("type") val type: Int? = null,
         @SerialName("start_time_r") val startTimeR: Int? = null,
         @SerialName("duration") val duration: Int? = null,
@@ -60,11 +60,11 @@ public data class EdgesInfo(
 
     @Serializable
     public data class Choice(
-        @SerialName("id") val id: Int? = null,
+        @SerialName("id") val id: Long? = null,
         @SerialName("platform_action") val platformAction: String? = null,
         @SerialName("native_action") val nativeAction: String? = null,
         @SerialName("condition") val condition: String? = null,
-        @SerialName("cid") val cid: Int? = null,
+        @SerialName("cid") val cid: Long? = null,
         @SerialName("x") val x: Int? = null,
         @SerialName("y") val y: Int? = null,
         @SerialName("text_align") val textAlign: Int? = null,
@@ -91,8 +91,8 @@ public data class InteractionPreload(
 ) {
     @Serializable
     public data class Video(
-        @SerialName("aid") val aid: Int? = null,
-        @SerialName("cid") val cid: Int? = null,
+        @SerialName("aid") val aid: Long? = null,
+        @SerialName("cid") val cid: Long? = null,
     )
 }
 

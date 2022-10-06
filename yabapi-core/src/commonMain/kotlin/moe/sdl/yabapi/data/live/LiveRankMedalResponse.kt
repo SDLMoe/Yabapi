@@ -34,7 +34,7 @@ public data class LiveRankMedalData(
         @SerialName("trend") val trend: Int? = null,
         @SerialName("type") val type: String? = null,
         @SerialName("uface") val avatar: String? = null,
-        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uid") val uid: Long? = null,
         @SerialName("uname") val userName: String? = null,
     )
 
@@ -43,7 +43,7 @@ public data class LiveRankMedalData(
         @SerialName("content") val content: MedalContent? = null,
         @SerialName("rank") val rank: String? = null,
         @SerialName("score") val score: Long? = null,
-        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uid") val uid: Long? = null,
         @SerialName("uname") val username: String? = null,
         @SerialName("uface") val avatar: String? = null,
         @SerialName("isMaster") val isLiver: Boolean? = null,

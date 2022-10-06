@@ -26,7 +26,7 @@ private val logger by lazy { Logger("BangumiApi") }
  * @return [BangumiInfoGetResponse]
  */
 public suspend fun BiliClient.getBangumiInfo(
-    mediaId: Int,
+    mediaId: Long,
     context: CoroutineContext = this.context,
 ): BangumiInfoGetResponse = withContext(context) {
     logger.debug { "Getting bangumi info for media id $mediaId" }
@@ -43,7 +43,7 @@ public suspend fun BiliClient.getBangumiInfo(
  * 可以用于获取 md 号对应的 ss 号
  */
 public suspend fun BiliClient.getBangumiReviewInfo(
-    mediaId: Int,
+    mediaId: Long,
     context: CoroutineContext = this.context,
 ): BangumiReviewInfoResponse = withContext(context) {
     logger.debug { "Getting Bangumi Review Info for media id $mediaId" }
@@ -55,8 +55,8 @@ public suspend fun BiliClient.getBangumiReviewInfo(
 }
 
 private suspend inline fun BiliClient.getBangumiDetailed(
-    seasonId: Int? = null,
-    epId: Int? = null,
+    seasonId: Long? = null,
+    epId: Long? = null,
     context: CoroutineContext = this.context,
 ): BangumiDetailedResponse = withContext(context) {
     requireLeastAndOnlyOne(seasonId, epId)
@@ -75,7 +75,7 @@ private suspend inline fun BiliClient.getBangumiDetailed(
  * @param seasonId 輸入 ssid, 形如 ss30132
  */
 public suspend fun BiliClient.getBangumiDetailedBySeason(
-    seasonId: Int,
+    seasonId: Long,
     context: CoroutineContext = this.context,
 ): BangumiDetailedResponse = getBangumiDetailed(seasonId, null, context)
 
@@ -84,6 +84,6 @@ public suspend fun BiliClient.getBangumiDetailedBySeason(
  * @param epId 輸入 ep 號 形如 ep457555
  */
 public suspend fun BiliClient.getBangumiDetailedByEp(
-    epId: Int,
+    epId: Long,
     context: CoroutineContext = this.context,
 ): BangumiDetailedResponse = getBangumiDetailed(null, epId, context)

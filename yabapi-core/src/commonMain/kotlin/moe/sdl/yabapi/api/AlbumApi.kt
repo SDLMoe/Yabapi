@@ -40,7 +40,7 @@ private val logger by lazy { Logger("AlbumApi") }
  * @param id 相簿id
  */
 public suspend fun BiliClient.getVcAlbumInfo(
-    id: Int,
+    id: Long,
     context: CoroutineContext = this.context,
 ): AlbumInfoResponse = withContext(context) {
     logger.debug { "Getting Album Info $id..." }

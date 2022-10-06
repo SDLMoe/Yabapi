@@ -14,11 +14,11 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 
 @Serializable
 public data class BangumiCard(
-    @SerialName("aid") val aid: Int? = null,
+    @SerialName("aid") val aid: Long? = null,
     @SerialName("apiSeasonInfo") val apiSeasonInfo: Season? = null,
     @SerialName("bullet_count") val bulletCount: Int? = null,
     @SerialName("cover") val cover: String? = null,
-    @SerialName("episode_id") val episodeId: Int? = null,
+    @SerialName("episode_id") val episodeId: Long? = null,
     @SerialName("index") val index: String? = null,
     @SerialName("index_title") val indexTitle: String? = null,
     @SerialName("new_desc") val newDesc: String? = null,
@@ -32,7 +32,7 @@ public data class BangumiCard(
         @SerialName("bgm_type") val type: BangumiType = UNKNOWN,
         @SerialName("cover") val cover: String? = null,
         @SerialName("is_finish") val isFinish: Boolean? = null,
-        @SerialName("season_id") val seasonId: Int? = null,
+        @SerialName("season_id") val seasonId: Long? = null,
         @SerialName("title") val title: String? = null,
         @SerialName("total_count") val totalCount: Int? = null,
         @SerialName("ts") val timestamp: Long? = null,

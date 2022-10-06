@@ -23,14 +23,14 @@ private val json by lazy {
 
 @Serializable
 public data class RecvMessage(
-    @SerialName("sender_uid") val senderUid: Int? = null,
+    @SerialName("sender_uid") val senderUid: Long? = null,
     @SerialName("receiver_type") val receiverType: Int? = null,
-    @SerialName("receiver_id") val receiverId: Int? = null,
+    @SerialName("receiver_id") val receiverId: Long? = null,
     @SerialName("msg_type") val msgType: Int? = null,
     @SerialName("content") private val _content: String? = null,
     @SerialName("msg_seqno") val messageSeq: ULong? = null,
     @SerialName("timestamp") val timestamp: ULong? = null,
-    @SerialName("at_uids") val atUids: List<Int> = emptyList(),
+    @SerialName("at_uids") val atUids: List<Long> = emptyList(),
     @SerialName("msg_key") val key: ULong? = null,
     @SerialName("msg_status") val status: Int? = null,
     @SerialName("notify_code") val notifyCode: String? = null,

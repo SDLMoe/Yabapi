@@ -16,8 +16,8 @@ public data class SpaceAlbumResponse(
 
 @Serializable
 public data class AlbumItem(
-    @SerialName("doc_id") val docId: Int? = null,
-    @SerialName("poster_uid") val posterUid: Int? = null,
+    @SerialName("doc_id") val docId: Long? = null,
+    @SerialName("poster_uid") val posterUid: Long? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("description") val description: String? = null,
     @SerialName("pictures") val pictures: List<AlbumPicture> = emptyList(),

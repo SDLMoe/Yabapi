@@ -27,10 +27,10 @@ public data class BangumiInfo(
 public data class BangumiMedia(
     @SerialName("areas") val areas: List<BangumiArea> = emptyList(),
     @SerialName("cover") val cover: String? = null,
-    @SerialName("media_id") val mediaId: Int? = null,
+    @SerialName("media_id") val mediaId: Long? = null,
     @SerialName("new_ep") val latestEpisode: SimpleBangumiEpisode? = null,
     @SerialName("rating") val rating: BangumiRating? = null,
-    @SerialName("season_id") val seasonId: Int? = null,
+    @SerialName("season_id") val seasonId: Long? = null,
     @SerialName("share_url") val shareUrl: String? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("type_name") val typeName: String? = null,
@@ -38,7 +38,7 @@ public data class BangumiMedia(
 
 @Serializable
 public data class BangumiArea(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("name") val name: String? = null,
 )
 

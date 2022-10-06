@@ -20,8 +20,8 @@ public data class RoomChangeCmd(
 @Serializable
 public data class RoomChangeData(
     @SerialName("title") val title: String? = null,
-    @SerialName("area_id") val areaId: Int? = null,
-    @SerialName("parent_area_id") val parentAreaId: Int? = null,
+    @SerialName("area_id") val areaId: Long? = null,
+    @SerialName("parent_area_id") val parentAreaId: Long? = null,
     @SerialName("area_name") val areaName: String? = null,
     @SerialName("parent_area_name") val parentAreaName: String? = null,
     @SerialName("live_key") val liveKey: String? = null,

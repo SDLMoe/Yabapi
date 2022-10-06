@@ -63,7 +63,7 @@ import moe.sdl.yabapi.enums.video.CollectAction.REMOVE
 import moe.sdl.yabapi.enums.video.LikeAction
 import moe.sdl.yabapi.enums.video.LikeAction.LIKE
 import moe.sdl.yabapi.util.Logger
-import moe.sdl.yabapi.util.encoding.avInt
+import moe.sdl.yabapi.util.encoding.av
 import moe.sdl.yabapi.util.requireLeastAndOnlyOne
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
@@ -73,13 +73,13 @@ private val logger by lazy { Logger("VideoApi") }
 
 // region ==================== Util ====================
 
-private fun checkVideoId(aid: Int?, bid: String?) {
+private fun checkVideoId(aid: Long?, bid: String?) {
     requireLeastAndOnlyOne(aid, bid)
     if (bid != null) require(bid.startsWith(prefix = "bv", ignoreCase = true))
 }
 
 internal fun HttpRequestBuilder.putVideoId(
-    aid: Int?,
+    aid: Long?,
     bid: String?,
     aidKey: String = "aid",
     bidKey: String = "bvid",
@@ -89,15 +89,15 @@ internal fun HttpRequestBuilder.putVideoId(
     bid?.let { parameter(bidKey, bid) }
 }
 
-internal fun ParametersBuilder.putVideoId(aid: Int?, bid: String?) {
+internal fun ParametersBuilder.putVideoId(aid: Long?, bid: String?) {
     checkVideoId(aid, bid)
     aid?.let { append("aid", aid.toString()) }
     bid?.let { append("bvid", bid.toString()) }
 }
 
-private fun getActualId(aid: Int?, bid: String?): Int {
+private fun getActualId(aid: Long?, bid: String?): Number {
     checkVideoId(aid, bid)
-    val actualId = bid?.avInt ?: aid
+    val actualId = bid?.av ?: aid
     requireNotNull(actualId)
     return actualId
 }
@@ -107,9 +107,9 @@ private fun getActualId(aid: Int?, bid: String?): Int {
 // region ==================== Info ====================
 
 private suspend inline fun BiliClient.getVideoInfo(
-    aid: Int? = null,
+    aid: Long? = null,
     bid: String? = null,
-    cid: Int? = null,
+    cid: Long? = null,
     context: CoroutineContext = this.context,
 ): VideoInfoGetResponse = withContext(context) {
     client.get(VIDEO_INFO_GET_URL) {
@@ -124,8 +124,8 @@ private suspend inline fun BiliClient.getVideoInfo(
  *  @see VideoInfoGetResponse
  */
 public suspend fun BiliClient.getVideoInfo(
-    aid: Int,
-    cid: Int? = null,
+    aid: Long,
+    cid: Long? = null,
     context: CoroutineContext = this.context,
 ): VideoInfoGetResponse {
     logger.debug { "Getting video info for av$aid..." }
@@ -141,7 +141,7 @@ public suspend fun BiliClient.getVideoInfo(
  */
 public suspend fun BiliClient.getVideoInfo(
     bid: String,
-    cid: Int? = null,
+    cid: Long? = null,
     context: CoroutineContext = this.context,
 ): VideoInfoGetResponse {
     logger.debug { "Getting video info for $bid..." }
@@ -151,9 +151,9 @@ public suspend fun BiliClient.getVideoInfo(
 }
 
 private suspend fun BiliClient.getVideoPlayerInfo(
-    aid: Int?,
+    aid: Long?,
     bvid: String?,
-    cid: Int,
+    cid: Long,
     context: CoroutineContext = this.context,
 ): VideoPlayerInfoResponse = withContext(context) {
     requireLeastAndOnlyOne(aid, bvid)
@@ -164,8 +164,8 @@ private suspend fun BiliClient.getVideoPlayerInfo(
 }
 
 public suspend fun BiliClient.getVideoPlayerInfo(
-    aid: Int,
-    cid: Int,
+    aid: Long,
+    cid: Long,
     context: CoroutineContext = this.context,
 ): VideoPlayerInfoResponse {
     logger.debug { "Getting VideoPlayerInfo for av$aid - $cid" }
@@ -176,7 +176,7 @@ public suspend fun BiliClient.getVideoPlayerInfo(
 
 public suspend fun BiliClient.getVideoPlayerInfo(
     bvid: String,
-    cid: Int,
+    cid: Long,
     context: CoroutineContext = this.context,
 ): VideoPlayerInfoResponse {
     logger.debug { "Getting VideoPlayerInfo for $bvid - $cid" }
@@ -186,7 +186,7 @@ public suspend fun BiliClient.getVideoPlayerInfo(
 }
 
 private suspend inline fun BiliClient.getVideoParts(
-    aid: Int? = null,
+    aid: Long? = null,
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoPartsGetResponse = withContext(context) {
@@ -201,7 +201,7 @@ private suspend inline fun BiliClient.getVideoParts(
  * @see VideoPartsGetResponse
  */
 public suspend fun BiliClient.getVideoParts(
-    aid: Int,
+    aid: Long,
     context: CoroutineContext = this.context,
 ): VideoPartsGetResponse {
     logger.debug { "Getting video parts for av$aid" }
@@ -226,7 +226,7 @@ public suspend fun BiliClient.getVideoParts(
 }
 
 private suspend inline fun BiliClient.getVideoDescription(
-    aid: Int? = null,
+    aid: Long? = null,
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoDescriptionGetResponse = withContext(context) {
@@ -241,7 +241,7 @@ private suspend inline fun BiliClient.getVideoDescription(
  * @see VideoDescriptionGetResponse
  */
 public suspend fun BiliClient.getVideoDescription(
-    aid: Int,
+    aid: Long,
     context: CoroutineContext = this.context,
 ): VideoDescriptionGetResponse {
     logger.debug { "Getting video description for av$aid" }
@@ -266,7 +266,7 @@ public suspend fun BiliClient.getVideoDescription(
 }
 
 private suspend inline fun BiliClient.getVideoTags(
-    aid: Int? = null,
+    aid: Long? = null,
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoTagsGetResponse = withContext(context) {
@@ -281,7 +281,7 @@ private suspend inline fun BiliClient.getVideoTags(
  * @see VideoTagsGetResponse
  */
 public suspend fun BiliClient.getVideoTags(
-    aid: Int,
+    aid: Long,
     context: CoroutineContext = this.context,
 ): VideoTagsGetResponse {
     logger.debug { "Getting Video Tags for av$aid" }
@@ -310,7 +310,7 @@ public suspend fun BiliClient.getVideoTags(
 // region ==================== Interact & Check ====================
 
 private suspend inline fun BiliClient.likeVideo(
-    aid: Int? = null,
+    aid: Long? = null,
     bid: String? = null,
     action: LikeAction = LIKE,
     context: CoroutineContext = this.context,
@@ -332,7 +332,7 @@ private suspend inline fun BiliClient.likeVideo(
  * @see VideoLikeResponse
  */
 public suspend fun BiliClient.likeVideo(
-    aid: Int,
+    aid: Long,
     action: LikeAction = LIKE,
     context: CoroutineContext = this.context,
 ): VideoLikeResponse {
@@ -360,7 +360,7 @@ public suspend fun BiliClient.likeVideo(
 }
 
 private suspend inline fun BiliClient.checkVideoLike(
-    aid: Int? = null,
+    aid: Long? = null,
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): HasLikedResponse = withContext(context) {
@@ -375,7 +375,7 @@ private suspend inline fun BiliClient.checkVideoLike(
  * @see HasLikedResponse
  */
 public suspend fun BiliClient.checkVideoLike(
-    aid: Int,
+    aid: Long,
     context: CoroutineContext = this.context,
 ): HasLikedResponse {
     logger.debug { "Checking like status for av$aid" }
@@ -400,7 +400,7 @@ public suspend fun BiliClient.checkVideoLike(
 }
 
 private suspend inline fun BiliClient.coinVideo(
-    aid: Int? = null,
+    aid: Long? = null,
     bid: String? = null,
     count: Int = 1,
     withLike: Boolean = false,
@@ -426,7 +426,7 @@ private suspend inline fun BiliClient.coinVideo(
  * @return [CoinVideoResponse]
  */
 public suspend fun BiliClient.coinVideo(
-    aid: Int? = null,
+    aid: Long? = null,
     count: Int = 1,
     withLike: Boolean = false,
     context: CoroutineContext = this.context,
@@ -457,7 +457,7 @@ public suspend fun BiliClient.coinVideo(
 }
 
 private suspend inline fun BiliClient.checkVideoCoin(
-    aid: Int? = null,
+    aid: Long? = null,
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoCoinCheckResponse = withContext(context) {
@@ -473,7 +473,7 @@ private suspend inline fun BiliClient.checkVideoCoin(
  * @see checkVideoCoin
  */
 public suspend fun BiliClient.checkVideoCoin(
-    aid: Int,
+    aid: Long,
     context: CoroutineContext = this.context,
 ): VideoCoinCheckResponse {
     logger.debug { "Checking coin for video av$aid" }
@@ -499,10 +499,10 @@ public suspend fun BiliClient.checkVideoCoin(
 }
 
 private suspend inline fun BiliClient.collectVideo(
-    aid: Int? = null,
+    aid: Long? = null,
     bid: String? = null,
     action: CollectAction = ADD,
-    folderList: Collection<Int>,
+    folderList: Collection<Long>,
     context: CoroutineContext = this.context,
 ): VideoCollectResponse = withContext(context) {
     client.post(VIDEO_COLLECT_ACTION_URL) {
@@ -532,9 +532,9 @@ private suspend inline fun BiliClient.collectVideo(
  * @param folderList 收藏夹id, 可能需要手动获取默认id
  */
 public suspend fun BiliClient.collectVideo(
-    aid: Int,
+    aid: Long,
     action: CollectAction = ADD,
-    folderList: Collection<Int>,
+    folderList: Collection<Long>,
     context: CoroutineContext = this.context,
 ): VideoCollectResponse {
     logger.debug { "$action Collect video av$aid..." }
@@ -552,7 +552,7 @@ public suspend fun BiliClient.collectVideo(
 public suspend fun BiliClient.collectVideo(
     bid: String,
     action: CollectAction = ADD,
-    folderList: Collection<Int>,
+    folderList: Collection<Long>,
     context: CoroutineContext = this.context,
 ): VideoCollectResponse {
     logger.debug { "Collect video $bid..." }
@@ -562,7 +562,7 @@ public suspend fun BiliClient.collectVideo(
 }
 
 private suspend inline fun BiliClient.checkVideoCollect(
-    aid: Int? = null,
+    aid: Long? = null,
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoCollectCheck = withContext(context) {
@@ -575,7 +575,7 @@ private suspend inline fun BiliClient.checkVideoCollect(
  * 检查视频收藏状态 输入 av 号, 返回 [VideoCollectCheck]
  */
 public suspend fun BiliClient.checkVideoCollect(
-    aid: Int,
+    aid: Long,
     context: CoroutineContext = this.context,
 ): VideoCollectCheck {
     logger.debug { "Checking video av$aid collect status..." }
@@ -598,7 +598,7 @@ public suspend fun BiliClient.checkVideoCollect(
 }
 
 private suspend fun BiliClient.comboLike(
-    aid: Int? = null,
+    aid: Long? = null,
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoComboLikeResponse = withContext(context) {
@@ -615,7 +615,7 @@ private suspend fun BiliClient.comboLike(
  * 一键三连, 输入 aid, 返回 [VideoComboLikeResponse]
  */
 public suspend fun BiliClient.comboLike(
-    aid: Int,
+    aid: Long,
     context: CoroutineContext = this.context,
 ): VideoComboLikeResponse {
     logger.debug { "Combo liking video av$aid..." }
@@ -638,7 +638,7 @@ public suspend fun BiliClient.comboLike(
 }
 
 private suspend inline fun BiliClient.shareVideo(
-    aid: Int? = null,
+    aid: Long? = null,
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): ShareVideoResponse = withContext(context) {
@@ -656,7 +656,7 @@ private suspend inline fun BiliClient.shareVideo(
  * 注意, 并不会返回分享链接, 只会增加视频数据
  */
 public suspend fun BiliClient.shareVideo(
-    aid: Int,
+    aid: Long,
     context: CoroutineContext = this.context,
 ): ShareVideoResponse {
     logger.debug { "Sharing video av$aid..." }
@@ -684,9 +684,9 @@ public suspend fun BiliClient.shareVideo(
 // region ==================== Fetch Stream ====================
 
 private suspend inline fun BiliClient.fetchVideoStream(
-    aid: Int?,
+    aid: Long?,
     bid: String?,
-    cid: Int,
+    cid: Long,
     request: StreamRequest,
     context: CoroutineContext = this.context,
 ): VideoStreamResponse = withContext(context) {
@@ -706,8 +706,8 @@ private suspend inline fun BiliClient.fetchVideoStream(
  * @see StreamRequest
  */
 public suspend fun BiliClient.fetchVideoStream(
-    aid: Int,
-    cid: Int,
+    aid: Long,
+    cid: Long,
     request: StreamRequest = StreamRequest(),
     context: CoroutineContext = this.context,
 ): VideoStreamResponse {
@@ -727,7 +727,7 @@ public suspend fun BiliClient.fetchVideoStream(
  */
 public suspend fun BiliClient.fetchVideoStream(
     bid: String,
-    cid: Int,
+    cid: Long,
     request: StreamRequest = StreamRequest(),
     context: CoroutineContext = this.context,
 ): VideoStreamResponse {
@@ -738,7 +738,7 @@ public suspend fun BiliClient.fetchVideoStream(
 }
 
 public suspend fun BiliClient.fetchPgcStream(
-    ep: Int,
+    ep: Long,
     request: StreamRequest = StreamRequest(),
     context: CoroutineContext = this.context,
 ): PgcStreamResponse = withContext(context) {
@@ -759,8 +759,8 @@ public suspend fun BiliClient.fetchPgcStream(
  * 获取视频时间线热度
  */
 private suspend inline fun BiliClient.getTimelineHot(
-    cid: Int,
-    aid: Int? = null,
+    cid: Long,
+    aid: Long? = null,
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): TimelineHotResponse = withContext(context) {
@@ -776,7 +776,7 @@ private suspend inline fun BiliClient.getTimelineHot(
  * @return [TimelineHotResponse]
  */
 public suspend fun BiliClient.getTimelineHot(
-    cid: Int,
+    cid: Long,
     context: CoroutineContext = this.context,
 ): TimelineHotResponse {
     logger.debug { "Getting Timeline Hot for cid $cid..." }
@@ -792,8 +792,8 @@ public suspend fun BiliClient.getTimelineHot(
  * @return [TimelineHotResponse]
  */
 public suspend fun BiliClient.getTimelineHot(
-    cid: Int,
-    aid: Int,
+    cid: Long,
+    aid: Long,
     context: CoroutineContext = this.context,
 ): TimelineHotResponse = run {
     logger.debug { "Getting Timeline Hot for cid $cid (av$aid)..." }
@@ -809,7 +809,7 @@ public suspend fun BiliClient.getTimelineHot(
  * @return [TimelineHotResponse]
  */
 public suspend fun BiliClient.getTimelineHot(
-    cid: Int,
+    cid: Long,
     bid: String,
     context: CoroutineContext = this.context,
 ): TimelineHotResponse = run {
@@ -820,8 +820,8 @@ public suspend fun BiliClient.getTimelineHot(
 }
 
 private suspend inline fun BiliClient.getVideoOnline(
-    cid: Int,
-    aid: Int? = null,
+    cid: Long,
+    aid: Long? = null,
     bid: String? = null,
     context: CoroutineContext = this.context,
 ): VideoOnlineGetResponse = withContext(context) {
@@ -838,8 +838,8 @@ private suspend inline fun BiliClient.getVideoOnline(
  * @return [VideoOnlineGetResponse]
  */
 public suspend fun BiliClient.getVideoOnline(
-    aid: Int,
-    cid: Int,
+    aid: Long,
+    cid: Long,
     context: CoroutineContext = this.context,
 ): VideoOnlineGetResponse {
     logger.debug { "Getting Video Online for av$aid cid $cid..." }
@@ -856,7 +856,7 @@ public suspend fun BiliClient.getVideoOnline(
  */
 public suspend fun BiliClient.getVideoOnline(
     bid: String,
-    cid: Int,
+    cid: Long,
     context: CoroutineContext = this.context,
 ): VideoOnlineGetResponse {
     logger.debug { "Getting Video Online for $bid cid $cid..." }
@@ -870,7 +870,7 @@ public suspend fun BiliClient.getVideoOnline(
 // region ==================== Recommended ====================
 
 private suspend inline fun BiliClient.getVideoRelated(
-    aid: Int?,
+    aid: Long?,
     bid: String?,
     context: CoroutineContext = this.context,
 ): VideoRelatedGetResponse = withContext(context) {
@@ -883,7 +883,7 @@ private suspend inline fun BiliClient.getVideoRelated(
  * 获取视频的相关推荐, 输入 av 号, 返回 [VideoRelatedGetResponse]
  */
 public suspend fun BiliClient.getVideoRelated(
-    aid: Int,
+    aid: Long,
     context: CoroutineContext = this.context,
 ): VideoRelatedGetResponse {
     logger.debug { "Getting Related Video for av$aid" }
@@ -916,8 +916,8 @@ public suspend fun BiliClient.getVideoRelated(
  * @param progress 进度, 单位秒
  */
 public suspend fun BiliClient.reportVideoProgress(
-    aid: Int,
-    cid: Int,
+    aid: Long,
+    cid: Long,
     progress: Int,
     context: CoroutineContext = this.context,
 ): ReportWatchResponse = withContext(context) {
@@ -946,29 +946,22 @@ public suspend fun BiliClient.reportVideoProgress(
  */
 public suspend inline fun BiliClient.reportVideoProgress(
     bid: String,
-    cid: Int,
+    cid: Long,
     progress: Int,
     context: CoroutineContext = this.context,
-): ReportWatchResponse = reportVideoProgress(bid.avInt, cid, progress, context)
+): ReportWatchResponse = reportVideoProgress(bid.av, cid, progress, context)
 
 // endregion
 
 // region ==================== Subtitle ====================
-
-private val subtitleUrlRegex by lazy {
-    Regex("""^\s*(https?)?:?//([\w\d]+\.hdslb\.com/bfs/subtitle/[\w\d]+\.json)\s*$""")
-}
 
 public suspend fun BiliClient.getSubtitleContent(
     url: String,
     context: CoroutineContext = this.context,
 ): SubtitleContent = withContext(context) {
     logger.debug { "Getting subtitle at $url" }
-    val match = subtitleUrlRegex.matchEntire(url)
-    require(match?.groupValues != null) { "Subtitle url must matches $subtitleUrlRegex..." }
-    val normalizeUrl = "https://" + match!!.groupValues[2]
-    client.get(normalizeUrl).body<String>().deserializeJson<SubtitleContent>().also {
-        logger.debug { "Got subtitle content from $normalizeUrl: $it" }
+    client.get(url).body<String>().deserializeJson<SubtitleContent>().also {
+        logger.debug { "Got subtitle content from $url: $it" }
     }
 }
 
@@ -984,7 +977,7 @@ public suspend fun BiliClient.getSubtitleContent(
 public suspend fun BiliClient.getInteractiveInfo(
     bvid: String,
     graphVersion: Int,
-    edgeId: Int? = null,
+    edgeId: Long? = null,
     platform: String = "pc",
     context: CoroutineContext = this.context,
 ): VideoInteractiveResponse = withContext(context) {

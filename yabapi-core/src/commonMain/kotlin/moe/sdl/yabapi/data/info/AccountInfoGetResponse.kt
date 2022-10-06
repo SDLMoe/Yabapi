@@ -28,7 +28,7 @@ public data class AccountInfoGetResponse(
  */
 @Serializable
 public data class AccountInfo(
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("uname") val nick: String? = null,
     @SerialName("userid") val userId: String? = null,
     @SerialName("sign") val bio: String? = null,

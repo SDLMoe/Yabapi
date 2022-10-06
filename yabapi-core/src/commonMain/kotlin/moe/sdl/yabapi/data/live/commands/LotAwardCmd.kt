@@ -26,7 +26,7 @@ public data class LotAwardData(
     @SerialName("award_name") val name: String? = null,
     @SerialName("award_num") val count: Int? = null, // 應該是獎品個數
     @SerialName("award_users") val users: List<LotAwardUser> = emptyList(),
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("lot_status") val status: LotStatus = UNKNOWN,
     @SerialName("url") val url: String? = null,
     @SerialName("web_url") val webUrl: String? = null,
@@ -34,7 +34,7 @@ public data class LotAwardData(
 
 @Serializable
 public data class LotAwardUser(
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("uname") val uname: String? = null,
     @SerialName("face") val avatar: String? = null,
     @SerialName("level") val level: Int? = null,

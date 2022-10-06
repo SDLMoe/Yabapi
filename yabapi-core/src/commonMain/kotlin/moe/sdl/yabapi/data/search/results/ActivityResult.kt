@@ -20,7 +20,7 @@ public data class ActivityResult(
     @SerialName("corner") val corner: String? = null,
     @SerialName("card_value") val cardValue: String? = null,
     @SerialName("type") val type: String? = null,
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("desc") val desc: String? = null,
 ) : SearchResult {
     val pos: Int?

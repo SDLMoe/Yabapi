@@ -16,13 +16,13 @@ import moe.sdl.yabapi.serializer.data.RgbColorStringSerializer
 @Serializable
 public data class BangumiResult(
     @SerialName("type") val type: String,
-    @SerialName("media_id") val mediaId: Int? = null,
+    @SerialName("media_id") val mediaId: Long? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("org_title") val orgTitle: String? = null,
     @SerialName("media_type") val mediaType: Int? = null,
     @SerialName("cv") val cv: String? = null,
     @SerialName("staff") val staff: String? = null,
-    @SerialName("season_id") val seasonId: Int? = null,
+    @SerialName("season_id") val seasonId: Long? = null,
     @SerialName("is_avid") val isAvId: Boolean? = null,
     @SerialName("hit_columns") val hitColumns: List<String> = emptyList(),
     @SerialName("hit_epids") val hitEpids: String? = null,
@@ -46,13 +46,13 @@ public data class BangumiResult(
     @SerialName("fix_pubtime_str") val fixReleaseTimeString: String? = null,
     @SerialName("media_score") val mediaScore: MediaScore? = null,
     @SerialName("display_info") val displayInfo: List<ColorsInfo> = emptyList(),
-    @SerialName("pgc_season_id") val pgcSeasonId: Int? = null,
+    @SerialName("pgc_season_id") val pgcSeasonId: Long? = null,
     @SerialName("corner") val corner: Int? = null,
     @SerialName("index_show") val indexShow: String? = null,
 ) : SearchResult {
     @Serializable
     public data class BangumiEpisode(
-        @SerialName("id") val id: Int? = null,
+        @SerialName("id") val id: Long? = null,
         @SerialName("cover") val cover: String? = null,
         @SerialName("title") val title: String? = null,
         @SerialName("url") val url: String? = null,

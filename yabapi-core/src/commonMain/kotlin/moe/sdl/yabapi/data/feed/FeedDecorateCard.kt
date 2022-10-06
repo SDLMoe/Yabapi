@@ -11,15 +11,15 @@ import moe.sdl.yabapi.serializer.data.RgbColorStringSerializerNullable
 
 @Serializable
 public data class FeedDecorateCard(
-    @SerialName("mid") val mid: Int? = null,
-    @SerialName("id") val id: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("card_url") val cardUrl: String? = null,
     @SerialName("card_type") val cardType: Int? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("expire_time") val expireTime: Long? = null,
     @SerialName("card_type_name") val cardTypeName: String? = null,
-    @SerialName("uid") val uid: Int? = null,
-    @SerialName("item_id") val itemId: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
+    @SerialName("item_id") val itemId: Long? = null,
     @SerialName("item_type") val itemType: Int? = null,
     @SerialName("big_card_url") val bigCardUrl: String? = null,
     @SerialName("jump_url") val jumpUrl: String? = null,

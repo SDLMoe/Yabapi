@@ -6,10 +6,10 @@ import moe.sdl.yabapi.enums.video.VideoType
 
 @Serializable
 public data class UgcSeason(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("cover") val cover: String? = null,
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("intro") val intro: String? = null,
     @SerialName("sign_state") val signState: Int? = null,
     @SerialName("attribute") val attribute: Int? = null,
@@ -21,8 +21,8 @@ public data class UgcSeason(
 
 @Serializable
 public data class UgcSeasonSections(
-    @SerialName("season_id") val seasonId: Int? = null,
-    @SerialName("id") val id: Int? = null,
+    @SerialName("season_id") val seasonId: Long? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("type") val type: VideoType? = null,
     @SerialName("episodes") val episodes: List<UgcSeasonEpisode> = emptyList(),
@@ -30,11 +30,11 @@ public data class UgcSeasonSections(
 
 @Serializable
 public data class UgcSeasonEpisode(
-    @SerialName("season_id") val seasonId: Int? = null,
-    @SerialName("section_id") val sectionId: Int? = null,
-    @SerialName("id") val id: Int? = null,
-    @SerialName("aid") val aid: Int? = null,
-    @SerialName("cid") val cid: Int? = null,
+    @SerialName("season_id") val seasonId: Long? = null,
+    @SerialName("section_id") val sectionId: Long? = null,
+    @SerialName("id") val id: Long? = null,
+    @SerialName("aid") val aid: Long? = null,
+    @SerialName("cid") val cid: Long? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("type") val type: VideoType? = null,
     @SerialName("attribute") val attribute: Int? = null,

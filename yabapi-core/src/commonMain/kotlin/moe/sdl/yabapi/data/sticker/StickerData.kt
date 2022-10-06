@@ -16,8 +16,8 @@ import moe.sdl.yabapi.data.sticker.StickerType.UNKNOWN
  */
 @Serializable
 public data class StickerData(
-    @SerialName("id") val id: Int? = null,
-    @SerialName("package_id") val packageId: Int? = null,
+    @SerialName("id") val id: Long? = null,
+    @SerialName("package_id") val packageId: Long? = null,
     @SerialName("text") val text: String? = null,
     @SerialName("url") val url: String? = null,
     @SerialName("gif_url") val gifUrl: String? = null,

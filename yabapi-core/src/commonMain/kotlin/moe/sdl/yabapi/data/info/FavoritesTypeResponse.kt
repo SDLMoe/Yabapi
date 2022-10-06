@@ -15,7 +15,7 @@ public data class FavoritesTypeResponse(
 
 @Serializable
 public data class FavoritesType(
-    @SerialName("tid") val tid: Int? = null,
+    @SerialName("tid") val tid: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("count") val count: Int? = null,
 )

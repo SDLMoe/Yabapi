@@ -22,16 +22,16 @@ public data class VideoPlayerInfoResponse(
 
 @Serializable
 public data class VideoPlayerInfo(
-    @SerialName("aid") val aid: Int? = null,
+    @SerialName("aid") val aid: Long? = null,
     @SerialName("bvid") val bvid: String? = null,
     @SerialName("allow_bp") val allowBp: Boolean? = null,
     @SerialName("no_share") val noShare: Boolean? = null,
-    @SerialName("cid") val cid: Int? = null,
+    @SerialName("cid") val cid: Long? = null,
     @SerialName("max_limit") val maxLimit: Int? = null,
     @SerialName("page_no") val pageNo: Int? = null,
     @SerialName("has_next") val hasNext: Boolean? = null,
     @SerialName("ip_info") val ipInfo: IpInfo? = null,
-    @SerialName("login_mid") val loginMid: Int? = null,
+    @SerialName("login_mid") val loginMid: Long? = null,
     @SerialName("login_mid_hash") val loginMidHash: String? = null,
     @SerialName("is_owner") val isOwner: Boolean? = null,
     @SerialName("name") val name: String? = null,
@@ -42,7 +42,7 @@ public data class VideoPlayerInfo(
     @SerialName("block_time") val blockTime: Long? = null,
     @SerialName("role") val role: String? = null,
     @SerialName("last_play_time") val lastPlayTime: Long? = null,
-    @SerialName("last_play_cid") val lastPlayCid: Int? = null,
+    @SerialName("last_play_cid") val lastPlayCid: Long? = null,
     @SerialName("now_time") val nowTime: Long? = null,
     @SerialName("online_count") val onlineCount: Int? = null,
     @SerialName("dm_mask") val danmakuMask: DanmakuMask? = null,
@@ -65,7 +65,7 @@ public data class VideoPlayerInfo(
 public data class IpInfo(
     @SerialName("ip") val ip: String? = null,
     @SerialName("zone_ip") val zoneIp: String? = null,
-    @SerialName("zone_id") val zoneId: Int? = null,
+    @SerialName("zone_id") val zoneId: Long? = null,
     @SerialName("country") val country: String? = null,
     @SerialName("province") val province: String? = null,
     @SerialName("city") val city: String? = null,
@@ -73,7 +73,7 @@ public data class IpInfo(
 
 @Serializable
 public data class DanmakuMask(
-    @SerialName("cid") val cid: Int? = null,
+    @SerialName("cid") val cid: Long? = null,
     @SerialName("plat") val plat: Int? = null,
     @SerialName("fps") val fps: Int? = null,
     @SerialName("time") val time: Int? = null,
@@ -102,9 +102,9 @@ public data class InteractionData(
 
 @Serializable
 public data class HistoryNode(
-    @SerialName("node_id") val nodeId: Int? = null,
+    @SerialName("node_id") val nodeId: Long? = null,
     @SerialName("title") val title: String? = null,
-    @SerialName("cid") val cid: Int? = null,
+    @SerialName("cid") val cid: Long? = null,
 )
 
 @Serializable

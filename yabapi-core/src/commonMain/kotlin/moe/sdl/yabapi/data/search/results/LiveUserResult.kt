@@ -10,13 +10,13 @@ import moe.sdl.yabapi.data.live.LiveRoomStatus
 @Serializable
 public data class LiveUserResult(
     @SerialName("type") val type: String,
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("uname") val userName: String? = null,
-    @SerialName("roomid") val roomId: Int? = null,
+    @SerialName("roomid") val roomId: Long? = null,
     @SerialName("uface") val avatar: String? = null,
     @SerialName("cate_name") val categoryName: String? = null,
     @SerialName("area") val area: Int? = null,
-    @SerialName("area_v2_id") val areaV2Id: Int? = null,
+    @SerialName("area_v2_id") val areaV2Id: Long? = null,
     @SerialName("attentions") val attentions: Int? = null,
     @SerialName("tags") val tags: String? = null,
     @SerialName("is_live") val isLive: Boolean? = null,

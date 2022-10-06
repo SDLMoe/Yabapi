@@ -34,14 +34,14 @@ public data class InteractWordData(
     @SerialName("is_spread") val isSpread: Boolean? = null,
     @SerialName("msg_type") val msgType: Int? = null,
     @SerialName("privilege_type") val privilegeType: Int? = null,
-    @SerialName("roomid") val roomId: Int? = null,
+    @SerialName("roomid") val roomId: Long? = null,
     @SerialName("score") val score: Long? = null,
     @SerialName("spread_desc") val spreadDesc: String? = null,
     @SerialName("spread_info") val spreadInfo: String? = null,
     @SerialName("tail_icon") val tailIcon: Int? = null,
     @SerialName("timestamp") val timestamp: Long? = null,
     @SerialName("trigger_time") val triggerTime: Long? = null,
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("uname") val userName: String? = null,
     @SerialName("uname_color") val userNameColor: String? = null,
 ) {
@@ -52,9 +52,9 @@ public data class InteractWordData(
 
     @Serializable
     public data class LiveMedal(
-        @SerialName("anchor_roomid") val roomId: Int? = null, // 房间id
+        @SerialName("anchor_roomid") val roomId: Long? = null, // 房间id
         @SerialName("guard_level") val guardLevel: GuardLevel = UNKNOWN, // 等级
-        @SerialName("icon_id") val iconId: Int? = null, // icon id
+        @SerialName("icon_id") val iconId: Long? = null, // icon id
         @SerialName("is_lighted") val isLighted: Boolean? = null, // 是否点亮
         @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("medal_color") val medalColor: RgbColor? = null,
@@ -68,6 +68,6 @@ public data class InteractWordData(
         @SerialName("medal_name") val name: String? = null,
         @SerialName("score") val score: Int? = null,
         @SerialName("special") val special: String? = null,
-        @SerialName("target_id") val targetId: Int? = null, // 主播 mid
+        @SerialName("target_id") val targetId: Long? = null, // 主播 mid
     )
 }

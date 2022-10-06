@@ -76,7 +76,7 @@ public data class CommandDanmakuExtraUp(
 
 @Serializable
 public data class CommandDanmakuExtraLink(
-    @SerialName("aid") val aid: Int? = null,
+    @SerialName("aid") val aid: Long? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("icon") val icon: String? = null,
     @SerialName("bvid") val bvid: String? = null,

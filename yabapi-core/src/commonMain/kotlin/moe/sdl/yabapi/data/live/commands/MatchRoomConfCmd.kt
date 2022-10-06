@@ -43,7 +43,7 @@ public data class MatchRoomConfData(
         @SerialName("room_name") val roomName: String? = null,
         @SerialName("live_status") val liveStatus: Int? = null,
     ) {
-        val roomId: Int? by lazy { _roomId?.toIntOrNull() }
+        val roomId: Long? by lazy { _roomId?.toLongOrNull() }
     }
 
     @Serializable

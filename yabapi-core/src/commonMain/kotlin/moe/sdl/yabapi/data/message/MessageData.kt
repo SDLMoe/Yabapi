@@ -10,8 +10,8 @@ import kotlin.native.concurrent.SharedImmutable
 
 @Serializable
 public data class MessageData(
-    val senderUid: Int,
-    val receiverId: Int,
+    val senderUid: Long,
+    val receiverId: Long,
     val content: MessageContent,
     val receiverType: Int = 1,
     val devId: String = generateFakeUUID(),

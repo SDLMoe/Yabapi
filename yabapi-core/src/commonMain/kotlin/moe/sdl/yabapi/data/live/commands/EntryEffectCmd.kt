@@ -25,9 +25,9 @@ public data class EntryEffectCmd(
 
 @Serializable
 public data class EntryEffectData(
-    @SerialName("id") val id: Int? = null,
-    @SerialName("uid") val uid: Int? = null,
-    @SerialName("target_id") val targetId: Int? = null,
+    @SerialName("id") val id: Long? = null,
+    @SerialName("uid") val uid: Long? = null,
+    @SerialName("target_id") val targetId: Long? = null,
     @SerialName("mock_effect") val mockEffect: Int? = null,
     @SerialName("face") val avatar: String? = null,
     @SerialName("privilege_type") val privilegeType: Int? = null,

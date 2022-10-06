@@ -16,7 +16,7 @@ internal class DanmakuApiTest {
     @Test
     fun getDanmakuTest() {
         runTest {
-            val aid = 810872
+            val aid = 810872L
             client.getVideoParts(aid).data.forEach { part ->
                 client.getDanmaku(part.cid!!).danmakus.forEach {
                     // println(it.color)

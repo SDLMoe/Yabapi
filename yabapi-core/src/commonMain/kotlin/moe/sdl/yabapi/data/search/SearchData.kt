@@ -11,7 +11,7 @@ import kotlin.jvm.JvmInline
 @Serializable
 public sealed class SearchData {
     public abstract val seid: String?
-    public abstract val page: Int?
+    public abstract val page: Long?
     public abstract val pageSize: Int?
     public abstract val numResults: Int?
     public abstract val numPages: Int?

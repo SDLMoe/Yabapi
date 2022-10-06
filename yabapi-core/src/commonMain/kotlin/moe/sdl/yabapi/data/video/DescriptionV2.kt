@@ -12,5 +12,5 @@ import kotlinx.serialization.Serializable
 public data class DescriptionV2(
     @SerialName("raw_text") val rawText: String? = null,
     @SerialName("type") val type: Int? = null,
-    @SerialName("biz_id") val bizId: Int? = null,
+    @SerialName("biz_id") val bizId: Long? = null,
 )

@@ -18,10 +18,10 @@ import moe.sdl.yabapi.enums.video.VideoType
 
 @Serializable
 public data class VideoCard(
-    @SerialName("aid") val aid: Int? = null,
+    @SerialName("aid") val aid: Long? = null,
     @SerialName("attribute") val attribute: VideoAttribute? = null,
     @SerialName("attribute_v2") val attributeV2: Int? = null,
-    @SerialName("cid") val cid: Int? = null,
+    @SerialName("cid") val cid: Long? = null,
     @SerialName("comment_jump_url") val commentJumpUrl: String? = null,
     @SerialName("copyright") val copyright: VideoCopyright = UNKNOWN,
     @SerialName("ctime") val createdTime: Long? = null,
@@ -31,7 +31,7 @@ public data class VideoCard(
     @SerialName("dynamic") val feed: String? = null,
     @SerialName("first_frame") val firstFrame: String? = null,
     @SerialName("jump_url") val jumpUrl: String? = null,
-    @SerialName("mission_id") val missionId: Int? = null,
+    @SerialName("mission_id") val missionId: Long? = null,
     @SerialName("owner") val owner: VideoOwner? = null,
     @SerialName("pic") val pic: String? = null,
     @SerialName("player_info") val playerInfo: JsonElement? = null,
@@ -39,7 +39,7 @@ public data class VideoCard(
     @SerialName("redirect_url") val redirectUrl: String? = null,
     @SerialName("rights") val rights: VideoRights? = null,
     @SerialName("share_subtitle") val shareSubtitle: String? = null,
-    @SerialName("season_id") val seasonId: Int? = null,
+    @SerialName("season_id") val seasonId: Long? = null,
     @SerialName("short_link") val shortLink: String? = null,
     @SerialName("short_link_v2") val shortLinkV2: String? = null,
     @SerialName("stat") val stat: VideoStat? = null,

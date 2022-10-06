@@ -15,7 +15,7 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
 @Serializable
 public data class UserResult(
     @SerialName("type") val type: String,
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("uname") val uname: String? = null,
     @SerialName("usign") val bio: String? = null,
     @SerialName("fans") val fans: Int? = null,
@@ -27,7 +27,7 @@ public data class UserResult(
     @SerialName("gender") val gender: Int? = null,
     @SerialName("is_upuser") val isUploader: Boolean? = null,
     @SerialName("is_live") val isLive: Boolean? = null,
-    @SerialName("room_id") val roomId: Int? = null,
+    @SerialName("room_id") val roomId: Long? = null,
     @SerialName("res") val videos: List<UserVideo> = emptyList(),
     @SerialName("official_verify") val officialCertify: OfficialCertify? = null,
     @SerialName("hit_columns") val hitColumns: JsonArray? = null,
@@ -41,7 +41,7 @@ public data class UserResult(
 
 @Serializable
 public data class UserVideo(
-    @SerialName("aid") val aid: Int? = null,
+    @SerialName("aid") val aid: Long? = null,
     @SerialName("bvid") val bvid: String? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("pubdate") val pubdate: Long? = null,

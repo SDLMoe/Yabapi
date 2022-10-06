@@ -19,5 +19,5 @@ public data class LotEndCmd(
 
 @Serializable
 public data class LotEndData(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
 )

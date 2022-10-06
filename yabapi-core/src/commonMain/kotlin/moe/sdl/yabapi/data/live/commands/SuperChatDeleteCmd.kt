@@ -10,7 +10,7 @@ import kotlinx.serialization.json.decodeFromJsonElement
 public data class SuperChatDeleteCmd(
     @SerialName("cmd") override val operation: String,
     @SerialName("data") val data: SuperChatDeleteData? = null,
-    @SerialName("roomId") val roomId: Int? = null,
+    @SerialName("roomid") val roomId: Long? = null,
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "SUPER_CHAT_MESSAGE_DELETE"
@@ -21,5 +21,5 @@ public data class SuperChatDeleteCmd(
 
 @Serializable
 public data class SuperChatDeleteData(
-    @SerialName("ids") val ids: List<Int> = emptyList(),
+    @SerialName("ids") val ids: List<Long> = emptyList(),
 )

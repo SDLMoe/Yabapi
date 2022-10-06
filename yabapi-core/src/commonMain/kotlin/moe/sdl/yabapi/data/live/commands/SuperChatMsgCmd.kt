@@ -22,7 +22,7 @@ import moe.sdl.yabapi.serializer.data.RgbColorStringSerializerNullable
 public data class SuperChatMsgCmd(
     @SerialName("cmd") override val operation: String,
     @SerialName("data") val data: SuperChatData? = null,
-    @SerialName("roomid") val roomId: Int? = null, // 短房间号
+    @SerialName("roomid") val roomId: Long? = null, // 短房间号
 ) : LiveCommand {
     public companion object : LiveCommandFactory() {
         override val operation: String = "SUPER_CHAT_MESSAGE"
@@ -49,7 +49,7 @@ public data class SuperChatData(
     @SerialName("dmscore") val danmakuScore: Int? = null,
     @SerialName("end_time") val endTime: Long? = null,
     @SerialName("gift") val gift: SuperChatLiveGift? = null,
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("is_ranked") val isRanked: Boolean? = null,
     @SerialName("is_send_audit") val isSendAudit: Boolean? = null,
     @SerialName("medal_info") val medalInfo: LiveMedal? = null,
@@ -64,15 +64,15 @@ public data class SuperChatData(
     @SerialName("token") val token: String? = null,
     @SerialName("trans_mark") val isTranslated: Boolean? = null,
     @SerialName("ts") val timestamp: Long? = null,
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("user_info") val userInfo: SuperChatUserInfo? = null,
 ) {
     @Serializable
     public data class LiveMedal(
-        @SerialName("anchor_roomid") val roomId: Int? = null, // 房间id
+        @SerialName("anchor_roomid") val roomId: Long? = null, // 房间id
         @SerialName("anchor_uname") val liverName: String? = null, // 主播名称
         @SerialName("guard_level") val guardLevel: GuardLevel = UNKNOWN, // 等级
-        @SerialName("icon_id") val iconId: Int? = null, // icon id
+        @SerialName("icon_id") val iconId: Long? = null, // icon id
         @SerialName("is_lighted") val isLighted: Boolean? = null, // 是否点亮
         @Serializable(RgbColorStringSerializerNullable::class)
         @SerialName("medal_color") val medalColor: RgbColor? = null,
@@ -85,13 +85,13 @@ public data class SuperChatData(
         @SerialName("medal_level") val level: Int? = null,
         @SerialName("medal_name") val name: String? = null,
         @SerialName("special") val special: String? = null,
-        @SerialName("target_id") val targetId: Int? = null, // 主播 mid
+        @SerialName("target_id") val targetId: Long? = null, // 主播 mid
     )
 }
 
 @Serializable
 public data class SuperChatLiveGift(
-    @SerialName("gift_id") val id: Int? = null,
+    @SerialName("gift_id") val id: Long? = null,
     @SerialName("gift_name") val name: String? = null,
     @SerialName("num") val num: Int? = null,
 )

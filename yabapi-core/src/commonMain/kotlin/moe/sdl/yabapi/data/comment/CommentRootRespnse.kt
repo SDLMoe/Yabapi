@@ -103,7 +103,7 @@ public data class CommentTree @OptIn(ExperimentalSerializationApi::class) constr
     @Serializable
     public data class Notice(
         @SerialName("content") val content: String? = null,
-        @SerialName("id") val id: Int? = null,
+        @SerialName("id") val id: Long? = null,
         @SerialName("link") val link: String? = null,
         @SerialName("title") val title: String? = null,
     )
@@ -133,7 +133,7 @@ public data class CommentTree @OptIn(ExperimentalSerializationApi::class) constr
 
     @Serializable
     public data class Upper(
-        @SerialName("mid") val mid: Int? = null,
+        @SerialName("mid") val mid: Long? = null,
         @SerialName("top") val top: JsonElement? = null,
         @SerialName("vote") val vote: JsonElement? = null,
     )

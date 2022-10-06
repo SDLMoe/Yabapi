@@ -18,7 +18,7 @@ public data class MySpaceGetResponse(
 
 @Serializable
 public data class MySpace(
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("sex") val sex: String? = null,
     @SerialName("face") val avatar: String? = null,

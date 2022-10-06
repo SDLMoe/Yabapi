@@ -32,7 +32,7 @@ public data class SubscribedTagData(
 public data class SubscribedTag(
     @SerialName("name") val name: String? = null,
     @SerialName("cover") val cover: String? = null,
-    @SerialName("tag_id") val tagId: Int? = null,
+    @SerialName("tag_id") val tagId: Long? = null,
     @SerialName("notify") val notify: Int? = null,
     @SerialName("archive_count") val archiveCount: Int? = null,
     @SerialName("updated_ts") val updatedTimestamp: String? = null,

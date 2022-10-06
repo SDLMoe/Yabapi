@@ -33,8 +33,8 @@ public data class SubscribedBangumiData(
  */
 @Serializable
 public data class SubscribedBangumi(
-    @SerialName("season_id") val seasonId: Int? = null,
-    @SerialName("media_id") val mediaId: Int? = null,
+    @SerialName("season_id") val seasonId: Long? = null,
+    @SerialName("media_id") val mediaId: Long? = null,
     @SerialName("season_type") val seasonType: Int? = null,
     @SerialName("season_type_name") val seasonTypeName: String? = null,
     @SerialName("title") val title: String? = null,

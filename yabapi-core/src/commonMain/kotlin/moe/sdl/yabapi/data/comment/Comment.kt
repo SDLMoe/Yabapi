@@ -23,7 +23,7 @@ public data class Comment(
     @SerialName("rpid") val replyId: ULong? = null,
     @SerialName("oid") val oid: ULong? = null,
     @SerialName("type") val type: Int? = null,
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("root") val root: ULong? = null,
     @SerialName("parent") val parent: ULong? = null,
     @SerialName("dialog") val dialog: ULong? = null,
@@ -117,7 +117,7 @@ public data class Comment(
  */
 @Serializable
 public data class CommentMember(
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("uname") val username: String? = null,
     @SerialName("sex") val sex: String? = null,
     @SerialName("sign") val bio: String? = null,
@@ -148,7 +148,7 @@ public data class UserSailing(
 ) {
     @Serializable
     public data class Pendant(
-        @SerialName("id") val id: Int? = null,
+        @SerialName("id") val id: Long? = null,
         @SerialName("name") val name: String? = null,
         @SerialName("image") val image: String? = null,
         @SerialName("jump_url") val jumpUrl: String? = null,
@@ -160,7 +160,7 @@ public data class UserSailing(
 
 @Serializable
 public data class CardBag(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("image") val image: String? = null,
     @SerialName("jump_url") val jumpUrl: String? = null,

@@ -19,7 +19,7 @@ public data class VideoTagsGetResponse(
 
 @Serializable
 public data class VideoTag(
-    @SerialName("tag_id") val id: Int? = null,
+    @SerialName("tag_id") val id: Long? = null,
     @SerialName("tag_name") val name: String? = null,
     @SerialName("cover") val cover: String? = null,
     @SerialName("head_cover") val headCover: String? = null,

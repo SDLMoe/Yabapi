@@ -17,7 +17,7 @@ internal class ArticleApiTest {
 
     @Test
     fun getArticleDetailedTest(): Unit = runTest {
-        listOf(15018183, 15018153, 15018213).forEach {
+        longArrayOf(15018183, 15018153, 15018213).forEach {
             client.getArticleDetailed(it)
         }
     }
@@ -25,7 +25,7 @@ internal class ArticleApiTest {
     @Test
     fun getFavoritesInfoTest(): Unit = runTest {
         client.apply {
-            val rlId = getArticleDetailed(15018651)!!.readInfo!!.collection!!.id
+            val rlId = getArticleDetailed(15018651L)!!.readInfo!!.collection!!.id
             getArticleSetInfo(rlId!!)
         }
     }

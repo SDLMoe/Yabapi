@@ -21,10 +21,10 @@ public data class BangumiReviewInfo(
 public data class BangumiMediaReview(
     @SerialName("areas") val areas: List<BangumiArea>? = null,
     @SerialName("cover") val cover: String? = null,
-    @SerialName("media_id") val mediaId: Int? = null,
+    @SerialName("media_id") val mediaId: Long? = null,
     @SerialName("new_ep") val latestEpisode: SimpleBangumiEpisode? = null,
     @SerialName("rating") val rating: BangumiRating? = null,
-    @SerialName("season_id") val seasonId: Int? = null,
+    @SerialName("season_id") val seasonId: Long? = null,
     @SerialName("share_url") val shareUrl: String? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("type_name") val typeName: String? = null,

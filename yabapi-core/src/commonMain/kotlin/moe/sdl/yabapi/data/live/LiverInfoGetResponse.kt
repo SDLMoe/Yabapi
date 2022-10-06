@@ -22,7 +22,7 @@ public data class LiverData(
     @SerialName("info") val info: LiverInfo? = null,
     @SerialName("exp") val exp: LiverExp? = null,
     @SerialName("follower_num") val followerNum: Int? = null,
-    @SerialName("room_id") val roomId: Int? = null, // 短號
+    @SerialName("room_id") val roomId: Long? = null, // 短號
     @SerialName("medal_name") val medalName: String? = null,
     @SerialName("glory_count") val gloryCount: Int? = null,
     @SerialName("pendant") val pendant: String? = null,
@@ -32,7 +32,7 @@ public data class LiverData(
 
 @Serializable
 public data class LiverInfo(
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("uname") val uname: String? = null,
     @SerialName("face") val avatar: String? = null,
     @SerialName("official_verify") val officialCertify: OfficialCertify? = null,

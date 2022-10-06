@@ -72,7 +72,7 @@ public suspend fun BiliClient.getLiveAreas(
 }
 
 public suspend fun BiliClient.getRoomIdByUid(
-    uid: Int,
+    uid: Long,
     context: CoroutineContext = this.context,
 ): RoomIdByUserResponse = withContext(context) {
     logger.debug { "Getting room id of uid $uid" }
@@ -88,7 +88,7 @@ public suspend fun BiliClient.getRoomIdByUid(
  * @see [LiveInitGetResponse]
  */
 public suspend fun BiliClient.getRoomInitInfo(
-    roomId: Int,
+    roomId: Long,
     context: CoroutineContext = this.context,
 ): LiveInitGetResponse = withContext(context) {
     logger.debug { "Getting Room Init Info for room $roomId" }
@@ -100,7 +100,7 @@ public suspend fun BiliClient.getRoomInitInfo(
 }
 
 public suspend fun BiliClient.getRoomInfoByRoomId(
-    roomId: Int,
+    roomId: Long,
     context: CoroutineContext = this.context,
 ): LiveRoomInfoResponse = withContext(context) {
     logger.debug { "Getting Room Info for room $roomId" }
@@ -115,7 +115,7 @@ public suspend fun BiliClient.getRoomInfoByRoomId(
  * 獲取用戶直播信息
  */
 public suspend fun BiliClient.getLiverInfo(
-    mid: Int,
+    mid: Long,
     context: CoroutineContext = this.context,
 ): LiverInfoGetResponse = withContext(context) {
     logger.debug { "Getting liver info for mid $mid..." }
@@ -143,7 +143,7 @@ public suspend fun BiliClient.getLiveIndexList(
  * 驗證房間密碼
  */
 public suspend fun BiliClient.checkLivePwd(
-    id: Int,
+    id: Long,
     pwd: String,
     context: CoroutineContext = this.context,
 ): LiveRoomPwdResponse = withContext(context) {
@@ -160,7 +160,7 @@ public suspend fun BiliClient.checkLivePwd(
  * 獲取直播浮動推薦欄
  */
 public suspend fun BiliClient.getLiveHover(
-    areaId: Int,
+    areaId: Long,
     context: CoroutineContext = this.context,
 ): LiveHoverGetResponse = withContext(context) {
     logger.debug { "Getting live hover of area $areaId..." }
@@ -181,7 +181,7 @@ public suspend inline fun BiliClient.getLiveHover(
  * @see getRoomInitInfo
  */
 public suspend fun BiliClient.getLiveDanmakuInfo(
-    realRoomId: Int,
+    realRoomId: Long,
     context: CoroutineContext = this.context,
 ): LiveDanmakuInfoGetResponse = withContext(context) {
     logger.debug { "Getting live danmaku info for room $realRoomId" }
@@ -205,8 +205,8 @@ public suspend fun BiliClient.getLiveDanmakuInfo(
  * @see LiveDanmakuConnectConfig
  */
 public suspend fun BiliClient.createLiveDanmakuConnection(
-    loginUserMid: Int,
-    realRoomId: Int,
+    loginUserMid: Long,
+    realRoomId: Long,
     token: String,
     host: LiveDanmakuHost,
     context: CoroutineContext = this.context,
@@ -230,7 +230,7 @@ public suspend fun BiliClient.createLiveDanmakuConnection(
  * @see LiveStreamResponse
  */
 public suspend fun BiliClient.fetchLiveStream(
-    roomId: Int,
+    roomId: Long,
     request: LiveStreamRequest = LiveStreamRequest(),
     context: CoroutineContext = this.context,
 ): LiveStreamResponse = withContext(context) {
@@ -293,7 +293,7 @@ public suspend fun BiliClient.getLiveSignLastMonthInfo(
 
 public suspend fun BiliClient.getLiveRank(
     type: LiveRankType,
-    areaId: Int? = null,
+    areaId: Long? = null,
     page: Int = 1,
     pageSize: Int = 20,
     date: String = "week",
@@ -332,8 +332,8 @@ public suspend fun BiliClient.getLiveMedalRank(
 // region =========================== Guard ===========================
 
 public suspend fun BiliClient.getGuardList(
-    roomId: Int,
-    targetUid: Int,
+    roomId: Long,
+    targetUid: Long,
     page: Int = 1,
     pageSize: Int = 29,
     context: CoroutineContext = this.context,

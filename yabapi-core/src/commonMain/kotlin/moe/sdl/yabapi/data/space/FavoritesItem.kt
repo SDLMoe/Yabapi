@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public sealed class BaseFavoritesItem {
-    @SerialName("id") public abstract val id: Int?
-    @SerialName("fid") public abstract val fid: Int?
-    @SerialName("mid") public abstract val mid: Int?
+    @SerialName("id") public abstract val id: Long?
+    @SerialName("fid") public abstract val fid: Long?
+    @SerialName("mid") public abstract val mid: Long?
     @SerialName("attr") public abstract val attribute: Int?
     @SerialName("title") public abstract val title: String?
     @SerialName("fav_state") public abstract val favState: Int?
@@ -16,9 +16,9 @@ public sealed class BaseFavoritesItem {
 
 @Serializable
 public data class FavoritesItem(
-    @SerialName("id") public override val id: Int? = null,
-    @SerialName("fid") public override val fid: Int? = null,
-    @SerialName("mid") public override val mid: Int? = null,
+    @SerialName("id") public override val id: Long? = null,
+    @SerialName("fid") public override val fid: Long? = null,
+    @SerialName("mid") public override val mid: Long? = null,
     @SerialName("attr") public override val attribute: Int? = null,
     @SerialName("title") public override val title: String? = null,
     @SerialName("fav_state") public override val favState: Int? = null,
@@ -27,9 +27,9 @@ public data class FavoritesItem(
 
 @Serializable
 public data class CollectedFavoritesItem(
-    @SerialName("id") public override val id: Int? = null,
-    @SerialName("fid") public override val fid: Int? = null,
-    @SerialName("mid") public override val mid: Int? = null,
+    @SerialName("id") public override val id: Long? = null,
+    @SerialName("fid") public override val fid: Long? = null,
+    @SerialName("mid") public override val mid: Long? = null,
     @SerialName("attr") public override val attribute: Int? = null,
     @SerialName("title") public override val title: String? = null,
     @SerialName("fav_state") public override val favState: Int? = null,
@@ -48,7 +48,7 @@ public data class CollectedFavoritesItem(
 
 @Serializable
 public data class FavoritesOwner(
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("face") val face: String? = null,
 )

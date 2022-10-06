@@ -26,7 +26,7 @@ public data class ArticleInfo(
     @SerialName("stats") val stats: ArticleStats? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("banner_url") val bannerUrl: String? = null,
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("author_name") val authorName: String? = null,
     @SerialName("is_author") val isAuthor: Boolean? = null,
     @SerialName("image_urls") val imageUrls: List<String> = emptyList(),

@@ -13,10 +13,10 @@ public data class RoomIdByUserResponse(
     @SerialName("data") val data: RoomId? = null,
 ) {
     // shortcut
-    inline val roomId: Int?
+    inline val roomId: Long?
         get() = data?.roomId
     @Serializable
     public data class RoomId(
-        @SerialName("room_id") val roomId: Int? = null,
+        @SerialName("room_id") val roomId: Long? = null,
     )
 }

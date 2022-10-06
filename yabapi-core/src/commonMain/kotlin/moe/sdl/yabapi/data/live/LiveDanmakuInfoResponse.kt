@@ -15,7 +15,7 @@ public data class LiveDanmakuInfoGetResponse(
 @Serializable
 public data class LiveDanmakuInfo(
     @SerialName("group") val group: String? = null,
-    @SerialName("business_id") val businessId: Int? = null,
+    @SerialName("business_id") val businessId: Long? = null,
     @SerialName("refresh_row_factor") val refreshRowFactor: Double? = null,
     @SerialName("refresh_rate") val refreshRate: Double? = null,
     @SerialName("max_delay") val maxDelay: Double? = null,

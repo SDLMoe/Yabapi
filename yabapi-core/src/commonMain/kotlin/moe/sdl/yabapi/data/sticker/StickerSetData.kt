@@ -22,7 +22,7 @@ import moe.sdl.yabapi.serializer.BooleanJsSerializer
  */
 @Serializable
 public data class StickerSetData(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("text") val name: String? = null,
     @SerialName("url") val iconUrl: String? = null,
     @SerialName("mtime") val createTime: Long? = null,
@@ -42,7 +42,7 @@ public data class StickerSetData(
 @Serializable
 public data class StickerSetMetadata(
     @SerialName("size") val size: StickerSize = StickerSize.UNKNOWN,
-    @SerialName("item_id") val itemId: Int? = null,
+    @SerialName("item_id") val itemId: Long? = null,
     @SerialName("item_url") val itemUrl: String? = null,
     @SerialName("vip_no_access_text") val needVipText: String? = null,
 )

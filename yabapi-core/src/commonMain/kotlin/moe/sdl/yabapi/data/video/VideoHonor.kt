@@ -17,7 +17,7 @@ public data class VideoHonorData(
  */
 @Serializable
 public data class VideoHonor(
-    @SerialName("aid") val aid: Int? = null,
+    @SerialName("aid") val aid: Long? = null,
     @SerialName("type") val type: Int? = null,
     @SerialName("desc") val description: String? = null,
     @SerialName("weekly_recommend_num") val weeklyRecommendNum: Int? = null,

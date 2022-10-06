@@ -25,14 +25,14 @@ public data class LiveRank(
 ) {
     @Serializable
     public data class User(
-        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uid") val uid: Long? = null,
         @SerialName("rank") val rank: Int? = null,
         @SerialName("isSelf") val isSelf: Boolean? = null,
         @SerialName("score") val score: Long? = null,
         @SerialName("uname") val username: String? = null,
         @SerialName("uface") val avatar: String? = null,
         @SerialName("isMaster") val isLiver: Boolean? = null,
-        @SerialName("roomid") val roomId: Int? = null,
+        @SerialName("roomid") val roomId: Long? = null,
         @SerialName("liveStatus") val status: LiveRoomStatus = LiveRoomStatus.UNKNOWN,
         @SerialName("content") val content: RankInfo? = null,
         @SerialName("type") val type: String? = null,
@@ -41,7 +41,7 @@ public data class LiveRank(
 
     @Serializable
     public data class Self(
-        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uid") val uid: Long? = null,
         @SerialName("uname") val uname: String? = null,
         @SerialName("rank") val rank: String? = null,
         @SerialName("score") val score: String? = null,
@@ -49,7 +49,7 @@ public data class LiveRank(
         @SerialName("content") val content: RankInfo? = null,
         @SerialName("uface") val avatar: String? = null,
         @SerialName("isMaster") val isLiver: Boolean? = null,
-        @SerialName("roomid") val roomId: Int? = null,
+        @SerialName("roomid") val roomId: Long? = null,
         @SerialName("liveStatus") val status: LiveRoomStatus = LiveRoomStatus.UNKNOWN,
     )
 

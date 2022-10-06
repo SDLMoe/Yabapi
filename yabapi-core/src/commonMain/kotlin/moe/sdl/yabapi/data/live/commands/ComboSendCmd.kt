@@ -36,25 +36,25 @@ public data class ComboSendData(
     @SerialName("combo_num") val comboNum: Int? = null,
     @SerialName("combo_total_coin") val comboTotalCoin: Int? = null,
     @SerialName("dmscore") val danmakuScore: Int? = null,
-    @SerialName("gift_id") val giftId: Int? = null,
+    @SerialName("gift_id") val giftId: Long? = null,
     @SerialName("gift_name") val giftName: String? = null,
     @SerialName("gift_num") val giftNum: Int? = null,
     @SerialName("is_show") val isShow: Boolean? = null,
     @SerialName("medal_info") val medalInfo: LiveMedal? = null,
     @SerialName("name_color") val nameColor: String? = null, // 似乎恒为 ""
     @SerialName("r_uname") val targetName: String? = null,
-    @SerialName("ruid") val targetUid: Int? = null,
+    @SerialName("ruid") val targetUid: Long? = null,
     @SerialName("send_master") val sendMaster: JsonElement?, // 恒为 null
     @SerialName("total_num") val totalNum: Int? = null,
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("uname") val username: String? = null, // 发送者的 username
 ) {
     @Serializable
     public data class LiveMedal(
-        @SerialName("anchor_roomid") val roomId: Int? = null, // 房间id
+        @SerialName("anchor_roomid") val roomId: Long? = null, // 房间id
         @SerialName("anchor_uname") val liverName: String? = null, // 主播名称
         @SerialName("guard_level") val guardLevel: GuardLevel = UNKNOWN, // 等级
-        @SerialName("icon_id") val iconId: Int? = null, // icon id
+        @SerialName("icon_id") val iconId: Long? = null, // icon id
         @SerialName("is_lighted") val isLighted: Boolean? = null, // 是否点亮
         @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("medal_color") val medalColor: RgbColor? = null,
@@ -67,6 +67,6 @@ public data class ComboSendData(
         @SerialName("medal_level") val level: Int? = null,
         @SerialName("medal_name") val name: String? = null,
         @SerialName("special") val special: String? = null,
-        @SerialName("target_id") val targetId: Int? = null, // 主播 mid
+        @SerialName("target_id") val targetId: Long? = null, // 主播 mid
     )
 }

@@ -47,7 +47,7 @@ public data class UserToast(
     @SerialName("payflow_id") val payflowId: String, // 账单号
     @SerialName("svga_block") val svgaBlock: Int, // unknown
     @SerialName("target_guard_count") val targetGuardCount: Int, // 主播目前艦長數量
-    @SerialName("uid") val uid: Int, // 用户 uid
+    @SerialName("uid") val uid: Long, // 用户 uid
     @SerialName("user_show") val showUser: Boolean, // 是否显示用户
 ) {
     val operateType: ToastOperateType by lazy { ToastOperateType.fromCode(_operateType) }

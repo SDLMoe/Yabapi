@@ -34,7 +34,7 @@ public data class MasterpieceGetResponse(
 
 @Serializable
 public data class PinnedVideo(
-    @SerialName("aid") val aid: Int? = null,
+    @SerialName("aid") val aid: Long? = null,
     @SerialName("videos") val videos: Int? = null,
     @SerialName("tid") val tid: VideoType = Unknown,
     @SerialName("tname") val typeName: String? = null,
@@ -46,14 +46,14 @@ public data class PinnedVideo(
     @SerialName("desc") val description: String? = null,
     @SerialName("state") val state: Int? = null,
     @SerialName("duration") val duration: Int? = null, // s
-    @SerialName("mission_id") val missionId: Int? = null,
+    @SerialName("mission_id") val missionId: Long? = null,
     @SerialName("rights") val rights: VideoRights? = null,
     @SerialName("owner") val owner: VideoOwner? = null,
     @SerialName("stat") val stat: VideoStat? = null,
     @SerialName("dynamic") val dynamic: String? = null,
-    @SerialName("cid") val cid: Int? = null,
+    @SerialName("cid") val cid: Long? = null,
     @SerialName("dimension") val dimension: VideoDimension? = null,
-    @SerialName("season_id") val seasonId: Int? = null,
+    @SerialName("season_id") val seasonId: Long? = null,
     @SerialName("short_link_v2") val shortLinkV2: String? = null,
     @SerialName("first_frame") val firstFrame: String? = null,
     @SerialName("bvid") val bvId: String? = null,

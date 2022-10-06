@@ -33,9 +33,9 @@ public data class SendGiftData(
     @SerialName("beatId") val beatId: String? = null,
     @SerialName("biz_source") val bizSource: String? = null, // "Live" or "live"
     @SerialName("blind_gift") val blindGift: BlindGift? = null,
-    @SerialName("broadcast_id") val broadcastId: Int? = null,
+    @SerialName("broadcast_id") val broadcastId: Long? = null,
     @SerialName("coin_type") val coinType: String? = null,
-    @SerialName("combo_resources_id") val comboResourcesId: Int? = null,
+    @SerialName("combo_resources_id") val comboResourcesId: Long? = null,
     @SerialName("combo_send") val comboSend: ComboSend? = null,
     @SerialName("combo_stay_time") val comboStayTime: Int? = null,
     @SerialName("combo_total_coin") val comboTotalCoin: Int? = null,
@@ -47,8 +47,8 @@ public data class SendGiftData(
     @SerialName("effect") val effect: Int? = null,
     @SerialName("effect_block") val effectBlock: Int? = null,
     @SerialName("face") val avatar: String? = null,
-    @SerialName("float_sc_resource_id") val floatScResourceId: Int? = null,
-    @SerialName("giftId") val giftId: Int? = null,
+    @SerialName("float_sc_resource_id") val floatScResourceId: Long? = null,
+    @SerialName("giftId") val giftId: Long? = null,
     @SerialName("giftName") val giftName: String? = null,
     @SerialName("giftType") val giftType: Int? = null,
     @SerialName("gold") val gold: Int? = null,
@@ -75,7 +75,7 @@ public data class SendGiftData(
     @SerialName("timestamp") val timestamp: Long? = null,
     @SerialName("top_list") val topList: JsonElement? = null, // 似乎恒为 null
     @SerialName("total_coin") val totalCoin: Int? = null,
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("uname") val uname: String? = null,
 ) {
     @Serializable
@@ -83,20 +83,20 @@ public data class SendGiftData(
         @SerialName("action") val action: String? = null,
         @SerialName("combo_id") val comboId: String? = null,
         @SerialName("combo_num") val comboNum: Int? = null,
-        @SerialName("gift_id") val giftId: Int? = null,
+        @SerialName("gift_id") val giftId: Long? = null,
         @SerialName("gift_name") val giftName: String? = null,
         @SerialName("gift_num") val giftNum: Int? = null,
         @SerialName("send_master") val sendMaster: JsonElement? = null,
-        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uid") val uid: Long? = null,
         @SerialName("uname") val username: String? = null,
     )
 
     @Serializable
     public data class LiveMedal(
-        @SerialName("anchor_roomid") val roomId: Int? = null, // 房间id
+        @SerialName("anchor_roomid") val roomId: Long? = null, // 房间id
         @SerialName("anchor_uname") val liverName: String? = null, // 主播名称
         @SerialName("guard_level") val guardLevel: GuardLevel = UNKNOWN, // 等级
-        @SerialName("icon_id") val iconId: Int? = null, // icon id
+        @SerialName("icon_id") val iconId: Long? = null, // icon id
         @SerialName("is_lighted") val isLighted: Boolean? = null, // 是否点亮
         @Serializable(RgbColorIntSerializerNullable::class)
         @SerialName("medal_color") val medalColor: RgbColor? = null,
@@ -110,6 +110,6 @@ public data class SendGiftData(
         @SerialName("medal_name") val name: String? = null,
         @SerialName("special") val special: String? = null,
         @SerialName("score") val score: Int? = null,
-        @SerialName("target_id") val targetId: Int? = null, // 主播 mid
+        @SerialName("target_id") val targetId: Long? = null, // 主播 mid
     )
 }

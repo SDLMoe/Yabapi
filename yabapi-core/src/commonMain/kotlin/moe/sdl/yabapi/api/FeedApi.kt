@@ -37,7 +37,7 @@ public suspend fun BiliClient.getFeedContent(
 }
 
 public suspend fun BiliClient.getNewFeed(
-    currentUid: Int,
+    currentUid: Long,
     types: IntArray,
     from: String = "weball",
     platform: String = "web",
@@ -56,7 +56,7 @@ public suspend fun BiliClient.getNewFeed(
 }
 
 public suspend fun BiliClient.getHistoryFeed(
-    currentUid: Int,
+    currentUid: Long,
     types: IntArray,
     offset: ULong,
     from: String = "weball",
@@ -77,8 +77,8 @@ public suspend fun BiliClient.getHistoryFeed(
 }
 
 public suspend fun BiliClient.getFeedByUid(
-    currentUid: Int,
-    targetUid: Int,
+    currentUid: Long,
+    targetUid: Long,
     offset: ULong = 0uL,
     platform: String = "web",
     needTop: Boolean = true,

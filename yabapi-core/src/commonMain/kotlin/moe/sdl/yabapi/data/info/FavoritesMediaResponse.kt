@@ -25,12 +25,12 @@ public data class FavoritesMediaData(
 
 @Serializable
 public data class FavoritesMediaNode(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("type") val type: Int? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("cover") val cover: String? = null,
     @SerialName("intro") val intro: String? = null,
-    @SerialName("page") val page: Int? = null,
+    @SerialName("page") val page: Long? = null,
     @SerialName("duration") val duration: Long? = null,
     @SerialName("upper") val upper: VideoOwner? = null,
     @SerialName("attr") val attr: Int? = null,
@@ -56,11 +56,11 @@ public data class FavoritesMediaNode(
     public data class OgvInfo(
         @SerialName("type_name") val typeName: String? = null,
         @SerialName("type_id") val typeId: BangumiType? = null,
-        @SerialName("season_id") val seasonId: Int? = null,
+        @SerialName("season_id") val seasonId: Long? = null,
     )
 
     @Serializable
     public data class UgcInfo(
-        @SerialName("first_cid") val firstCid: Int? = null,
+        @SerialName("first_cid") val firstCid: Long? = null,
     )
 }

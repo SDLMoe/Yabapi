@@ -19,9 +19,9 @@ public data class FavoritesInfoResponse(
 
 @Serializable
 public data class FavoritesInfoData(
-    @SerialName("id") val id: Int? = null,
-    @SerialName("fid") val fid: Int? = null,
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("id") val id: Long? = null,
+    @SerialName("fid") val fid: Long? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("attr") val attr: Int? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("cover") val cover: String? = null,
@@ -39,7 +39,7 @@ public data class FavoritesInfoData(
 ) {
     @Serializable
     public data class FavoritesOwner(
-        @SerialName("mid") val mid: Int? = null,
+        @SerialName("mid") val mid: Long? = null,
         @SerialName("name") val name: String? = null,
         @SerialName("face") val avatar: String? = null,
         @SerialName("followed") val followed: Boolean? = null,

@@ -32,7 +32,7 @@ public data class MessageSessions(
 
 @Serializable
 public data class SessionNode(
-    @SerialName("talker_id") val talkerId: Int? = null,
+    @SerialName("talker_id") val talkerId: Long? = null,
     @SerialName("session_type") val sessionType: Int? = null,
     @SerialName("at_seqno") val atSeq: ULong? = null,
     @SerialName("top_ts") val topTs: ULong? = null,

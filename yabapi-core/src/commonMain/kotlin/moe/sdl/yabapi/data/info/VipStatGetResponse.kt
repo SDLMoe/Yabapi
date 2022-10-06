@@ -32,7 +32,7 @@ public data class VipStatGetResponse(
  */
 @Serializable
 public data class VipStatGetData(
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("vip_type") val vipType: VipType? = null,
     @SerialName("vip_status") val vipStatus: VipStatus? = null,
     @SerialName("vip_due_date") val vipDueDate: Long? = null,

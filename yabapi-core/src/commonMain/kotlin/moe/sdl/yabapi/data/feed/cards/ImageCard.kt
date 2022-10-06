@@ -23,7 +23,7 @@ public data class ImageCard(
         @SerialName("at_control") val atControl: String? = null,
         @SerialName("category") val category: String? = null,
         @SerialName("description") val description: String? = null, // 內容
-        @SerialName("id") val id: Int? = null,
+        @SerialName("id") val id: Long? = null,
         @SerialName("is_fav") val isFav: Boolean? = null,
         @SerialName("pictures") val pictures: List<CardPicture> = emptyList(),
         @SerialName("pictures_count") val picturesCount: Int? = null,
@@ -46,7 +46,7 @@ public data class ImageCard(
     public data class User(
         @SerialName("head_url") val headUrl: String? = null,
         @SerialName("name") val name: String? = null,
-        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uid") val uid: Long? = null,
         @SerialName("vip") val vip: UserVip? = null,
     )
 

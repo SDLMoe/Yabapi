@@ -20,8 +20,8 @@ public data class LotCheckStatusCmd(
 
 @Serializable
 public data class LotStatusData(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("reject_reason") val rejectReason: String? = null, // 若 status 爲 REVIEW FAILED 則存在
     @SerialName("status") val status: LotStatus = UNKNOWN,
-    @SerialName("uid") val uid: Int? = null, // 主播 Uid
+    @SerialName("uid") val uid: Long? = null, // 主播 Uid
 )

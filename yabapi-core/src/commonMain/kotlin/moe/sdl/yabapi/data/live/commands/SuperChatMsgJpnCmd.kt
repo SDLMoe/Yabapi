@@ -16,7 +16,7 @@ import moe.sdl.yabapi.serializer.data.RgbColorStringSerializerNullable
 public data class SuperChatMsgJpnCmd(
     @SerialName("cmd") override val operation: String,
     @SerialName("data") val data: SuperChatJpnData? = null,
-    @SerialName("roomid") val roomid: Int? = null,
+    @SerialName("roomid") val roomId: Long? = null,
 ) : LiveCommand {
 
     public companion object : LiveCommandFactory() {
@@ -54,16 +54,16 @@ public data class SuperChatJpnData(
     @SerialName("end_time") val endTime: Long? = null,
     @SerialName("gift") val gift: SuperChatLiveGift? = null, // name: 醒目留言 id: 12000
 ) {
-    val id: Int? by lazy { _id?.toIntOrNull() }
-    val uid: Int? by lazy { _uid?.toIntOrNull() }
+    val id: Long? by lazy { _id?.toLongOrNull() }
+    val uid: Long? by lazy { _uid?.toLongOrNull() }
 
     @Serializable
     public data class LiveMedal(
-        @SerialName("icon_id") val iconId: Int? = null, // icon id
-        @SerialName("target_id") val targetId: Int? = null, // 主播 mid
+        @SerialName("icon_id") val iconId: Long? = null, // icon id
+        @SerialName("target_id") val targetId: Long? = null, // 主播 mid
         @SerialName("special") val special: String? = null,
         @SerialName("anchor_uname") val liverName: String? = null, // 主播名称
-        @SerialName("anchor_roomid") val roomId: Int? = null, // 房间id
+        @SerialName("anchor_roomid") val roomId: Long? = null, // 房间id
         @SerialName("medal_level") val level: Int? = null,
         @SerialName("medal_name") val name: String? = null,
         @Serializable(RgbColorStringSerializerNullable::class)

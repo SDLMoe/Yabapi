@@ -22,7 +22,7 @@ public data class UserSpaceGetResponse(
 
 @Serializable
 public data class UserSpace(
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("sex") val sex: String? = null,
     @SerialName("face") val avatar: String? = null,
@@ -63,9 +63,9 @@ public data class UserFansMedal(
 
 @Serializable
 public data class UserSpaceFanMedal(
-    @SerialName("uid") val uid: Int? = null,
-    @SerialName("target_id") val targetId: Int? = null,
-    @SerialName("medal_id") val medalId: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
+    @SerialName("target_id") val targetId: Long? = null,
+    @SerialName("medal_id") val medalId: Long? = null,
     @SerialName("level") val level: Int? = null,
     @SerialName("medal_name") val name: String? = null,
     @SerialName("medal_color") val color: String? = null,
@@ -85,14 +85,14 @@ public data class UserSpaceFanMedal(
 
 @Serializable
 public data class UserHonourInfo(
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("colour") val colour: String? = null,
     @SerialName("tags") val tags: List<String> = emptyList(),
 )
 
 @Serializable
 public data class SpaceNotice(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("content") val content: String? = null,
     @SerialName("url") val url: String? = null,
     @SerialName("notice_type") val noticeType: Int? = null,
@@ -108,7 +108,7 @@ public data class SchoolInfo(
 
 @Serializable
 public data class UserProfession(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("show_name") val showName: String? = null,
     @SerialName("is_show") val isShow: Boolean? = null,
@@ -126,7 +126,7 @@ public data class LiveRoomInfo(
     @SerialName("title") val title: String? = null,
     @SerialName("cover") val cover: String? = null,
     @SerialName("online") val online: Int? = null,
-    @SerialName("roomid") val roomId: Int? = null,
+    @SerialName("roomid") val roomId: Long? = null,
     @SerialName("roundStatus") val isRounding: Int? = null,
     @SerialName("broadcast_type") val broadcastType: Int? = null,
     @SerialName("watched_show") val watchedShow: WatchedShow? = null,

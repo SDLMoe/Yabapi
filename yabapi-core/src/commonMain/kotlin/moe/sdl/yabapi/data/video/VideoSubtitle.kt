@@ -23,7 +23,7 @@ public data class SubtitleTrack(
     @SerialName("lan") val language: String? = null,
     @SerialName("lan_doc") val languageName: String? = null,
     @SerialName("is_lock") val isLocked: Boolean? = null,
-    @SerialName("author_mid") val authorMid: Int? = null,
+    @SerialName("author_mid") val authorMid: Long? = null,
     @SerialName("subtitle_url") val subtitleUrl: String? = null,
     @SerialName("type") val type: Int? = null,
     @SerialName("id_str") val idStr: String? = null,
@@ -32,7 +32,7 @@ public data class SubtitleTrack(
 
 @Serializable
 public data class SubtitleAuthor(
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("sex") val sex: String? = null,
     @SerialName("face") val avatar: String? = null,

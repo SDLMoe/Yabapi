@@ -49,7 +49,7 @@ private val logger by lazy { Logger("RelationApi") }
  * @param pageCount 每頁多少項
  */
 public suspend fun BiliClient.getFans(
-    mid: Int,
+    mid: Long,
     page: Int = 1,
     pageCount: Int = 50,
 ): RelationGetResponse = withContext(context) {
@@ -71,7 +71,7 @@ public suspend fun BiliClient.getFans(
  * @param order 順序 [FollowingOrder], 可選 [FollowingOrder.MOST_FREQUENT] 按訪問頻次排序
  */
 public suspend fun BiliClient.getFollowing(
-    mid: Int,
+    mid: Long,
     page: Int = 1,
     pageCount: Int = 50,
     order: FollowingOrder = TIME,
@@ -97,7 +97,7 @@ public suspend fun BiliClient.getFollowing(
  * @param pageCount 每頁多少項
  */
 public suspend fun BiliClient.searchFollowing(
-    mid: Int,
+    mid: Long,
     keyword: String,
     page: Int = 1,
     pageCount: Int = 50,
@@ -120,7 +120,7 @@ public suspend fun BiliClient.searchFollowing(
  * @param pageCount 每頁多少項
  */
 public suspend fun BiliClient.getCoFollowing(
-    mid: Int,
+    mid: Long,
     page: Int = 1,
     pageCount: Int = 50,
 ): RelationGetResponse = withContext(context) {
@@ -177,7 +177,7 @@ public suspend fun BiliClient.getBlacklist(
  * @param source 關注來源 [SubscribeSource]
  */
 public suspend fun BiliClient.modifyRelation(
-    mid: Int,
+    mid: Long,
     action: RelationAction,
     source: SubscribeSource = SPACE,
     context: CoroutineContext = this.context,
@@ -206,7 +206,7 @@ private val allowedBatchAction by lazy { listOf(RelationAction.SUB, ADD_BLACKLIS
  * @param source 關注來源 [SubscribeSource]
  */
 public suspend fun BiliClient.modifyRelation(
-    mids: IntArray,
+    mids: LongArray,
     action: RelationAction,
     source: SubscribeSource = SPACE,
     context: CoroutineContext = this.context,
@@ -232,7 +232,7 @@ public suspend fun BiliClient.modifyRelation(
  * @see RelationQueryResponse
  */
 public suspend fun BiliClient.queryRelation(
-    mid: Int,
+    mid: Long,
     context: CoroutineContext = this.context,
 ): RelationQueryResponse = withContext(context) {
     logger.debug { "Querying relation to mid $mid..." }
@@ -249,7 +249,7 @@ public suspend fun BiliClient.queryRelation(
  * @see RelationQueryBatchResponse
  */
 public suspend fun BiliClient.queryRelation(
-    vararg mid: Int,
+    vararg mid: Long,
     context: CoroutineContext = this.context,
 ): RelationQueryBatchResponse = withContext(context) {
     logger.debug { "Querying relation to mids ${mid.contentToString()}..." }
@@ -266,7 +266,7 @@ public suspend fun BiliClient.queryRelation(
  * @see RelationQueryMutuallyResponse
  */
 public suspend fun BiliClient.queryRelationMutually(
-    mid: Int,
+    mid: Long,
     context: CoroutineContext = this.context,
 ): RelationQueryMutuallyResponse = withContext(context) {
     logger.debug { "Querying relation mutually to mid $mid..." }

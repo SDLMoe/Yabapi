@@ -13,7 +13,7 @@ private val logger by lazy { Logger("VideoType") }
 public sealed class VideoType(
     public val name: String,
     public val code: String,
-    public val tid: Int,
+    public val tid: Long,
     public val route: String,
     public val parent: VideoType? = null,
 ) {
@@ -49,7 +49,7 @@ public sealed class VideoType(
         )
 
         public fun getAllUrl(): List<String> = getAllTypes().map { it.getUrl() }
-        public fun fromTid(tid: Int): VideoType = getAllTypes().firstOrNull { it.tid == tid } ?: run {
+        public fun fromTid(tid: Long): VideoType = getAllTypes().firstOrNull { it.tid == tid } ?: run {
             logger.debug { "Unexpected VideoType Id: $tid, fallback to Unknown" }
             Unknown
         }

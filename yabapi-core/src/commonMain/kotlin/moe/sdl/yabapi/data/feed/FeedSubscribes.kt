@@ -6,12 +6,12 @@ import moe.sdl.yabapi.data.bangumi.BangumiType
 
 @Serializable
 public data class FeedSubscribes(
-    @SerialName("uids") val uids: List<Int> = emptyList(),
+    @SerialName("uids") val uids: List<Long> = emptyList(),
     @SerialName("bangumis") val bangumis: List<FeedBangumiSub> = emptyList(),
 )
 
 @Serializable
 public data class FeedBangumiSub(
-    @SerialName("season_id") val seasonId: Int? = null,
+    @SerialName("season_id") val seasonId: Long? = null,
     @SerialName("type") val type: BangumiType? = BangumiType.UNKNOWN,
 )

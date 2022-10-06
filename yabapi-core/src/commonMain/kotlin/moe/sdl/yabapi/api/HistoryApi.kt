@@ -37,7 +37,7 @@ import moe.sdl.yabapi.enums.history.HistoryType.ARTICLE
 import moe.sdl.yabapi.enums.history.HistoryType.LIVE
 import moe.sdl.yabapi.enums.history.HistoryType.VIDEO
 import moe.sdl.yabapi.util.Logger
-import moe.sdl.yabapi.util.encoding.avInt
+import moe.sdl.yabapi.util.encoding.av
 import moe.sdl.yabapi.util.requireXnorNullable
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
@@ -67,7 +67,7 @@ private val logger by lazy { Logger("HistoryApi") }
  */
 public suspend fun BiliClient.getHistory(
     filterType: HistoryType? = null,
-    fromId: Int? = null,
+    fromId: Long? = null,
     idType: HistoryType? = null,
     fromTime: Long = 0,
     pageCount: Int = 20,
@@ -89,7 +89,7 @@ public suspend fun BiliClient.getHistory(
 }
 
 public suspend fun BiliClient.deleteHistory(
-    targetId: Int,
+    targetId: Long,
     type: HistoryType,
     context: CoroutineContext = this.context,
 ): HistoryDeleteResponse = withContext(context) {
@@ -167,7 +167,7 @@ public suspend fun BiliClient.getLaterWatch(
 }
 
 private suspend fun BiliClient.addLaterWatch(
-    aid: Int?,
+    aid: Long?,
     bid: String?,
     context: CoroutineContext = this.context,
 ): LaterWatchAddResponse = withContext(context) {
@@ -184,7 +184,7 @@ private suspend fun BiliClient.addLaterWatch(
 }
 
 public suspend fun BiliClient.addLaterWatch(
-    aid: Int,
+    aid: Long,
     context: CoroutineContext = this.context,
 ): LaterWatchAddResponse {
     logger.debug { "Adding Later Watch For av$aid..." }
@@ -204,8 +204,8 @@ public suspend fun BiliClient.addLaterWatch(
 }
 
 public suspend fun BiliClient.addChannelToLaterWatch(
-    collectionId: Int,
-    targetUid: Int,
+    collectionId: Long,
+    targetUid: Long,
     context: CoroutineContext = this.context,
 ): LaterWatchAddChannelResponse = withContext(context) {
     logger.debug { "Adding channel $collectionId mid $targetUid to later watching..." }
@@ -228,7 +228,7 @@ public suspend fun BiliClient.addChannelToLaterWatch(
 }
 
 private suspend fun BiliClient.deleteLaterWatchRaw(
-    avToDelete: Int? = null,
+    avToDelete: Long? = null,
     deleteViewed: Boolean = false,
     context: CoroutineContext = this.context,
 ) = withContext(context) {
@@ -249,7 +249,7 @@ private suspend fun BiliClient.deleteLaterWatchRaw(
 }
 
 public suspend fun BiliClient.deleteLaterWatch(
-    avToDelete: Int,
+    avToDelete: Long,
     deleteViewed: Boolean = false,
     context: CoroutineContext = this.context,
 ): LaterWatchDeleteResponse = deleteLaterWatchRaw(avToDelete, deleteViewed, context)
@@ -258,7 +258,7 @@ public suspend fun BiliClient.deleteLaterWatch(
     bvToDelete: String,
     deleteViewed: Boolean = false,
     context: CoroutineContext = this.context,
-): LaterWatchDeleteResponse = deleteLaterWatchRaw(bvToDelete.avInt, deleteViewed, context)
+): LaterWatchDeleteResponse = deleteLaterWatchRaw(bvToDelete.av, deleteViewed, context)
 
 public suspend fun BiliClient.deleteViewedLaterWatch(
     context: CoroutineContext = this.context,

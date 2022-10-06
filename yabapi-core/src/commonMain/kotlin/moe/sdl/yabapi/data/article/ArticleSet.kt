@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class ArticleSet(
-    @SerialName("id") val id: Int? = null,
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("id") val id: Long? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("image_url") val imageUrl: String? = null,
     @SerialName("update_time") val updateTime: Long? = null,

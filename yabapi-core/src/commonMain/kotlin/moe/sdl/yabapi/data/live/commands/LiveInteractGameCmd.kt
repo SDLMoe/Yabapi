@@ -25,10 +25,10 @@ public data class LiveInteractGameCmd(
 @Serializable
 public data class LiveGameData(
     @SerialName("type") val type: Int? = null,
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("uname") val userName: String? = null,
     @SerialName("uface") val userAvatar: String? = null,
-    @SerialName("gift_id") val giftId: Int? = null,
+    @SerialName("gift_id") val giftId: Long? = null,
     @SerialName("gift_name") val giftName: String? = null,
     @SerialName("gift_num") val giftNum: Int? = null,
     @SerialName("price") val price: Int? = null,
@@ -43,7 +43,7 @@ public data class LiveGameData(
 ) {
     @Serializable
     public data class AnchorInfo(
-        @SerialName("uid") val uid: Int? = null,
+        @SerialName("uid") val uid: Long? = null,
         @SerialName("uname") val userName: String? = null,
         @SerialName("uface") val userAvatar: String? = null,
     )

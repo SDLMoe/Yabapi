@@ -24,7 +24,7 @@ public data class LiveHover(
 ) {
     @Serializable
     public data class Room(
-        @SerialName("area_id") val areaId: Int? = null,
+        @SerialName("area_id") val areaId: Long? = null,
         @SerialName("area_name") val areaName: String? = null,
         @SerialName("pic") val pic: String? = null,
         @SerialName("is_hot") val isHot: Boolean? = null,
@@ -33,7 +33,7 @@ public data class LiveHover(
     )
     @Serializable
     public data class Banner(
-        @SerialName("id") val id: Int? = null,
+        @SerialName("id") val id: Long? = null,
         @SerialName("img") val img: String? = null,
         @SerialName("url") val url: String? = null,
     )

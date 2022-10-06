@@ -24,7 +24,7 @@ public data class ArticleSetInfoData(
 
 @Serializable
 public data class SimpleArticleInfo(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("title") val title: String? = null,
     @SerialName("state") val state: Int? = null,
     @SerialName("publish_time") val releaseTime: Long? = null,

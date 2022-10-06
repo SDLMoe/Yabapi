@@ -24,7 +24,7 @@ internal class LiveApiTest {
     @Test
     fun generateAreasCode(): Unit = runTest {
         val sb = StringBuilder()
-        sb.appendLine("public sealed class LiveArea(val id: Int, val name: String) {")
+        sb.appendLine("public sealed class LiveArea(val id: Long, val name: String) {")
         client.getLiveAreas().data.sortedBy {
             it.id
         }.forEach {
@@ -45,7 +45,7 @@ internal class LiveApiTest {
         client.getLiverInfo(63231)
     }
 
-    suspend fun createConnection(roomId: Int, config: LiveDanmakuConnectConfig.() -> Unit = {}) {
+    suspend fun createConnection(roomId: Long, config: LiveDanmakuConnectConfig.() -> Unit = {}) {
         val realId = client.getRoomInitInfo(roomId).data?.roomId ?: error("Get init info failed")
         val danmakuInfoData = client.getLiveDanmakuInfo(realId).data ?: error("Get live server failed")
         val loginUserMid = client.getBasicInfo().data.mid ?: error("Not login")
@@ -84,7 +84,7 @@ internal class LiveApiTest {
     @Test
     fun connectTest() {
         runTest {
-            val roomId = 4788550
+            val roomId = 4788550L
             createConnection(roomId)
         }
     }
@@ -92,7 +92,7 @@ internal class LiveApiTest {
     @Test
     fun serializeTest() {
         runTest {
-            val roomId = 7777
+            val roomId = 7777L
             createConnection(roomId) {
                 onCommandResponse { // flow ->
                     // flow.collect {}

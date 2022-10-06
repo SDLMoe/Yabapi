@@ -35,12 +35,12 @@ public data class SpaceVideoList(
 public data class SpaceTypeNode(
     @SerialName("count") val count: Int? = null,
     @SerialName("name") val name: String? = null,
-    @SerialName("tid") val tid: Int? = null,
+    @SerialName("tid") val tid: Long? = null,
 )
 
 @Serializable
 public data class SpaceVideoNode(
-    @SerialName("aid") val aid: Int? = null,
+    @SerialName("aid") val aid: Long? = null,
     @SerialName("author") val author: String? = null,
     @SerialName("bvid") val bvid: String? = null,
     @SerialName("comment") val comment: Int? = null,
@@ -53,7 +53,7 @@ public data class SpaceVideoNode(
     @SerialName("is_steins_gate") val isInteractive: Boolean? = null, // 互動視頻
     @SerialName("is_live_playback") val isLivePlayback: Boolean? = null, // 直播回放
     @SerialName("length") val length: String? = null, // MM:SS
-    @SerialName("mid") val mid: Int? = null,
+    @SerialName("mid") val mid: Long? = null,
     @SerialName("pic") val cover: String? = null,
     @SerialName("play") val play: Int? = null,
     @SerialName("review") val review: Int? = null,

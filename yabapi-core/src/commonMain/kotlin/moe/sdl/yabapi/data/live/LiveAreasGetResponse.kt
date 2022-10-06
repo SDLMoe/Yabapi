@@ -15,16 +15,16 @@ public data class LiveAreasGetResponse(
 
 @Serializable
 public data class LiveArea(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("list") val list: List<LiveSubArea> = emptyList(),
 )
 
 @Serializable
 public data class LiveSubArea(
-    @SerialName("id") val id: Int? = null,
-    @SerialName("parent_id") val parentId: Int? = null,
-    @SerialName("old_area_id") val oldAreaId: Int? = null,
+    @SerialName("id") val id: Long? = null,
+    @SerialName("parent_id") val parentId: Long? = null,
+    @SerialName("old_area_id") val oldAreaId: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("act_id") val actId: String? = null,
     @SerialName("pk_status") val pkStatus: String? = null,

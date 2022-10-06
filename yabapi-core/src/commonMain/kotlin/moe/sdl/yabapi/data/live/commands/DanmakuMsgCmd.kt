@@ -82,7 +82,7 @@ public data class DanmakuMsgCmdData(
 
             val user = userInfo?.run {
                 LiveUser(
-                    mid = getInt(0),
+                    mid = getLong(0),
                     name = getString(1),
                     isRoomAdmin = getIntBoolean(2),
                     isMonthVip = getIntBoolean(3),
@@ -99,7 +99,7 @@ public data class DanmakuMsgCmdData(
                     level = getInt(0),
                     name = getString(1),
                     liverName = getString(2),
-                    roomId = getInt(3),
+                    roomId = getLong(3),
                     color1 = getInt(4),
                     color2 = getInt(7),
                     color3 = getInt(8),
@@ -126,7 +126,7 @@ public data class DanmakuMsgCmdData(
 
 @Serializable
 public data class LiveUser(
-    val mid: Int? = null,
+    val mid: Long? = null,
     val name: String? = null,
     val isRoomAdmin: Boolean? = null,
     val isMonthVip: Boolean? = null,
@@ -139,7 +139,7 @@ public data class LiveFansMedal(
     val level: Int? = null,
     val name: String? = null,
     val liverName: String? = null,
-    val roomId: Int? = null,
+    val roomId: Long? = null,
     val color1: Int? = null,
     val color2: Int? = null,
     val color3: Int? = null,

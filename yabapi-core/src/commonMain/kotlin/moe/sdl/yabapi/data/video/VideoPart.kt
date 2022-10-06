@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class VideoPart(
-    @SerialName("cid") val cid: Int? = null,
-    @SerialName("page") val part: Int? = null,
+    @SerialName("cid") val cid: Long? = null,
+    @SerialName("page") val part: Long? = null,
     @SerialName("from") val from: String? = null,
     @SerialName("part") val name: String? = null,
     @SerialName("duration") val duration: Long? = null, // s

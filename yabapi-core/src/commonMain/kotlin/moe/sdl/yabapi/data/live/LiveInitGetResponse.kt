@@ -29,9 +29,9 @@ public data class LiveInitGetResponse(
 
 @Serializable
 public data class LiveInitData(
-    @SerialName("room_id") val roomId: Int? = null,
-    @SerialName("short_id") val shortId: Int? = null,
-    @SerialName("uid") val uid: Int? = null,
+    @SerialName("room_id") val roomId: Long? = null,
+    @SerialName("short_id") val shortId: Long? = null,
+    @SerialName("uid") val uid: Long? = null,
     @SerialName("need_p2p") val needP2p: Boolean? = null,
     @SerialName("is_hidden") val isHidden: Boolean? = null,
     @SerialName("is_locked") val isLocked: Boolean? = null,

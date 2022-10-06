@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class UserNameplateData(
-    @SerialName("nid") val nid: Int? = null,
+    @SerialName("nid") val nid: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("image") val image: String? = null,
     @SerialName("image_small") val smallImage: String? = null,

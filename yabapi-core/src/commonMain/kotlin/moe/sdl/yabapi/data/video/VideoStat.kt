@@ -21,7 +21,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public data class VideoStat(
-    @SerialName("aid") val aid: Int? = null,
+    @SerialName("aid") val aid: Long? = null,
     @SerialName("view") val view: Int? = null,
     @SerialName("danmaku") val danmaku: Int? = null,
     @SerialName("reply") val reply: Int? = null,
@@ -39,8 +39,8 @@ public data class VideoStat(
 // just tiny difference, can replace with @JsonNames, but it's in Experimental
 @Serializable
 public data class UgcSeasonStat(
-    @SerialName("season_id") val seasonId: Int? = null,
-    @SerialName("aid") val aid: Int? = null,
+    @SerialName("season_id") val seasonId: Long? = null,
+    @SerialName("aid") val aid: Long? = null,
     @SerialName("view") val view: Int? = null,
     @SerialName("danmaku") val danmaku: Int? = null,
     @SerialName("reply") val reply: Int? = null,

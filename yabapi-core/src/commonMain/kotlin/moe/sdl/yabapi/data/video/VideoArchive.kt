@@ -7,7 +7,7 @@ import moe.sdl.yabapi.enums.video.VideoType
 
 @Serializable
 public data class VideoArchive(
-    @SerialName("aid") val aid: Int? = null,
+    @SerialName("aid") val aid: Long? = null,
     @SerialName("videos") val partsCount: Int? = null,
     @SerialName("type_id") val videoType: VideoType? = null,
     @SerialName("type_name") val videoTypeName: String? = null,
@@ -21,7 +21,7 @@ public data class VideoArchive(
     @SerialName("state") val state: VideoState? = null,
     @SerialName("duration") val duration: Long? = null,
     @SerialName("forward") val forward: Int? = null,
-    @SerialName("mission_id") val missionId: Int? = null,
+    @SerialName("mission_id") val missionId: Long? = null,
     @SerialName("redirect_url") val redirectUrl: String? = null,
     @SerialName("rights") val rights: VideoRights? = null,
     @SerialName("author") val owner: VideoOwner? = null,

@@ -54,8 +54,8 @@ private val logger by lazy { Logger("LiveMessageConnection") }
 private typealias Wss = DefaultClientWebSocketSession
 
 internal class LiveMessageConnection(
-    private val loginUserMid: Int,
-    private val realRoomId: Int,
+    private val loginUserMid: Long,
+    private val realRoomId: Long,
     private val token: String,
     private val host: LiveDanmakuHost,
     private val client: HttpClient,
@@ -242,18 +242,22 @@ public class LiveDanmakuConnectConfig {
     public var onRawCommandResponse: suspend Wss.(command: Flow<RawLiveCommand>) -> Unit = {}
 }
 
+@Suppress("NOTHING_TO_INLINE")
 public inline fun Config.onHeartbeatResponse(noinline block: suspend Wss.(popular: Flow<UInt>) -> Unit) {
     onHeartbeatResponse = block
 }
 
+@Suppress("NOTHING_TO_INLINE")
 public inline fun Config.onCertificateResponse(noinline block: suspend Wss.(response: Flow<CertificatePacketResponse>) -> Unit) {
     onCertificateResponse = block
 }
 
+@Suppress("NOTHING_TO_INLINE")
 public inline fun Config.onCommandResponse(noinline block: suspend Wss.(command: Flow<LiveCommand>) -> Unit) {
     onCommandResponse = block
 }
 
+@Suppress("NOTHING_TO_INLINE")
 public inline fun Config.onRawCommandResponse(noinline block: suspend Wss.(command: Flow<RawLiveCommand>) -> Unit) {
     onRawCommandResponse = block
 }
