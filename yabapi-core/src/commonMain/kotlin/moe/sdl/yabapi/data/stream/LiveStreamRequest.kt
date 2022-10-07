@@ -18,8 +18,8 @@ public data class LiveStreamRequest(
 internal fun HttpRequestBuilder.putLiveStreamRequest(request: LiveStreamRequest) {
     request.apply {
         parameter("protocol", protocols.joinToString(",") { it.code.toString() })
-        parameter("format", protocols.joinToString(",") { it.code.toString() })
-        parameter("codec", protocols.joinToString(",") { it.code.toString() })
+        parameter("format", formats.joinToString(",") { it.code.toString() })
+        parameter("codec", codecs.joinToString(",") { it.code.toString() })
         parameter("qn", qnQuality.code)
         parameter("platform", platform)
         parameter("ptype", pType)
