@@ -26,7 +26,7 @@ internal class LiveApiJvmTest {
     @OptIn(DelicateCoroutinesApi::class)
     @Test
     fun captureCommands(): Unit = runBlocking {
-        val roomId = listOf(5050, 271744, 1017, 213, 510, 22384516, 8792912, 23625060, 55, 734, 3044248, 33989)
+        val roomId = longArrayOf(5050, 271744, 1017, 213, 510, 22384516, 8792912, 23625060, 55, 734, 3044248, 33989)
         roomId.map { id ->
             launch(newSingleThreadContext("capture-thread-$id")) {
                 LiveApiTest().createConnection(id) {

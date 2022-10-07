@@ -70,7 +70,7 @@ internal class RelationApiTest {
 
     @Test
     fun modifyBatchTest(): Unit = runTest {
-        val testList = intArrayOf(1, 2, 3, 4, 5)
+        val testList = longArrayOf(1, 2, 3, 4, 5)
         client.modifyRelation(testList, SUB)
     }
 

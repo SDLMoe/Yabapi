@@ -4,7 +4,7 @@ import moe.sdl.yabapi.client
 import moe.sdl.yabapi.enums.history.HistoryType
 import moe.sdl.yabapi.initTest
 import moe.sdl.yabapi.runTest
-import moe.sdl.yabapi.util.encoding.avInt
+import moe.sdl.yabapi.util.encoding.av
 import kotlin.test.Test
 
 internal class HistoryApiTest {
@@ -22,7 +22,7 @@ internal class HistoryApiTest {
 
     @Test
     fun deleteHistoryTest(): Unit = runTest {
-        client.deleteHistory("BV1Qm4y1D7Rd".avInt, HistoryType.VIDEO)
+        client.deleteHistory("BV1Qm4y1D7Rd".av, HistoryType.VIDEO)
     }
 
     @Test

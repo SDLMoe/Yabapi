@@ -26,7 +26,7 @@ internal class BangumiApiTest {
             // listOf(40257, 40028, 39462).forEach {
             //     client.getBangumiDetailedBySeason(it)
             // }
-            listOf(450012).forEach {
+            longArrayOf(450012).forEach {
                 client.getBangumiDetailedByEp(it)
             }
         }

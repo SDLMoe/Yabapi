@@ -76,7 +76,7 @@ internal class InfoApiTest {
 
     @Test
     fun getUserSpaceTest(): Unit = runTest {
-        listOf(2, 264155183, 699766742, 399308420, 1887658, 2648514, 2746732, 546195, 63231)
+        longArrayOf(2, 264155183, 699766742, 399308420, 1887658, 2648514, 2746732, 546195, 63231)
             .forEach {
                 client.getUserSpace(it)
             }
@@ -90,7 +90,7 @@ internal class InfoApiTest {
         //     parameter("photo", "true")
         // }
         // println(body)
-        listOf(2, 264155183, 699766742, 399308420, 1887658, 2648514, 2746732, 546195, 63231)
+        longArrayOf(2, 264155183, 699766742, 399308420, 1887658, 2648514, 2746732, 546195, 63231)
             .forEach {
                 client.getUserCard(it, random.random())
             }
