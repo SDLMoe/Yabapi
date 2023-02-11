@@ -15,6 +15,8 @@ public data class LiveMsgPacketHead(
     val type: LiveMsgPacketType,
     val sequence: UInt,
 ) {
+    val bodySize: UInt
+        get() = size - headSize.toUInt()
 
     internal constructor(
         size: UInt,
@@ -25,7 +27,8 @@ public data class LiveMsgPacketHead(
     ) : this(
         size,
         headSize,
-        protocol = LiveMsgPacketProtocol.fromCode(protocol) ?: error("Unknown protocol code: $protocol"),
+        protocol = LiveMsgPacketProtocol.fromCode(protocol)
+            ?: error("Unknown protocol code: $protocol"),
         type = LiveMsgPacketType.fromCode(type) ?: error("Unknown type code: $type"),
         sequence
     )

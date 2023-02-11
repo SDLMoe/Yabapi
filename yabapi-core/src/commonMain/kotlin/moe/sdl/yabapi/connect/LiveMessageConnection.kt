@@ -4,7 +4,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
 import io.ktor.client.plugins.websocket.wss
 import io.ktor.http.HttpMethod
+import io.ktor.utils.io.core.ByteReadPacket
 import io.ktor.utils.io.core.buildPacket
+import io.ktor.utils.io.core.readBytes
 import io.ktor.utils.io.core.readUInt
 import io.ktor.utils.io.core.toByteArray
 import io.ktor.utils.io.core.writeFully
@@ -37,6 +39,7 @@ import moe.sdl.yabapi.data.live.LiveDanmakuHost
 import moe.sdl.yabapi.data.live.commands.LiveCommand
 import moe.sdl.yabapi.data.live.commands.RawLiveCommand
 import moe.sdl.yabapi.packet.LiveMsgPacket
+import moe.sdl.yabapi.packet.LiveMsgPacketHead
 import moe.sdl.yabapi.packet.LiveMsgPacketProtocol.SPECIAL_NO_COMPRESSION
 import moe.sdl.yabapi.packet.LiveMsgPacketType.CERTIFICATE
 import moe.sdl.yabapi.packet.LiveMsgPacketType.CERTIFICATE_RESPONSE
@@ -44,7 +47,6 @@ import moe.sdl.yabapi.packet.LiveMsgPacketType.COMMAND
 import moe.sdl.yabapi.packet.LiveMsgPacketType.HEARTBEAT
 import moe.sdl.yabapi.packet.LiveMsgPacketType.HEARTBEAT_RESPONSE
 import moe.sdl.yabapi.util.Logger
-import moe.sdl.yabapi.util.string.findJson
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.SharedImmutable
 
@@ -123,6 +125,7 @@ internal class LiveMessageConnection(
                         logger.warn(e) { "Not Implemented Compression" }
                     }
                 }
+
                 is Frame.Text -> logger.debug { "Received Text: ${frame.data.contentToString()}" }
                 is Frame.Close -> cancel("Remote closed.")
                 else -> {
@@ -145,6 +148,7 @@ internal class LiveMessageConnection(
                 }
             )
         }
+
         CERTIFICATE_RESPONSE -> {
             val data: CertificatePacketResponse =
                 jsonParser.decodeFromString(packet.body.decodeToString())
@@ -156,12 +160,28 @@ internal class LiveMessageConnection(
                 }
             )
         }
+
         COMMAND -> {
-            val flow = packet.body.decodeToString().also {
-                logger.verbose { "Raw Received body decoded to string: $it" }
-            }.findJson().asFlow()
+            val jsons = mutableListOf<String>()
+            val body = ByteReadPacket(packet.body)
+            // starts with '[' or '{}'
+            if (packet.body.getOrNull(0) == 123.toByte()
+                || packet.body.getOrNull(0) == 91.toByte()) {
+                jsons.add(packet.body.decodeToString())
+            } else while (!body.endOfInput && isActive) {
+                require(body.remaining >= 16) { "Header is not long enough, expected: 16, actual: ${body.remaining}" }
+                val headerBytes = body.readBytes(16)
+                val head = LiveMsgPacketHead.decode(headerBytes)
+                require(body.remaining >= head.bodySize.toLong()) {
+                    "Body is not long enough, expected: ${head.bodySize}, actual: ${body.remaining}"
+                }
+                val decodedBody = LiveMsgPacket.decode(head, body.readBytes(head.bodySize.toInt()))
+                jsons.add(decodedBody.decodeToString())
+            }
+
+            val flow = jsons.asFlow()
             flow.map { parsed -> // String -> RawLiveCommand
-                logger.verbose { "Decoded weired json string: $parsed" }
+                logger.verbose { "Decoded raw json string: $parsed" }
                 RawLiveCommand(jsonParser.decodeFromString(parsed))
             }.collect { raw -> // Send Raw to downstream
                 logger.debug { "Decoded RawLiveCommand $raw" }
@@ -181,6 +201,7 @@ internal class LiveMessageConnection(
                 )
             }
         }
+
         else -> error("Decoded Unexpected Incoming Packet: $packet")
     }
 
@@ -242,22 +263,18 @@ public class LiveDanmakuConnectConfig {
     public var onRawCommandResponse: suspend Wss.(command: Flow<RawLiveCommand>) -> Unit = {}
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun Config.onHeartbeatResponse(noinline block: suspend Wss.(popular: Flow<UInt>) -> Unit) {
     onHeartbeatResponse = block
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun Config.onCertificateResponse(noinline block: suspend Wss.(response: Flow<CertificatePacketResponse>) -> Unit) {
     onCertificateResponse = block
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun Config.onCommandResponse(noinline block: suspend Wss.(command: Flow<LiveCommand>) -> Unit) {
     onCommandResponse = block
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun Config.onRawCommandResponse(noinline block: suspend Wss.(command: Flow<RawLiveCommand>) -> Unit) {
     onRawCommandResponse = block
 }

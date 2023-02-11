@@ -38,7 +38,7 @@ public sealed class LiveCommandFactory {
 
     @ThreadLocal
     public companion object {
-        private val factories: List<LiveCommandFactory> by lazy {
+        private val factories: List<LiveCommandFactory> =
             listOf(
                 ComboSendCmd,
                 DanmakuMsgCmd,
@@ -50,6 +50,7 @@ public sealed class LiveCommandFactory {
                 HotRankSettlementV2Cmd,
                 HotRoomNotifyCmd,
                 InteractWordCmd,
+                LikeInfoV3UpdateCmd,
                 LiveInteractGameCmd,
                 LotAwardCmd,
                 LotCheckStatusCmd,
@@ -72,10 +73,8 @@ public sealed class LiveCommandFactory {
                 WatchedChangeCmd,
                 WidgetBannerCmd,
             )
-        }
 
-        public val map: Map<String, LiveCommandFactory> by lazy {
+        public val map: Map<String, LiveCommandFactory> =
             factories.associateBy { it.operation }
-        }
     }
 }

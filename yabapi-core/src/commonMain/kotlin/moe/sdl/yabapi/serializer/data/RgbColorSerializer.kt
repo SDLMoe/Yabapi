@@ -64,11 +64,15 @@ public object RgbColorIntSerializerNullable : KSerializer<RgbColor?> {
 public object RgbColorIntSerializer : KSerializer<RgbColor> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("RgbColorIntSerializer", INT)
     override fun serialize(encoder: Encoder, value: RgbColor): Unit = encoder.encodeInt(value.intHex)
-    override fun deserialize(decoder: Decoder): RgbColor = RgbColor.fromHex(decoder.decodeInt())
+    override fun deserialize(decoder: Decoder): RgbColor = runCatching {
+        RgbColor.fromHex(decoder.decodeInt())
+    }.getOrNull() ?: RgbColor(0, 0, 0)
 }
 
 public object RgbaColorStringSerializer : KSerializer<RgbaColor> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("RgbaColorString", STRING)
     override fun serialize(encoder: Encoder, value: RgbaColor): Unit = encoder.encodeString(value.hex)
-    override fun deserialize(decoder: Decoder): RgbaColor = RgbaColor.fromHex(decoder.decodeString())
+    override fun deserialize(decoder: Decoder): RgbaColor = runCatching {
+        RgbaColor.fromHex(decoder.decodeString())
+    }.getOrNull() ?: RgbaColor(0, 0, 0, 255)
 }

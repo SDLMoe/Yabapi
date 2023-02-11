@@ -96,7 +96,6 @@ kotlin {
                 implementation(Ktor.client.websockets)
                 implementation(Ktor.client.encoding)
                 // Encoding
-                implementation("io.matthewnelson.kotlin-components:encoding-base64:_")
                 implementation("com.soywiz.korlibs.krypto:krypto:_")
                 // IO
                 implementation(Square.okio)

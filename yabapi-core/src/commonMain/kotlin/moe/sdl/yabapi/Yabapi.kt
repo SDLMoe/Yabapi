@@ -26,6 +26,7 @@ internal val json: Json
 public object Yabapi {
     public val defaultJson: AtomicRef<Json> = atomic(
         Json {
+            ignoreUnknownKeys = true
             prettyPrint = true
             isLenient = true
             coerceInputValues = true

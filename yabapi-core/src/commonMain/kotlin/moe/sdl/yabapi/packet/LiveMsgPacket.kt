@@ -37,16 +37,21 @@ public open class LiveMsgPacket(
                 val rawHead = readBytes(LiveMsgPacketHead.HEAD_SIZE.toInt())
                 head = LiveMsgPacketHead.decode(rawHead)
                 val rawBody = readBytes()
-                body = when (head.protocol) {
-                    LiveMsgPacketProtocol.COMMAND_ZLIB -> ZLibImpl.decompress(rawBody)
-                    LiveMsgPacketProtocol.COMMAND_BROTLI ->
-                        Yabapi.brotliImpl.value?.decompress(rawBody).let {
-                            it?.copyOfRange(head.headSize.toInt(), it.size)
-                        } ?: throw UnsupportedOperationException("No implementation for Brotli decompression")
-                    else -> rawBody
-                }
+                body = decode(head, rawBody)
             }
             return LiveMsgPacket(head, body)
+        }
+
+        public suspend fun decode(head: LiveMsgPacketHead, rawBody: ByteArray): ByteArray {
+            return when (head.protocol) {
+                LiveMsgPacketProtocol.COMMAND_ZLIB -> ZLibImpl.decompress(rawBody)
+                LiveMsgPacketProtocol.COMMAND_BROTLI ->
+                    Yabapi.brotliImpl.value?.decompress(rawBody).let {
+                        it?.copyOfRange(head.headSize.toInt(), it.size)
+                    } ?: throw UnsupportedOperationException("No implementation for Brotli decompression")
+
+                else -> rawBody
+            }
         }
     }
 
@@ -55,6 +60,7 @@ public open class LiveMsgPacket(
             LiveMsgPacketProtocol.COMMAND_ZLIB -> ZLibImpl.compress(body)
             LiveMsgPacketProtocol.COMMAND_BROTLI -> Yabapi.brotliImpl.value?.compress(body)
                 ?: throw UnsupportedOperationException("No implementation for Brotli compression")
+
             else -> body
         }
 
