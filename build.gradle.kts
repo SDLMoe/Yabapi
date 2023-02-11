@@ -6,7 +6,7 @@ local.load(project.rootProject.file("local.properties").inputStream().buffered()
 allprojects {
     group = "moe.sdl.yabapi"
     version = if (local["build.snapshot"]?.toString()?.toBoolean() != true) {
-        "0.11.1"
+        "0.11.2"
     } else {
         val ver = local["build.version"]
             as? String
